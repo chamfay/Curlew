@@ -1,0 +1,222 @@
+   بسم الله الرحمن الرحيم
+
+   In the name of Allah, Most Gracious, Most Merciful
+
+                         "Waqf" General Public License
+
+   This is the informal English translation of Waqf General Public License.
+   Anything but the Arabic version of the license has no value except for
+   convenience of our English speaking users. When we talk about the License
+   we refer to the Arabic version, which is the only one we officially
+   offer, we will try our best to make other translation as accurate as
+   possible but because of the nature of human languages we use one single
+   reference language.
+
+                                    Preamble
+
+   Publishing any intellectual work (including but not limited to books and
+   Computer Software) is not done by selling even if it appeared to be so,
+   but it's about getting an implied license that has no enforcement without
+   the concept of intellectual property granted by man-made laws which was
+   acquired as they claim to promote the publication of science and the
+   useful arts. The concept of the so called “intellectual property” is
+   centered around giving ownership to the first one who register the work
+   (called owner or copyright holder and we will refer to him/her/it as
+   holder) then the holder practice his rights on the work in it's intangible
+   form on any media it's carried, and thus using the intellectual work
+   without explicit prior permission is according to them ethically
+   equivalent to hijacking ships or “piracy” as they call it. This permission
+   is called License and it's aimed to give the holder (usually the
+   publisher) an advantage in the market against other publishers through
+   monopoly on providing that work by imposing restrictions on the users not
+   the publishers. Such works are called “Proprietary”.
+
+   We see that such agreements (proprietary licenses) are evil, but we also
+   acknowledge that making an agreement with a prior intention to violate it
+   is another immoral evil ^1). We don't solve problems with problems, we
+   offer an alternative.
+
+   We have a different vision, we offer our work (like computer software) to
+   please Allah, and this is the pillar of this license which distinguish it
+   from proprietary licenses. Any other intention (like spreading knowledge
+   or getting profits) should be accomplished in ways that does not go
+   against our primary moral aim.
+
+   According to our believes (which we don't enforce on any one, and you may
+   or may not share it with us) that Islam certainly forbids monopoly and
+   concealing knowledge in general, and this comes from:
+
+     * The sound Hadith (saying of prophet Muhammad PBUH): “Who conceal any
+       type of knowledge will be bridle with a bridle of fire on the Day of
+       Resurrection.” ^2)
+     * Islamic Jurisprudence has specified what can be owned, and the rules
+       does not apply to ideas as it's not a bounded tangible object and
+       almost all the terms of proprietary agreements fall in ruling of
+       forbidden Gharar^3) (a kind of fraud that use uncertainty to
+       fool the customers) as we see in Imam Muslim Sahih description of that
+       term {and below that term we classify so many actions like selling
+       negligible objects or unknowns or what can't be delivered or things
+       that are not full owned by the seller} and such view is also shared by
+       the four major scholars.
+     * The laws of Fiqh (Islamic Jurisprudence) have been perfected in the
+       good centuries and no new rulings are allowed to be brought except for
+       newly discovered things and this does not apply ideas as they did
+       exist in the past centuries and Muslims massively spread them without
+       owning them. FYI: Almost all the Islamic literature is freely
+       available on the internet.
+     * Concealing useful knowledge from those who need it impose damage to
+       people for temporal gains to few individuals. This can not be
+       justified by Shari'a (Islamic Law), it's only justified by
+       individualist capitalism ^4)
+     * Even bringing interests to software publishers is not a valid excuse
+       because there are some companies produce and publish software without
+       owning them (proprietary software) and yet they gain profits.
+     * the so call “Intellectual Proprietary” is all about giving owners the
+       right to forbid what Allah had made lawful to gain money, not by
+       providing service nor goods.
+     * The uncertainty and untangable nature of the claimed owned product is
+       the source of “protection money collecting” where some company
+       threaten some smaller company by copyright infringement lawsuit on
+       some purposely ambiguous product which the later can't afford so they
+       go safe and pay.
+
+   If the good intentions made excuses to introduce “intellectual
+   proprietary” by the Machiavellists who wrote the American constitution
+   as an acquired right (at least they admit it's not a natural right), they
+   serve their own way of life which is not international. We don't take
+   that. We have our own high moral standards. We introduce Waqf General
+   Public License to place it among the anti-copyright licenses. This license
+   is designed to grant rights to users not to restrict them, it's uses the
+   concept of copyleft/copy-wrong as opposed to the concept of copyright.
+
+   Computer software, Medicine formula or even poems are considered to be
+   intellectual works and thus can be covered by “Waqf”. An intellectual work
+   is any useful idea that can be delivered or utilized by people. “Waqf” is
+   not meant for ideas in general, but for intellectual work which is
+   beneficial to people if published. As we support protecting privacy for
+   example one shouldn't publish names of his customers, bid prices,
+   government military or political secrets because those are not
+   intellectual works.
+
+   We should clarify two things:
+
+     * First: The favor and ethical rights of the holder are preserved and
+       acknowledged
+     * Second: original author and any other party (if they have the
+       intention and the ability) have the right to get fees on enhancing the
+       work or developing it or to provide paid services or paid courses
+       …etc. but not the work in its intangible form. There is not
+       contradiction between getting fees on services because what is covered
+       by “Waqf” is the source form of the work not the media nor the service
+       (the same way one can take fees on shipping fruits for a charitable
+       Waqf fruit field or make juice)
+
+                                  Definitions
+
+   The following terms would have the corresponding meanings in this license
+
+     * The intellectual work (or The work for short): is any useful
+       intangible intellectual product that can be passed on to others or
+       replicated withno cost imposed on the original author or the one who
+       pass it on before.
+     * The holder: is the creative author or the party which carried the
+       process of developing the work and make it available (and the one who
+       holds the copyrights on the product before the governmental offices).
+     * the licensee or the user: any one or party who uses the work (runs,
+       copies, modifies or otherwise takes benefits provided by the work).
+     * The license: this agreement (the Arabic version of “Waqf”) between the
+       two parties (the holder and the user) covering the usage of the second
+       party on the work provided by the first party. The usage of the
+       product is with accordance to the terms of this license. And because
+       of the intangible nature of the work, this agreement applies by using
+       the product (in any way) without signing the agreement. One do not
+       accept the terms looses the rights given by this license and his/her
+       usage of the work is considered illegal and will be sued.
+
+                                   The Terms
+
+   Waqf General Public license (or “Waqf” for short) covers intellectual
+   works (including but not limited to Software and paper publications,
+   scientific theses, art works) and have many common features with FLOSS
+   licenses. Waf is distinguished with its moral intentions behind the work
+   and usage limits.
+
+   As the name suggests, with “Waqf” ^5) the holder announce his/her work
+   was produced and made available to the public for the sake of Allah aimed
+   to please Allah by providing people with useful works. It's a form of
+   “Sadaqa Jariah” ^6).
+
+   “Waqf” gives users (regardless of their nationality, color, race,
+   religion) the right to benefit from the work with running, copying,
+   redistribution, or even develop and only with according to the following
+
+     * First - Usage :
+
+   The user may use the work for any good purpose and he may not use it to
+   harm others or violate the permissive principles of Islam ^7). Notice
+   that any work that is most likely harmful can't be put under Waqf in the
+   first place.
+
+     * Second - Redistribution :
+
+   The user have the right to redistribute the unmodified work in any
+   quantity to any third party under the terms of this license, acknowledging
+   the favor and ethical rights of the holder to the third party.
+
+     * Third - Modifications :
+
+   The user has the right to get the source form of the work and make
+   modifications enhancing or adopting to the user's needs to the limits
+   given by this license.
+
+     * Fourth - Redistribute modifications:
+
+   The user can redistribute modifications only under this license provided
+   that he points to previous original work (the unmodified work) and its
+   author and the nature of modification clearly to the third party to whom
+   the modified work is presented in a way that no one may reasonably get
+   confused between it and the original unmodified work of the previous
+   author.
+
+     * Fourth - Disclaimer of responsibility :
+
+   The holder does not take any legal nor moral direct or indirect
+   responsibility nor liability on the good or bad usage or damages caused by
+   the work to the farthest level allowed by the law. THIS SOFTWARE IS
+   PROVIDED AS IS AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+   LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+   PARTICULAR PURPOSE ARE DISCLAIMED BY THE HOLDER.
+
+   The entire responsibility is on the user and the only warranty given to
+   him is the source of the work.
+
+                                   Conclusion
+
+   Applying Waqf public license help to spread the awareness of dangers
+   caused by intellectual property. And provide people with a legal
+   alternative even though we don't believe on the validity of such man made
+   laws.
+
+   ^1) http://www.islam-qa.com/ar/ref/454
+   ^2) This is an authentic sound/Sahih as it's narrated by Imam
+   Ahmad, Abu Dawood, AlTirmithi and Ibn Majah. Refer to “Hoisting the
+   Lighthouse : A synopsis of the Various narrations of the Hadith: Whoever
+   conceals knowledge, Allah will bridle him with a bridle of fire” or in
+   Arabic “رفع المنار بطرق حديث من كتم علماً ألجمه الله بلجام من نار”.
+   ^3) Some information about Ghrar is available at
+   http://www.investopedia.com/terms/g/gharar.asp
+   ^4) Although Islamic economy is a kind of liberal capitalism economy
+   but it's regulated with so many moral rulings that guarantee social
+   justice
+   ^5) The name Waqf means to prevent the source or assets from being
+   consumed while giving away for charity the proceeds.
+   ^6) Sadaqa Jariah means sustainable charity which is a kind of charity
+   that continue to be beneficial to people even after the death of the one
+   who give it like giving the fruits of a field but not the field, more over
+   prophet Muhammad PBUH specifically named useful knowledge as a form of
+   that kind of charity.
+   ^7) Some scholars use the term Maqasid Alsharia and summarize them by
+   saying that it aims to protect people rights in religion, lives, sanity,
+   breed, and properties.
+
+

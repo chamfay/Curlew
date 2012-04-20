@@ -1,0 +1,13 @@
+
+[Desktop Entry]
+Name=Curlew
+Comment=
+Exec=curlew
+Icon=gnome-multimedia
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=GNOME;GTK;AudioVideo;Video;
+StartupNotify=false
+Name[en]=Curlew
+Name[ar]=كروان
