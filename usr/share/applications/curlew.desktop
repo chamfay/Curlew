@@ -1,9 +1,10 @@
 
 [Desktop Entry]
 Name=Curlew
-Comment=
+Comment=Easy to use Multimedia Converter for Linux
+Comment[ar]=محول وسائط على لينكس سهل الاستخدام
 Exec=curlew
-Icon=gnome-multimedia
+Icon=curlew
 Terminal=false
 Type=Application
 Encoding=UTF-8

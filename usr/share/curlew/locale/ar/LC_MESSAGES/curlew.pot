@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-20 17:06+0100\n"
-"PO-Revision-Date: 2012-04-20 17:09-0000\n"
+"PO-Revision-Date: 2012-04-21 14:29-0000\n"
 "Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Arabic <chamfay@gmail.com>\n"
 "Language: \n"
@@ -40,7 +40,7 @@ msgstr "أوقف التحويل"
 
 #: usr/share/curlew//curlew.py:209
 msgid "About "
-msgstr "عن "
+msgstr "عنْ "
 
 #: usr/share/curlew//curlew.py:216
 msgid "Quit application"
@@ -56,7 +56,7 @@ msgstr "الحجم المقدّر"
 
 #: usr/share/curlew//curlew.py:260
 msgid "Remaining time"
-msgstr "الوقت المتبقي"
+msgstr "الوقت المتبقّي"
 
 #: usr/share/curlew//curlew.py:266
 msgid "Progress"
@@ -88,7 +88,7 @@ msgstr "جودة منخفضة"
 
 #: usr/share/curlew//curlew.py:307
 msgid "Normal Quality"
-msgstr "جودة عادية"
+msgstr "جودة متوسطة"
 
 #: usr/share/curlew//curlew.py:307
 msgid "High Quality"
@@ -120,7 +120,7 @@ msgstr "قناة الصوت"
 
 #: usr/share/curlew//curlew.py:332
 msgid "Audio Codec"
-msgstr "كوديك الصوت"
+msgstr "ترميز الصوت"
 
 #: usr/share/curlew//curlew.py:338
 msgid "Video"
@@ -140,7 +140,7 @@ msgstr "مقاس الفيديو"
 
 #: usr/share/curlew//curlew.py:343
 msgid "Video Codec"
-msgstr "كوديك الفيديو"
+msgstr "ترميز الفيديو"
 
 #: usr/share/curlew//curlew.py:345
 msgid "Aspect Ratio"
@@ -172,7 +172,7 @@ msgstr "الحجم:"
 
 #: usr/share/curlew//curlew.py:406
 msgid "Encoding: "
-msgstr "الترميز:"
+msgstr "ترميز الخط:"
 
 #: usr/share/curlew//curlew.py:420
 msgid "Other"
@@ -180,7 +180,7 @@ msgstr "المزيد"
 
 #: usr/share/curlew//curlew.py:422
 msgid "Split File"
-msgstr "قص الملف"
+msgstr "أنشِئ مقطعاً"
 
 #: usr/share/curlew//curlew.py:425
 msgid "Begin time: "
@@ -188,7 +188,7 @@ msgstr "بداية المقطع:"
 
 #: usr/share/curlew//curlew.py:426
 msgid "Duration: "
-msgstr "مدة المقطع:"
+msgstr "مـدة المقطع:"
 
 #: usr/share/curlew//curlew.py:432
 msgid "<b>Conversion Details</b>"
@@ -196,7 +196,7 @@ msgstr "<b>معلومات التحويل</b>"
 
 #: usr/share/curlew//curlew.py:475
 msgid "Add file"
-msgstr "أضِف ملفا"
+msgstr "أضِف ملفاً"
 
 #: usr/share/curlew//curlew.py:484
 msgid "All supported files"
@@ -208,7 +208,7 @@ msgstr "ملفات فيديو"
 
 #: usr/share/curlew//curlew.py:497
 msgid "Audio files"
-msgstr "ملفات صونية"
+msgstr "ملفات صوتية"
 
 #: usr/share/curlew//curlew.py:503
 msgid "All files"
@@ -247,7 +247,7 @@ msgstr ""
 
 #: usr/share/curlew//curlew.py:827
 msgid "Do you want to stop conversion process?"
-msgstr "هل تريد إيقاف عملية التحويل"
+msgstr "هل تريد إيقاف عملية التحويل؟"
 
 #: usr/share/curlew//curlew.py:863
 msgid "Select subtitle"
@@ -259,7 +259,7 @@ msgstr "ملفات ترجمة"
 
 #: usr/share/curlew//curlew.py:924
 msgid "Please wait while preparing preview..."
-msgstr "الرجاء الانتظار ريثما يتم تحضير المعاينة"
+msgstr "الرجاء الانتظار ريثما يتم تحضير المعاينة..."
 
 #: usr/share/curlew//curlew.py:970
 msgid "Done!"
@@ -279,7 +279,7 @@ msgstr "فيصل شامخ <chamfay@gmail.com>"
 
 #: usr/share/curlew//about.py:31
 msgid "Easy to use Multimedia Converter for Linux"
-msgstr "محول الوسائط على لينُكس سهل الاستخدام"
+msgstr "محوّل وسائط على لينُكس سهل الاستخدام"
 
 #~ msgid "Format Converter"
 #~ msgstr "محوّل الصّيغ"

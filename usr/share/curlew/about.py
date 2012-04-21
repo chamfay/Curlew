@@ -11,7 +11,7 @@ import gettext
 
 gettext.install('curlew', 'locale')
 
-APP_VERSION = '0.1.1'
+APP_VERSION = '0.1.2'
 APP_NAME = _('Curlew')
 
 
@@ -27,7 +27,7 @@ class About(Gtk.AboutDialog):
         self.set_copyright("Copyright © 2012 Fayssal Chamekh <chamfay@gmail.com>")
         self.set_version(APP_VERSION)
         self.set_title(APP_NAME)
-        self.set_logo_icon_name('gnome-multimedia')
+        self.set_logo_icon_name('curlew')
         self.set_comments(_('Easy to use Multimedia Converter for Linux'))
         License = """    released under terms on waqf public license.
     this program is free software; you can redistribute it and/or modify it under the terms of the latest version waqf public license as published by ojuba.org.

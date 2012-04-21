@@ -1,6 +1,5 @@
-=============================
- Curlew Multimedia Converter
-=============================
+Curlew Multimedia Converter:
+----------------------------
 
 Description:
 ------------
@@ -27,7 +26,6 @@ Please see LICENSE-ar.txt/LICENSE-en files for more information.
 
 Installation:
 -------------
-
-Run ./test-it file in Terminal.
+After extraction run ./test-it file in Terminal.
 
 

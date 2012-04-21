@@ -163,7 +163,7 @@ class Curlew(Gtk.Window):
         self.set_title('%s %s' % (APP_NAME, APP_VERSION))
         self.set_border_width(6)
         self.set_size_request(680,-1)
-        self.set_icon_name('gnome-multimedia')
+        self.set_icon_from_file('/usr/share/icons/curlew.png')
         
         vbox = Gtk.VBox()
         vbox.set_spacing(6)
