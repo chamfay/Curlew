@@ -20,7 +20,6 @@ try:
     from gi.repository import Gtk, Notify, GLib, Gdk
     from user import home
     import gettext
-    from about import About, APP_VERSION, APP_NAME
     import commands
     import ConfigParser, re
 except Exception, detail:
@@ -29,6 +28,9 @@ except Exception, detail:
 
 #--- localizations
 gettext.install('curlew', 'locale')
+
+APP_VERSION = '0.1.3'
+APP_NAME = _('Curlew')
 
 def show_message(parent, message, message_type, button_type = Gtk.ButtonsType.CLOSE):
     mess_dlg = Gtk.MessageDialog(parent,
@@ -52,7 +54,38 @@ def extract_font_name(font_str):
     for style in styles_list:
         font_str = font_str.replace(style, '')
     return font_str.strip()
+
+def get_aspect_ratio(input_file):
+    cmd = 'ffmpeg -i "' + input_file + '"'
+    out_str = commands.getoutput(cmd)
+    reg_aspect = re.compile('''DAR\s+(\d*:\d*)''')
+    return reg_aspect.findall(out_str)[0]
         
+
+class About(Gtk.AboutDialog):
+    def __init__(self, parent):
+        
+        Gtk.AboutDialog.__init__(self, parent = parent, wrap_license = True)
+        
+        self.set_program_name(APP_NAME)
+        self.set_authors(['Fayssal Chamekh <chamfay@gmail.com>'])
+        self.set_copyright("Copyright © 2012 Fayssal Chamekh <chamfay@gmail.com>")
+        self.set_version(APP_VERSION)
+        self.set_title(APP_NAME)
+        self.set_logo_icon_name('curlew')
+        self.set_comments(_('Easy to use Multimedia Converter for Linux'))
+        License = """    released under terms on waqf public license.
+    this program is free software; you can redistribute it and/or modify it under the terms of the latest version waqf public license as published by ojuba.org.
+ 
+    this program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.
+ 
+    the latest version of the license can be found on
+ http://www.ojuba.org/wiki/doku.php/waqf/license"""
+        self.set_license(License)
+        self.set_website('https://github.com/chamfay/Curlew')
+        self.set_translator_credits(_('Fayssal Chamekh <chamfay@gmail.com>'))
+        self.run()
+        self.destroy()
 
 class LabeledHBox(Gtk.HBox):
     def __init__(self, Label, container = None, CWidth = 12):
@@ -103,7 +136,7 @@ class TimeLayout(Gtk.HBox):
                        + self._spin_s.get_value()
     
     def get_time_str(self):
-        ''' Get timle str like 00:00:00'''
+        ''' Get time str like 00:00:00'''
         Str =  '%.2i:%.2i:%.2i' % (self._spin_h.get_value(),
                     self._spin_m.get_value(), 
                     self._spin_s.get_value())
@@ -341,7 +374,6 @@ class Curlew(Gtk.Window):
         self.c_vfps = LabeledComboEntry(self.vb_video, _("Video FPS"))
         self.c_vsize = LabeledComboEntry(self.vb_video, _("Video Size"))
         self.c_vcodec = LabeledComboEntry(self.vb_video, _("Video Codec"))
-        self.c_vcodec.connect('changed', self.on_vcodec_changed)
         self.c_vratio = LabeledComboEntry(self.vb_video, _("Aspect Ratio"))
         
         #--- Subtitle page
@@ -641,7 +673,10 @@ class Curlew(Gtk.Window):
             cmd.extend(['-vcodec', self.c_vcodec.get_text()])
             if self.c_vsize.get_text() != 'default':
                 cmd.extend(['-s', self.c_vsize.get_text()])
-            if self.c_vratio.get_text() != 'default':
+            
+            if self.c_vratio.get_text() == 'default':
+                cmd.extend(['-aspect', get_aspect_ratio(input_file)])
+            else:
                 cmd.extend(['-aspect', self.c_vratio.get_text()])
 
         elif media_type == 'fixed':
@@ -883,7 +918,7 @@ class Curlew(Gtk.Window):
         if self.is_converting:
             for Iter in iters:
                 if self.store[Iter][:] != self.store[self.Iter][:]: 
-                    self.store.remove(iter)
+                    self.store.remove(Iter)
         else:
             for Iter in iters:
                 self.store.remove(Iter)
@@ -921,7 +956,8 @@ class Curlew(Gtk.Window):
                         stdout = PIPE, stderr = PIPE, 
                         universal_newlines = True, bufsize = -1)
         noti = show_notification(APP_NAME, '', 
-                                 _('Please wait while preparing preview...'), 'dialog-information')
+                                 _('Please wait while preparing preview...'), 
+                                 'dialog-information')
         GLib.child_watch_add(self.fp.pid, self.on_end_preview, (output_file, noti))
         self.set_sensitive(False)
     
@@ -946,10 +982,6 @@ class Curlew(Gtk.Window):
         self.hb_pos.set_sensitive(widget.get_active())
         self.hb_size.set_sensitive(widget.get_active())
     
-    def on_vcodec_changed(self, widget):
-        if widget.get_text() == 'libxvid':
-            self.c_vratio.set_text('4:3')
-    
     def delete_file(self, widget, event):
         if event.keyval == Gdk.KEY_Delete:
             self.tb_remove_clicked(widget)
@@ -958,7 +990,7 @@ class Curlew(Gtk.Window):
         treepath =  self.tree.get_selection().get_selected_rows()[1]
         if event.button == 3 and len(treepath) != 0:
             self.popup.show_all()
-            self.popup.popup( None, None, None, None, 3, Gtk.get_current_event_time())
+            self.popup.popup(None, None, None, None, 3, Gtk.get_current_event_time())
         
     
     #---- On end conversion
@@ -980,7 +1012,7 @@ class Curlew(Gtk.Window):
         else:
             self.is_converting = False
         #---show all
-        self.txt_buffer.set_text(self.output_details, len(self.output_details))
+        self.txt_buffer.set_text(self.output_details)
     
     #--- Catch output 
     def on_output(self, source, condition, encoder_type):
