@@ -10,7 +10,7 @@ Easy to use and Free Multimedia converter for Linux.
 Requirements:
 -------------
 
-- python-gobject
+- python-gobject >= 3.0
 - ffmpeg
 - mencoder
 - xdg-utils
