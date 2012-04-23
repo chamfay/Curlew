@@ -20,12 +20,18 @@ Requirements:
 License:
 --------
 
-Waqf public license
-Please see LICENSE-ar.txt/LICENSE-en files for more information.
+Waqf public license.
+Please see LICENSE-ar.txt/LICENSE-en files for more informations.
 
 
 Installation:
 -------------
-After extraction run ./test-it file in Terminal.
 
+Run script "install" as root. (ex: sudo ./install).
+
+
+Remove:
+-------
+
+Run script "uninstall" as root. (ex: sudo ./uninstall).
 

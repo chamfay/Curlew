@@ -1,3 +1,2 @@
 #!/bin/bash
-Path=usr/share/curlew/
-xgettext --language=Python --keyword=_ --output=curlew.pot $Path/curlew.py $Path/about.py
+xgettext --language=Python --keyword=_ --output=curlew.pot $PWD/curlew.py

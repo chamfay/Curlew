@@ -1,5 +1,0 @@
-#!/usr/bin/python
-
-import os
-os.chdir("/usr/share/curlew/")
-os.system("python curlew.py")

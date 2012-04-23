@@ -1,0 +1,8 @@
+#!/bin/bash
+if [ -e installed-files.txt ]; then
+	for i in $( cat installed-files.txt ); do
+		if [ -e '/'$i ]; then
+			rm '/'$i
+		fi
+	done
+fi

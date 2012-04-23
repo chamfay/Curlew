@@ -1,4 +1,0 @@
-#!/bin/bash
-sudo rm -rf /usr/share/curlew 
-sudo cp -R usr /
-curlew

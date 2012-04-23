@@ -26,6 +26,7 @@ except Exception, detail:
     print detail
     sys.exit(1)
 
+
 #--- localizations
 gettext.install('curlew', 'locale')
 
@@ -196,7 +197,7 @@ class Curlew(Gtk.Window):
         self.set_title('%s %s' % (APP_NAME, APP_VERSION))
         self.set_border_width(6)
         self.set_size_request(680,-1)
-        self.set_icon_from_file('/usr/share/icons/curlew.png')
+        self.set_icon_name('curlew')
         
         vbox = Gtk.VBox()
         vbox.set_spacing(6)
@@ -478,7 +479,7 @@ class Curlew(Gtk.Window):
         
         #--- Load formats
         self.f_file = ConfigParser.ConfigParser()
-        self.f_file.read('formats.cfg')
+        self.f_file.read(os.curdir + '/formats.cfg')
         for i in self.f_file.sections():
             self.cb_formats.append_text(i)
         self.cb_formats.set_active(0)
@@ -624,7 +625,7 @@ class Curlew(Gtk.Window):
             vqual = string.split((self.f_file.get(section, 'vqual')), ' ')
             self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
         
-        #--- vcd dvd xvcd .. videos
+        #--- vcd dvd svcd .. videos
         if media_type == "fixed":
             self.vb_audio.set_sensitive(False)
             self.vb_video.set_sensitive(False)
@@ -1100,7 +1101,9 @@ class Curlew(Gtk.Window):
         return False
     
 
-
-if __name__ == '__main__':
+def main():
     Curlew()
     Gtk.main()
+
+if __name__ == '__main__':
+    main()
