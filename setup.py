@@ -2,6 +2,7 @@
 
 from distutils.core import setup
 from glob import glob
+from curlew import APP_VERSION, APP_NAME
 
 doc_files  = ['LICENSE-ar.txt', 'LICENSE-en', 'AUTHORS', 'ChangeLog', 'README']
 data_files = [('share/applications/', ['data/curlew.desktop']),
@@ -14,9 +15,9 @@ data_files.extend(locales)
 
 
 setup(
-      name = 'Curlew',
+      name         = APP_NAME,
       description  = 'Easy to use multimedia converter in Linux',
-      version      = '0.1.3',
+      version      = APP_VERSION,
       author       = 'Fayssal Chamekh',
       author_email = 'chamfay@gmail.com',
       url          = 'https://github.com/chamfay/Curlew',
@@ -39,5 +40,5 @@ setup(
                      'Topic :: Utilities'],
       data_files   = data_files,
       packages     = [''],
-      package_data = {'':['data/*.svg', 'formats.cfg']}
+      package_data = {'':['data/*.png', 'formats.cfg']}
       )

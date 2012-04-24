@@ -1,3 +1,11 @@
+Version 0.1.4
+--------------
+
+* Reorganized source tree.
+* Updated setup.py file.
+* Use png format instead of svg (ToolBar).
+
+
 Version 0.1.3
 --------------
 

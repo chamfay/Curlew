@@ -30,7 +30,7 @@ except Exception, detail:
 #--- localizations
 gettext.install('curlew', 'locale')
 
-APP_VERSION = '0.1.3'
+APP_VERSION = '0.1.4'
 APP_NAME = _('Curlew')
 
 def show_message(parent, message, message_type, button_type = Gtk.ButtonsType.CLOSE):
@@ -209,44 +209,44 @@ class Curlew(Gtk.Window):
         toolbar.set_icon_size(Gtk.IconSize.DIALOG)
         vbox.pack_start(toolbar, False, True, 0)
         
-        self.tb_add = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/add.svg'))
+        self.tb_add = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/add.png'))
         self.tb_add.set_tooltip_text(_('Add files'))
         self.tb_add.connect("clicked", self.tb_add_clicked)
         toolbar.insert(self.tb_add,-1)
         
-        self.tb_remove = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/remove.svg'))
+        self.tb_remove = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/remove.png'))
         self.tb_remove.set_tooltip_text(_('Remove selected file'))
         self.tb_remove.connect('clicked', self.tb_remove_clicked)
         toolbar.insert(self.tb_remove,-1)
         
-        self.tb_clear = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/clear.svg'))
+        self.tb_clear = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/clear.png'))
         self.tb_clear.set_tooltip_text(_('Clear files list'))
         self.tb_clear.connect('clicked', self.tb_clear_clicked)
         toolbar.insert(self.tb_clear,-1)
         
         toolbar.insert(Gtk.SeparatorToolItem(),-1)
         
-        self.tb_convert = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/convert.svg'))
+        self.tb_convert = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/convert.png'))
         self.tb_convert.set_tooltip_text(_('Start Conversion'))
         self.tb_convert.connect('clicked', self.convert_cb)
         toolbar.insert(self.tb_convert,-1)
         
         
-        self.tb_stop = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/stop.svg'))
+        self.tb_stop = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/stop.png'))
         self.tb_stop.set_tooltip_text(_('Stop Conversion'))
         self.tb_stop.connect('clicked', self.tb_stop_clicked)
         toolbar.insert(self.tb_stop,-1)
         
         toolbar.insert(Gtk.SeparatorToolItem(),-1)
         
-        self.tb_about = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/about.svg'))
+        self.tb_about = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/about.png'))
         self.tb_about.set_tooltip_text(_('About ') + APP_NAME)
         self.tb_about.connect("clicked", self.tb_about_clicked)
         toolbar.insert(self.tb_about,-1)
         
         toolbar.insert(Gtk.SeparatorToolItem(),-1)
         
-        self.tb_quit = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/close.svg'))
+        self.tb_quit = Gtk.ToolButton(icon_widget = Gtk.Image.new_from_file('data/close.png'))
         self.tb_quit.set_tooltip_text(_('Quit application'))
         self.tb_quit.connect("clicked", self.quit_cb)
         toolbar.insert(self.tb_quit,-1)
@@ -1007,8 +1007,8 @@ class Curlew(Gtk.Window):
                 self.store[self.Iter][5] = _("Failed!")
                 self.Iter = self.store.iter_next(self.Iter)
                 self.convert_file()
-            elif err_code == 9:
-                pass
+            #elif err_code == 9:
+                #pass
                 #self.store[self.Iter][5] = _("Stopped!")
         else:
             self.is_converting = False
