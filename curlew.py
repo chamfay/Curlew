@@ -11,6 +11,7 @@
 
 #TODO: Add drag and drop function.
 #TODO: Add 2 pass encoding.
+#TODO: Right click 'Convert with Curlew'.
 
 try:
     import sys, os, string
@@ -30,7 +31,7 @@ except Exception, detail:
 #--- localizations
 gettext.install('curlew', 'locale')
 
-APP_VERSION = '0.1.4'
+APP_VERSION = '0.1.4r1'
 APP_NAME = _('Curlew')
 
 def show_message(parent, message, message_type, button_type = Gtk.ButtonsType.CLOSE):
@@ -59,8 +60,12 @@ def extract_font_name(font_str):
 def get_aspect_ratio(input_file):
     cmd = 'ffmpeg -i "' + input_file + '"'
     out_str = commands.getoutput(cmd)
-    reg_aspect = re.compile('''DAR\s+(\d*:\d*)''')
-    return reg_aspect.findall(out_str)[0]
+    try:
+        reg_aspect = re.compile('''DAR\s+(\d*:\d*)''')
+        return reg_aspect.findall(out_str)[0]
+    except:
+        return '4:3'
+    
         
 
 class About(Gtk.AboutDialog):
@@ -676,7 +681,9 @@ class Curlew(Gtk.Window):
                 cmd.extend(['-s', self.c_vsize.get_text()])
             
             if self.c_vratio.get_text() == 'default':
-                cmd.extend(['-aspect', get_aspect_ratio(input_file)])
+                #-- force aspect ratio
+                if self.c_vcodec.get_text() in ['libxvid', 'mpeg4']:
+                    cmd.extend(['-aspect', get_aspect_ratio(input_file)])
             else:
                 cmd.extend(['-aspect', self.c_vratio.get_text()])
 
@@ -1031,7 +1038,6 @@ class Curlew(Gtk.Window):
             self.fp.kill()
             self.Iter = self.store.iter_next(self.Iter)
             self.convert_file()
-            #self.fp.returncode = 100
             return False
         
         line = source.readline()
