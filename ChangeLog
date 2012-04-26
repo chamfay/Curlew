@@ -1,5 +1,14 @@
+Version 0.1.4r2
+---------------
+
+* Quit app. with confirmation (during conversion).
+* Add ogg format (audio/video) encoding.
+* Update translation.
+* Some impovements.
+
+
 Version 0.1.4r1
---------------
+---------------
 
 * Fix bug in aspect ratio.
 

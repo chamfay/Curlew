@@ -1,5 +1,6 @@
 include LICENSE-ar.txt LICENSE-en AUTHORS ChangeLog README formats.cfg
 include install uninstall
-recursive-include data *
+recursive-include data *.png
+recursive-include data *.desktop
 recursive-include locale *
 recursive-exclude ffmulticonverter *pyc

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-20 17:06+0100\n"
-"PO-Revision-Date: 2012-04-22 15:34-0000\n"
+"POT-Creation-Date: 2012-04-26 16:09+0100\n"
+"PO-Revision-Date: 2012-04-26 16:10-0000\n"
 "Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Arabic <chamfay@gmail.com>\n"
 "Language: \n"
@@ -18,225 +18,249 @@ msgstr ""
 "X-Poedit-Language: Arabic\n"
 "X-Poedit-Country: ALGERIA\n"
 
-#: usr/share/curlew//curlew.py:179
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:36
+msgid "Curlew"
+msgstr "كـروان"
+
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:94
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "محوّل وسائط على لينُكس سهل الاستخدام"
+
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:104
+msgid "Fayssal Chamekh <chamfay@gmail.com>"
+msgstr "فيصل شامخ <chamfay@gmail.com>"
+
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:231
 msgid "Add files"
 msgstr "أضِف ملفات"
 
-#: usr/share/curlew//curlew.py:184
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:236
 msgid "Remove selected file"
 msgstr "اِحذف الملف المحدد"
 
-#: usr/share/curlew//curlew.py:189
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:241
 msgid "Clear files list"
 msgstr "اِمسح قائمة الملفات"
 
-#: usr/share/curlew//curlew.py:196
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:248
 msgid "Start Conversion"
 msgstr "اِبدأ عملية التحويل"
 
-#: usr/share/curlew//curlew.py:202
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:254
 msgid "Stop Conversion"
 msgstr "أوقف التحويل"
 
-#: usr/share/curlew//curlew.py:209
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:261
 msgid "About "
 msgstr "عنْ "
 
-#: usr/share/curlew//curlew.py:216
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:268
 msgid "Quit application"
 msgstr "أخرج من البرنامج"
 
-#: usr/share/curlew//curlew.py:246
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:303
 msgid "Files"
 msgstr "الملفات"
 
-#: usr/share/curlew//curlew.py:254
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:311
 msgid "Estimated size"
 msgstr "الحجم المقدّر"
 
-#: usr/share/curlew//curlew.py:260
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:317
 msgid "Remaining time"
 msgstr "الوقت المتبقّي"
 
-#: usr/share/curlew//curlew.py:266
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:323
 msgid "Progress"
 msgstr "التقدم"
 
-#: usr/share/curlew//curlew.py:273
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:330
 msgid "Remove"
 msgstr "اِحذف"
 
-#: usr/share/curlew//curlew.py:276
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:333
 msgid "Play"
 msgstr "شغّل"
 
-#: usr/share/curlew//curlew.py:279
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:336
 msgid "Preview before converting"
 msgstr "معاينة قبل التحويل"
 
-#: usr/share/curlew//curlew.py:293
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:350
 msgid "<b>Format:</b>"
 msgstr "<b>الصيغة:</b>"
 
-#: usr/share/curlew//curlew.py:301
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:358
 msgid "<b>Destination:</b>"
 msgstr "<b>الوِجهة:</b>"
 
-#: usr/share/curlew//curlew.py:307
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:364
 msgid "Low Quality"
 msgstr "جودة منخفضة"
 
-#: usr/share/curlew//curlew.py:307
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:364
 msgid "Normal Quality"
 msgstr "جودة متوسطة"
 
-#: usr/share/curlew//curlew.py:307
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:364
 msgid "High Quality"
 msgstr "جودة عالية"
 
-#: usr/share/curlew//curlew.py:311
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:368
 msgid "<b>Quality:</b>"
 msgstr "<b>الجودة:</b>"
 
-#: usr/share/curlew//curlew.py:315
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:372
 msgid "<b>Advanced</b>"
 msgstr "<b>متقدم</b>"
 
-#: usr/share/curlew//curlew.py:327
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:384
 msgid "Audio"
 msgstr "الصوت"
 
-#: usr/share/curlew//curlew.py:329
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:386
 msgid "Audio Bitrate"
 msgstr "معدل بتات الصوت"
 
-#: usr/share/curlew//curlew.py:330
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:387
 msgid "Audio Frequency"
 msgstr "تردد الصوت"
 
-#: usr/share/curlew//curlew.py:331
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:388
 msgid "Audio Channels"
 msgstr "قناة الصوت"
 
-#: usr/share/curlew//curlew.py:332
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:389
 msgid "Audio Codec"
 msgstr "ترميز الصوت"
 
-#: usr/share/curlew//curlew.py:338
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:392
+msgid "Audio Quality"
+msgstr "جودة الصوت"
+
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:400
 msgid "Video"
 msgstr "الفيديو"
 
-#: usr/share/curlew//curlew.py:340
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:402
 msgid "Video Bitrate"
 msgstr "معدل بتات الفيديو"
 
-#: usr/share/curlew//curlew.py:341
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:403
 msgid "Video FPS"
 msgstr "قيمة FPS"
 
-#: usr/share/curlew//curlew.py:342
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:404
 msgid "Video Size"
 msgstr "مقاس الفيديو"
 
-#: usr/share/curlew//curlew.py:343
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:405
 msgid "Video Codec"
 msgstr "ترميز الفيديو"
 
-#: usr/share/curlew//curlew.py:345
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:406
 msgid "Aspect Ratio"
 msgstr "التناسب"
 
-#: usr/share/curlew//curlew.py:351
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:409
+msgid "Video Quality"
+msgstr "جودة الفيديو"
+
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:416
 msgid "Subtitle"
 msgstr "الترجمة"
 
-#: usr/share/curlew//curlew.py:354
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:419
 msgid "Use subtitle"
 msgstr "استعمل الترجمة"
 
-#: usr/share/curlew//curlew.py:359
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:424
 msgid "Subtitle: "
 msgstr "ملف الترجمة"
 
-#: usr/share/curlew//curlew.py:369
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:434
 msgid "Font: "
 msgstr "الخط:"
 
-#: usr/share/curlew//curlew.py:382
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:447
 msgid "Position: "
 msgstr "الموضع:"
 
-#: usr/share/curlew//curlew.py:390
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:455
 msgid "Size: "
 msgstr "الحجم:"
 
-#: usr/share/curlew//curlew.py:406
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:471
 msgid "Encoding: "
 msgstr "ترميز الخط:"
 
-#: usr/share/curlew//curlew.py:420
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:485
 msgid "Other"
 msgstr "المزيد"
 
-#: usr/share/curlew//curlew.py:422
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:488
 msgid "Split File"
 msgstr "أنشِئ مقطعاً"
 
-#: usr/share/curlew//curlew.py:425
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:491
 msgid "Begin time: "
 msgstr "بداية المقطع:"
 
-#: usr/share/curlew//curlew.py:426
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:492
 msgid "Duration: "
 msgstr "مـدة المقطع:"
 
-#: usr/share/curlew//curlew.py:432
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:498
 msgid "<b>Conversion Details</b>"
 msgstr "<b>معلومات التحويل</b>"
 
-#: usr/share/curlew//curlew.py:475
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:536
+msgid "Do you want to quit Curlew and Abort conversion process?"
+msgstr "هل تريد إيقاف برنامج كروان وإلغاء عملية التحويل؟"
+
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:550
 msgid "Add file"
 msgstr "أضِف ملفاً"
 
-#: usr/share/curlew//curlew.py:484
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:559
 msgid "All supported files"
 msgstr "جميع الملفات المدعومة"
 
-#: usr/share/curlew//curlew.py:491
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:566
 msgid "Video files"
 msgstr "ملفات فيديو"
 
-#: usr/share/curlew//curlew.py:497
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:572
 msgid "Audio files"
 msgstr "ملفات صوتية"
 
-#: usr/share/curlew//curlew.py:503
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:578
 msgid "All files"
 msgstr "جميع الملفات"
 
-#: usr/share/curlew//curlew.py:511
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:585
 msgid "Ready!"
 msgstr "جاهز!"
 
-#: usr/share/curlew//curlew.py:518
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:593
 msgid "Choose destination"
 msgstr "اِختر الوِجهة"
 
-#: usr/share/curlew//curlew.py:751
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:851
 msgid "Destination path is not valid."
 msgstr "مسار الوِجهة غير صالح"
 
-#: usr/share/curlew//curlew.py:755
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:855
 msgid "Destination path is not accessible."
 msgstr "مسار الوِجهة لا يمكن الوصول إليه"
 
-#: usr/share/curlew//curlew.py:774
-#: usr/share/curlew//curlew.py:796
-#: usr/share/curlew//curlew.py:997
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:874
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:896
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:1094
 msgid "Skipped!"
 msgstr "تمّ تخطيه!"
 
-#: usr/share/curlew//curlew.py:791
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:891
 #, python-format
 msgid ""
 "File: <b>%s</b> already exist.\n"
@@ -245,41 +269,29 @@ msgstr ""
 "الملف: <b>%s</b> موجود مُسبقاً\n"
 "هل تريد استبداله؟"
 
-#: usr/share/curlew//curlew.py:827
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:927
 msgid "Do you want to stop conversion process?"
 msgstr "هل تريد إيقاف عملية التحويل؟"
 
-#: usr/share/curlew//curlew.py:863
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:963
 msgid "Select subtitle"
 msgstr "اِختر ملف الترجمة"
 
-#: usr/share/curlew//curlew.py:871
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:971
 msgid "Subtitle files"
 msgstr "ملفات ترجمة"
 
-#: usr/share/curlew//curlew.py:924
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:1024
 msgid "Please wait while preparing preview..."
 msgstr "الرجاء الانتظار ريثما يتم تحضير المعاينة..."
 
-#: usr/share/curlew//curlew.py:970
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:1067
 msgid "Done!"
 msgstr "تمّ التحويل!"
 
-#: usr/share/curlew//curlew.py:974
+#: /media/DATA2/Python-Projects/Curlew/curlew.py:1071
 msgid "Failed!"
 msgstr "فشل"
-
-#: usr/share/curlew//about.py:15
-msgid "Curlew"
-msgstr "كـروان"
-
-#: usr/share/curlew//about.py:26
-msgid "Fayssal Chamekh <chamfay@gmail.com>"
-msgstr "فيصل شامخ <chamfay@gmail.com>"
-
-#: usr/share/curlew//about.py:31
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr "محوّل وسائط على لينُكس سهل الاستخدام"
 
 #~ msgid "Format Converter"
 #~ msgstr "محوّل الصّيغ"

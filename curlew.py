@@ -12,6 +12,7 @@
 #TODO: Add drag and drop function.
 #TODO: Add 2 pass encoding.
 #TODO: Right click 'Convert with Curlew'.
+#TODO: Enhance buil_mencoder_cmd fct (more options).
 
 try:
     import sys, os, string
@@ -31,10 +32,11 @@ except Exception, detail:
 #--- localizations
 gettext.install('curlew', 'locale')
 
-APP_VERSION = '0.1.4r1'
+APP_VERSION = '0.1.4r2'
 APP_NAME = _('Curlew')
 
 def show_message(parent, message, message_type, button_type = Gtk.ButtonsType.CLOSE):
+    ''' Show message custom dialog'''
     mess_dlg = Gtk.MessageDialog(parent,
                              Gtk.DialogFlags.MODAL,
                              message_type,
@@ -51,6 +53,7 @@ def show_notification(app_name, title, text, icon):
     return notification
 
 def extract_font_name(font_str):
+    '''Get the font name only without style (bold, italic...) from string'''
     font_str = font_str[:-3]
     styles_list = ['Bold', 'Italic', 'Oblique', 'Medium']
     for style in styles_list:
@@ -58,6 +61,7 @@ def extract_font_name(font_str):
     return font_str.strip()
 
 def get_aspect_ratio(input_file):
+    ''' extract adpect ratio from file if exist, otherwise use 4:3 (fix a problem) '''
     cmd = 'ffmpeg -i "' + input_file + '"'
     out_str = commands.getoutput(cmd)
     try:
@@ -67,7 +71,15 @@ def get_aspect_ratio(input_file):
         return '4:3'
     
         
-
+def custom_hscale(container, def_value, min_value, max_value):
+    scale = Gtk.HScale()
+    container.add(scale)
+    adj = Gtk.Adjustment(def_value, min_value, max_value, 1)
+    scale.set_adjustment(adj)
+    scale.set_value_pos(Gtk.PositionType.RIGHT)
+    return scale
+    
+    
 class About(Gtk.AboutDialog):
     def __init__(self, parent):
         
@@ -96,7 +108,7 @@ class About(Gtk.AboutDialog):
 class LabeledHBox(Gtk.HBox):
     def __init__(self, Label, container = None, CWidth = 12):
         ''' hbox with label'''
-        Gtk.HBox.__init__(self, spacing = 8)
+        Gtk.HBox.__init__(self, spacing = 4)
         label = Gtk.Label(Label, use_markup = True)
         label.set_alignment(0, 0.5)
         label.set_width_chars(CWidth)
@@ -137,12 +149,13 @@ class TimeLayout(Gtk.HBox):
         self._spin_s.set_value(s)
     
     def get_duration(self):
+        ''' Return duration in sec '''
         return self._spin_h.get_value()*3600  \
                        + self._spin_m.get_value()*60    \
                        + self._spin_s.get_value()
     
     def get_time_str(self):
-        ''' Get time str like 00:00:00'''
+        ''' Return time str like 00:00:00'''
         Str =  '%.2i:%.2i:%.2i' % (self._spin_h.get_value(),
                     self._spin_m.get_value(), 
                     self._spin_s.get_value())
@@ -155,7 +168,7 @@ class LabeledComboEntry(Gtk.ComboBoxText):
     def __init__(self, Container, Label, WithEntry = True):
         Gtk.ComboBoxText.__init__(self, has_entry = WithEntry)
         hbox = Gtk.HBox();
-        hbox.set_spacing(5)
+        hbox.set_spacing(4)
         label = Gtk.Label(Label, use_markup = True)
         label.set_alignment(0, 0.5)
         label.set_width_chars(15)
@@ -264,10 +277,15 @@ class Curlew(Gtk.Window):
                                    float,   # progress
                                    str)     # status (progress txt)         
         self.tree = Gtk.TreeView(self.store)
-        self.tree.get_selection().set_mode(Gtk.SelectionMode.MULTIPLE)
+        self.tree.set_has_tooltip(True)
         self.tree.set_rubber_banding(True)
+        
+        tree_select = self.tree.get_selection()
+        tree_select.set_mode(Gtk.SelectionMode.MULTIPLE)
+        
         self.tree.connect("button-press-event", self.show_popup)
         self.tree.connect("key-press-event", self.delete_file)
+        
         scroll = Gtk.ScrolledWindow()
         scroll.set_size_request(-1, 180)
         scroll.set_shadow_type(Gtk.ShadowType.IN)
@@ -324,7 +342,7 @@ class Curlew(Gtk.Window):
         self.popup.append(play_item)
         self.popup.append(preview_item)
         
-        #--- conversion formats
+        #--- Output formats
         self.cb_formats = Gtk.ComboBoxText()
         self.cb_formats.set_entry_text_column(0)
         self.cb_formats.set_wrap_width(3)
@@ -341,7 +359,7 @@ class Curlew(Gtk.Window):
         hl.pack_start(self.e_dest, True, True, 0)
         hl.pack_start(self.b_dest, False, True, 0)
         
-        #--- quality
+        #--- quality (low, medium, high)
         self.cb_quality = Gtk.ComboBoxText()
         for quality in (_("Low Quality"), _("Normal Quality"), _("High Quality")):
             self.cb_quality.append_text(quality)
@@ -370,6 +388,11 @@ class Curlew(Gtk.Window):
         self.c_ach = LabeledComboEntry(self.vb_audio, _("Audio Channels"))
         self.c_acodec = LabeledComboEntry(self.vb_audio, _("Audio Codec"))
         
+        # Audio quality for ogg
+        self.hb_aqual = LabeledHBox(_('Audio Quality'), self.vb_audio, 14)
+        self.a_scale = custom_hscale(self.hb_aqual, 3, 0, 10)
+        
+        
         #--- video page
         self.vb_video = Gtk.VBox()
         self.vb_video.set_border_width(6)
@@ -381,6 +404,10 @@ class Curlew(Gtk.Window):
         self.c_vsize = LabeledComboEntry(self.vb_video, _("Video Size"))
         self.c_vcodec = LabeledComboEntry(self.vb_video, _("Video Codec"))
         self.c_vratio = LabeledComboEntry(self.vb_video, _("Aspect Ratio"))
+        
+        # Video quality for ogv
+        self.hb_vqual = LabeledHBox(_('Video Quality'), self.vb_video, 14)
+        self.v_scale = custom_hscale(self.hb_vqual, 5, 0, 20)
         
         #--- Subtitle page
         self.vb_sub = Gtk.VBox()
@@ -451,12 +478,13 @@ class Curlew(Gtk.Window):
         self.hb_enc.pack_start(self.combo_enc, True, True, 0)
         self.hb_enc.set_sensitive(False)
         
-        #--- Split page
+        #--- Other page (split,...)
         self.vb_comm = Gtk.VBox()
         self.vb_comm.set_border_width(6)
         self.vb_comm.set_spacing(6)
         note.append_page(self.vb_comm, Gtk.Label(_("Other")))
         
+        #--- Split file section
         self.check_split = Gtk.CheckButton(label = _('Split File'), active = False)
         self.check_split.connect('toggled', self.check_split_cb)
         self.vb_comm.pack_start(self.check_split, False,False,0)
@@ -466,7 +494,7 @@ class Curlew(Gtk.Window):
         self.tl_duration.set_sensitive(False)
         
         
-        #--- output str
+        #--- Output details
         exp_details = Gtk.Expander(label = _("<b>Conversion Details</b>"))
         exp_details.set_use_markup(True)
         exp_details.set_resize_toplevel(True)
@@ -482,16 +510,15 @@ class Curlew(Gtk.Window):
         exp_details.add(scroll)
         
         
-        #--- Load formats
+        #---------------------Initialization
+        #--- Load formats from format.cfg file
         self.f_file = ConfigParser.ConfigParser()
-        self.f_file.read(os.curdir + '/formats.cfg')
+        self.f_file.read('formats.cfg')
         for i in self.f_file.sections():
             self.cb_formats.append_text(i)
         self.cb_formats.set_active(0)
         
-        #--- Initialisation fcts
-        self.fill_options()
-        
+        #--- finalization
         self.connect('destroy', Gtk.main_quit)
         self.connect('delete-event', self.on_delete)
         self.show_all()    
@@ -505,6 +532,16 @@ class Curlew(Gtk.Window):
     
     def quit_cb(self, widget):
         if self.is_converting:
+            ''' Press quit btn during conversion process '''
+            resp = show_message(self, _('Do you want to quit Curlew and Abort conversion process?'), 
+                                Gtk.MessageType.QUESTION, 
+                                Gtk.ButtonsType.YES_NO)
+            if resp == Gtk.ResponseType.YES:
+                try:
+                    self.fp.kill()
+                    self.fp.terminate()
+                except: pass
+                Gtk.main_quit()
             return
         Gtk.main_quit()
     
@@ -545,9 +582,9 @@ class Curlew(Gtk.Window):
         res = open_dlg.run()
         if res == Gtk.ResponseType.OK:
             for file_name in open_dlg.get_filenames():
+                self.store.append([True, file_name, None, None, 0.0, _('Ready!')])
                 
-                self.store.append( [True, file_name, None, None, 0.0, _('Ready!')])
-                
+        #--- Saved current folder
         self.curr_open_folder = open_dlg.get_current_folder()                
         open_dlg.destroy()
         
@@ -571,77 +608,81 @@ class Curlew(Gtk.Window):
         
     def on_cb_formats_changed(self, widget):
         self.fill_options()
+        self.set_sensitives()
+    
+    def set_sensitives(self):
+        section = self.cb_formats.get_active_text()
+        media_type = self.f_file.get(section, 'type')
+
+        # sens =[AudioP, VideoP, SubtitleP,QualityC,aQuality, vQuality]
+        if media_type == 'audio':
+            sens = [True,  False, False, True,  False, False]
+        elif media_type == 'video':
+            sens = [True,  True,  False, True,  False, False]
+        elif media_type == 'mvideo':
+            sens = [True,  True,  True,  True,  False, False]
+        elif media_type == 'fixed':
+            sens = [False, False, False, True,  False, False]
+        elif media_type == 'ogg':
+            sens = [True,  False, False, False, True,  False]
+        elif media_type == 'ogv':
+            sens = [True,  True,  False, False, True,  True]
+
+        self.vb_audio.set_sensitive(sens[0])   # Audio page
+        self.vb_video.set_sensitive(sens[1])   # Video page
+        self.vb_sub.set_sensitive(sens[2])     # Subtitle page
+        self.cb_quality.set_sensitive(sens[3]) # Quality combobox
+        self.hb_aqual.set_sensitive(sens[4])   # Audio quality slider (ogg)
+        self.hb_vqual.set_sensitive(sens[5])   # video Quality slider (ogv)
+    
     
     #--- fill options widgets
     def fill_options(self):
         section = self.cb_formats.get_active_text()
-        media_type = self.f_file.get(section, 'type')
         
-        #--- general audios
-        if media_type == 'audio':
-            self.vb_audio.set_sensitive(True)
-            self.vb_video.set_sensitive(False)
-            self.vb_sub.set_sensitive(False)
-            self.cb_quality.set_sensitive(True)
-            #
+        if self.f_file.has_option(section, 'abitrate'):
             li = string.split(self.f_file.get(section, 'abitrate'), ' ')
             self.c_abitrate.set_list(li)
+        
+        if self.f_file.has_option(section, 'afreq'):
             li = string.split(self.f_file.get(section, 'afreq'), ' ')
             self.c_afreq.set_list(li)
+        
+        if self.f_file.has_option(section, 'ach'):    
             li = string.split(self.f_file.get(section, 'ach'), ' ')
             self.c_ach.set_list(li)
+        
+        if self.f_file.has_option(section, 'acodec'):
             li = string.split(self.f_file.get(section, 'acodec'), ' ')
             self.c_acodec.set_list(li)
-            
+        
+        if self.f_file.has_option(section, 'aqual'):
             aqual = string.split((self.f_file.get(section, 'aqual')), ' ')
             self.c_abitrate.set_text(aqual[self.cb_quality.get_active()])
             
-        #--- general videos
-        if media_type in ('video','mvideo'):
-            self.vb_audio.set_sensitive(True)
-            self.vb_video.set_sensitive(True)
-            self.vb_sub.set_sensitive(False)
-            self.cb_quality.set_sensitive(True)
-            #
-            li = string.split(self.f_file.get(section, 'abitrate'), ' ')
-            self.c_abitrate.set_list(li)
-            li = string.split(self.f_file.get(section, 'afreq'), ' ')
-            self.c_afreq.set_list(li)
-            li = string.split(self.f_file.get(section, 'ach'), ' ')
-            self.c_ach.set_list(li)
-            li = string.split(self.f_file.get(section, 'acodec'), ' ')
-            self.c_acodec.set_list(li)
-            
-            aqual = string.split((self.f_file.get(section, 'aqual')), ' ')
-            self.c_abitrate.set_text(aqual[self.cb_quality.get_active()])
-            
+        if self.f_file.has_option(section, 'vbitrate'):
             li = string.split(self.f_file.get(section, 'vbitrate'), ' ')
             self.c_vbitrate.set_list(li)
+            
+        if self.f_file.has_option(section, 'vbitrate'):
             li = string.split(self.f_file.get(section, 'vfps'), ' ')
             self.c_vfps.set_list(li)
+        
+        if self.f_file.has_option(section, 'vcodec'):
             li = string.split(self.f_file.get(section, 'vcodec'), ' ')
             self.c_vcodec.set_list(li)
+            
+        if self.f_file.has_option(section, 'vsize'):
             li = string.split(self.f_file.get(section, 'vsize'), ' ')
             self.c_vsize.set_list(li)
-            
+        
+        if self.f_file.has_option(section, 'vratio'):
             li = string.split(self.f_file.get(section, 'vratio'), ' ')
             self.c_vratio.set_list(li)
-            
+        
+        if self.f_file.has_option(section, 'vqual'):
             vqual = string.split((self.f_file.get(section, 'vqual')), ' ')
             self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
-        
-        #--- vcd dvd svcd .. videos
-        if media_type == "fixed":
-            self.vb_audio.set_sensitive(False)
-            self.vb_video.set_sensitive(False)
-            self.vb_sub.set_sensitive(False)
-            self.cb_quality.set_sensitive(False)
-            # 
-        if media_type == "mvideo":
-            self.vb_audio.set_sensitive(True)
-            self.vb_video.set_sensitive(True)
-            self.vb_sub.set_sensitive(True)
-            self.cb_quality.set_sensitive(True)
             
         
     def build_ffmpeg_cmd(self, input_file, output_file):
@@ -651,35 +692,43 @@ class Curlew(Gtk.Window):
         cmd = ['ffmpeg', '-y', '-xerror']
         cmd.extend(["-i", input_file])
         
-        if media_type == 'audio':
+        # Audio only
+        if media_type in ['audio', 'ogg']:
             cmd.append('-vn')
-            cmd.extend(['-ab', self.c_abitrate.get_text()])
-            cmd.extend(['-ar', self.c_afreq.get_text()])
-            cmd.extend(['-ac', self.c_ach.get_text()])
-            
+        
+        # Audio
+        if media_type in ['audio', 'video', 'ogg', 'ogv']:
+            # Audio bitrate
+            if self.c_abitrate.get_text() != 'default':
+                cmd.extend(['-ab', self.c_abitrate.get_text()])
+            # Audio Freq.
+            if self.c_afreq.get_text() != 'default':
+                cmd.extend(['-ar', self.c_afreq.get_text()])
+            # Audio channel
+            if self.c_ach.get_text() != 'default':
+                cmd.extend(['-ac', self.c_ach.get_text()])
+            # Audio codec   
             codecs = commands.getoutput("ffmpeg -codecs")
             if string.find(codecs, self.c_acodec.get_text()) != -1:
                 cmd.extend(['-acodec', self.c_acodec.get_text()])
             else:
                 cmd.extend(['-acodec', 'copy'])
             
-        elif media_type == 'video':
-            cmd.extend(['-ab', self.c_abitrate.get_text()])
-            cmd.extend(['-ar', self.c_afreq.get_text()])
-            cmd.extend(['-ac', self.c_ach.get_text()])
-            
-            codecs = commands.getoutput("ffmpeg -codecs")
-            if string.find(codecs, self.c_acodec.get_text()) != -1:
-                cmd.extend(['-acodec', self.c_acodec.get_text()])
-            else:
-                cmd.extend(['-acodec', 'copy'])
-            #
-            cmd.extend(['-b', self.c_vbitrate.get_text()])
-            cmd.extend(['-r', self.c_vfps.get_text()])
-            cmd.extend(['-vcodec', self.c_vcodec.get_text()])
+        # Video opts
+        if media_type == 'video':
+            # Video bitrate
+            if self.c_vbitrate.get_text() != 'default':
+                cmd.extend(['-b', self.c_vbitrate.get_text()])
+            # Video FPS
+            if self.c_vfps.get_text() != 'default':
+                cmd.extend(['-r', self.c_vfps.get_text()])
+            # Video codec
+            if self.c_vcodec.get_text() != 'default':
+                cmd.extend(['-vcodec', self.c_vcodec.get_text()])
+            # Video size
             if self.c_vsize.get_text() != 'default':
                 cmd.extend(['-s', self.c_vsize.get_text()])
-            
+            # Video aspect ratio    
             if self.c_vratio.get_text() == 'default':
                 #-- force aspect ratio
                 if self.c_vcodec.get_text() in ['libxvid', 'mpeg4']:
@@ -687,14 +736,24 @@ class Curlew(Gtk.Window):
             else:
                 cmd.extend(['-aspect', self.c_vratio.get_text()])
 
+        # Fixed opts (should be elif)
         elif media_type == 'fixed':
             target = self.f_file.get(section, 'target')
             cmd.extend(['-target', target])
         
-        ff = self.f_file.get(section, 'ff') # force format
+        # Ogg format
+        if media_type in ['ogg', 'ogv']:
+            cmd.extend(['-aq', str(self.a_scale.get_value())])
+        
+        # ogv format
+        if media_type == 'ogv':
+            cmd.extend(['-qscale', str(self.v_scale.get_value())])
+        
+        # Force format
+        ff = self.f_file.get(section, 'ff') 
         cmd.extend(['-f', ff])
         
-        #--- split file
+        # Split file
         if self.check_split.get_active():
             cmd.extend(['-ss', str(self.tl_begin.get_duration())])
             cmd.extend(['-t', str(self.tl_duration.get_duration())])
@@ -702,9 +761,8 @@ class Curlew(Gtk.Window):
         #--- Keep metadata
         cmd.extend(['-map_metadata', '%s:%s' % (output_file, input_file)])
         
-        #--- output file at last
+        #--- Last
         cmd.append(output_file)
-             
         return cmd
     
     
@@ -730,7 +788,6 @@ class Curlew(Gtk.Window):
             cmd.extend(['-subcp', self.combo_enc.get_active_text()])
             cmd.append('-flip-hebrew') # RTL mode
             cmd.append('-noflip-hebrew-commas') # RTL mode
-            
         
         #--- Audio codec and opts
         cmd.extend(['-oac', self.c_acodec.get_text()])
@@ -1105,7 +1162,7 @@ class Curlew(Gtk.Window):
             self.output_details += line
             return True
         return False
-    
+
 
 def main():
     Curlew()

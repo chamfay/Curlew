@@ -7,6 +7,8 @@ if [ $UID -eq 0 ]; then
 				rm '/'$i
 			fi
 		done
+		rm installed-files.txt
+		rm -R build
 	fi
 else
 	echo "Run this file as root (ex: sudo $0)."
