@@ -11,6 +11,8 @@ Requirements:
 -------------
 
 - python-gobject >= 3.0
+- python << 3
+- gir1.2-notify-0.7
 - ffmpeg
 - mencoder
 - xdg-utils
