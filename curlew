@@ -1,7 +1,4 @@
 #!/usr/bin/python
 
-import os
-from curlew import main, __file__
-
-os.chdir(os.path.dirname(__file__))
+from curlew import main
 main()
