@@ -1,3 +1,13 @@
+Version 0.1.5
+---------------
+
+* Fixed devision by zero error 'Fedora system'
+* Replaced 'os.system and commands' by subprocess (prepare to python3)
+* Fixed encoding problem.
+* Curlew tested on Ubuntu 12.04, Mint 12, Ojuba 16.
+
+
+
 Version 0.1.4r3
 ---------------
 
