@@ -34,7 +34,7 @@ if not os.path.isdir(Locale):
     Locale = os.path.join(exedir, 'locale')
 gettext.install('curlew', Locale)
 
-APP_VERSION = '0.1.5'
+APP_VERSION = '0.1.5r1'
 APP_NAME = _('Curlew')
 CURR_DIR = os.path.dirname(__file__) + '/'
 
@@ -208,9 +208,10 @@ class Curlew(Gtk.Window):
     Iter = None
     output_details = ''
     total_duration = 0.0
+    output_file = None
     #--- Regex
-    reg_ffmpegu = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
-    reg_ffmpegf = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
+    reg_ffmpegu  = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
+    reg_ffmpegf  = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
     reg_mencoder = re.compile('''.(\d+\.*\d*)s.*(.\d+)%.*\s+(\d+)mb''')
     reg_duration = re.compile('''Duration:.*(\d+:\d+:\d+\.\d+)''')
               
@@ -556,7 +557,9 @@ class Curlew(Gtk.Window):
                 try:
                     self.fp.kill()
                     self.fp.terminate()
-                except: pass
+                    self.force_delete_file(self.output_file)
+                except: 
+                    pass
                 Gtk.main_quit()
             return
         Gtk.main_quit()
@@ -911,6 +914,7 @@ class Curlew(Gtk.Window):
             #--- Do not convert this file
             if self.store[self.Iter][0] == False:
                 self.store[self.Iter][5] = _("Skipped!")
+                # Jump to next file
                 self.Iter = self.store.iter_next(self.Iter)
                 self.convert_file()
                 return
@@ -929,6 +933,8 @@ class Curlew(Gtk.Window):
             #--- Rename output file if has the same name as input file
             if input_file == output_file:
                 output_file = output_file[:-4] + '-00.' + ext
+                
+            self.output_file = output_file
             
             #--- If output file already exist
             if os.path.exists(output_file):
@@ -936,9 +942,15 @@ class Curlew(Gtk.Window):
                              _('File: <b>%s</b> already exist.\nOverwrite it?') % output_file,
                              Gtk.MessageType.WARNING,
                              Gtk.ButtonsType.YES_NO)
+                
+                # Overwrite this file
+                if res == Gtk.ResponseType.YES:
+                    # delete existed file first
+                    self.force_delete_file(output_file)
                 #--- Skipped this file
-                if res == Gtk.ResponseType.NO:
+                else:
                     self.store[self.Iter][5] = _('Skipped!')
+                    # Jump to next file
                     self.Iter = self.store.iter_next(self.Iter)
                     self.convert_file()
                     return
@@ -967,11 +979,11 @@ class Curlew(Gtk.Window):
                             bufsize= -1)
             #--- Watch stdout and stderr
             GLib.io_add_watch(self.fp.stdout, GLib.IO_IN | GLib.IO_HUP,
-                              self.on_output, encoder_type)
+                              self.on_output, encoder_type, output_file)
             GLib.io_add_watch(self.fp.stderr, GLib.IO_IN | GLib.IO_HUP,
-                              self.on_output, encoder_type)
+                              self.on_output, encoder_type, output_file)
             #--- On end process
-            GLib.child_watch_add(self.fp.pid, self.on_end)
+            GLib.child_watch_add(self.fp.pid, self.on_end, output_file)
         
         else:
             self.is_converting = False
@@ -1119,7 +1131,7 @@ class Curlew(Gtk.Window):
         
     
     #---- On end conversion
-    def on_end(self, pid, err_code):
+    def on_end(self, pid, err_code, output_file):
         if self.Iter != None:
             # Converion succeed
             if err_code == 0:
@@ -1129,34 +1141,43 @@ class Curlew(Gtk.Window):
                 # Convert the next file
                 self.Iter = self.store.iter_next(self.Iter)
                 self.convert_file()
+            
             # Converion failed
             elif err_code == 256:
                 self.store[self.Iter][5] = _("Failed!")
+                self.force_delete_file(output_file)
                 # Convert the next file
                 self.Iter = self.store.iter_next(self.Iter)
                 self.convert_file()
-            #elif err_code == 9:
-                #pass
-                #self.store[self.Iter][5] = _("Stopped!")
+            
+            # Conversion stopped
+            elif err_code == 9:
+                # Remove uncompleted file
+                self.force_delete_file(output_file)
+                return
+                    
         else:
             self.is_converting = False
+        
         #--- Show all converion details
         self.txt_buffer.set_text(self.output_details)
     
     #--- Catch output 
-    def on_output(self, source, condition, encoder_type):
+    def on_output(self, source, condition, encoder_type, output_file):
         #--- Allow interaction with application widgets.
         while Gtk.events_pending():
             Gtk.main_iteration()
         
-        #--- Stop btn clicked.
-        if self.is_converting == False:
+        if self.Iter == None:
             return False
         
         #--- Skipped file during conversion (unckecked file during conversion)
         if self.store[self.Iter][0] == False:
             self.store[self.Iter][5] = _("Skipped!")
             self.fp.kill()
+            # Delete the file
+            self.force_delete_file(output_file)
+            # Jump to next file
             self.Iter = self.store.iter_next(self.Iter)
             self.convert_file()
             return False
@@ -1276,6 +1297,14 @@ class Curlew(Gtk.Window):
         Active = not widget.get_active()
         self.e_dest.set_sensitive(Active)
         self.b_dest.set_sensitive(Active)
+    
+    def force_delete_file(self, file_name):
+        ''' Force delete file_name '''
+        while os.path.exists(file_name):
+            try:
+                os.unlink(file_name)
+            except OSError:
+                continue
 
 def main():
     Curlew()
