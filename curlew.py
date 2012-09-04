@@ -9,14 +9,13 @@
 
 
 #TODO: Add 2 pass encoding.
-#TODO: Right click 'Convert with Curlew'.
 #TODO: Enhance build_mencoder_cmd fct (more options).
 
 try:
     import sys, os, string
     import time
     from subprocess import Popen, PIPE, call
-    from os.path import basename, isdir, splitext, join
+    from os.path import basename, isdir, splitext, join, dirname, realpath
     from gi.repository import Gtk, Notify, GLib, Gdk
     from user import home
     import gettext
@@ -34,9 +33,10 @@ if not os.path.isdir(Locale):
     Locale = os.path.join(exedir, 'locale')
 gettext.install('curlew', Locale)
 
-APP_VERSION = '0.1.5r1'
+APP_VERSION = '0.1.5r2'
 APP_NAME = _('Curlew')
-CURR_DIR = os.path.dirname(__file__) + '/'
+
+CURR_DIR = dirname(realpath(__file__)) + '/'
 
 
 def show_message(parent, message, message_type, button_type=Gtk.ButtonsType.CLOSE):
@@ -57,7 +57,7 @@ def show_notification(app_name, title, text, icon):
     return notification
 
 def extract_font_name(font_str):
-    '''Get the font name only without style (bold, italic...) from string'''
+    '''Get the font name only, without style (bold, italic...) from string'''
     font_str = font_str[:-3]
     styles_list = ['Bold', 'Italic', 'Oblique', 'Medium']
     for style in styles_list:
@@ -66,7 +66,7 @@ def extract_font_name(font_str):
 
 def get_aspect_ratio(input_file):
     ''' extract adpect ratio from file if exist, otherwise use 4:3 (fix a problem) '''
-    cmd = ['ffmpeg', '-i', input_file]
+    cmd = ['avconv', '-i', input_file]
     Proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
     out_str = Proc.stderr.read()
     try:
@@ -146,12 +146,9 @@ class TimeLayout(Gtk.HBox):
     def set_duration(self, duration):
         ''' Set duration in seconds '''
         self.__duration = int(duration)
-        h = duration / 3600
-        m = (duration % 3600) / 60
-        s = (duration % 3600) % 60
-        self._spin_h.set_value(h)
-        self._spin_m.set_value(m)
-        self._spin_s.set_value(s)
+        self._spin_h.set_value(duration/3600)
+        self._spin_m.set_value((duration % 3600)/60)
+        self._spin_s.set_value((duration % 3600)%60)
     
     def get_duration(self):
         ''' Return duration in sec '''
@@ -188,9 +185,8 @@ class LabeledComboEntry(Gtk.ComboBoxText):
             self.append_text(i)
         self.set_active(0)
     
-    def get_text(self):
-        ''' Get active text in combo '''
-        return self.get_active_text()
+    # Get active text in combo
+    get_text = lambda self: self.get_active_text()
     
     def set_text(self, Text):
         ''' Set text to LabeledComboEntry return its index '''
@@ -210,8 +206,8 @@ class Curlew(Gtk.Window):
     total_duration = 0.0
     output_file = None
     #--- Regex
-    reg_ffmpegu  = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
-    reg_ffmpegf  = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
+    reg_avconv_u  = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
+    reg_avconv_f  = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
     reg_mencoder = re.compile('''.(\d+\.*\d*)s.*(.\d+)%.*\s+(\d+)mb''')
     reg_duration = re.compile('''Duration:.*(\d+:\d+:\d+\.\d+)''')
               
@@ -340,14 +336,17 @@ class Curlew(Gtk.Window):
         play_item = Gtk.MenuItem(_('Play'))
         play_item.connect('activate', self.on_play_cb)
         
+        browse_item = Gtk.MenuItem(_('Browse destination'))
+        browse_item.connect('activate', self.on_browse_cb)
+        
         preview_item = Gtk.MenuItem(_('Preview before converting'))
         preview_item.connect('activate', self.on_preview_cb)
-         
-        self.popup.append(remove_item)
-        self.popup.show_all()
-        self.popup.add(Gtk.SeparatorMenuItem())
+        
         self.popup.append(play_item)
         self.popup.append(preview_item)
+        self.popup.append(remove_item)
+        self.popup.append(browse_item)
+        self.popup.show_all()
         
         #--- Output formats
         self.cb_formats = Gtk.ComboBoxText()
@@ -603,8 +602,8 @@ class Curlew(Gtk.Window):
             for file_name in open_dlg.get_filenames():
                 self.store.append([True, file_name, None, None, 0.0, _('Ready!')])
                 
-        #--- Saved current folder
-        self.curr_open_folder = open_dlg.get_current_folder()                
+            #--- Saved current folder
+            self.curr_open_folder = open_dlg.get_current_folder()                
         open_dlg.destroy()
         
     
@@ -704,11 +703,11 @@ class Curlew(Gtk.Window):
             self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
             
         
-    def build_ffmpeg_cmd(self, input_file, output_file):
+    def build_avconv_cmd(self, input_file, output_file):
         section = self.cb_formats.get_active_text()
         media_type = self.f_file.get(section, 'type')
         
-        cmd = ['ffmpeg', '-y']#, '-xerror']
+        cmd = ['avconv', '-y']#, '-xerror']
         cmd.extend(["-i", input_file])
         
         # Audio only
@@ -728,7 +727,7 @@ class Curlew(Gtk.Window):
                 cmd.extend(['-ac', self.c_ach.get_text()])
             
             # Audio codec
-            proc = Popen('ffmpeg -codecs', stdout=PIPE, stderr=PIPE, shell=True)
+            proc = Popen('avconv -codecs', stdout=PIPE, stderr=PIPE, shell=True)
             codecs = proc.stdout.read()
             if self.c_acodec.get_text() in codecs:
                 cmd.extend(['-acodec', self.c_acodec.get_text()])
@@ -739,7 +738,7 @@ class Curlew(Gtk.Window):
         if media_type == 'video':
             # Video bitrate
             if self.c_vbitrate.get_text() != 'default':
-                cmd.extend(['-b', self.c_vbitrate.get_text()])
+                cmd.extend(['-bt', self.c_vbitrate.get_text()]) # changed -b tp -bt
             # Video FPS
             if self.c_vfps.get_text() != 'default':
                 cmd.extend(['-r', self.c_vfps.get_text()])
@@ -786,10 +785,11 @@ class Curlew(Gtk.Window):
             
         
         #--- Keep metadata
-        cmd.extend(['-map_metadata', '%s:%s' % (output_file, input_file)])
+        #cmd.extend(['-map_metadata', '%s:%s' % (output_file, input_file)])
         
         #--- Last
         cmd.append(output_file)
+        #print ' '.join(cmd) # print command line
         return cmd
     
     
@@ -878,7 +878,7 @@ class Curlew(Gtk.Window):
             cmd.append('-vf')
             cmd.append('scale=%s,harddup' % self.c_vsize.get_text())
         
-        #print cmd
+        #print ' '.join(cmd)
         return cmd
 
     #--- Convert funtcion
@@ -955,9 +955,9 @@ class Curlew(Gtk.Window):
                     self.convert_file()
                     return
         
-            #--- which encoder use (ffmpeg of mencoder)
+            #--- which encoder use (avconv of mencoder)
             if encoder_type == 'f':
-                full_cmd = self.build_ffmpeg_cmd(input_file, output_file)
+                full_cmd = self.build_avconv_cmd(input_file, output_file)
             elif encoder_type == 'm':
                 full_cmd = self.build_mencoder_cmd(input_file, output_file)
             
@@ -1003,14 +1003,14 @@ class Curlew(Gtk.Window):
     def get_duration(self, input_file):
         ''' Get duration file in seconds (float)'''
         duration = 0.0
-        cmd = ['ffmpeg', '-i', input_file]
+        cmd = ['avconv', '-i', input_file]
         Proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
         out_str = Proc.stderr.read()
         try:
             time_list = self.reg_duration.findall(out_str)[0].split(':')
         except:
             return duration
-        duration = int(time_list[0]) * 3600 + int(time_list[1]) * 60 + float(time_list[2])  
+        duration = int(time_list[0]) * 3600 + int(time_list[1]) * 60 + float(time_list[2])
         return duration
     
     
@@ -1072,6 +1072,14 @@ class Curlew(Gtk.Window):
         Iter = self.get_selected_iters()[0]
         call(['xdg-open', self.store[Iter][1]])
         
+    def on_browse_cb(self, widget):
+        if self.check_same.get_active():
+            Iter = self.get_selected_iters()[0]
+            call(['xdg-open', dirname(self.store[Iter][1])])
+        else:
+            call(['xdg-open', self.e_dest.get_text()])
+
+        
     def on_preview_cb(self, widget):
         encoder_type = self.f_file.get(self.cb_formats.get_active_text(), 'encoder')
         Iter = self.get_selected_iters()[0]
@@ -1081,7 +1089,7 @@ class Curlew(Gtk.Window):
         preview_begin = str(duration / 10)
         #
         if encoder_type == 'f':
-            cmd = self.build_ffmpeg_cmd(input_file, output_file)
+            cmd = self.build_avconv_cmd(input_file, output_file)
             cmd.extend(['-ss', preview_begin])
             cmd.extend(['-t', '15'])
         elif encoder_type == 'm':
@@ -1183,23 +1191,24 @@ class Curlew(Gtk.Window):
             return False
         
         line = source.readline()
+        #print line
         if len(line) > 0:
             self.txt_buffer.set_text(line, -1)
             
-            # ffmpeg progress
+            # avconv progress
             if encoder_type == 'f':
                 begin = line.find('time=')
                 if begin != -1:
-                    reg_ffmpeg = self.reg_ffmpegu
+                    reg_avconv = self.reg_avconv_u
                     
                     # on ubuntu ... time like: time=00.00
-                    if reg_ffmpeg.findall(line) != []:
-                        elapsed_time = float(reg_ffmpeg.findall(line)[0][1])
+                    if reg_avconv.findall(line) != []:
+                        elapsed_time = float(reg_avconv.findall(line)[0][1])
                     
                     # on fedora ... time like this 'time=00:00:00.00'
                     else:
-                        reg_ffmpeg = self.reg_ffmpegf
-                        elapsed_time = reg_ffmpeg.findall(line)[0][1]
+                        reg_avconv = self.reg_avconv_f
+                        elapsed_time = reg_avconv.findall(line)[0][1]
                         elapsed_time = self.time_to_duration(elapsed_time)
 
                     try:
@@ -1210,7 +1219,7 @@ class Curlew(Gtk.Window):
                     if time_ratio > 1: time_ratio = 1
                     
                     # Get estimated size
-                    curr_size = float(reg_ffmpeg.findall(line)[0][0])
+                    curr_size = float(reg_avconv.findall(line)[0][0])
                     try:
                         est_size = int((curr_size * self.total_duration) / elapsed_time)
                     except ZeroDivisionError: 
@@ -1276,22 +1285,23 @@ class Curlew(Gtk.Window):
     def duration_to_time(self, duration):
         ''' Convert duration (sec) to time 00:00:00 '''
         if duration < 0: duration = 0
-        h = duration / 3600
-        m = (duration % 3600) / 60
-        s = (duration % 3600) % 60
-        return '%02i:%02i:%02i' % (h, m, s)
+        return '%02i:%02i:%02i' % (duration/3600, (duration%3600)/60, (duration%3600)%60)
     
     def time_to_duration(self, time):
         ''' Convert time like 00:00:00.00 to duration (sec)'''
         times = time.split(':')
         return int(times[0])*3600 + int(times[1])*60 + float(times[2])
     
+    #--- Drag and drop callback
     def drop_data_cb(self, widget, dc, x, y, selection_data, info, t):
         for i in selection_data.get_uris():
             if i.startswith('file://'):
                 File = unquote(i[7:])
                 if os.path.isfile(File):
                     self.store.append([True, File, None, None, 0.0, _('Ready!')])
+                
+                # Save directory from dragged filename.
+                self.curr_open_folder = dirname(File)
     
     def check_same_cb(self, widget):
         Active = not widget.get_active()
