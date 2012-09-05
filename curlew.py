@@ -12,17 +12,17 @@
 #TODO: Enhance build_mencoder_cmd fct (more options).
 
 try:
-    import sys, os, string
+    import sys, os, re, gettext
     import time
     from subprocess import Popen, PIPE, call
     from os.path import basename, isdir, splitext, join, dirname, realpath
     from gi.repository import Gtk, Notify, GLib, Gdk
-    from user import home
-    import gettext
-    import ConfigParser, re
-    from urllib import unquote 
-except Exception, detail:
-    print detail
+    import ConfigParser
+    #import configparser as ConfigParser #3
+    from urllib import unquote
+    #from urllib.parse import unquote    #3
+except Exception as detail:
+    print(detail)
     sys.exit(1)
 
 
@@ -33,10 +33,10 @@ if not os.path.isdir(Locale):
     Locale = os.path.join(exedir, 'locale')
 gettext.install('curlew', Locale)
 
-APP_VERSION = '0.1.5r2'
+APP_VERSION = '0.1.5r3'
 APP_NAME = _('Curlew')
-
-CURR_DIR = dirname(realpath(__file__)) + '/'
+APP_DIR = dirname(realpath(__file__)) + '/'
+HOME = os.getenv("HOME")
 
 
 def show_message(parent, message, message_type, button_type=Gtk.ButtonsType.CLOSE):
@@ -87,9 +87,7 @@ def custom_hscale(container, def_value, min_value, max_value):
 
 class About(Gtk.AboutDialog):
     def __init__(self, parent):
-        
         Gtk.AboutDialog.__init__(self, parent=parent, wrap_license=True)
-        
         self.set_program_name(APP_NAME)
         self.set_authors(['Fayssal Chamekh <chamfay@gmail.com>'])
         self.set_copyright("Copyright © 2012 Fayssal Chamekh <chamfay@gmail.com>")
@@ -106,6 +104,7 @@ class About(Gtk.AboutDialog):
  http://www.ojuba.org/wiki/doku.php/waqf/license"""
         self.set_license(License)
         self.set_website('https://github.com/chamfay/Curlew')
+        self.set_website_label('https://github.com/chamfay/Curlew')
         self.set_translator_credits(_('Fayssal Chamekh <chamfay@gmail.com>'))
         self.run()
         self.destroy()
@@ -197,8 +196,8 @@ class LabeledComboEntry(Gtk.ComboBoxText):
 class Curlew(Gtk.Window):
      
     #--- Variables
-    curr_open_folder = home
-    curr_save_folder = home
+    curr_open_folder = HOME
+    curr_save_folder = HOME
     is_converting = False
     fp = None
     Iter = None
@@ -214,7 +213,7 @@ class Curlew(Gtk.Window):
     def tool_button(self, icon_file, tooltip, function):
         ''' Build custom toolbutton '''
         toolbtn = Gtk.ToolButton()
-        widget = Gtk.Image.new_from_file(CURR_DIR + icon_file)
+        widget = Gtk.Image.new_from_file(APP_DIR + icon_file)
         toolbtn.set_icon_widget(widget)
         toolbtn.set_tooltip_text(tooltip)
         toolbtn.connect('clicked', function)
@@ -358,7 +357,7 @@ class Curlew(Gtk.Window):
         
         #--- destination
         self.e_dest = Gtk.Entry()
-        self.e_dest.set_text(home)
+        self.e_dest.set_text(HOME)
         self.b_dest = Gtk.Button(' ... ')
         self.check_same = Gtk.CheckButton(_('Source path'))
         self.check_same.connect('toggled', self.check_same_cb)
@@ -522,7 +521,7 @@ class Curlew(Gtk.Window):
         #---------------------Initialization
         #--- Load formats from format.cfg file
         self.f_file = ConfigParser.ConfigParser()
-        self.f_file.read(CURR_DIR + 'formats.cfg')
+        self.f_file.read(APP_DIR + 'formats.cfg')
         for i in self.f_file.sections():
             self.cb_formats.append_text(i)
         self.cb_formats.set_active(0)
@@ -659,47 +658,47 @@ class Curlew(Gtk.Window):
         section = self.cb_formats.get_active_text()
         
         if self.f_file.has_option(section, 'abitrate'):
-            li = string.split(self.f_file.get(section, 'abitrate'), ' ')
+            li = self.f_file.get(section, 'abitrate').split(' ')
             self.c_abitrate.set_list(li)
         
         if self.f_file.has_option(section, 'afreq'):
-            li = string.split(self.f_file.get(section, 'afreq'), ' ')
+            li = self.f_file.get(section, 'afreq').split(' ')
             self.c_afreq.set_list(li)
         
         if self.f_file.has_option(section, 'ach'):    
-            li = string.split(self.f_file.get(section, 'ach'), ' ')
+            li = self.f_file.get(section, 'ach').split(' ')
             self.c_ach.set_list(li)
         
         if self.f_file.has_option(section, 'acodec'):
-            li = string.split(self.f_file.get(section, 'acodec'), ' ')
+            li = self.f_file.get(section, 'acodec').split(' ')
             self.c_acodec.set_list(li)
         
         if self.f_file.has_option(section, 'aqual'):
-            aqual = string.split((self.f_file.get(section, 'aqual')), ' ')
+            aqual = self.f_file.get(section, 'aqual').split(' ')
             self.c_abitrate.set_text(aqual[self.cb_quality.get_active()])
             
         if self.f_file.has_option(section, 'vbitrate'):
-            li = string.split(self.f_file.get(section, 'vbitrate'), ' ')
+            li = self.f_file.get(section, 'vbitrate').split(' ')
             self.c_vbitrate.set_list(li)
             
         if self.f_file.has_option(section, 'vbitrate'):
-            li = string.split(self.f_file.get(section, 'vfps'), ' ')
+            li = self.f_file.get(section, 'vfps').split(' ')
             self.c_vfps.set_list(li)
         
         if self.f_file.has_option(section, 'vcodec'):
-            li = string.split(self.f_file.get(section, 'vcodec'), ' ')
+            li = self.f_file.get(section, 'vcodec').split(' ')
             self.c_vcodec.set_list(li)
             
         if self.f_file.has_option(section, 'vsize'):
-            li = string.split(self.f_file.get(section, 'vsize'), ' ')
+            li = self.f_file.get(section, 'vsize').split(' ')
             self.c_vsize.set_list(li)
         
         if self.f_file.has_option(section, 'vratio'):
-            li = string.split(self.f_file.get(section, 'vratio'), ' ')
+            li = self.f_file.get(section, 'vratio').split(' ')
             self.c_vratio.set_list(li)
         
         if self.f_file.has_option(section, 'vqual'):
-            vqual = string.split((self.f_file.get(section, 'vqual')), ' ')
+            vqual = self.f_file.get(section, 'vqual').split(' ')
             self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
             
         
@@ -789,7 +788,7 @@ class Curlew(Gtk.Window):
         
         #--- Last
         cmd.append(output_file)
-        #print ' '.join(cmd) # print command line
+        #print(' '.join(cmd)) # print command line
         return cmd
     
     
@@ -878,7 +877,7 @@ class Curlew(Gtk.Window):
             cmd.append('-vf')
             cmd.append('scale=%s,harddup' % self.c_vsize.get_text())
         
-        #print ' '.join(cmd)
+        #print(' '.join(cmd))
         return cmd
 
     #--- Convert funtcion
@@ -1019,11 +1018,11 @@ class Curlew(Gtk.Window):
         section = self.cb_formats.get_active_text()
         
         if self.f_file.has_option(section, 'aqual'):
-            aqual = string.split((self.f_file.get(section, 'aqual')), ' ')
+            aqual = self.f_file.get(section, 'aqual').split(' ')
             self.c_abitrate.set_text(aqual[self.cb_quality.get_active()])
         
         if self.f_file.has_option(section, 'vqual'):
-            vqual = string.split((self.f_file.get(section, 'vqual')), ' ')
+            vqual = self.f_file.get(section, 'vqual').split(' ')
             self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
     
     #--- select subtitle
@@ -1127,6 +1126,7 @@ class Curlew(Gtk.Window):
         self.hb_pos.set_sensitive(widget.get_active())
         self.hb_size.set_sensitive(widget.get_active())
     
+    #--- Remove selected items.
     def on_key_press(self, widget, event):
         if event.keyval == Gdk.KEY_Delete:
             self.tb_remove_clicked(None)
@@ -1191,7 +1191,7 @@ class Curlew(Gtk.Window):
             return False
         
         line = source.readline()
-        #print line
+        #print(line)
         if len(line) > 0:
             self.txt_buffer.set_text(line, -1)
             
