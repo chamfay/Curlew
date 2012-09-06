@@ -1,4 +1,4 @@
 #!/usr/bin/env python2.7
 
-from curlew import main
+from Curlew.curlew import main
 main()

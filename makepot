@@ -1,2 +1,2 @@
 #!/bin/bash
-xgettext --language=Python --keyword=_ --output=curlew.pot $PWD/curlew.py
+pygettext --keyword=_ --output=curlew.pot $PWD/Curlew/curlew.py

@@ -8,8 +8,6 @@
 #===============================================================================
 
 
-#TODO: Add 2 pass encoding.
-#TODO: Enhance build_mencoder_cmd fct (more options).
 
 try:
     import sys, os, re, gettext
@@ -17,30 +15,28 @@ try:
     from subprocess import Popen, PIPE, call
     from os.path import basename, isdir, splitext, join, dirname, realpath
     from gi.repository import Gtk, Notify, GLib, Gdk
-    import ConfigParser
-    #import configparser as ConfigParser #3
+    from ConfigParser import ConfigParser
     from urllib import unquote
-    #from urllib.parse import unquote    #3
 except Exception as detail:
     print(detail)
     sys.exit(1)
 
 
 #--- localizations
-exedir = os.path.dirname(sys.argv[0])
+exedir = dirname(sys.argv[0])
 Locale = os.path.join(exedir, '..', 'share/locale')
-if not os.path.isdir(Locale): 
-    Locale = os.path.join(exedir, 'locale')
+if not isdir(Locale):
+    Locale = os.path.join(exedir, '..', 'locale')
 gettext.install('curlew', Locale)
 
-APP_VERSION = '0.1.5r3'
+APP_VERSION = '0.1.6'
 APP_NAME = _('Curlew')
-APP_DIR = dirname(realpath(__file__)) + '/'
+APP_DIR = dirname(realpath(__file__))
 HOME = os.getenv("HOME")
 
 
 def show_message(parent, message, message_type, button_type=Gtk.ButtonsType.CLOSE):
-    ''' Show message custom dialog'''
+    ''' Show custom message dialog'''
     mess_dlg = Gtk.MessageDialog(parent,
                              Gtk.DialogFlags.MODAL,
                              message_type,
@@ -49,6 +45,7 @@ def show_message(parent, message, message_type, button_type=Gtk.ButtonsType.CLOS
     resp = mess_dlg.run()
     mess_dlg.destroy()
     return resp
+
 
 def show_notification(app_name, title, text, icon):
     Notify.init(app_name)
@@ -180,8 +177,7 @@ class LabeledComboEntry(Gtk.ComboBoxText):
     def set_list(self, List):
         ''' Fill combobox with list directly [] '''
         self.remove_all()
-        for i in List:
-            self.append_text(i)
+        map(self.append_text,List)
         self.set_active(0)
     
     # Get active text in combo
@@ -213,7 +209,7 @@ class Curlew(Gtk.Window):
     def tool_button(self, icon_file, tooltip, function):
         ''' Build custom toolbutton '''
         toolbtn = Gtk.ToolButton()
-        widget = Gtk.Image.new_from_file(APP_DIR + icon_file)
+        widget = Gtk.Image.new_from_file(join(APP_DIR, icon_file))
         toolbtn.set_icon_widget(widget)
         toolbtn.set_tooltip_text(tooltip)
         toolbtn.connect('clicked', function)
@@ -369,8 +365,7 @@ class Curlew(Gtk.Window):
         
         #--- quality (low, medium, high)
         self.cb_quality = Gtk.ComboBoxText()
-        for quality in (_("Low Quality"), _("Normal Quality"), _("High Quality")):
-            self.cb_quality.append_text(quality)
+        map(self.cb_quality.append_text, [_("Low Quality"), _("Normal Quality"), _("High Quality")])
         self.cb_quality.set_active(1)
         self.cb_quality.connect('changed', self.on_cb_quality_changed)
         hl = LabeledHBox(_('<b>Quality:</b>'), vbox)
@@ -479,8 +474,7 @@ class Curlew(Gtk.Window):
         self.hb_enc = LabeledHBox(_('Encoding: '), self.vb_sub, 9)
         self.combo_enc = Gtk.ComboBoxText()
         self.combo_enc.set_entry_text_column(0)
-        for i in enc:
-            self.combo_enc.append_text(i)
+        map(self.combo_enc.append_text, enc)
         self.combo_enc.set_active(5)
         self.combo_enc.set_wrap_width(4)
         self.hb_enc.pack_start(self.combo_enc, True, True, 0)
@@ -520,10 +514,9 @@ class Curlew(Gtk.Window):
         
         #---------------------Initialization
         #--- Load formats from format.cfg file
-        self.f_file = ConfigParser.ConfigParser()
-        self.f_file.read(APP_DIR + 'formats.cfg')
-        for i in self.f_file.sections():
-            self.cb_formats.append_text(i)
+        self.f_file = ConfigParser()
+        self.f_file.read(join(APP_DIR, 'formats.cfg'))
+        map(self.cb_formats.append_text, self.f_file.sections())
         self.cb_formats.set_active(0)
         
         #--- drag and drop
@@ -658,51 +651,54 @@ class Curlew(Gtk.Window):
         section = self.cb_formats.get_active_text()
         
         if self.f_file.has_option(section, 'abitrate'):
-            li = self.f_file.get(section, 'abitrate').split(' ')
+            li = self.f_file.get(section, 'abitrate').split()
             self.c_abitrate.set_list(li)
         
         if self.f_file.has_option(section, 'afreq'):
-            li = self.f_file.get(section, 'afreq').split(' ')
+            li = self.f_file.get(section, 'afreq').split()
             self.c_afreq.set_list(li)
         
         if self.f_file.has_option(section, 'ach'):    
-            li = self.f_file.get(section, 'ach').split(' ')
+            li = self.f_file.get(section, 'ach').split()
             self.c_ach.set_list(li)
         
         if self.f_file.has_option(section, 'acodec'):
-            li = self.f_file.get(section, 'acodec').split(' ')
+            li = self.f_file.get(section, 'acodec').split()
             self.c_acodec.set_list(li)
         
         if self.f_file.has_option(section, 'aqual'):
-            aqual = self.f_file.get(section, 'aqual').split(' ')
+            aqual = self.f_file.get(section, 'aqual').split()
             self.c_abitrate.set_text(aqual[self.cb_quality.get_active()])
             
         if self.f_file.has_option(section, 'vbitrate'):
-            li = self.f_file.get(section, 'vbitrate').split(' ')
+            li = self.f_file.get(section, 'vbitrate').split()
             self.c_vbitrate.set_list(li)
             
         if self.f_file.has_option(section, 'vbitrate'):
-            li = self.f_file.get(section, 'vfps').split(' ')
+            li = self.f_file.get(section, 'vfps').split()
             self.c_vfps.set_list(li)
         
         if self.f_file.has_option(section, 'vcodec'):
-            li = self.f_file.get(section, 'vcodec').split(' ')
+            li = self.f_file.get(section, 'vcodec').split()
             self.c_vcodec.set_list(li)
             
         if self.f_file.has_option(section, 'vsize'):
-            li = self.f_file.get(section, 'vsize').split(' ')
+            li = self.f_file.get(section, 'vsize').split()
             self.c_vsize.set_list(li)
         
         if self.f_file.has_option(section, 'vratio'):
-            li = self.f_file.get(section, 'vratio').split(' ')
+            li = self.f_file.get(section, 'vratio').split()
             self.c_vratio.set_list(li)
         
         if self.f_file.has_option(section, 'vqual'):
-            vqual = self.f_file.get(section, 'vqual').split(' ')
+            vqual = self.f_file.get(section, 'vqual').split()
             self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
             
         
-    def build_avconv_cmd(self, input_file, output_file):
+    def build_avconv_cmd(self, input_file, output_file, start_pos=-1, part_dura=-1):
+        '''
+        start_pos <=> -ss, part_dura <=> -t
+        '''
         section = self.cb_formats.get_active_text()
         media_type = self.f_file.get(section, 'type')
         
@@ -773,9 +769,9 @@ class Curlew(Gtk.Window):
         cmd.extend(['-f', ff])
         
         # Split file
-        if self.check_split.get_active():
-            cmd.extend(['-ss', str(self.tl_begin.get_duration())])
-            cmd.extend(['-t', str(self.tl_duration.get_duration())])
+        if start_pos!=-1 and part_dura!=-1:
+            cmd.extend(['-ss', start_pos])
+            cmd.extend(['-t',  part_dura])
         
         #--- Extra options (add other specific options if exist)
         if self.f_file.has_option(section, 'extra'):
@@ -956,7 +952,13 @@ class Curlew(Gtk.Window):
         
             #--- which encoder use (avconv of mencoder)
             if encoder_type == 'f':
-                full_cmd = self.build_avconv_cmd(input_file, output_file)
+                if self.check_split.get_active():
+                    full_cmd = self.build_avconv_cmd(input_file, output_file,
+                                                 self.tl_begin.get_time_str(),
+                                                 self.tl_duration.get_time_str())
+                else:
+                    full_cmd = self.build_avconv_cmd(input_file, output_file)
+                    
             elif encoder_type == 'm':
                 full_cmd = self.build_mencoder_cmd(input_file, output_file)
             
@@ -1018,11 +1020,11 @@ class Curlew(Gtk.Window):
         section = self.cb_formats.get_active_text()
         
         if self.f_file.has_option(section, 'aqual'):
-            aqual = self.f_file.get(section, 'aqual').split(' ')
+            aqual = self.f_file.get(section, 'aqual').split()
             self.c_abitrate.set_text(aqual[self.cb_quality.get_active()])
         
         if self.f_file.has_option(section, 'vqual'):
-            vqual = self.f_file.get(section, 'vqual').split(' ')
+            vqual = self.f_file.get(section, 'vqual').split()
             self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
     
     #--- select subtitle
@@ -1054,8 +1056,7 @@ class Curlew(Gtk.Window):
                 if self.store[Iter][:] != self.store[self.Iter][:]:
                     self.store.remove(Iter)
         else:
-            for Iter in iters:
-                self.store.remove(Iter)
+            map(self.store.remove, iters)
     
     def get_selected_iters(self):
         ''' Get a list contain selected iters '''
@@ -1079,22 +1080,21 @@ class Curlew(Gtk.Window):
             call(['xdg-open', self.e_dest.get_text()])
 
         
+    
     def on_preview_cb(self, widget):
         encoder_type = self.f_file.get(self.cb_formats.get_active_text(), 'encoder')
         Iter = self.get_selected_iters()[0]
         input_file = self.store[Iter][1]
         output_file = '/tmp/Preview'
         duration = self.get_duration(input_file)
-        preview_begin = str(duration / 10)
+        preview_begin = str(duration/10)
         #
         if encoder_type == 'f':
-            cmd = self.build_avconv_cmd(input_file, output_file)
-            cmd.extend(['-ss', preview_begin])
-            cmd.extend(['-t', '15'])
+            cmd = (self.build_avconv_cmd(input_file, output_file, preview_begin, '10'))
         elif encoder_type == 'm':
             cmd = self.build_mencoder_cmd(input_file, output_file)
             cmd.extend(['-ss', preview_begin])
-            cmd.extend(['-endpos', '15'])
+            cmd.extend(['-endpos', '10'])
         
         self.fp = Popen(cmd,
                         stdout=PIPE, stderr=PIPE,
@@ -1299,7 +1299,6 @@ class Curlew(Gtk.Window):
                 File = unquote(i[7:])
                 if os.path.isfile(File):
                     self.store.append([True, File, None, None, 0.0, _('Ready!')])
-                
                 # Save directory from dragged filename.
                 self.curr_open_folder = dirname(File)
     

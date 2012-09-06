@@ -1,7 +1,16 @@
+Version 0.1.6
+---------------
+
+* Converted project to Python package.
+* Fixed bugs in "Preview" and "Split" functions.
+* Updated source code.
+* Cleanup...
+
+
 Version 0.1.5r3
 ---------------
 
-* Removed "string" and "user" modules.
+* Replaced "string" and "user" modules.
 * Updated Arabic Translation.
 * Some revisions and fixes.
 

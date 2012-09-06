@@ -1,29 +1,27 @@
-#! /usr/bin/python
+#!/usr/bin/python
 
 from distutils.core import setup
 from glob import glob
-from curlew import APP_VERSION, APP_NAME
 
-doc_files = ['LICENSE-ar.txt', 'LICENSE-en', 'AUTHORS', 'ChangeLog', 'README']
-data_files = [('share/applications/', ['data/curlew.desktop']),
+doc_files  = ['LICENSE-ar.txt', 'LICENSE-en', 'AUTHORS', 'ChangeLog', 'README']
+data_files = [('share/applications/', ['curlew.desktop']),
               ('share/icons/hicolor/scalable/apps', ['curlew.svg']),
               ('share/doc/curlew', doc_files),
               ]
 
 locales = map(lambda i: ('share/' + i, ['' + i + '/curlew.mo', ]), glob('locale/*/LC_MESSAGES'))
-data_files.extend(locales)         
+data_files.extend(locales)
 
 
 setup(
-      name=APP_NAME,
+      name="Curlew",
       description='Easy to use multimedia converter in Linux',
-      version=APP_VERSION,
+      version="0.1.6",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',
       license='Waqf License',
       platforms='Linux',
-      py_modules=['curlew'],
       scripts=['curlew'],
       keywords=['convert', 'audio', 'video', 'ffmpeg', 'mencoder'],
       classifiers=[
@@ -39,6 +37,6 @@ setup(
                      'Topic :: Multimedia :: Sound/Audio :: Conversion',
                      'Topic :: Utilities'],
       data_files=data_files,
-      packages=[''],
+      packages=['Curlew'],
       package_data={'':['data/*.png', 'formats.cfg']}
       )
