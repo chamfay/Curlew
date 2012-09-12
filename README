@@ -13,9 +13,9 @@ Dependencies:
 - python-gobject >= 3.0
 - gir1.2-gtk-3.0
 - gir1.2-notify-0.7
-- ffmpeg
+- ffmpeg >= 0.8 (or libav-tools >= 0.8)
 - mencoder
-- libavcodec-extra-53 (recommended)
+- libavcodec-extra-53
 - xdg-utils
 
 

@@ -16,14 +16,15 @@ data_files.extend(locales)
 setup(
       name="Curlew",
       description='Easy to use multimedia converter in Linux',
-      version="0.1.6",
+      long_description='Easy to use multimedia converter in Linux',
+      version="0.1.6r1",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',
       license='Waqf License',
       platforms='Linux',
       scripts=['curlew'],
-      keywords=['convert', 'audio', 'video', 'ffmpeg', 'mencoder'],
+      keywords=['convert', 'audio', 'video', 'ffmpeg', 'mencoder','avconv'],
       classifiers=[
                      'Programming Language :: Python',
                      'Operating System :: POSIX :: Linux',
