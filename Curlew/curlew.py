@@ -11,7 +11,7 @@
 # TODO: Add functions to save/load options
 
 try:
-    import sys, os, re,time, pickle
+    import sys, os, re, time
     import i18n
     from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, CustomHScale
     from about import APP_NAME, APP_VERSION, About
@@ -1197,6 +1197,7 @@ class Curlew(Gtk.Window):
         conf.set('configs', 'check_same_dest_active', self.check_same_dest.get_active())
         conf.set('configs', 'check_same_qual_active', self.check_same_quality.get_active())
         conf.set('configs', 'size', self.get_size())
+        conf.set('configs', 'expanded', self.exp_advanced.get_expanded())
         
         files_list = []
         for i in range(len(self.store)):
@@ -1222,8 +1223,8 @@ class Curlew(Gtk.Window):
             self.check_same_dest.set_active(conf.getboolean('configs', 'check_same_dest_active'))
             self.check_same_quality.set_active(conf.getboolean('configs', 'check_same_qual_active'))
             self.resize(eval(conf.get('configs', 'size'))[0], eval(conf.get('configs', 'size'))[1])
-            files_list = eval(conf.get('configs', 'files_list'))
-            for r in files_list:
+            self.exp_advanced.set_expanded(conf.getboolean('configs', 'expanded'))
+            for r in eval(conf.get('configs', 'files_list')):
                 self.store.append(r)
         except NoOptionError as err:
             print(err)
