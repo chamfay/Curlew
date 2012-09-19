@@ -8,9 +8,10 @@
 #===============================================================================
 
 # TODO: Add more presets formats.
+# TODO: Add functions to save/load options
 
 try:
-    import sys, os, re,time
+    import sys, os, re,time, pickle
     import i18n
     from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, CustomHScale
     from about import APP_NAME, APP_VERSION, About
@@ -18,7 +19,7 @@ try:
     from subprocess import Popen, PIPE, call
     from os.path import basename, isdir, splitext, join, dirname, realpath
     from gi.repository import Gtk, GLib, Gdk
-    from ConfigParser import ConfigParser
+    from ConfigParser import ConfigParser, NoOptionError, NoSectionError
     from urllib import unquote
 except Exception as detail:
     print(detail)
@@ -29,29 +30,31 @@ APP_DIR = dirname(realpath(__file__))
 HOME = os.getenv("HOME")
 
 
+def create_tool_btn(icon_name, tooltip, callback):
+    ''' Build custom toolbutton '''
+    toolbtn = Gtk.ToolButton()
+    widget  = Gtk.Image.new_from_file(join(APP_DIR, 'data', icon_name))
+    toolbtn.set_icon_widget(widget)
+    toolbtn.set_tooltip_text(tooltip)
+    toolbtn.connect('clicked', callback)
+    return toolbtn
+
 #--- Main class        
 class Curlew(Gtk.Window):
-              
-    def create_tool_btn(self, icon_file, tooltip, callback):
-        ''' Build custom toolbutton '''
-        toolbtn = Gtk.ToolButton()
-        widget  = Gtk.Image.new_from_file(join(APP_DIR, 'data', icon_file))
-        toolbtn.set_icon_widget(widget)
-        toolbtn.set_tooltip_text(tooltip)
-        toolbtn.connect('clicked', callback)
-        return toolbtn
     
     def __init__(self):
         
         #--- Variables
-        self.curr_open_folder = HOME
-        self.curr_save_folder = HOME
+        self.curr_open_folder = None
+        self.curr_save_folder = None
         self.is_converting = False
         self.fp = None
         self.Iter = None
         self.output_details = ''
         self.total_duration = 0.0
         self.output_file = None
+        self.opt_file = join(HOME, '.curlew.cfg')
+        
         #--- Regex
         self.reg_avconv_u = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
         self.reg_avconv_f = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
@@ -75,31 +78,31 @@ class Curlew(Gtk.Window):
         vbox.pack_start(toolbar, False, True, 0)
         
         
-        self.tb_add = self.create_tool_btn('add.png', _('Add files'), self.tb_add_clicked)
+        self.tb_add = create_tool_btn('add.png', _('Add files'), self.tb_add_clicked)
         toolbar.insert(self.tb_add, -1)
         
-        self.tb_remove = self.create_tool_btn('remove.png', _('Remove selected file'), self.tb_remove_clicked)
+        self.tb_remove = create_tool_btn('remove.png', _('Remove selected file'), self.tb_remove_clicked)
         toolbar.insert(self.tb_remove, -1)
         
-        self.tb_clear = self.create_tool_btn('clear.png', _('Clear files list'), self.tb_clear_clicked)
+        self.tb_clear = create_tool_btn('clear.png', _('Clear files list'), self.tb_clear_clicked)
         toolbar.insert(self.tb_clear, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_convert = self.create_tool_btn('convert.png', _('Start Conversion'), self.convert_cb)
+        self.tb_convert = create_tool_btn('convert.png', _('Start Conversion'), self.convert_cb)
         toolbar.insert(self.tb_convert, -1)
         
-        self.tb_stop = self.create_tool_btn('stop.png', _('Stop Conversion'), self.tb_stop_clicked)
+        self.tb_stop = create_tool_btn('stop.png', _('Stop Conversion'), self.tb_stop_clicked)
         toolbar.insert(self.tb_stop, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_about = self.create_tool_btn('about.png', _('About ') + APP_NAME, self.tb_about_clicked)
+        self.tb_about = create_tool_btn('about.png', _('About ') + APP_NAME, self.tb_about_clicked)
         toolbar.insert(self.tb_about, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_quit = self.create_tool_btn('close.png', _('Quit application'), self.quit_cb)
+        self.tb_quit = create_tool_btn('close.png', _('Quit application'), self.quit_cb)
         toolbar.insert(self.tb_quit, -1)
         
         #--- List of files
@@ -190,13 +193,14 @@ class Curlew(Gtk.Window):
         self.e_dest = Gtk.Entry()
         self.e_dest.set_text(HOME)
         self.b_dest = Gtk.Button(' ... ')
-        self.check_same = Gtk.CheckButton(_('Source Path'))
-        self.check_same.connect('toggled', self.check_same_cb)
+        self.b_dest.set_size_request(30, -1)
+        self.check_same_dest = Gtk.CheckButton(_('Source Path'))
+        self.check_same_dest.connect('toggled', self.check_same_dest_cb)
         self.b_dest.connect('clicked', self.on_dest_clicked)     
         hl = LabeledHBox(_('<b>Destination:</b>'), vbox)
         hl.pack_start(self.e_dest, True, True, 0)
         hl.pack_start(self.b_dest, False, True, 0)
-        hl.pack_start(self.check_same, False, True, 0)
+        hl.pack_start(self.check_same_dest, False, True, 0)
         
         #--- quality (low, medium, high)
         self.cb_quality = Gtk.ComboBoxText()
@@ -213,13 +217,13 @@ class Curlew(Gtk.Window):
         hl.pack_start(self.check_same_quality, False, False, 0)
         
         #--- advanced options
-        exp_advanced = Gtk.Expander(label=_("<b>Advanced</b>"))
-        exp_advanced.set_use_markup(True)
-        exp_advanced.set_resize_toplevel(True)
-        vbox.pack_start(exp_advanced, False, True, 0)
+        self.exp_advanced = Gtk.Expander(label=_("<b>Advanced</b>"))
+        self.exp_advanced.set_use_markup(True)
+        self.exp_advanced.set_resize_toplevel(True)
+        vbox.pack_start(self.exp_advanced, False, True, 0)
         
         note = Gtk.Notebook()
-        exp_advanced.add(note)
+        self.exp_advanced.add(note)
         
         #--- audio page
         self.vb_audio = Gtk.VBox()
@@ -271,6 +275,7 @@ class Curlew(Gtk.Window):
         self.hb_sub.set_sensitive(False)
         
         b_enc = Gtk.Button(' ... ')
+        b_enc.set_size_request(30, -1)
         self.hb_sub.pack_start(b_enc, False, False, 0)
         b_enc.connect('clicked', self.b_enc_cb)
         
@@ -371,6 +376,8 @@ class Curlew(Gtk.Window):
         self.connect('destroy', Gtk.main_quit)
         self.connect('delete-event', self.on_delete)
     
+        #--- Load saved options.
+        self.load_options()
     
     def toggled_cb(self, widget, Path):
         self.store[Path][0] = not self.store[Path][0]
@@ -405,6 +412,8 @@ class Curlew(Gtk.Window):
                     pass
                 Gtk.main_quit()
             return
+        
+        self.save_options()
         Gtk.main_quit()
     
     #--- Add files
@@ -468,6 +477,7 @@ class Curlew(Gtk.Window):
         self.tl_duration.set_sensitive(is_checked)
         
     def on_cb_formats_changed(self, widget):
+        self.cb_quality.set_active(1) # return to Normal Quality
         self.fill_options()
         self.set_sensitives()
     
@@ -496,9 +506,9 @@ class Curlew(Gtk.Window):
         self.hb_aqual.set_sensitive(sens[4])   # Audio quality slider (ogg)
         self.hb_vqual.set_sensitive(sens[5])   # video Quality slider (ogv)
         
+        self.check_same_quality.set_active(False)
         is_true = not(self.f_file.get(section, 'encoder') == 'm' or media_type == 'fixed')
         self.check_same_quality.set_sensitive(is_true)
-        self.check_same_quality.set_active(False)
     
     
     #--- fill options widgets
@@ -774,7 +784,7 @@ class Curlew(Gtk.Window):
             part = splitext(basename(input_file))[0] + '.' + ext
             
             # Same destination as source file
-            if self.check_same.get_active():
+            if self.check_same_dest.get_active():
                 output_file = join(os.path.dirname(input_file), part)
             # Use entry destination path
             else:
@@ -850,9 +860,14 @@ class Curlew(Gtk.Window):
                                 Gtk.MessageType.QUESTION,
                                 Gtk.ButtonsType.YES_NO)
             if resp == Gtk.ResponseType.YES and self.is_converting == True:
-                self.fp.kill()
-                self.fp.terminate()
-                self.is_converting = False
+                try:
+                    self.fp.kill()
+                    self.fp.terminate()
+                except OSError as err:
+                    print(err) 
+                finally:
+                    self.is_converting = False
+                    
     
     def get_duration(self, input_file):
         ''' Get duration file in seconds (float)'''
@@ -870,15 +885,17 @@ class Curlew(Gtk.Window):
     
     #---- Quality callback
     def on_cb_quality_changed(self, widget):
+        quality_index = self.cb_quality.get_active()
         section = self.cb_formats.get_active_text()
+        self.set_sensitives()
         
         if self.f_file.has_option(section, 'aqual'):
             aqual = self.f_file.get(section, 'aqual').split()
-            self.c_abitrate.set_text(aqual[self.cb_quality.get_active()])
+            self.c_abitrate.set_text(aqual[quality_index])
         
         if self.f_file.has_option(section, 'vqual'):
             vqual = self.f_file.get(section, 'vqual').split()
-            self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
+            self.c_vbitrate.set_text(vqual[quality_index])
     
     #---- Select subtitle
     def b_enc_cb(self, widget):
@@ -926,7 +943,7 @@ class Curlew(Gtk.Window):
         call(['xdg-open', self.store[Iter][1]])
         
     def on_browse_cb(self, widget):
-        if self.check_same.get_active():
+        if self.check_same_dest.get_active():
             Iter = self.get_selected_iters()[0]
             call(['xdg-open', dirname(self.store[Iter][1])])
         else:
@@ -1145,7 +1162,7 @@ class Curlew(Gtk.Window):
                 # Save directory from dragged filename.
                 self.curr_open_folder = dirname(File)
     
-    def check_same_cb(self, widget):
+    def check_same_dest_cb(self, widget):
         Active = not widget.get_active()
         self.e_dest.set_sensitive(Active)
         self.b_dest.set_sensitive(Active)
@@ -1168,6 +1185,51 @@ class Curlew(Gtk.Window):
             return reg_aspect.findall(out_str)[0]
         except:
             return '4:3'
+    
+    def save_options(self):
+        conf = ConfigParser()
+        conf.add_section('configs')
+        
+        conf.set('configs', 'curr_open_folder', self.curr_open_folder)
+        conf.set('configs', 'curr_save_folder', self.curr_save_folder)
+        conf.set('configs', 'e_dest_text', self.e_dest.get_text())
+        conf.set('configs', 'cb_format_ind', self.cb_formats.get_active())
+        conf.set('configs', 'check_same_dest_active', self.check_same_dest.get_active())
+        conf.set('configs', 'check_same_qual_active', self.check_same_quality.get_active())
+        conf.set('configs', 'size', self.get_size())
+        
+        files_list = []
+        for i in range(len(self.store)):
+            files_list.append(self.store[i][:])
+        conf.set('configs', 'files_list', files_list)
+        
+        with open(self.opt_file, 'w') as configfile:
+            conf.write(configfile)
+        
+        
+    
+    def load_options(self):
+        conf = ConfigParser()
+        conf.read(self.opt_file)
+        
+        try:    self.curr_open_folder = conf.get('configs', 'curr_open_folder')
+        except: self.curr_open_folder = HOME
+        try:    self.curr_save_folder = conf.get('configs', 'curr_save_folder')
+        except: self.curr_save_folder = HOME
+        try:
+            self.e_dest.set_text(conf.get('configs', 'e_dest_text'))
+            self.cb_formats.set_active(conf.getint('configs', 'cb_format_ind'))
+            self.check_same_dest.set_active(conf.getboolean('configs', 'check_same_dest_active'))
+            self.check_same_quality.set_active(conf.getboolean('configs', 'check_same_qual_active'))
+            self.resize(eval(conf.get('configs', 'size'))[0], eval(conf.get('configs', 'size'))[1])
+            files_list = eval(conf.get('configs', 'files_list'))
+            for r in files_list:
+                self.store.append(r)
+        except NoOptionError as err:
+            print(err)
+        except NoSectionError as err:
+            print(err)
+
 
 def main():
     w = Curlew()
