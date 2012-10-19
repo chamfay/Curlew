@@ -7,10 +7,8 @@
 # License: Waqf license, see: http://www.ojuba.org/wiki/doku.php/waqf/license
 #===============================================================================
 
-# TODO: Add more presets formats.
 # TODO: Add conversion/error log file.
 # TODO: Encoding with 2 passes.
-# TODO: Complete option (other parameters).
 
 try:
     import sys 
@@ -217,7 +215,7 @@ class Curlew(Gtk.Window):
         #--- Output formats
         self.cb_formats = Gtk.ComboBoxText()
         self.cb_formats.set_entry_text_column(0)
-        self.cb_formats.set_wrap_width(3)
+        #self.cb_formats.set_wrap_width(3)
         self.cb_formats.connect('changed', self.on_cb_formats_changed)
         hl = LabeledHBox(_("<b>Format:</b>"), vbox)
         hl.pack_start(self.cb_formats, True, True, 0)
@@ -1288,8 +1286,7 @@ class Curlew(Gtk.Window):
 
 
 def main():
-    w = Curlew()
-    #w.show_all()
+    Curlew()
     Gtk.main()
 
 if __name__ == '__main__':
