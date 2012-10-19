@@ -8,19 +8,26 @@
 #===============================================================================
 
 # TODO: Add more presets formats.
-# TODO: Add functions to save/load options
+# TODO: Add conversion/error log file.
+# TODO: Encoding with 2 passes.
+# TODO: Complete option (other parameters).
 
 try:
-    import sys, os, re, time
-    import i18n
-    from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, CustomHScale
-    from about import APP_NAME, APP_VERSION, About
-    from functions import show_message, show_notification, extract_font_name, get_format_size
+    import sys 
+    import os
+    import re
+    import time
     from subprocess import Popen, PIPE, call
     from os.path import basename, isdir, splitext, join, dirname, realpath
-    from gi.repository import Gtk, GLib, Gdk
     from ConfigParser import ConfigParser, NoOptionError, NoSectionError
     from urllib import unquote
+    from gi.repository import Gtk, GLib, Gdk
+    
+    from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, CustomHScale
+    from about import APP_NAME, APP_VERSION, About
+    from functions import * 
+    import i18n
+    
 except Exception as detail:
     print(detail)
     sys.exit(1)
@@ -33,11 +40,23 @@ HOME = os.getenv("HOME")
 def create_tool_btn(icon_name, tooltip, callback):
     ''' Build custom toolbutton '''
     toolbtn = Gtk.ToolButton()
-    widget  = Gtk.Image.new_from_file(join(APP_DIR, 'data', icon_name))
+    widget = Gtk.Image.new_from_file(join(APP_DIR, 'data', icon_name))
     toolbtn.set_icon_widget(widget)
-    toolbtn.set_tooltip_text(tooltip)
+    toolbtn.set_tooltip_markup(_('{}').format(tooltip))
     toolbtn.connect('clicked', callback)
     return toolbtn
+
+def get_aspect_ratio(input_file):
+    ''' extract adpect ratio from file if exist, otherwise use 4:3 
+    (fix a problem) '''
+    cmd = 'avconv -i {}'.format(input_file)
+    Proc = Popen(cmd, stdout=PIPE, stderr=PIPE, shell=True)
+    out_str = Proc.stderr.read()
+    try:
+        reg_aspect = re.compile('''DAR\s+(\d*:\d*)''')
+        return reg_aspect.findall(out_str)[0]
+    except:
+        return '4:3'
 
 #--- Main class        
 class Curlew(Gtk.Window):
@@ -52,13 +71,13 @@ class Curlew(Gtk.Window):
         self.Iter = None
         self.output_details = ''
         self.total_duration = 0.0
-        self.output_file = None
-        self.opt_file = join(HOME, '.curlew.cfg')
+        self.out_file = None
+        self.opts_file = join(HOME, '.curlew.cfg')
         
         #--- Regex
         self.reg_avconv_u = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
         self.reg_avconv_f = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
-        self.reg_mencoder = re.compile('''.(\d+\.*\d*)s.*(.\d+)%.*\s+(\d+)mb''')
+        self.reg_menc = re.compile('''.(\d+\.*\d*)s.*(.\d+)%.*\s+(\d+)mb''')
         self.reg_duration = re.compile('''Duration:.*(\d+:\d+:\d+\.\d+)''')
                
         Gtk.Window.__init__(self)        
@@ -78,39 +97,53 @@ class Curlew(Gtk.Window):
         vbox.pack_start(toolbar, False, True, 0)
         
         
-        self.tb_add = create_tool_btn('add.png', _('Add files'), self.tb_add_clicked)
+        self.tb_add = create_tool_btn('add.png',
+                                      'Add files',
+                                      self.tb_add_clicked)
         toolbar.insert(self.tb_add, -1)
         
-        self.tb_remove = create_tool_btn('remove.png', _('Remove selected file'), self.tb_remove_clicked)
+        self.tb_remove = create_tool_btn('remove.png',
+                                         'Remove selected file',
+                                         self.tb_remove_clicked)
         toolbar.insert(self.tb_remove, -1)
         
-        self.tb_clear = create_tool_btn('clear.png', _('Clear files list'), self.tb_clear_clicked)
+        self.tb_clear = create_tool_btn('clear.png',
+                                        'Clear files list',
+                                        self.tb_clear_clicked)
         toolbar.insert(self.tb_clear, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_convert = create_tool_btn('convert.png', _('Start Conversion'), self.convert_cb)
+        self.tb_convert = create_tool_btn('convert.png',
+                                          'Start Conversion',
+                                          self.convert_cb)
         toolbar.insert(self.tb_convert, -1)
         
-        self.tb_stop = create_tool_btn('stop.png', _('Stop Conversion'), self.tb_stop_clicked)
+        self.tb_stop = create_tool_btn('stop.png',
+                                       'Stop Conversion',
+                                       self.tb_stop_clicked)
         toolbar.insert(self.tb_stop, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_about = create_tool_btn('about.png', _('About ') + APP_NAME, self.tb_about_clicked)
+        self.tb_about = create_tool_btn('about.png',
+                                        'About ' + APP_NAME,
+                                        self.tb_about_clicked)
         toolbar.insert(self.tb_about, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_quit = create_tool_btn('close.png', _('Quit application'), self.quit_cb)
+        self.tb_quit = create_tool_btn('close.png',
+                                       'Quit application',
+                                       self.quit_cb)
         toolbar.insert(self.tb_quit, -1)
         
         #--- List of files
-        self.store = Gtk.ListStore(bool,    # active 
-                                   str,     # file_name
-                                   str,     # file_size
-                                   str,     # time remaining
-                                   float,   # progress
+        self.store = Gtk.ListStore(bool, # active 
+                                   str, # file_name
+                                   str, # file_size
+                                   str, # time remaining
+                                   float, # progress
                                    str)     # status (progress txt)         
         self.tree = Gtk.TreeView(self.store)
         self.tree.set_has_tooltip(True)
@@ -128,9 +161,9 @@ class Curlew(Gtk.Window):
         scroll.add(self.tree)
         vbox.pack_start(scroll, True, True, 0)
         
-        #--- Active cell
+        #--- CheckButton cell
         cell = Gtk.CellRendererToggle()
-        cell.connect('toggled', self.toggled_cb)
+        cell.connect('toggled', self.on_toggled_cb)
         col = Gtk.TreeViewColumn(None, cell, active=0)
         self.tree.append_column(col)
         
@@ -189,32 +222,33 @@ class Curlew(Gtk.Window):
         hl = LabeledHBox(_("<b>Format:</b>"), vbox)
         hl.pack_start(self.cb_formats, True, True, 0)
         
-        #--- destination
+        #--- Destination
         self.e_dest = Gtk.Entry()
         self.e_dest.set_text(HOME)
         self.b_dest = Gtk.Button(' ... ')
         self.b_dest.set_size_request(30, -1)
-        self.check_same_dest = Gtk.CheckButton(_('Source Path'))
-        self.check_same_dest.connect('toggled', self.check_same_dest_cb)
+        self.cb_same_dest = Gtk.CheckButton(_('Source Path'))
+        self.cb_same_dest.connect('toggled', self.cb_same_dest_cb)
         self.b_dest.connect('clicked', self.on_dest_clicked)     
         hl = LabeledHBox(_('<b>Destination:</b>'), vbox)
         hl.pack_start(self.e_dest, True, True, 0)
         hl.pack_start(self.b_dest, False, True, 0)
-        hl.pack_start(self.check_same_dest, False, True, 0)
+        hl.pack_start(self.cb_same_dest, False, True, 0)
         
-        #--- quality (low, medium, high)
+        #--- Quality (low, medium, high)
         self.cb_quality = Gtk.ComboBoxText()
-        map(self.cb_quality.append_text, [_("Low Quality"), _("Normal Quality"), _("High Quality")])
+        map(self.cb_quality.append_text,
+            [_("Low Quality"), _("Normal Quality"), _("High Quality")])
         self.cb_quality.set_active(1)
         self.cb_quality.connect('changed', self.on_cb_quality_changed)
         hl = LabeledHBox(_('<b>Quality:</b>'), vbox)
         hl.pack_start(self.cb_quality, True, True, 0)
         
         #-- Use same quality as source file
-        self.check_same_quality = Gtk.CheckButton(_('Source Quality'))
-        self.check_same_quality.set_tooltip_text(_('Use the same quality as source file'))
-        self.check_same_quality.connect('toggled', self.on_check_same_quality_toggled)
-        hl.pack_start(self.check_same_quality, False, False, 0)
+        self.cb_same_qual = Gtk.CheckButton(_('Source Quality'))
+        self.cb_same_qual.set_tooltip_text(_('Use the same quality as source file'))
+        self.cb_same_qual.connect('toggled', self.on_cb_same_qual_toggled)
+        hl.pack_start(self.cb_same_qual, False, False, 0)
         
         #--- advanced options
         self.exp_advanced = Gtk.Expander(label=_("<b>Advanced</b>"))
@@ -264,9 +298,9 @@ class Curlew(Gtk.Window):
         note.append_page(self.vb_sub, Gtk.Label(_("Subtitle")))
         
         #--- Sub Active/Desactive
-        self.check_sub = Gtk.CheckButton(_('Use subtitle'))
-        self.check_sub.connect('toggled', self.check_sub_toggled)
-        self.vb_sub.pack_start(self.check_sub, False, False, 0)
+        self.cb_sub = Gtk.CheckButton(_('Use subtitle'))
+        self.cb_sub.connect('toggled', self.cb_sub_toggled)
+        self.vb_sub.pack_start(self.cb_sub, False, False, 0)
         
         #--- Subtitle filename
         self.hb_sub = LabeledHBox(_('Subtitle: '), self.vb_sub, 9)
@@ -311,12 +345,13 @@ class Curlew(Gtk.Window):
         self.vb_sub.pack_start(hbox, False, False, 0)
         
         #--- Subtitle Encoding
-        enc = ['cp1250', 'cp1252', 'cp1253', 'cp1254', 'cp1255', 'cp1256', 'cp1257', 'cp1258',
+        enc = ['cp1250', 'cp1252', 'cp1253', 'cp1254',
+               'cp1255', 'cp1256', 'cp1257', 'cp1258',
                'iso-8859-1', 'iso-8859-2', 'iso-8859-3', 'iso-8859-4',
                'iso-8859-5', 'iso-8859-6', 'iso-8859-7', 'iso-8859-8',
                'iso-8859-9', 'iso-8859-10', 'iso-8859-11', 'iso-8859-12',
-               'iso-8859-13', 'iso-8859-14', 'iso-8859-15', 'utf-7', 'utf-8',
-               'utf-16', 'utf-32', 'ASCII']
+               'iso-8859-13', 'iso-8859-14', 'iso-8859-15',
+               'utf-7', 'utf-8', 'utf-16', 'utf-32', 'ASCII']
         self.hb_enc = LabeledHBox(_('Encoding: '), self.vb_sub, 9)
         self.combo_enc = Gtk.ComboBoxText()
         self.combo_enc.set_entry_text_column(0)
@@ -327,19 +362,23 @@ class Curlew(Gtk.Window):
         self.hb_enc.set_sensitive(False)
         
         #--- Other page (split,...)
-        self.vb_comm = Gtk.VBox()
-        self.vb_comm.set_border_width(6)
-        self.vb_comm.set_spacing(6)
-        note.append_page(self.vb_comm, Gtk.Label(_("Other")))
+        self.vb_other = Gtk.VBox()
+        self.vb_other.set_border_width(6)
+        self.vb_other.set_spacing(8)
+        note.append_page(self.vb_other, Gtk.Label(_("Other")))
         
         #--- Split file section
-        self.check_split = Gtk.CheckButton(label=_('Split File'), active=False)
-        self.check_split.connect('toggled', self.check_split_cb)
-        self.vb_comm.pack_start(self.check_split, False, False, 0)
-        self.tl_begin = TimeLayout(self.vb_comm, _('Begin time: '))
-        self.tl_duration = TimeLayout(self.vb_comm, _('Duration: '))
+        self.cb_split = Gtk.CheckButton(label=_('Split File'), active=False)
+        self.cb_split.connect('toggled', self.cb_split_cb)
+        self.vb_other.pack_start(self.cb_split, False, False, 0)
+        self.tl_begin = TimeLayout(self.vb_other, _('Begin time: '))
+        self.tl_duration = TimeLayout(self.vb_other, _('Duration: '))
         self.tl_begin.set_sensitive(False)
         self.tl_duration.set_sensitive(False)
+        
+        #otheropts = LabeledHBox(_('Other parameters:'), self.vb_other, 0)
+        #self.e_others = Gtk.Entry()
+        #otheropts.add(self.e_others)
         
         
         #--- Output details
@@ -358,14 +397,23 @@ class Curlew(Gtk.Window):
         exp_details.add(scroll)
         
         
-        #---------------------Initialization
+        
+        #--- Show interface
+        '''
+        Show interface before load cb_formats combobox.
+        '''
+        self.show_all()
+        
         #--- Load formats from format.cfg file
         self.f_file = ConfigParser()
         self.f_file.read(join(APP_DIR, 'formats.cfg'))
         map(self.cb_formats.append_text, self.f_file.sections())
         self.cb_formats.set_active(0)
         
-        #--- drag and drop
+        #--- Load saved options.
+        self.load_options()
+        
+        #--- Drag and Drop
         targets = Gtk.TargetList.new([])
         targets.add_uri_targets((1 << 5) - 1)
         self.drag_dest_set(Gtk.DestDefaults.ALL, [], Gdk.DragAction.COPY)
@@ -376,14 +424,12 @@ class Curlew(Gtk.Window):
         self.connect('destroy', Gtk.main_quit)
         self.connect('delete-event', self.on_delete)
     
-        #--- Load saved options.
-        self.load_options()
     
-    def toggled_cb(self, widget, Path):
+    def on_toggled_cb(self, widget, Path):
         self.store[Path][0] = not self.store[Path][0]
     
     
-    def on_check_same_quality_toggled(self, widget):
+    def on_cb_same_qual_toggled(self, widget):
         active = widget.get_active()
         self.cb_quality.set_sensitive(not active)
         if active:
@@ -400,14 +446,14 @@ class Curlew(Gtk.Window):
     def quit_cb(self, widget):
         if self.is_converting:
             ''' Press quit btn during conversion process '''
-            resp = show_message(self, _('Do you want to quit Curlew and Abort conversion process?'),
+            resp = show_message(self, _('Do you want to quit Curlew and abort conversion process?'),
                                 Gtk.MessageType.QUESTION,
                                 Gtk.ButtonsType.YES_NO)
             if resp == Gtk.ResponseType.YES:
                 try:
                     self.fp.kill()
                     self.fp.terminate()
-                    self.force_delete_file(self.output_file)
+                    self.force_delete_file(self.out_file)
                 except: 
                     pass
                 Gtk.main_quit()
@@ -418,13 +464,14 @@ class Curlew(Gtk.Window):
     
     #--- Add files
     def tb_add_clicked(self, widget):
-        open_dlg = Gtk.FileChooserDialog(_("Add file"), self, Gtk.FileChooserAction.OPEN,
+        open_dlg = Gtk.FileChooserDialog(_("Add file"),
+                                         self, Gtk.FileChooserAction.OPEN,
                                         (Gtk.STOCK_OK, Gtk.ResponseType.OK,
                                          Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL))
         open_dlg.set_current_folder(self.curr_open_folder)
         open_dlg.set_select_multiple(True)
         
-        #----Filter
+        #--- File filters
         Filter = Gtk.FileFilter()
         Filter.set_name(_("All supported files"))
         Filter.add_mime_type("video/*")
@@ -452,7 +499,8 @@ class Curlew(Gtk.Window):
         res = open_dlg.run()
         if res == Gtk.ResponseType.OK:
             for file_name in open_dlg.get_filenames():
-                self.store.append([True, file_name, None, None, 0.0, _('Ready!')])
+                self.store.append([True, file_name, None, None, 0.0,
+                                   _('Ready!')])
                 
             #--- Saved current folder
             self.curr_open_folder = open_dlg.get_current_folder()                
@@ -471,7 +519,7 @@ class Curlew(Gtk.Window):
         self.curr_save_folder = save_dlg.get_current_folder()
         save_dlg.destroy()
     
-    def check_split_cb(self, widget):
+    def cb_split_cb(self, widget):
         is_checked = widget.get_active()
         self.tl_begin.set_sensitive(is_checked)
         self.tl_duration.set_sensitive(is_checked)
@@ -498,6 +546,8 @@ class Curlew(Gtk.Window):
             sens = [True, False, False, False, True, False]
         elif media_type == 'ogv':
             sens = [True, True, False, False, True, True]
+        elif media_type == 'presets':
+            sens = [False, False, False, False, False, False]
 
         self.vb_audio.set_sensitive(sens[0])   # Audio page
         self.vb_video.set_sensitive(sens[1])   # Video page
@@ -506,15 +556,20 @@ class Curlew(Gtk.Window):
         self.hb_aqual.set_sensitive(sens[4])   # Audio quality slider (ogg)
         self.hb_vqual.set_sensitive(sens[5])   # video Quality slider (ogv)
         
-        self.check_same_quality.set_active(False)
-        is_true = not(self.f_file.get(section, 'encoder') == 'm' or media_type == 'fixed')
-        self.check_same_quality.set_sensitive(is_true)
+        self.cb_same_qual.set_active(False)
+        is_true = not(self.f_file.get(section, 'encoder') == 'm' or media_type in ['fixed', 'presets'])
+        self.cb_same_qual.set_sensitive(is_true)
     
     
     #--- fill options widgets
     def fill_options(self):
         section = self.cb_formats.get_active_text()
         
+        # For presets
+        if self.f_file.has_option(section, 'cmd'):
+            self.presets_cmd = self.f_file.get(section, 'cmd').split()
+            return
+            
         if self.f_file.has_option(section, 'abitrate'):
             li = self.f_file.get(section, 'abitrate').split()
             self.c_abitrate.set_list(li)
@@ -561,7 +616,9 @@ class Curlew(Gtk.Window):
             
         
     
-    def build_avconv_cmd(self, input_file, output_file, start_pos=-1, part_dura=-1):
+    def build_avconv_cmd(self,
+                         input_file, out_file,
+                         start_pos= -1, part_dura= -1):
         '''
         start_pos <=> -ss, part_dura <=> -t
         '''
@@ -576,7 +633,7 @@ class Curlew(Gtk.Window):
             cmd.append('-vn')
         
         # Use the same quality
-        if self.check_same_quality.get_active():
+        if self.cb_same_qual.get_active():
             cmd.append('-same_quant')
         else:
         
@@ -599,7 +656,7 @@ class Curlew(Gtk.Window):
             if media_type == 'video':
                 # Video bitrate
                 if self.c_vbitrate.get_text() != 'default':
-                    cmd.extend(['-bt', self.c_vbitrate.get_text()]) # changed -b tp -bt
+                    cmd.extend(['-bt', self.c_vbitrate.get_text()])
                 # Video FPS
                 if self.c_vfps.get_text() != 'default':
                     cmd.extend(['-r', self.c_vfps.get_text()])
@@ -613,12 +670,10 @@ class Curlew(Gtk.Window):
                 if self.c_vratio.get_text() == 'default':
                     #-- force aspect ratio
                     if self.c_vcodec.get_text() in ['libxvid', 'mpeg4', 'h263']:
-                        cmd.extend(['-aspect', self.get_aspect_ratio(input_file)])
+                        cmd.extend(['-aspect', get_aspect_ratio(input_file)])
                 else:
                     cmd.extend(['-aspect', self.c_vratio.get_text()])
     
-            
-            
             # Ogg format
             if media_type in ['ogg', 'ogv']:
                 cmd.extend(['-aq', str(self.a_scale.get_value())])
@@ -637,40 +692,45 @@ class Curlew(Gtk.Window):
         if media_type == 'fixed':
             target = self.f_file.get(section, 'target')
             cmd.extend(['-target', target])
+        
+        # Presets formats
+        elif media_type == 'presets':
+            cmd.extend(self.presets_cmd)
             
         # Force format
-        ff = self.f_file.get(section, 'ff') 
-        cmd.extend(['-f', ff])
+        if self.f_file.has_option(section, 'ff'):
+            cmd.extend(['-f', self.f_file.get(section, 'ff')])
         
         # Split file
-        if start_pos!=-1 and part_dura!=-1:
+        if start_pos != -1 and part_dura != -1:
             cmd.extend(['-ss', start_pos])
-            cmd.extend(['-t',  part_dura])
+            cmd.extend(['-t', part_dura])
             
         #--- Last
-        cmd.append(output_file)
-        #print(' '.join(cmd)) # print command line
+        cmd.append(out_file)
+        print(' '.join(cmd)) # print command line
         return cmd
     
     
     #--- MEncoder cmd
-    def build_mencoder_cmd(self, input_file, output_file):
+    def build_mencoder_cmd(self, input_file, out_file):
         section = self.cb_formats.get_active_text()
         
         cmd = ['mencoder']
         
         #--- input and output files
         cmd.append(input_file)
-        cmd.extend(['-o', output_file])
+        cmd.extend(['-o', out_file])
         cmd.append('-noskip')
         
         #--- Sub font
-        if self.check_sub.get_active():
+        if self.cb_sub.get_active():
             cmd.extend(['-sub', self.entry_sub.get_text()]) # subtitle file
             cmd.append('-fontconfig') # configure font
             font_name = extract_font_name(self.b_font.get_font_name())
             cmd.extend(['-subfont', font_name])
-            cmd.extend(['-subfont-text-scale', str(self.spin_size.get_value_as_int())])
+            cmd.extend(['-subfont-text-scale',
+                        str(self.spin_size.get_value_as_int())])
             cmd.extend(['-subpos', str(self.spin_pos.get_value_as_int())])
             cmd.extend(['-subcp', self.combo_enc.get_active_text()])
             # RTL language (Arabic)
@@ -727,7 +787,7 @@ class Curlew(Gtk.Window):
                 cmd.extend(self.f_file.get(section, 'opts').split())
         
         #--- split file (encode part of file)
-        if self.check_split.get_active():
+        if self.cb_split.get_active():
             # begin time
             cmd.extend(['-ss', self.tl_begin.get_time_str()])
             # duration
@@ -744,6 +804,9 @@ class Curlew(Gtk.Window):
     #--- Convert funtcion
     def convert_cb(self, widget):
         if len(self.store) == 0 or self.is_converting:
+            return
+        
+        if self.f_file.get(self.cb_formats.get_active_text(), 'encoder') == 'None':
             return
         
         # Return if invalid path or inaccessible
@@ -766,7 +829,8 @@ class Curlew(Gtk.Window):
 
     def convert_file(self):
         ext = self.f_file.get(self.cb_formats.get_active_text(), 'ext')
-        encoder_type = self.f_file.get(self.cb_formats.get_active_text(), 'encoder')
+        encoder_type = self.f_file.get(self.cb_formats.get_active_text(),
+                                       'encoder')
         
         #--- Check
         if self.Iter != None:
@@ -784,28 +848,29 @@ class Curlew(Gtk.Window):
             part = splitext(basename(input_file))[0] + '.' + ext
             
             # Same destination as source file
-            if self.check_same_dest.get_active():
-                output_file = join(os.path.dirname(input_file), part)
+            if self.cb_same_dest.get_active():
+                out_file = join(os.path.dirname(input_file), part)
             # Use entry destination path
             else:
-                output_file = join(self.e_dest.get_text(), part)
+                out_file = join(self.e_dest.get_text(), part)
             
             #--- Rename output file if has the same name as input file
-            if input_file == output_file:
-                output_file = output_file[:-4] + '-00.' + ext
+            if input_file == out_file:
+                out_file = out_file[:-4] + '-00.' + ext
                 
-            self.output_file = output_file
+            self.out_file = out_file
             
             #--- If output file already exist
-            if os.path.exists(output_file):
-                res = show_message(self, 
-                                   _("File: <b>{}</b> already exist.\nOverwrite it?".format(output_file)),
-                                   Gtk.MessageType.WARNING, Gtk.ButtonsType.YES_NO)
+            if os.path.exists(out_file):
+                res = show_message(self,
+                                   _("File: <b>{}</b> already exist.\nOverwrite it?".format(out_file)),
+                                   Gtk.MessageType.WARNING,
+                                   Gtk.ButtonsType.YES_NO)
                 
                 # Overwrite this file
                 if res == Gtk.ResponseType.YES:
                     # delete existed file first
-                    self.force_delete_file(output_file)
+                    self.force_delete_file(out_file)
                 #--- Skipped this file
                 else:
                     self.store[self.Iter][5] = _('Skipped!')
@@ -816,21 +881,21 @@ class Curlew(Gtk.Window):
         
             #--- which encoder use (avconv of mencoder)
             if encoder_type == 'f':
-                if self.check_split.get_active():
-                    full_cmd = self.build_avconv_cmd(input_file, output_file,
+                if self.cb_split.get_active():
+                    full_cmd = self.build_avconv_cmd(input_file, out_file,
                                                  self.tl_begin.get_time_str(),
                                                  self.tl_duration.get_time_str())
                 else:
-                    full_cmd = self.build_avconv_cmd(input_file, output_file)
+                    full_cmd = self.build_avconv_cmd(input_file, out_file)
                     
             elif encoder_type == 'm':
-                full_cmd = self.build_mencoder_cmd(input_file, output_file)
+                full_cmd = self.build_mencoder_cmd(input_file, out_file)
             
             #--- Total file duration
             self.total_duration = self.get_duration(input_file)
             
             #---  To be converted duration
-            if self.check_split.get_active():
+            if self.cb_split.get_active():
                 self.total_duration = self.tl_duration.get_duration()
             
             # Stored start time
@@ -844,11 +909,11 @@ class Curlew(Gtk.Window):
                             bufsize= -1)
             #--- Watch stdout and stderr
             GLib.io_add_watch(self.fp.stdout, GLib.IO_IN | GLib.IO_HUP,
-                              self.on_output, encoder_type, output_file)
+                              self.on_output, encoder_type, out_file)
             GLib.io_add_watch(self.fp.stderr, GLib.IO_IN | GLib.IO_HUP,
-                              self.on_output, encoder_type, output_file)
+                              self.on_output, encoder_type, out_file)
             #--- On end process
-            GLib.child_watch_add(self.fp.pid, self.on_end, output_file)
+            GLib.child_watch_add(self.fp.pid, self.on_end, out_file)
         
         else:
             self.is_converting = False
@@ -856,7 +921,8 @@ class Curlew(Gtk.Window):
     #--- Stop conversion cb
     def tb_stop_clicked(self, widget):
         if self.is_converting == True:
-            resp = show_message(self, _('Do you want to stop conversion process?'),
+            resp = show_message(self,
+                                _('Do you want to stop conversion process?'),
                                 Gtk.MessageType.QUESTION,
                                 Gtk.ButtonsType.YES_NO)
             if resp == Gtk.ResponseType.YES and self.is_converting == True:
@@ -879,7 +945,8 @@ class Curlew(Gtk.Window):
             time_list = self.reg_duration.findall(out_str)[0].split(':')
         except:
             return duration
-        duration = int(time_list[0]) * 3600 + int(time_list[1]) * 60 + float(time_list[2])
+        duration = int(time_list[0]) * 3600 + int(time_list[1]) * 60 + \
+        float(time_list[2])
         return duration
     
     
@@ -943,7 +1010,7 @@ class Curlew(Gtk.Window):
         call(['xdg-open', self.store[Iter][1]])
         
     def on_browse_cb(self, widget):
-        if self.check_same_dest.get_active():
+        if self.cb_same_dest.get_active():
             Iter = self.get_selected_iters()[0]
             call(['xdg-open', dirname(self.store[Iter][1])])
         else:
@@ -952,17 +1019,19 @@ class Curlew(Gtk.Window):
         
     
     def on_preview_cb(self, widget):
-        encoder_type = self.f_file.get(self.cb_formats.get_active_text(), 'encoder')
+        encoder_type = self.f_file.get(self.cb_formats.get_active_text(),
+                                       'encoder')
         Iter = self.get_selected_iters()[0]
         input_file = self.store[Iter][1]
-        output_file = '/tmp/Preview'
+        out_file = '/tmp/Preview'
         duration = self.get_duration(input_file)
-        preview_begin = str(duration/10)
+        preview_begin = str(duration / 10)
         #
         if encoder_type == 'f':
-            cmd = (self.build_avconv_cmd(input_file, output_file, preview_begin, '10'))
+            cmd = (self.build_avconv_cmd(input_file, out_file,
+                                         preview_begin, '10'))
         elif encoder_type == 'm':
-            cmd = self.build_mencoder_cmd(input_file, output_file)
+            cmd = self.build_mencoder_cmd(input_file, out_file)
             cmd.extend(['-ss', preview_begin])
             cmd.extend(['-endpos', '10'])
         
@@ -972,7 +1041,8 @@ class Curlew(Gtk.Window):
         noti = show_notification(APP_NAME, '',
                                  _('Please wait while preparing preview...'),
                                  'dialog-information')
-        GLib.child_watch_add(self.fp.pid, self.on_end_preview, (output_file, noti))
+        GLib.child_watch_add(self.fp.pid, self.on_end_preview,
+                             (out_file, noti))
         self.set_sensitive(False)
     
     def on_end_preview(self, pid, code, data):
@@ -990,7 +1060,7 @@ class Curlew(Gtk.Window):
         a_dgl = About(self)
         a_dgl.show()
         
-    def check_sub_toggled(self, widget):
+    def cb_sub_toggled(self, widget):
         self.hb_sub.set_sensitive(widget.get_active())
         self.hb_enc.set_sensitive(widget.get_active())
         self.hb_font.set_sensitive(widget.get_active())
@@ -1006,11 +1076,12 @@ class Curlew(Gtk.Window):
         treepath = self.tree.get_selection().get_selected_rows()[1]
         if event.button == 3 and len(treepath) != 0:
             self.popup.show_all()
-            self.popup.popup(None, None, None, None, 3, Gtk.get_current_event_time())
+            self.popup.popup(None, None, None, None, 3,
+                             Gtk.get_current_event_time())
         
     
     #---- On end conversion
-    def on_end(self, pid, err_code, output_file):
+    def on_end(self, pid, err_code, out_file):
         if self.Iter != None:
             # Converion succeed
             if err_code == 0:
@@ -1024,7 +1095,7 @@ class Curlew(Gtk.Window):
             # Converion failed
             elif err_code == 256:
                 self.store[self.Iter][5] = _("Failed!")
-                self.force_delete_file(output_file)
+                self.force_delete_file(out_file)
                 # Convert the next file
                 self.Iter = self.store.iter_next(self.Iter)
                 self.convert_file()
@@ -1032,7 +1103,7 @@ class Curlew(Gtk.Window):
             # Conversion stopped
             elif err_code == 9:
                 # Remove uncompleted file
-                self.force_delete_file(output_file)
+                self.force_delete_file(out_file)
                 return
                     
         else:
@@ -1043,7 +1114,7 @@ class Curlew(Gtk.Window):
         
     
     #--- Catch output 
-    def on_output(self, source, condition, encoder_type, output_file):
+    def on_output(self, source, condition, encoder_type, out_file):
         #--- Allow interaction with application widgets.
         while Gtk.events_pending():
             Gtk.main_iteration()
@@ -1056,7 +1127,7 @@ class Curlew(Gtk.Window):
             self.store[self.Iter][5] = _("Skipped!")
             self.fp.kill()
             # Delete the file
-            self.force_delete_file(output_file)
+            self.force_delete_file(out_file)
             # Jump to next file
             self.Iter = self.store.iter_next(self.Iter)
             self.convert_file()
@@ -1081,7 +1152,7 @@ class Curlew(Gtk.Window):
                     else:
                         reg_avconv = self.reg_avconv_f
                         elapsed_time = reg_avconv.findall(line)[0][1]
-                        elapsed_time = self.time_to_duration(elapsed_time)
+                        elapsed_time = time_to_duration(elapsed_time)
 
                     try:
                         time_ratio = elapsed_time / self.total_duration
@@ -1108,7 +1179,7 @@ class Curlew(Gtk.Window):
                         rem_dur = 0
                     
                     #--- Convert duration (sec) to time (00:00:00)
-                    rem_time = self.duration_to_time(rem_dur)
+                    rem_time = duration_to_time(rem_dur)
                     
                     self.store[self.Iter][2] = size_str                        # estimated size
                     self.store[self.Iter][3] = rem_time                        # remaining time
@@ -1121,17 +1192,17 @@ class Curlew(Gtk.Window):
                 if begin != -1:
                     
                     #--- File size
-                    file_size = self.reg_mencoder.findall(line)[0][2]
+                    file_size = self.reg_menc.findall(line)[0][2]
                     self.store[self.Iter][2] = file_size + ' MB'
                     
                     #--- Remaining time
-                    dur = self.reg_mencoder.findall(line)[0][0]
+                    dur = self.reg_menc.findall(line)[0][0]
                     rem_dur = self.total_duration - float(dur)
-                    rem_time = self.duration_to_time(rem_dur)
+                    rem_time = duration_to_time(rem_dur)
                     self.store[self.Iter][3] = rem_time
                     
                     #--- Progress
-                    progress_value = float(self.reg_mencoder.findall(line)[0][1])
+                    progress_value = float(self.reg_menc.findall(line)[0][1])
                     self.store[self.Iter][4] = progress_value
                     self.store[self.Iter][5] = '{:.2f}%'.format(progress_value)
             
@@ -1140,17 +1211,7 @@ class Curlew(Gtk.Window):
             return True
         # When len(line) == 0
         return False
-    
-    
-    def duration_to_time(self, duration):
-        ''' Convert duration (sec) to time 00:00:00 '''
-        if duration < 0: duration = 0
-        return '{:02.0f}:{:02.0f}:{:02.0f}'.format(duration/3600, (duration%3600)/60, (duration%3600)%60)
-    
-    def time_to_duration(self, time):
-        ''' Convert time like 00:00:00.00 to duration (sec)'''
-        times = time.split(':')
-        return int(times[0])*3600 + int(times[1])*60 + float(times[2])
+
     
     #--- Drag and drop callback
     def drop_data_cb(self, widget, dc, x, y, selection_data, info, t):
@@ -1158,11 +1219,12 @@ class Curlew(Gtk.Window):
             if i.startswith('file://'):
                 File = unquote(i[7:])
                 if os.path.isfile(File):
-                    self.store.append([True, File, None, None, 0.0, _('Ready!')])
+                    self.store.append([True, File, None, None, 0.0,
+                                       _('Ready!')])
                 # Save directory from dragged filename.
                 self.curr_open_folder = dirname(File)
     
-    def check_same_dest_cb(self, widget):
+    def cb_same_dest_cb(self, widget):
         Active = not widget.get_active()
         self.e_dest.set_sensitive(Active)
         self.b_dest.set_sensitive(Active)
@@ -1175,17 +1237,6 @@ class Curlew(Gtk.Window):
             except OSError:
                 continue
     
-    def get_aspect_ratio(self, input_file):
-        ''' extract adpect ratio from file if exist, otherwise use 4:3 (fix a problem) '''
-        cmd = 'avconv -i {}'.format(input_file)
-        Proc = Popen(cmd, stdout=PIPE, stderr=PIPE, shell=True)
-        out_str = Proc.stderr.read()
-        try:
-            reg_aspect = re.compile('''DAR\s+(\d*:\d*)''')
-            return reg_aspect.findall(out_str)[0]
-        except:
-            return '4:3'
-    
     def save_options(self):
         conf = ConfigParser()
         conf.add_section('configs')
@@ -1194,36 +1245,40 @@ class Curlew(Gtk.Window):
         conf.set('configs', 'curr_save_folder', self.curr_save_folder)
         conf.set('configs', 'e_dest_text', self.e_dest.get_text())
         conf.set('configs', 'cb_format_ind', self.cb_formats.get_active())
-        conf.set('configs', 'check_same_dest_active', self.check_same_dest.get_active())
-        conf.set('configs', 'check_same_qual_active', self.check_same_quality.get_active())
-        conf.set('configs', 'size', self.get_size())
-        conf.set('configs', 'expanded', self.exp_advanced.get_expanded())
+        conf.set('configs', 'cb_same_dest_on',
+                 self.cb_same_dest.get_active())
+        conf.set('configs', 'cb_same_qual_on',
+                 self.cb_same_qual.get_active())
         
         files_list = []
         for i in range(len(self.store)):
             files_list.append(self.store[i][:])
         conf.set('configs', 'files_list', files_list)
         
-        with open(self.opt_file, 'w') as configfile:
+        with open(self.opts_file, 'w') as configfile:
             conf.write(configfile)
         
         
     
     def load_options(self):
         conf = ConfigParser()
-        conf.read(self.opt_file)
+        conf.read(self.opts_file)
         
-        try:    self.curr_open_folder = conf.get('configs', 'curr_open_folder')
-        except: self.curr_open_folder = HOME
-        try:    self.curr_save_folder = conf.get('configs', 'curr_save_folder')
-        except: self.curr_save_folder = HOME
+        try:
+            self.curr_open_folder = conf.get('configs', 'curr_open_folder')
+        except:
+            self.curr_open_folder = HOME
+        try:
+            self.curr_save_folder = conf.get('configs', 'curr_save_folder')
+        except:
+            self.curr_save_folder = HOME
         try:
             self.e_dest.set_text(conf.get('configs', 'e_dest_text'))
             self.cb_formats.set_active(conf.getint('configs', 'cb_format_ind'))
-            self.check_same_dest.set_active(conf.getboolean('configs', 'check_same_dest_active'))
-            self.check_same_quality.set_active(conf.getboolean('configs', 'check_same_qual_active'))
-            self.resize(eval(conf.get('configs', 'size'))[0], eval(conf.get('configs', 'size'))[1])
-            self.exp_advanced.set_expanded(conf.getboolean('configs', 'expanded'))
+            self.cb_same_dest.set_active(conf.getboolean('configs',
+                                                         'cb_same_dest_on'))
+            self.cb_same_qual.set_active(conf.getboolean('configs',
+                                                            'cb_same_qual_on'))
             for r in eval(conf.get('configs', 'files_list')):
                 self.store.append(r)
         except NoOptionError as err:
@@ -1234,7 +1289,7 @@ class Curlew(Gtk.Window):
 
 def main():
     w = Curlew()
-    w.show_all()
+    #w.show_all()
     Gtk.main()
 
 if __name__ == '__main__':

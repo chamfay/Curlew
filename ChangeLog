@@ -1,3 +1,11 @@
+Version 0.1.7
+---------------
+
+* Added more presets formats (from winff).
+* Removed save window size and save expanded options.
+* Enhanced some functions in the code source.
+
+
 Version 0.1.6r2
 ---------------
 
