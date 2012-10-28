@@ -66,6 +66,7 @@ class LabeledComboEntry(Gtk.ComboBoxText):
     ''' Create custom ComboBoxText with entry'''
     def __init__(self, Container, Label, WithEntry=True):
         Gtk.ComboBoxText.__init__(self, has_entry=WithEntry)
+        self.connect('changed', self.on_combo_changed)
         hbox = Gtk.HBox()
         hbox.set_spacing(4)
         label = Gtk.Label(Label, use_markup=True)
@@ -82,10 +83,17 @@ class LabeledComboEntry(Gtk.ComboBoxText):
         map(self.append_text, list_of_elements)
         self.set_active(0)
     
-    # Get active text in combo
-    get_text = lambda self: self.get_active_text()
+    def get_text(self):
+        return self.get_active_text()
     
     def set_text(self, Text):
         ''' Set text to Entry '''
         entry = self.get_child()
         entry.set_text(Text)
+    
+    def on_combo_changed(self, *args):
+        enabled = self.get_text() == 'default' and len(self.get_model()) < 2
+        self.set_sensitive(not enabled)
+            
+            
+            
