@@ -7,7 +7,6 @@
 # License: Waqf license, see: http://www.ojuba.org/wiki/doku.php/waqf/license
 #===============================================================================
 
-# TODO: Fix combo sensitivities
 
 try:
     import sys 
@@ -40,7 +39,7 @@ def create_tool_btn(icon_name, tooltip, callback):
     toolbtn = Gtk.ToolButton()
     widget = Gtk.Image.new_from_file(join(APP_DIR, 'data', icon_name))
     toolbtn.set_icon_widget(widget)
-    toolbtn.set_tooltip_markup(_('{}').format(tooltip))
+    toolbtn.set_tooltip_markup(tooltip)
     toolbtn.connect('clicked', callback)
     return toolbtn
 
@@ -60,7 +59,6 @@ def get_aspect_ratio(input_file):
 class Curlew(Gtk.Window):
     
     def __init__(self):
-        
         #--- Variables
         self.curr_open_folder = None
         self.curr_save_folder = None
@@ -73,10 +71,14 @@ class Curlew(Gtk.Window):
         self.opts_file = join(HOME, '.curlew.cfg')
         
         #--- Regex
-        self.reg_avconv_u = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
-        self.reg_avconv_f = re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
-        self.reg_menc = re.compile('''.(\d+\.*\d*)s.*(.\d+)%.*\s+(\d+)mb''')
-        self.reg_duration = re.compile('''Duration:.*(\d+:\d+:\d+\.\d+)''')
+        self.reg_avconv_u = \
+        re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
+        self.reg_avconv_f = \
+        re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
+        self.reg_menc = \
+        re.compile('''.(\d+\.*\d*)s.*(.\d+)%.*\s+(\d+)mb''')
+        self.reg_duration = \
+        re.compile('''Duration:.*(\d+:\d+:\d+\.\d+)''')
                
         Gtk.Window.__init__(self)        
         self.set_position(Gtk.WindowPosition.CENTER)
@@ -96,43 +98,43 @@ class Curlew(Gtk.Window):
         
         
         self.tb_add = create_tool_btn('add.png',
-                                      'Add files',
+                                      _('Add files'),
                                       self.tb_add_clicked)
         toolbar.insert(self.tb_add, -1)
         
         self.tb_remove = create_tool_btn('remove.png',
-                                         'Remove selected file',
+                                         _('Remove selected file'),
                                          self.tb_remove_clicked)
         toolbar.insert(self.tb_remove, -1)
         
         self.tb_clear = create_tool_btn('clear.png',
-                                        'Clear files list',
+                                        _('Clear files list'),
                                         self.tb_clear_clicked)
         toolbar.insert(self.tb_clear, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         self.tb_convert = create_tool_btn('convert.png',
-                                          'Start Conversion',
+                                          _('Start Conversion'),
                                           self.convert_cb)
         toolbar.insert(self.tb_convert, -1)
         
         self.tb_stop = create_tool_btn('stop.png',
-                                       'Stop Conversion',
+                                       _('Stop Conversion'),
                                        self.tb_stop_clicked)
         toolbar.insert(self.tb_stop, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         self.tb_about = create_tool_btn('about.png',
-                                        'About ' + APP_NAME,
+                                        _('About ') + APP_NAME,
                                         self.tb_about_clicked)
         toolbar.insert(self.tb_about, -1)
         
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         self.tb_quit = create_tool_btn('close.png',
-                                       'Quit application',
+                                       _('Quit application'),
                                        self.quit_cb)
         toolbar.insert(self.tb_quit, -1)
         
@@ -379,11 +381,10 @@ class Curlew(Gtk.Window):
         
         self.vb_other.pack_start(Gtk.Separator(), False, False, 0)
         
-        self.cb_other = Gtk.CheckButton(label=_('Other Parameters:'), 
-                                        active=False)
-        self.cb_other.connect('toggled', self.on_cb_other)
-        self.vb_other.pack_start(self.cb_other, False, False, 0)
-        self.e_other = Gtk.Entry(sensitive=False)
+        label = Gtk.Label(_('Other Parameters:'))
+        label.set_alignment(0, 0.5)
+        self.vb_other.pack_start(label, False, False, 0)
+        self.e_other = Gtk.Entry()
         self.vb_other.pack_start(self.e_other, False, False, 0)
         
         vbox.pack_start(Gtk.Separator(), False, False, 0)
@@ -420,10 +421,6 @@ class Curlew(Gtk.Window):
     
     def on_toggled_cb(self, widget, Path):
         self.store[Path][0] = not self.store[Path][0]
-    
-    
-    def on_cb_other(self, cb_other):
-        self.e_other.set_sensitive(cb_other.get_active())
         
     def on_cb_same_qual_toggled(self, widget):
         active = widget.get_active()
@@ -558,10 +555,6 @@ class Curlew(Gtk.Window):
         is_true = not(self.f_file.get(section, 'encoder') == 'm' \
                       or media_type in ['fixed', 'presets'])
         self.cb_same_qual.set_sensitive(is_true)
-        
-        qual = self.f_file.has_option(section, 'aqual') \
-        or self.f_file.has_option(section, 'vqual')
-        self.cb_quality.set_sensitive(qual)
     
     
     #--- fill options widgets
@@ -569,10 +562,8 @@ class Curlew(Gtk.Window):
         section = self.cb_formats.get_active_text()
         
         if self.f_file.has_option(section, 'extra'):
-            self.cb_other.set_active(True)
             self.e_other.set_text(self.f_file.get(section, 'extra'))
         else:
-            self.cb_other.set_active(False)
             self.e_other.set_text('')
             
         # For presets
@@ -700,7 +691,7 @@ class Curlew(Gtk.Window):
                 cmd.extend(['-qscale', str(self.v_scale.get_value())])
             
             #--- Extra options (add other specific options if exist)
-            if self.cb_other.get_active():
+            if self.e_other.get_text().strip() != '':
                 cmd.extend(self.e_other.get_text().split())
         
         

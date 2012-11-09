@@ -33,14 +33,13 @@ class TimeLayout(Gtk.HBox):
         label = Gtk.Label(Label, use_markup=True)
         label.set_alignment(0, 0.5)
         label.set_width_chars(10)
-        
         self.pack_start(label, False, False, 0)
-        self.pack_start(self._spin_h, False, False, 0)
-        self.pack_start(Gtk.Label(label='h  :'), False, False, 0)
-        self.pack_start(self._spin_m, False, False, 0)
-        self.pack_start(Gtk.Label(label='m  :'), False, False, 0)
-        self.pack_start(self._spin_s, False, False, 0)
-        self.pack_start(Gtk.Label(label='s'), False, False, 0)
+        self.pack_start(self._spin_h, False, False, 3)
+        self.pack_start(Gtk.Label(label=_('hr')), False, False, 0)
+        self.pack_start(self._spin_m, False, False, 3)
+        self.pack_start(Gtk.Label(label=_('min')), False, False, 0) 
+        self.pack_start(self._spin_s, False, False, 3)
+        self.pack_start(Gtk.Label(label=_('sec')), False, False, 0)
         container.pack_start(self, False, False, 0)
     
     def set_duration(self, duration):
