@@ -2,12 +2,13 @@ from gi.repository import Gtk
 
 
 class CustomHScale(Gtk.HScale):
-    def __init__(self, container, def_value, min_value, max_value):
+    def __init__(self, container, def_value, min_value, max_value, step=1):
         Gtk.HScale.__init__(self)
         container.add(self)
-        adj = Gtk.Adjustment(def_value, min_value, max_value, 1)
+        adj = Gtk.Adjustment(def_value, min_value, max_value, step)
         self.set_adjustment(adj)
         self.set_value_pos(Gtk.PositionType.RIGHT)
+        self.set_digits(0)
         
 
 class LabeledHBox(Gtk.HBox):
@@ -63,16 +64,16 @@ class TimeLayout(Gtk.HBox):
 
 class LabeledComboEntry(Gtk.ComboBoxText):
     ''' Create custom ComboBoxText with entry'''
-    def __init__(self, Container, Label, WithEntry=True):
-        Gtk.ComboBoxText.__init__(self, has_entry=WithEntry)
+    def __init__(self, Container, Label, with_entry=True):
+        Gtk.ComboBoxText.__init__(self, has_entry=with_entry)
         self.connect('changed', self.on_combo_changed)
         hbox = Gtk.HBox()
         hbox.set_spacing(4)
-        label = Gtk.Label(Label, use_markup=True)
-        label.set_alignment(0, 0.5)
-        label.set_width_chars(15)
+        self._label = Gtk.Label(Label, use_markup=True)
+        self._label.set_alignment(0, 0.5)
+        self._label.set_width_chars(15)
         self.set_entry_text_column(0)
-        hbox.pack_start(label, False, False, 0)
+        hbox.pack_start(self._label, False, False, 0)
         hbox.pack_start(self, False, False, 0)
         Container.pack_start(hbox, False, False, 0)
     
@@ -93,6 +94,8 @@ class LabeledComboEntry(Gtk.ComboBoxText):
     def on_combo_changed(self, *args):
         enabled = self.get_text() == 'default' and len(self.get_model()) < 2
         self.set_sensitive(not enabled)
-            
+    
+    def set_label_width(self, charwidth):
+        self._label.set_width_chars(charwidth) 
             
             

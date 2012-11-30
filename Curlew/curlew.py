@@ -7,6 +7,7 @@
 # License: Waqf license, see: http://www.ojuba.org/wiki/doku.php/waqf/license
 #===============================================================================
 
+#TODO: ADD X264 CODEC FOR MENCODER.
 
 try:
     import sys 
@@ -30,8 +31,13 @@ except Exception as detail:
     sys.exit(1)
 
 
-APP_DIR = dirname(realpath(__file__))
-HOME = os.getenv("HOME")
+APP_DIR      = dirname(realpath(__file__))
+HOME         = os.getenv("HOME")
+TEN_SECONDS  = '10'
+OPTS_FILE    = join(HOME, '.curlew.cfg')
+PASS_LOG     = '/tmp/pass1log'
+PASS_1_FILE  = '/tmp/pass1file'
+PREVIEW_FILE = '/tmp/preview'
 
 
 def create_tool_btn(icon_name, tooltip, callback):
@@ -42,18 +48,6 @@ def create_tool_btn(icon_name, tooltip, callback):
     toolbtn.set_tooltip_markup(tooltip)
     toolbtn.connect('clicked', callback)
     return toolbtn
-
-def get_aspect_ratio(input_file):
-    ''' extract adpect ratio from file if exist, otherwise use 4:3 
-    (fix a problem) '''
-    cmd = 'avconv -i {}'.format(input_file)
-    Proc = Popen(cmd, stdout=PIPE, stderr=PIPE, shell=True)
-    out_str = Proc.stderr.read()
-    try:
-        reg_aspect = re.compile('''DAR\s+(\d*:\d*)''')
-        return reg_aspect.findall(out_str)[0]
-    except:
-        return '4:3'
 
 #--- Main class        
 class Curlew(Gtk.Window):
@@ -68,7 +62,14 @@ class Curlew(Gtk.Window):
         self.output_details = ''
         self.total_duration = 0.0
         self.out_file = None
-        self.opts_file = join(HOME, '.curlew.cfg')
+        self.pass_nbr = 0
+        '''
+        0: no 2-pass encoding option
+        1: 1st pass
+        2: 2nd pass
+        '''
+        self.encoder = ''
+        self.player = 'ffplay'
         
         #--- Regex
         self.reg_avconv_u = \
@@ -139,12 +140,14 @@ class Curlew(Gtk.Window):
         toolbar.insert(self.tb_quit, -1)
         
         #--- List of files
-        self.store = Gtk.ListStore(bool, # active 
-                                   str, # file_name
-                                   str, # file_size
-                                   str, # time remaining
+        self.store = Gtk.ListStore(bool,  # active 
+                                   str,   # file_name
+                                   str,   # file_size
+                                   str,   # time remaining
                                    float, # progress
-                                   str)     # status (progress txt)         
+                                   str,   # status (progress txt)
+                                   int    # pulse
+                                   )         
         self.tree = Gtk.TreeView(self.store)
         self.tree.set_has_tooltip(True)
         self.tree.set_rubber_banding(True)
@@ -189,7 +192,7 @@ class Curlew(Gtk.Window):
         
         #--- Progress cell
         cell = Gtk.CellRendererProgress()
-        col = Gtk.TreeViewColumn(_("Progress"), cell, value=4, text=5)
+        col = Gtk.TreeViewColumn(_("Progress"), cell, value=4, text=5, pulse=6)
         col.set_resizable(True)
         col.set_min_width(80)
         self.tree.append_column(col)
@@ -215,11 +218,11 @@ class Curlew(Gtk.Window):
         self.popup.show_all()
         
         #--- Output formats
-        self.cb_formats = Gtk.ComboBoxText()
-        self.cb_formats.set_entry_text_column(0)
-        self.cb_formats.connect('changed', self.on_cb_formats_changed)
+        self.cmb_formats = Gtk.ComboBoxText()
+        self.cmb_formats.set_entry_text_column(0)
+        self.cmb_formats.connect('changed', self.on_cmb_formats_changed)
         hl = LabeledHBox(_("<b>Format:</b>"), vbox)
-        hl.pack_start(self.cb_formats, True, True, 0)
+        hl.pack_start(self.cmb_formats, True, True, 0)
         
         #--- Destination
         self.e_dest = Gtk.Entry()
@@ -235,13 +238,13 @@ class Curlew(Gtk.Window):
         hl.pack_start(self.cb_same_dest, False, True, 0)
         
         #--- Quality (low, medium, high)
-        self.cb_quality = Gtk.ComboBoxText()
-        map(self.cb_quality.append_text,
+        self.cmb_quality = Gtk.ComboBoxText()
+        map(self.cmb_quality.append_text,
             [_("Low Quality"), _("Normal Quality"), _("High Quality")])
-        self.cb_quality.set_active(1)
-        self.cb_quality.connect('changed', self.on_cb_quality_changed)
+        self.cmb_quality.set_active(1)
+        self.cmb_quality.connect('changed', self.on_cmb_quality_changed)
         hl = LabeledHBox(_('<b>Quality:</b>'), vbox)
-        hl.pack_start(self.cb_quality, True, True, 0)
+        hl.pack_start(self.cmb_quality, True, True, 0)
         
         #-- Use same quality as source file
         self.cb_same_qual = Gtk.CheckButton(_('Source Quality'))
@@ -269,6 +272,10 @@ class Curlew(Gtk.Window):
         self.c_ach = LabeledComboEntry(self.vb_audio, _("Audio Channels"))
         self.c_acodec = LabeledComboEntry(self.vb_audio, _("Audio Codec"))
         
+        # volume
+        self.hb_volume = LabeledHBox(_('Volume (%)'), self.vb_audio, 14)
+        self.vol_scale = CustomHScale(self.hb_volume, 100, 25, 400, 25)
+        
         self.vb_audio.pack_start(Gtk.Separator(), False, False, 0)
         
         # Audio quality for ogg
@@ -287,6 +294,18 @@ class Curlew(Gtk.Window):
         self.c_vsize = LabeledComboEntry(self.vb_video, _("Video Size"))
         self.c_vcodec = LabeledComboEntry(self.vb_video, _("Video Codec"))
         self.c_vratio = LabeledComboEntry(self.vb_video, _("Aspect Ratio"))
+        
+        hbox = Gtk.HBox(spacing=10)
+        self.vb_video.pack_start(hbox, False, False, 0)
+        
+        # 2-pass
+        self.cb_2pass = Gtk.CheckButton(_('2-Pass'))
+        hbox.pack_start(self.cb_2pass, False, False, 0)
+        
+        # Video only (no sound)
+        self.cb_video_only = Gtk.CheckButton(_('Video only'))
+        self.cb_video_only.connect('toggled', self.on_cb_video_only_toggled)
+        hbox.pack_start(self.cb_video_only, False, False, 0)
         
         self.vb_video.pack_start(Gtk.Separator(), False, False, 0)
         
@@ -311,6 +330,7 @@ class Curlew(Gtk.Window):
         self.hb_sub.pack_start(self.entry_sub, True, True, 0)
         self.hb_sub.set_sensitive(False)
         
+        #---- Select subtitle
         b_enc = Gtk.Button(' ... ')
         b_enc.set_size_request(30, -1)
         self.hb_sub.pack_start(b_enc, False, False, 0)
@@ -376,16 +396,29 @@ class Curlew(Gtk.Window):
         self.vb_other.pack_start(self.cb_split, False, False, 0)
         self.tl_begin = TimeLayout(self.vb_other, _('Begin time: '))
         self.tl_duration = TimeLayout(self.vb_other, _('Duration: '))
+        self.tl_duration.set_duration(5)
         self.tl_begin.set_sensitive(False)
         self.tl_duration.set_sensitive(False)
+         
+        # Encoder type (ffmpeg / avconv)
+        self.combo_encoder = LabeledComboEntry(self.vb_other, 
+                                               _('Converter:'), 0)
+        self.combo_encoder.set_label_width(10)
+        self.combo_encoder.connect('changed', self.combo_encoder_cb)
+        self.combo_encoder.set_list(['avconv', 'ffmpeg'])
         
-        self.vb_other.pack_start(Gtk.Separator(), False, False, 0)
+        # Other Parameters.
+        hb_other = LabeledHBox(_('Others opts:'), self.vb_other, 10)
+        self.e_extra = Gtk.Entry()
+        hb_other.pack_start(self.e_extra, True, True, 0)
         
-        label = Gtk.Label(_('Other Parameters:'))
-        label.set_alignment(0, 0.5)
-        self.vb_other.pack_start(label, False, False, 0)
-        self.e_other = Gtk.Entry()
-        self.vb_other.pack_start(self.e_other, False, False, 0)
+        # Replace/Skip/Rename
+        self.cmb_exist = LabeledComboEntry(self.vb_other, _('File exist:'), 0)
+        self.cmb_exist.set_label_width(10)
+        self.cmb_exist.set_list([_('Overwrite it'),
+                                 _('Choose another name'),
+                                 _('Skip conversion')])
+        
         
         vbox.pack_start(Gtk.Separator(), False, False, 0)
         
@@ -395,14 +428,14 @@ class Curlew(Gtk.Window):
         vbox.pack_start(self.label_details, False, False, 0)
         
         #--- Show interface
-        '''Must show interface before loading cb_formats combobox.'''
+        '''Must show interface before loading cmb_formats combobox.'''
         self.show_all()
         
         #--- Load formats from format.cfg file
         self.f_file = ConfigParser()
         self.f_file.read(join(APP_DIR, 'formats.cfg'))
-        map(self.cb_formats.append_text, self.f_file.sections())
-        self.cb_formats.set_active(0)
+        map(self.cmb_formats.append_text, self.f_file.sections())
+        self.cmb_formats.set_active(0)
         
         #--- Load saved options.
         self.load_options()
@@ -424,7 +457,7 @@ class Curlew(Gtk.Window):
         
     def on_cb_same_qual_toggled(self, widget):
         active = widget.get_active()
-        self.cb_quality.set_sensitive(not active)
+        self.cmb_quality.set_sensitive(not active)
         if active:
             self.vb_audio.set_sensitive(False)
             self.vb_video.set_sensitive(False)
@@ -494,8 +527,15 @@ class Curlew(Gtk.Window):
         res = open_dlg.run()
         if res == Gtk.ResponseType.OK:
             for file_name in open_dlg.get_filenames():
-                self.store.append([True, file_name, None, None, 0.0,
-                                   _('Ready!')])
+                self.store.append([
+                                   True,
+                                   file_name,
+                                   None,
+                                   None,
+                                   0.0,
+                                   _('Ready!'),
+                                   -1
+                                   ])
                 
             #--- Saved current folder
             self.curr_open_folder = open_dlg.get_current_folder()                
@@ -519,13 +559,13 @@ class Curlew(Gtk.Window):
         self.tl_begin.set_sensitive(is_checked)
         self.tl_duration.set_sensitive(is_checked)
         
-    def on_cb_formats_changed(self, widget):
-        self.cb_quality.set_active(1) # return to Normal Quality
+    def on_cmb_formats_changed(self, widget):
+        self.cmb_quality.set_active(1) # return to Normal Quality
         self.fill_options()
         self.set_sensitives()
     
     def set_sensitives(self):
-        section = self.cb_formats.get_active_text()
+        section = self.cmb_formats.get_active_text()
         media_type = self.f_file.get(section, 'type')
 
         # sens = [AudioP, VideoP, SubtitleP, QualityC, aQuality, vQuality]
@@ -547,11 +587,12 @@ class Curlew(Gtk.Window):
         self.vb_audio.set_sensitive(sens[0])   # Audio page
         self.vb_video.set_sensitive(sens[1])   # Video page
         self.vb_sub.set_sensitive(sens[2])     # Subtitle page
-        self.cb_quality.set_sensitive(sens[3]) # Quality combobox
+        self.cmb_quality.set_sensitive(sens[3]) # Quality combobox
         self.hb_aqual.set_sensitive(sens[4])   # Audio quality slider (ogg)
         self.hb_vqual.set_sensitive(sens[5])   # video Quality slider (ogv)
         
         self.cb_same_qual.set_active(False)
+        self.cb_video_only.set_active(False)
         is_true = not(self.f_file.get(section, 'encoder') == 'm' \
                       or media_type in ['fixed', 'presets'])
         self.cb_same_qual.set_sensitive(is_true)
@@ -559,12 +600,12 @@ class Curlew(Gtk.Window):
     
     #--- fill options widgets
     def fill_options(self):
-        section = self.cb_formats.get_active_text()
+        section = self.cmb_formats.get_active_text()
         
         if self.f_file.has_option(section, 'extra'):
-            self.e_other.set_text(self.f_file.get(section, 'extra'))
+            self.e_extra.set_text(self.f_file.get(section, 'extra'))
         else:
-            self.e_other.set_text('')
+            self.e_extra.set_text('')
             
         # For presets
         if self.f_file.has_option(section, 'cmd'):
@@ -589,7 +630,7 @@ class Curlew(Gtk.Window):
         
         if self.f_file.has_option(section, 'aqual'):
             aqual = self.f_file.get(section, 'aqual').split()
-            self.c_abitrate.set_text(aqual[self.cb_quality.get_active()])
+            self.c_abitrate.set_text(aqual[self.cmb_quality.get_active()])
             
         if self.f_file.has_option(section, 'vbitrate'):
             li = self.f_file.get(section, 'vbitrate').split()
@@ -613,7 +654,7 @@ class Curlew(Gtk.Window):
         
         if self.f_file.has_option(section, 'vqual'):
             vqual = self.f_file.get(section, 'vqual').split()
-            self.c_vbitrate.set_text(vqual[self.cb_quality.get_active()])
+            self.c_vbitrate.set_text(vqual[self.cmb_quality.get_active()])
         
             
         
@@ -624,10 +665,10 @@ class Curlew(Gtk.Window):
         '''
         start_pos <=> -ss, part_dura <=> -t
         '''
-        section = self.cb_formats.get_active_text()
+        section = self.cmb_formats.get_active_text()
         media_type = self.f_file.get(section, 'type')
         
-        cmd = ['avconv', '-y']#, '-xerror']
+        cmd = [self.encoder, '-y']#, '-xerror']            
         cmd.extend(["-i", input_file])
         
         # Force format
@@ -646,9 +687,13 @@ class Curlew(Gtk.Window):
                 
             # Video opts
             if media_type == 'video':
+                # Extract video only
+                if self.cb_video_only.get_active():
+                    cmd.append('-an')
+                
                 # Video bitrate
                 if self.c_vbitrate.get_text() != 'default':
-                    cmd.extend(['-vb', self.c_vbitrate.get_text()])
+                    cmd.extend(['-b', self.c_vbitrate.get_text()])
                 # Video FPS
                 if self.c_vfps.get_text() != 'default':
                     cmd.extend(['-r', self.c_vfps.get_text()])
@@ -662,7 +707,7 @@ class Curlew(Gtk.Window):
                 if self.c_vratio.get_text() == 'default':
                     #-- force aspect ratio
                     if self.c_vcodec.get_text() in ['libxvid', 'mpeg4', 'h263']:
-                        cmd.extend(['-aspect', get_aspect_ratio(input_file)])
+                        cmd.extend(['-aspect', self.get_aspect_ratio(input_file)])
                 else:
                     cmd.extend(['-aspect', self.c_vratio.get_text()])
     
@@ -691,8 +736,8 @@ class Curlew(Gtk.Window):
                 cmd.extend(['-qscale', str(self.v_scale.get_value())])
             
             #--- Extra options (add other specific options if exist)
-            if self.e_other.get_text().strip() != '':
-                cmd.extend(self.e_other.get_text().split())
+            if self.e_extra.get_text().strip() != '':
+                cmd.extend(self.e_extra.get_text().split())
         
         
         # Fixed opts
@@ -702,13 +747,26 @@ class Curlew(Gtk.Window):
         
         # Presets formats
         elif media_type == 'presets':
-            cmd.extend(self.presets_cmd)
-            
+            cmd.extend(self.presets_cmd) 
         
         # Split file
         if start_pos != -1 and part_dura != -1:
             cmd.extend(['-ss', start_pos])
             cmd.extend(['-t', part_dura])
+        
+        # Volume (gain)
+        if self.vol_scale.get_value() != 100:
+            cmd.extend(['-vol', self.per_to_vol(self.vol_scale.get_value())])
+        
+        # 2-pass (avconv)
+        # FIXME: maybe need enhancements!
+        if self.pass_nbr == 1:
+            cmd.append('-an') # disable audio
+            cmd.extend(['-pass', '1'])
+            cmd.extend(['-passlogfile', PASS_LOG])
+        elif self.pass_nbr == 2:
+            cmd.extend(['-pass', '2'])
+            cmd.extend(['-passlogfile', PASS_LOG])
             
         #--- Last
         cmd.append(out_file)
@@ -718,16 +776,14 @@ class Curlew(Gtk.Window):
     
     #--- MEncoder cmd
     def build_mencoder_cmd(self, input_file, out_file):
-        section = self.cb_formats.get_active_text()
-        
+
         cmd = ['mencoder']
-        
-        #--- input and output files
+        #--- Input and output files
         cmd.append(input_file)
         cmd.extend(['-o', out_file])
         cmd.append('-noskip')
         
-        #--- Sub font
+        #--- Subtitle font
         if self.cb_sub.get_active():
             cmd.extend(['-sub', self.entry_sub.get_text()]) # subtitle file
             cmd.append('-fontconfig') # configure font
@@ -738,17 +794,19 @@ class Curlew(Gtk.Window):
             cmd.extend(['-subpos', str(self.spin_pos.get_value_as_int())])
             cmd.extend(['-subcp', self.combo_enc.get_active_text()])
             # RTL language (Arabic)
-            cmd.append('-flip-hebrew') 
+            cmd.append('-flip-hebrew')
             cmd.append('-noflip-hebrew-commas')
+        
         
         #--- Audio codec and opts
         cmd.extend(['-oac', self.c_acodec.get_text()])
-        # No more audio options with 'copy'
+        # No audio options with 'copy'
         if self.c_acodec.get_text() == 'copy':
             pass
         else:
             a_opts = []
-            #--- for mp3lame codec
+            
+            #--- For mp3lame codec
             if self.c_acodec.get_text() == 'mp3lame':
                 cmd.append('-lameopts')
                 # Use constant bitrate
@@ -757,52 +815,77 @@ class Curlew(Gtk.Window):
                 a_opts.append('mode={}'.format(self.c_ach.get_text())) 
                 # Audio bitrate
                 a_opts.append('br={}'.format(self.c_abitrate.get_text()))
-            #--- for faac audio codec
+            
+            #--- For faac audio codec
             elif self.c_acodec.get_text() == 'faac':
                 cmd.append('-faacopts')
-                # bitrate
+                # Bitrate
                 a_opts.append('br={}'.format(self.c_abitrate.get_text()))
-            #--- for libavcodec
+            
+            #--- For libavcodec (lavc)
             elif self.c_acodec.get_text() == 'lavc':
                 cmd.append('-lavcopts')
+                # Bitrate
                 a_opts.append('abitrate={}'.format(self.c_abitrate.get_text()))
+                # Codec used
                 a_opts.append('acodec=aac')
                 
-            #--- append cmd with audio opts
+            #--- Append cmd with audio opts
             cmd.append(':'.join(a_opts))
             
+        
         #--- Video codec and opts
         cmd.extend(['-ovc', self.c_vcodec.get_text()])
-        #--- for xvid video codec
+        
+        #--- For XviD video codec
         if self.c_vcodec.get_text() == 'xvid':
             cmd.append('-xvidencopts')
             v_opts = []
+            # Video bitrate
             v_opts.append('bitrate={}'.format(self.c_vbitrate.get_text()))
-            cmd.append(':'.join(v_opts))
+            # Pass number
+            if self.pass_nbr != 0:
+                v_opts.append('pass={}'.format(self.pass_nbr))        
         
-        
-        #--- for libavcodec video opts
+        #--- For libavcodec video opts
         elif self.c_vcodec.get_text() == 'lavc':
             cmd.append('-lavcopts')
             v_opts = []
+            # Bitrate
             v_opts.append('vbitrate={}'.format(self.c_vbitrate.get_text()))
-            cmd.append(':'.join(v_opts))
-            if self.f_file.has_option(section, 'opts'):
-                cmd.extend(self.f_file.get(section, 'opts').split())
+            # Pass number (1 or 2)
+            if self.pass_nbr != 0:
+                v_opts.append('vpass={}'.format(self.pass_nbr))
         
-        #--- split file (encode part of file)
+        #--- For x264 video?
+        
+        # Append cmd with video opts
+        cmd.append(':'.join(v_opts))
+            
+        # Add extra option if exist.
+        if self.e_extra.get_text().strip() != '':
+            cmd.extend(self.e_extra.get_text().split())
+            
+        # Add option suitable for each pass (1 or 2)
+        if self.pass_nbr == 1:
+            cmd.append('-nosound') # disable audio
+            cmd.extend(['-passlogfile', PASS_LOG])
+        elif self.pass_nbr == 2:
+            cmd.extend(['-passlogfile', PASS_LOG])
+        
+        #--- Split file (encode part of file)
         if self.cb_split.get_active():
-            # begin time
+            # Begin time
             cmd.extend(['-ss', self.tl_begin.get_time_str()])
-            # duration
+            # Duration
             cmd.extend(['-endpos', self.tl_duration.get_time_str()])
         
-        #--- video size
+        #--- Video size
         if self.c_vsize.get_text() != 'default':
             cmd.append('-vf')
             cmd.append('scale={},harddup'.format(self.c_vsize.get_text()))
         
-        #print(' '.join(cmd))
+        print(' '.join(cmd))
         return cmd
 
     #--- Convert funtcion
@@ -810,36 +893,35 @@ class Curlew(Gtk.Window):
         if len(self.store) == 0 or self.is_converting:
             return
         
-        if self.f_file.get(self.cb_formats.get_active_text(), 'encoder') == 'None':
+        # Return when invalid / inaccessible path
+        if not isdir(self.e_dest.get_text()):
+            show_message(self,
+                         _('Destination path is not valid.'),
+                         Gtk.MessageType.ERROR)
+            self.set_focus(self.e_dest)
             return
-        
-        # Return if invalid path or inaccessible
-        Accessible = os.access(self.e_dest.get_text(), os.W_OK)
-        ValidDir = isdir(self.e_dest.get_text())
-        if not ValidDir:
-            show_message(self, _('Destination path is not valid.'),
-                              Gtk.MessageType.ERROR)
-            return
-        if not Accessible:
-            show_message(self, _('Destination path is not accessible.'),
-                              Gtk.MessageType.ERROR)
+        if not os.access(self.e_dest.get_text(), os.W_OK):
+            show_message(self,
+                         _('Destination path is not accessible.'),
+                         Gtk.MessageType.ERROR)
+            self.set_focus(self.e_dest)
             return
         
         self.Iter = self.store.get_iter_first()
         self.output_details = ''
         self.is_converting = True
+        self.pass_nbr = int(self.cb_2pass.get_active())
         self.convert_file()
         
 
     def convert_file(self):
-        ext = self.f_file.get(self.cb_formats.get_active_text(), 'ext')
-        encoder_type = self.f_file.get(self.cb_formats.get_active_text(),
+        ext = self.f_file.get(self.cmb_formats.get_active_text(), 'ext')
+        encoder_type = self.f_file.get(self.cmb_formats.get_active_text(),
                                        'encoder')
         
         #--- Check
         if self.Iter != None:
-            
-            #--- Do not convert this file
+            #--- Do not convert this file (unchecked)
             if self.store[self.Iter][0] == False:
                 self.store[self.Iter][5] = _("Skipped!")
                 # Jump to next file
@@ -847,8 +929,15 @@ class Curlew(Gtk.Window):
                 self.convert_file()
                 return
                      
-            #--- get input and output files
+            #--- Get input file
             input_file = self.store[self.Iter][1]
+            # When input file not found
+            if not os.path.isfile(input_file):
+                self.store[self.Iter][5] = _("Not found!")
+                self.Iter = self.store.iter_next(self.Iter)
+                self.convert_file()
+                return
+                
             part = splitext(basename(input_file))[0] + '.' + ext
             
             # Same destination as source file
@@ -858,31 +947,30 @@ class Curlew(Gtk.Window):
             else:
                 out_file = join(self.e_dest.get_text(), part)
             
-            #--- Rename output file if has the same name as input file
-            if input_file == out_file:
-                out_file = out_file[:-4] + '~.' + ext
-                
-            self.out_file = out_file
-            
             #--- If output file already exist
             if os.path.exists(out_file):
-                res = show_message(self,
-                                   _("File: <b>{}</b> already exist.\nOverwrite it?".format(out_file)),
-                                   Gtk.MessageType.WARNING,
-                                   Gtk.ButtonsType.YES_NO)
-                
-                # Overwrite this file
-                if res == Gtk.ResponseType.YES:
-                    # delete existed file first
+                # Overwrite it.
+                if self.cmb_exist.get_active() == 0:
+                    #--- Rename output file if has the same name as input file
+                    if input_file == out_file:
+                        out_file = '{}~.{}'.format(splitext(out_file)[0], ext)
                     self.force_delete_file(out_file)
-                #--- Skipped this file
-                else:
+                # Choose another name.
+                elif self.cmb_exist.get_active() == 1:
+                    out_file = self.new_name(out_file)
+                # Skip conversion.
+                elif self.cmb_exist.get_active() == 2:
                     self.store[self.Iter][5] = _('Skipped!')
-                    # Jump to next file
                     self.Iter = self.store.iter_next(self.Iter)
                     self.convert_file()
                     return
+            
+            self.out_file = out_file
         
+            # Encoding in /tmp "temporary folder" in 1st pass
+            if self.pass_nbr == 1:
+                out_file = PASS_1_FILE
+            
             #--- which encoder use (avconv of mencoder)
             if encoder_type == 'f':
                 if self.cb_split.get_active():
@@ -906,24 +994,29 @@ class Curlew(Gtk.Window):
             self.begin_time = time.time() 
             
             #--- Start the process
-            self.fp = Popen(full_cmd,
-                            stdout=PIPE,
-                            stderr=PIPE,
-                            universal_newlines=True,
-                            bufsize= -1)
-            #--- Watch stdout and stderr
-            GLib.io_add_watch(self.fp.stdout, GLib.IO_IN | GLib.IO_HUP,
-                              self.on_output, encoder_type, out_file)
-            GLib.io_add_watch(self.fp.stderr, GLib.IO_IN | GLib.IO_HUP,
-                              self.on_output, encoder_type, out_file)
-            #--- On end process
-            GLib.child_watch_add(self.fp.pid, self.on_end, out_file)
-        
+            self.start_process(full_cmd, encoder_type, out_file)
+            
         else:
             self.is_converting = False
     
+    # Start process
+    def start_process(self, cmd, encoder_type, out_file):
+        self.fp = Popen(cmd,
+                        stdout=PIPE,
+                        stderr=PIPE,
+                        universal_newlines=True,
+                        bufsize= -1)
+        #--- Watch stdout and stderr
+        GLib.io_add_watch(self.fp.stdout, GLib.IO_IN | GLib.IO_HUP,
+                          self.on_output, encoder_type, out_file)
+        GLib.io_add_watch(self.fp.stderr, GLib.IO_IN | GLib.IO_HUP,
+                          self.on_output, encoder_type, out_file)
+        #--- On end process
+        GLib.child_watch_add(self.fp.pid, self.on_end, out_file)
+    
+    
     #--- Stop conversion cb
-    def tb_stop_clicked(self, widget):
+    def tb_stop_clicked(self, widget):        
         if self.is_converting == True:
             resp = show_message(self,
                                 _('Do you want to stop conversion process?'),
@@ -939,10 +1032,20 @@ class Curlew(Gtk.Window):
                     self.is_converting = False
                     
     
+    def new_name(self, filename):
+        """Return new filename like path/output~n.ext (n = 0,1 ...)"""
+        part = splitext(filename)
+        num = 1
+        new_name = '{}~{}'.format(part[0], part[1])
+        while os.path.exists(new_name):
+            new_name = '{}~{}{}'.format(part[0], str(num), part[1])
+            num += 1
+        return new_name
+    
     def get_duration(self, input_file):
         ''' Get duration file in seconds (float)'''
         duration = 0.0
-        cmd = ['avconv', '-i', input_file]
+        cmd = [self.encoder, '-i', input_file]
         Proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
         out_str = Proc.stderr.read()
         try:
@@ -955,9 +1058,9 @@ class Curlew(Gtk.Window):
     
     
     #---- Quality callback
-    def on_cb_quality_changed(self, widget):
-        quality_index = self.cb_quality.get_active()
-        section = self.cb_formats.get_active_text()
+    def on_cmb_quality_changed(self, widget):
+        quality_index = self.cmb_quality.get_active()
+        section = self.cmb_formats.get_active_text()
         self.set_sensitives()
         
         if self.f_file.has_option(section, 'aqual'):
@@ -1011,7 +1114,8 @@ class Curlew(Gtk.Window):
     
     def on_play_cb(self, widget):
         Iter = self.get_selected_iters()[0]
-        call(['xdg-open', self.store[Iter][1]])
+        call('{} -autoexit "{}"'.format(self.player, self.store[Iter][1]),
+             shell=True)
         
     def on_browse_cb(self, widget):
         if self.cb_same_dest.get_active():
@@ -1023,21 +1127,20 @@ class Curlew(Gtk.Window):
         
     
     def on_preview_cb(self, widget):
-        encoder_type = self.f_file.get(self.cb_formats.get_active_text(),
+        encoder_type = self.f_file.get(self.cmb_formats.get_active_text(),
                                        'encoder')
         Iter = self.get_selected_iters()[0]
         input_file = self.store[Iter][1]
-        out_file = '/tmp/Preview'
         duration = self.get_duration(input_file)
         preview_begin = str(duration / 10)
         #
         if encoder_type == 'f':
-            cmd = (self.build_avconv_cmd(input_file, out_file,
-                                         preview_begin, '10'))
+            cmd = (self.build_avconv_cmd(input_file, PREVIEW_FILE,
+                                         preview_begin, TEN_SECONDS))
         elif encoder_type == 'm':
-            cmd = self.build_mencoder_cmd(input_file, out_file)
+            cmd = self.build_mencoder_cmd(input_file, PREVIEW_FILE)
             cmd.extend(['-ss', preview_begin])
-            cmd.extend(['-endpos', '10'])
+            cmd.extend(['-endpos', TEN_SECONDS])
         
         self.fp = Popen(cmd,
                         stdout=PIPE, stderr=PIPE,
@@ -1046,12 +1149,15 @@ class Curlew(Gtk.Window):
                                  _('Please wait while preparing preview...'),
                                  'dialog-information')
         GLib.child_watch_add(self.fp.pid, self.on_end_preview,
-                             (out_file, noti))
+                             (PREVIEW_FILE, noti))
         self.set_sensitive(False)
     
     def on_end_preview(self, pid, code, data):
         if code == 0:
-            call(['xdg-open', data[0]])
+            call('{} -autoexit -window_title {} "{}"'.format(self.player,
+                                                             _('Preview'),
+                                                             data[0]),
+                 shell=True)
         self.set_sensitive(True)
         data[1].close()
     
@@ -1089,6 +1195,16 @@ class Curlew(Gtk.Window):
         if self.Iter != None:
             # Converion succeed
             if err_code == 0:
+                # 2pass
+                if self.pass_nbr == 1:
+                    self.pass_nbr = 2
+                    # Remove temoprary file
+                    self.force_delete_file(PASS_1_FILE)
+                    self.convert_file()
+                    return
+                elif self.pass_nbr == 2:
+                    self.pass_nbr = 1
+                
                 self.store[self.Iter][0] = False
                 self.store[self.Iter][4] = 100.0
                 self.store[self.Iter][5] = _("Done!")
@@ -1131,6 +1247,7 @@ class Curlew(Gtk.Window):
         #--- Skipped file during conversion (unckecked file during conversion)
         if self.store[self.Iter][0] == False:
             self.store[self.Iter][5] = _("Skipped!")
+            self.store[self.Iter][4] = 0.0
             self.fp.kill()
             # Delete the file
             self.force_delete_file(out_file)
@@ -1144,7 +1261,7 @@ class Curlew(Gtk.Window):
             # avconv progress
             if encoder_type == 'f':
                 begin = line.find('time=')
-                if begin != -1:
+                if begin != -1:                    
                     self.label_details.set_text(line.strip())
                     reg_avconv = self.reg_avconv_u
                     
@@ -1172,44 +1289,53 @@ class Curlew(Gtk.Window):
                     except ZeroDivisionError: 
                         est_size = 0
                     
-                    # Formating estimated size
-                    size_str = get_format_size(est_size)
-                    
-                    #--- Calculate remaining time.
-                    cur_time = time.time() - self.begin_time
-                    try:
-                        rem_dur = ((cur_time * self.total_duration) / elapsed_time) - cur_time
-                    except ZeroDivisionError:
-                        rem_dur = 0
-                    
-                    #--- Convert duration (sec) to time (00:00:00)
-                    rem_time = duration_to_time(rem_dur)
-                    
-                    self.store[self.Iter][2] = size_str                        # estimated size
-                    self.store[self.Iter][3] = rem_time                        # remaining time
-                    self.store[self.Iter][4] = float(time_ratio * 100)         # progress value
-                    self.store[self.Iter][5] = '{:.2%}'.format(time_ratio)     # progress text
+                    # Waiting (pluse progressbar)
+                    if est_size == 0:
+                        self.store[self.Iter][6] = self.store[self.Iter][6] + 1
+                        self.store[self.Iter][5] = _('Wait...')
+                    else:
+                        # Formating estimated size
+                        size_str = get_format_size(est_size)
+                        
+                        # Calculate remaining time.
+                        cur_time = time.time() - self.begin_time
+                        try:
+                            rem_dur = ((cur_time * self.total_duration) / elapsed_time) - cur_time
+                        except ZeroDivisionError:
+                            rem_dur = 0
+                        
+                        # Convert duration (sec) to time (00:00:00)
+                        rem_time = duration_to_time(rem_dur)
+                        
+                        self.store[self.Iter][2] = size_str                        # estimated size
+                        self.store[self.Iter][3] = rem_time                        # remaining time
+                        self.store[self.Iter][4] = float(time_ratio * 100)         # progress value
+                        self.store[self.Iter][5] = '{:.2%}'.format(time_ratio)     # progress text
+                        self.store[self.Iter][6] = -1                              # progress pusle
             
             # mencoder progress
-            if encoder_type == 'm':
+            elif encoder_type == 'm':
                 begin = line.find('Pos:')
                 if begin != -1:
+                    # Print details
                     self.label_details.set_text(line.strip())
                     
-                    #--- File size
+                    #--- Get file size
                     file_size = self.reg_menc.findall(line)[0][2]
-                    self.store[self.Iter][2] = file_size + ' MB'
                     
-                    #--- Remaining time
+                    #--- Get remaining time
                     dur = self.reg_menc.findall(line)[0][0]
                     rem_dur = self.total_duration - float(dur)
                     rem_time = duration_to_time(rem_dur)
-                    self.store[self.Iter][3] = rem_time
                     
                     #--- Progress
-                    progress_value = float(self.reg_menc.findall(line)[0][1])
-                    self.store[self.Iter][4] = progress_value
-                    self.store[self.Iter][5] = '{:.2f}%'.format(progress_value)
+                    prog_value = float(self.reg_menc.findall(line)[0][1])
+                    
+                    self.store[self.Iter][2] = file_size + ' MB'
+                    self.store[self.Iter][3] = rem_time
+                    self.store[self.Iter][4] = prog_value
+                    self.store[self.Iter][5] = '{:.2f}%'.format(prog_value)
+                    self.store[self.Iter][6] = -1
             
             #--- Append conversion details 
             self.output_details += line
@@ -1234,6 +1360,12 @@ class Curlew(Gtk.Window):
         self.e_dest.set_sensitive(Active)
         self.b_dest.set_sensitive(Active)
     
+    def combo_encoder_cb(self, combo):
+        self.encoder = combo.get_active_text()
+    
+    def on_cb_video_only_toggled(self, cb):
+        self.vb_audio.set_sensitive(not cb.get_active())
+    
     def force_delete_file(self, file_name):
         ''' Force delete file_name '''
         while os.path.exists(file_name):
@@ -1242,9 +1374,25 @@ class Curlew(Gtk.Window):
             except OSError:
                 continue
     
+    def per_to_vol(self, percent):
+        # 100 --> 256, 200 --> 512, 300 --> 768 ...
+        return '{}'.format((256 * int(percent)) / 100)
+
+    def get_aspect_ratio(self, input_file):
+        ''' extract adpect ratio from file if exist, otherwise use 4:3 
+        (fix a problem) '''
+        cmd = '{} -i {}'.format(self.encoder, input_file)
+        Proc = Popen(cmd, stdout=PIPE, stderr=PIPE, shell=True)
+        out_str = Proc.stderr.read()
+        try:
+            reg_aspect = re.compile('''DAR\s+(\d*:\d*)''')
+            return reg_aspect.findall(out_str)[0]
+        except:
+            return '4:3'
+    
     def save_options(self):
         conf = ConfigParser()
-        conf.read(self.opts_file)
+        conf.read(OPTS_FILE)
         
         if not conf.has_section('configs'):
             conf.add_section('configs')
@@ -1252,23 +1400,19 @@ class Curlew(Gtk.Window):
         conf.set('configs', 'curr_open_folder', self.curr_open_folder)
         conf.set('configs', 'curr_save_folder', self.curr_save_folder)
         conf.set('configs', 'e_dest_text', self.e_dest.get_text())
-        conf.set('configs', 'cb_format_ind', self.cb_formats.get_active())
+        conf.set('configs', 'cmb_formats_ind', self.cmb_formats.get_active())
         conf.set('configs', 'cb_same_dest_on', self.cb_same_dest.get_active())
         conf.set('configs', 'cb_same_qual_on', self.cb_same_qual.get_active())
+        conf.set('configs', 'overwrite_mode', self.cmb_exist.get_active())
         
-        files_list = []
-        for i in range(len(self.store)):
-            files_list.append(self.store[i][:])
-        conf.set('configs', 'files_list', files_list)
-        
-        with open(self.opts_file, 'w') as configfile:
+        with open(OPTS_FILE, 'w') as configfile:
             conf.write(configfile)
         
         
     
     def load_options(self):
         conf = ConfigParser()
-        conf.read(self.opts_file)
+        conf.read(OPTS_FILE)
         
         try:
             self.curr_open_folder = conf.get('configs', 'curr_open_folder')
@@ -1280,13 +1424,13 @@ class Curlew(Gtk.Window):
             self.curr_save_folder = HOME
         try:
             self.e_dest.set_text(conf.get('configs', 'e_dest_text'))
-            self.cb_formats.set_active(conf.getint('configs', 'cb_format_ind'))
+            self.cmb_formats.set_active(conf.getint('configs', 'cmb_formats_ind'))
             self.cb_same_dest.set_active(conf.getboolean('configs',
                                                          'cb_same_dest_on'))
             self.cb_same_qual.set_active(conf.getboolean('configs',
                                                             'cb_same_qual_on'))
-            for r in eval(conf.get('configs', 'files_list')):
-                self.store.append(r)
+            self.cmb_exist.set_active(conf.getboolean('configs',
+                                                            'overwrite_mode'))
         except NoOptionError as err:
             print(err)
         except NoSectionError as err:

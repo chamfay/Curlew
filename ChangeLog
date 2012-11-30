@@ -1,3 +1,16 @@
+Version 0.1.9
+--------------
+
+* Added two-pass encoding option.
+* Enhanced spliting for a long begin time (pulse progressbar during processing).
+* Allowed choosing between ffmpeg or avconv.
+* Used internal player (avplay/ffplay) for playing and preview files.
+* Added option to extract only video (no sound).
+* Add option to change output sound volume.
+* Add option to switch between overwrite/rename/skip existed file.
+* Some fixes.
+
+
 Version 0.1.8r1
 ---------------
 
