@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-30 16:10+0100\n"
-"PO-Revision-Date: 2012-11-30 16:14-0000\n"
+"POT-Creation-Date: 2012-12-01 17:46+0100\n"
+"PO-Revision-Date: 2012-12-01 17:47-0000\n"
 "Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Arabic <chamfay@gmail.com>\n"
 "Language: \n"
@@ -275,7 +275,8 @@ msgid "All files"
 msgstr "جميع الملفات"
 
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:536
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1354
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1167
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1376
 msgid "Ready!"
 msgstr "جاهز!"
 
@@ -283,55 +284,52 @@ msgstr "جاهز!"
 msgid "Choose destination"
 msgstr "اِختر الوِجهة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:899
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:904
 msgid "Destination path is not valid."
 msgstr "مسار الوِجهة غير صالح"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:905
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:910
 msgid "Destination path is not accessible."
 msgstr "مسار الوِجهة لا يمكن الوصول إليه"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:926
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:963
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1249
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:931
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:968
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1271
 msgid "Skipped!"
 msgstr "تمّ تخطيه!"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:936
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:941
 msgid "Not found!"
 msgstr "غير موجود!"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1022
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1032
 msgid "Do you want to stop conversion process?"
 msgstr "هل تريد إيقاف عملية التحويل؟"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1076
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1086
 msgid "Select subtitle"
 msgstr "اِختر ملف الترجمة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1084
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1094
 msgid "Subtitle files"
 msgstr "ملفات ترجمة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1149
-msgid "Please wait while preparing preview..."
-msgstr "الرجاء الانتظار ريثما يتم تحضير المعاينة..."
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1162
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1317
+msgid "Wait..."
+msgstr "انتظار..."
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1158
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1172
 msgid "Preview"
 msgstr "معاينة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1210
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1232
 msgid "Done!"
 msgstr "تمّ التحويل!"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1217
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1239
 msgid "Failed!"
 msgstr "فشل"
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1295
-msgid "Wait..."
-msgstr "انتظار..."
 
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/about.py:7
 msgid "Curlew"
@@ -356,6 +354,9 @@ msgstr "د"
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:43
 msgid "sec"
 msgstr "ثا"
+
+#~ msgid "Please wait while preparing preview..."
+#~ msgstr "الرجاء الانتظار ريثما يتم تحضير المعاينة..."
 
 #~ msgid ""
 #~ "File: <b>{}</b> already exist.\n"

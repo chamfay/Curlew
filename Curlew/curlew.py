@@ -747,7 +747,7 @@ class Curlew(Gtk.Window):
         
         # Presets formats
         elif media_type == 'presets':
-            cmd.extend(self.presets_cmd) 
+            cmd.extend(self.presets_cmd)
         
         # Split file
         if start_pos != -1 and part_dura != -1:
@@ -775,13 +775,20 @@ class Curlew(Gtk.Window):
     
     
     #--- MEncoder cmd
-    def build_mencoder_cmd(self, input_file, out_file):
+    def build_mencoder_cmd(self, 
+                           input_file, out_file,
+                           start_pos= -1, part_dura= -1):
 
         cmd = ['mencoder']
         #--- Input and output files
         cmd.append(input_file)
         cmd.extend(['-o', out_file])
         cmd.append('-noskip')
+        
+        # Split file (mencoder)
+        if start_pos != -1 and part_dura != -1:
+            cmd.extend(['-ss', start_pos])
+            cmd.extend(['-endpos', part_dura])
         
         #--- Subtitle font
         if self.cb_sub.get_active():
@@ -875,9 +882,7 @@ class Curlew(Gtk.Window):
         
         #--- Split file (encode part of file)
         if self.cb_split.get_active():
-            # Begin time
             cmd.extend(['-ss', self.tl_begin.get_time_str()])
-            # Duration
             cmd.extend(['-endpos', self.tl_duration.get_time_str()])
         
         #--- Video size
@@ -971,17 +976,22 @@ class Curlew(Gtk.Window):
             if self.pass_nbr == 1:
                 out_file = PASS_1_FILE
             
-            #--- which encoder use (avconv of mencoder)
+            #--- Which encoder use (avconv of mencoder)
             if encoder_type == 'f':
                 if self.cb_split.get_active():
                     full_cmd = self.build_avconv_cmd(input_file, out_file,
-                                                 self.tl_begin.get_time_str(),
-                                                 self.tl_duration.get_time_str())
+                                            self.tl_begin.get_time_str(),
+                                            self.tl_duration.get_time_str())
                 else:
                     full_cmd = self.build_avconv_cmd(input_file, out_file)
                     
             elif encoder_type == 'm':
-                full_cmd = self.build_mencoder_cmd(input_file, out_file)
+                if self.cb_split.get_active():
+                    full_cmd = self.build_mencoder_cmd(input_file, out_file,
+                                            self.tl_begin.get_time_str(),
+                                            self.tl_duration.get_time_str()) 
+                else:
+                    full_cmd = self.build_mencoder_cmd(input_file, out_file)
             
             #--- Total file duration
             self.total_duration = self.get_duration(input_file)
@@ -1123,9 +1133,7 @@ class Curlew(Gtk.Window):
             call(['xdg-open', dirname(self.store[Iter][1])])
         else:
             call(['xdg-open', self.e_dest.get_text()])
-
-        
-    
+            
     def on_preview_cb(self, widget):
         encoder_type = self.f_file.get(self.cmb_formats.get_active_text(),
                                        'encoder')
@@ -1133,34 +1141,48 @@ class Curlew(Gtk.Window):
         input_file = self.store[Iter][1]
         duration = self.get_duration(input_file)
         preview_begin = str(duration / 10)
-        #
-        if encoder_type == 'f':
-            cmd = (self.build_avconv_cmd(input_file, PREVIEW_FILE,
-                                         preview_begin, TEN_SECONDS))
-        elif encoder_type == 'm':
-            cmd = self.build_mencoder_cmd(input_file, PREVIEW_FILE)
-            cmd.extend(['-ss', preview_begin])
-            cmd.extend(['-endpos', TEN_SECONDS])
         
-        self.fp = Popen(cmd,
-                        stdout=PIPE, stderr=PIPE,
-                        universal_newlines=True, bufsize= -1)
-        noti = show_notification(APP_NAME, '',
-                                 _('Please wait while preparing preview...'),
-                                 'dialog-information')
-        GLib.child_watch_add(self.fp.pid, self.on_end_preview,
-                             (PREVIEW_FILE, noti))
+        if encoder_type == 'f':
+            cmd = self.build_avconv_cmd(input_file, PREVIEW_FILE,
+                                        preview_begin, TEN_SECONDS)
+        elif encoder_type == 'm':
+            cmd = self.build_mencoder_cmd(input_file, PREVIEW_FILE,
+                                          preview_begin, TEN_SECONDS)
+    
+        fp = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        
+        # Disable main window
         self.set_sensitive(False)
-    
-    def on_end_preview(self, pid, code, data):
-        if code == 0:
-            call('{} -autoexit -window_title {} "{}"'.format(self.player,
-                                                             _('Preview'),
-                                                             data[0]),
-                 shell=True)
+        
+        # Wait...
+        while fp.poll() == None:
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            self.store[Iter][6] = self.store[Iter][6] + 1
+            self.store[Iter][5] = _('Wait...')
+            time.sleep(0.1)
+            
+        # Update informations.
+        self.store[Iter][4] = 0.0
+        self.store[Iter][5] = _('Ready!')
+        self.store[Iter][6] = -1
+        
+        # Play preview file.
+        fp = Popen('{} -autoexit -window_title {} "{}"'.format(self.player,
+                                                         _('Preview'),
+                                                         PREVIEW_FILE),
+             shell=True,
+             stdout=PIPE, stderr=PIPE)
+        
+        # Delete preview file after the end of playing
+        while fp.poll() == None:
+            pass
+        self.force_delete_file(PREVIEW_FILE)
+        
+        # Enable main window
         self.set_sensitive(True)
-        data[1].close()
     
+
     #--- Clear list    
     def tb_clear_clicked(self, widget):
         if not self.is_converting:

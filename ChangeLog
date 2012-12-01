@@ -1,3 +1,11 @@
+Version 0.1.9r1
+--------------
+
+* Enhanced preview function (remove the notification before preview)
+* Removed "gir1.2-notify-0.7" dependency package (reduced dependencies :)).
+* Removed temporary preview file after playing it.
+
+
 Version 0.1.9
 --------------
 
