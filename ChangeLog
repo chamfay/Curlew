@@ -1,3 +1,12 @@
+Version 0.1.9r2
+--------------
+
+* Added H.264 video with subtitle.
+* Enhanced (XviD, DivX) with subtitle formats (some parameters).
+* No preview during conversion process.
+* Show current pass (P-1 or P-2) when using 2-Pass option.
+
+
 Version 0.1.9r1
 --------------
 

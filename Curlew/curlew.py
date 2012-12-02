@@ -7,7 +7,7 @@
 # License: Waqf license, see: http://www.ojuba.org/wiki/doku.php/waqf/license
 #===============================================================================
 
-#TODO: ADD X264 CODEC FOR MENCODER.
+
 
 try:
     import sys 
@@ -829,13 +829,13 @@ class Curlew(Gtk.Window):
                 # Bitrate
                 a_opts.append('br={}'.format(self.c_abitrate.get_text()))
             
-            #--- For libavcodec (lavc)
+            #--- For libavcodec audio (lavc)
             elif self.c_acodec.get_text() == 'lavc':
                 cmd.append('-lavcopts')
                 # Bitrate
                 a_opts.append('abitrate={}'.format(self.c_abitrate.get_text()))
                 # Codec used
-                a_opts.append('acodec=aac')
+                a_opts.append('acodec=mp2')
                 
             #--- Append cmd with audio opts
             cmd.append(':'.join(a_opts))
@@ -845,26 +845,43 @@ class Curlew(Gtk.Window):
         cmd.extend(['-ovc', self.c_vcodec.get_text()])
         
         #--- For XviD video codec
+        v_opts = []
         if self.c_vcodec.get_text() == 'xvid':
             cmd.append('-xvidencopts')
-            v_opts = []
             # Video bitrate
             v_opts.append('bitrate={}'.format(self.c_vbitrate.get_text()))
+            # More...
+            v_opts.append('autoaspect')
+            v_opts.append('vhq=2:bvhq=1:trellis:hq_ac:chroma_me:chroma_opt')
+            v_opts.append('quant_type=mpeg')
             # Pass number
             if self.pass_nbr != 0:
                 v_opts.append('pass={}'.format(self.pass_nbr))        
         
-        #--- For libavcodec video opts
+        #--- For libavcodec video opts (divx)
         elif self.c_vcodec.get_text() == 'lavc':
             cmd.append('-lavcopts')
-            v_opts = []
             # Bitrate
             v_opts.append('vbitrate={}'.format(self.c_vbitrate.get_text()))
+            # Additional options.
+            v_opts.append('vcodec=mpeg4:autoaspect')
+            if self.pass_nbr != 1:
+                v_opts.append('mbd=2:trell')
+                
             # Pass number (1 or 2)
             if self.pass_nbr != 0:
                 v_opts.append('vpass={}'.format(self.pass_nbr))
         
-        #--- For x264 video?
+        #--- For H.264 video
+        elif self.c_vcodec.get_text() == 'x264':
+            cmd.append('-x264encopts')
+            # Bitrate
+            v_opts.append('bitrate={}'.format(self.c_vbitrate.get_text()))
+            # Additional options.
+            v_opts.append('subq=5:8x8dct:me=umh:frameref=2:bframes=3:weight_b')
+            # Pass number (1 or 2)
+            if self.pass_nbr != 0:
+                v_opts.append('pass={}'.format(self.pass_nbr))
         
         # Append cmd with video opts
         cmd.append(':'.join(v_opts))
@@ -888,7 +905,13 @@ class Curlew(Gtk.Window):
         #--- Video size
         if self.c_vsize.get_text() != 'default':
             cmd.append('-vf')
-            cmd.append('scale={},harddup'.format(self.c_vsize.get_text()))
+            cmd.append('scale={}'.format(self.c_vsize.get_text()))
+        
+        #--- Video FPS
+        if self.c_vfps.get_active_text() != 'default':
+            cmd.append('-mf')
+            cmd.append('fps={}'.format(self.c_vfps.get_active_text()))
+        
         
         print(' '.join(cmd))
         return cmd
@@ -1004,25 +1027,23 @@ class Curlew(Gtk.Window):
             self.begin_time = time.time() 
             
             #--- Start the process
-            self.start_process(full_cmd, encoder_type, out_file)
+            self.fp = Popen(full_cmd,
+                            stdout=PIPE,
+                            stderr=PIPE,
+                            universal_newlines=True,
+                            bufsize= -1)
+            #--- Watch stdout and stderr
+            GLib.io_add_watch(self.fp.stdout,
+                              GLib.IO_IN | GLib.IO_HUP,
+                              self.on_output, encoder_type, out_file)
+            GLib.io_add_watch(self.fp.stderr,
+                              GLib.IO_IN | GLib.IO_HUP,
+                              self.on_output, encoder_type, out_file)
+            #--- On end process
+            GLib.child_watch_add(self.fp.pid, self.on_end, out_file)
             
         else:
             self.is_converting = False
-    
-    # Start process
-    def start_process(self, cmd, encoder_type, out_file):
-        self.fp = Popen(cmd,
-                        stdout=PIPE,
-                        stderr=PIPE,
-                        universal_newlines=True,
-                        bufsize= -1)
-        #--- Watch stdout and stderr
-        GLib.io_add_watch(self.fp.stdout, GLib.IO_IN | GLib.IO_HUP,
-                          self.on_output, encoder_type, out_file)
-        GLib.io_add_watch(self.fp.stderr, GLib.IO_IN | GLib.IO_HUP,
-                          self.on_output, encoder_type, out_file)
-        #--- On end process
-        GLib.child_watch_add(self.fp.pid, self.on_end, out_file)
     
     
     #--- Stop conversion cb
@@ -1135,6 +1156,8 @@ class Curlew(Gtk.Window):
             call(['xdg-open', self.e_dest.get_text()])
             
     def on_preview_cb(self, widget):
+        if self.is_converting:
+            return
         encoder_type = self.f_file.get(self.cmb_formats.get_active_text(),
                                        'encoder')
         Iter = self.get_selected_iters()[0]
@@ -1329,11 +1352,16 @@ class Curlew(Gtk.Window):
                         # Convert duration (sec) to time (00:00:00)
                         rem_time = duration_to_time(rem_dur)
                         
-                        self.store[self.Iter][2] = size_str                        # estimated size
-                        self.store[self.Iter][3] = rem_time                        # remaining time
-                        self.store[self.Iter][4] = float(time_ratio * 100)         # progress value
-                        self.store[self.Iter][5] = '{:.2%}'.format(time_ratio)     # progress text
-                        self.store[self.Iter][6] = -1                              # progress pusle
+                        self.store[self.Iter][2] = size_str # estimated size
+                        self.store[self.Iter][3] = rem_time # remaining time
+                        self.store[self.Iter][4] = float(time_ratio * 100) # progress value
+                        if self.pass_nbr != 0:
+                            self.store[self.Iter][5] = '{:.2%} (P{})'\
+                            .format(time_ratio, self.pass_nbr) # progress text
+                        else:
+                            self.store[self.Iter][5] = '{:.2%}'\
+                            .format(time_ratio) # progress text
+                        self.store[self.Iter][6] = -1 # progress pusle
             
             # mencoder progress
             elif encoder_type == 'm':
@@ -1356,7 +1384,11 @@ class Curlew(Gtk.Window):
                     self.store[self.Iter][2] = file_size + ' MB'
                     self.store[self.Iter][3] = rem_time
                     self.store[self.Iter][4] = prog_value
-                    self.store[self.Iter][5] = '{:.2f}%'.format(prog_value)
+                    if self.pass_nbr != 0:
+                        self.store[self.Iter][5] = '{:.2f}% (P{})'\
+                        .format(prog_value, self.pass_nbr)
+                    else:    
+                        self.store[self.Iter][5] = '{:.2f}%'.format(prog_value)
                     self.store[self.Iter][6] = -1
             
             #--- Append conversion details 

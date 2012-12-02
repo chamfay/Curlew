@@ -3,7 +3,7 @@
 from gi.repository import Gtk
 import i18n
 
-APP_VERSION = '0.1.9r1'
+APP_VERSION = '0.1.9r2'
 APP_NAME = _('Curlew')
 
 class About(Gtk.AboutDialog):
