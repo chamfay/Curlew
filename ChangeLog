@@ -1,3 +1,11 @@
+Version 0.1.9r3
+--------------
+
+* Added duration column to the treeview.
+* Disabled controls during conversion process.
+* Some fixes.
+
+
 Version 0.1.9r2
 --------------
 

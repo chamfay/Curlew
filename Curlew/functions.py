@@ -38,14 +38,14 @@ def get_format_size(size):
 
 
 def duration_to_time(duration):
-    ''' Convert duration (sec) to time 00:00:00 '''
+    ''' Convert duration (sec) to time 0:00:00 '''
     if duration < 0: duration = 0
-    return '{:02.0f}:{:02.0f}:{:02.0f}'.format(duration/3600, 
-                                               (duration%3600)/60, 
-                                               (duration%3600)%60)
-
-
+    return '{:.0f}:{:02.0f}:{:02.0f}'.format(
+                                             duration/3600,
+                                             (duration%3600)/60,
+                                             (duration%3600)%60
+                                             )
 def time_to_duration(time):
-    ''' Convert time like 00:00:00.00 to duration (sec)'''
+    ''' Convert time like 0:00:00.00 to duration (sec)'''
     times = time.split(':')
     return int(times[0])*3600 + int(times[1])*60 + float(times[2])
