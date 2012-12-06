@@ -162,7 +162,6 @@ class Curlew(Gtk.Window):
                                    str    # complete file_name
                                    )         
         self.tree = Gtk.TreeView(self.store)
-        self.tree.set_grid_lines(True)
         self.tree.set_has_tooltip(True)
         self.tree.set_rubber_banding(True)
 
@@ -188,7 +187,7 @@ class Curlew(Gtk.Window):
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("File"), cell, text=C_NAME)
         col.set_resizable(True)
-        col.set_min_width(100)
+        col.set_min_width(180)
         self.tree.append_column(col)
         
         #--- Duration cell
@@ -342,7 +341,7 @@ class Curlew(Gtk.Window):
         note.append_page(self.vb_sub, Gtk.Label(_("Subtitle")))
         
         #--- Sub Active/Desactive
-        self.cb_sub = Gtk.CheckButton(_('Use subtitle'))
+        self.cb_sub = Gtk.CheckButton(_('Use Subtitle'))
         self.cb_sub.connect('toggled', self.cb_sub_toggled)
         self.vb_sub.pack_start(self.cb_sub, False, False, 0)
         
@@ -433,6 +432,11 @@ class Curlew(Gtk.Window):
         hb_other = LabeledHBox(_('Others opts:'), self.vb_other, 10)
         self.e_extra = Gtk.Entry()
         hb_other.pack_start(self.e_extra, True, True, 0)
+        
+        # Threads
+        hb_threads = LabeledHBox(_('Threads:'), self.vb_other, 10)
+        self.s_threads = Gtk.SpinButton().new_with_range(0, 10, 1)
+        hb_threads.pack_start(self.s_threads, False, False, 0)
         
         # Replace/Skip/Rename
         self.cmb_exist = LabeledComboEntry(self.vb_other, _('File exist:'), 0)
@@ -700,6 +704,11 @@ class Curlew(Gtk.Window):
         cmd = [self.encoder, '-y'] #, '-xerror']
         cmd.extend(["-i", input_file])
         
+        # Threads
+        if self.s_threads.get_value() != 0:
+            cmd.extend(['-threads', 
+                        '{}'.format(self.s_threads.get_value_as_int())])
+        
         # Force format
         if self.f_file.has_option(section, 'ff'):
             cmd.extend(['-f', self.f_file.get(section, 'ff')])
@@ -884,7 +893,7 @@ class Curlew(Gtk.Window):
             v_opts.append('quant_type=mpeg')
             # Pass number
             if self.pass_nbr != 0:
-                v_opts.append('pass={}'.format(self.pass_nbr))        
+                v_opts.append('pass={}'.format(self.pass_nbr))
         
         #--- For libavcodec video opts (divx)
         elif self.c_vcodec.get_text() == 'lavc':
@@ -910,6 +919,10 @@ class Curlew(Gtk.Window):
             # Pass number (1 or 2)
             if self.pass_nbr != 0:
                 v_opts.append('pass={}'.format(self.pass_nbr))
+        
+        # Threads number (x264, xvid, divx)
+        if self.s_threads.get_value() != 0:
+            v_opts.append('threads={}'.format(self.s_threads.get_value_as_int()))
         
         # Append cmd with video opts
         cmd.append(':'.join(v_opts))
@@ -1183,7 +1196,7 @@ class Curlew(Gtk.Window):
             iters.append(model.get_iter(path))
         return iters
     
-    def on_play_cb(self, widget):
+    def on_play_cb(self, *args):
         Iter = self.get_selected_iters()[0]
         call('{} -autoexit "{}"'.format(self.player, self.store[Iter][C_FILE]),
              shell=True)
@@ -1264,15 +1277,28 @@ class Curlew(Gtk.Window):
     
     #--- Remove selected items.
     def on_key_press(self, widget, event):
+        
+        # Delete file with "Delete" key
         if event.keyval == Gdk.KEY_Delete:
             self.tb_remove_clicked(None)
+        
+        # Play file with "Return" key
+        elif event.keyval == Gdk.KEY_Return:
+            self.on_play_cb()
             
     def show_popup(self, widget, event):
         treepath = self.tree.get_selection().get_selected_rows()[1]
-        if event.button == 3 and len(treepath) != 0:
+        if len(treepath) == 0:
+            return
+        
+        # Show popup menu with right click
+        if event.button == 3:
             self.popup.show_all()
             self.popup.popup(None, None, None, None, 3,
                              Gtk.get_current_event_time())
+        # play with double click
+        elif event.button == 1 and event.get_click_count()[1] == 2:
+            self.on_play_cb()
         
     
     #---- On end conversion
