@@ -14,15 +14,6 @@ def show_message(parent,
     mess_dlg.destroy()
     return resp
 
-def extract_font_name(font_str):
-    '''Get the font name only, without style (bold, italic...) from string'''
-    font_str = font_str[:-3]
-    styles_list = ['Bold', 'Italic', 'Oblique', 'Medium']
-    for style in styles_list:
-        font_str = font_str.replace(style, '')
-    return font_str.strip()
-
-
 def get_format_size(size):
     ''' formating file size '''
     size_str = ''
