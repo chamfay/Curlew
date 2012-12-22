@@ -1,3 +1,13 @@
+Version 0.1.11
+--------------
+
+* Added Matroska format(mkv container with libvorbis and libvpx).
+* Added double-click in the treeview (if empty) to add new file(s).
+* Saved last used font name.
+* Removed duplicated formats (vcd, dvd, svcd).
+* Removed version number from title bar.
+
+
 Version 0.1.10
 --------------
 
@@ -43,7 +53,7 @@ Version 0.1.9r1
 
 * Enhanced preview function (remove the notification before preview)
 * Removed "gir1.2-notify-0.7" dependency package (reduced dependencies :)).
-* Removed temporary preview file after playing it.
+* Removed temporary preview file after played it.
 
 
 Version 0.1.9

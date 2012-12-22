@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-11 13:14+0100\n"
-"PO-Revision-Date: 2012-12-11 13:14-0000\n"
+"PO-Revision-Date: 2012-12-14 08:52-0000\n"
 "Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Arabic <chamfay@gmail.com>\n"
 "Language: \n"
@@ -352,36 +352,3 @@ msgstr "ثا"
 msgid "Errors detail"
 msgstr "تفاصيل اﻷخطاء"
 
-#~ msgid "Low Quality"
-#~ msgstr "جودة منخفضة"
-
-#~ msgid "Normal Quality"
-#~ msgstr "جودة متوسطة"
-
-#~ msgid "High Quality"
-#~ msgstr "جودة عالية"
-
-#~ msgid "<b>Quality:</b>"
-#~ msgstr "<b>الجودة:</b>"
-
-#~ msgid "Conversion finished!"
-#~ msgstr "تمت عملية التحويل!"
-
-#~ msgid "Path"
-#~ msgstr "المسار"
-
-#~ msgid "Remove"
-#~ msgstr "اِحذف"
-
-#~ msgid "Play"
-#~ msgstr "شغّل"
-
-#~ msgid "Please wait while preparing preview..."
-#~ msgstr "الرجاء الانتظار ريثما يتم تحضير المعاينة..."
-
-#~ msgid ""
-#~ "File: <b>{}</b> already exist.\n"
-#~ "Overwrite it?"
-#~ msgstr ""
-#~ "الملف: <b>{}</b> موجود مُسبقاً\n"
-#~ "هل تريد استبداله؟"

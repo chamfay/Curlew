@@ -8,6 +8,9 @@
 # Please see: http://www.ojuba.org/wiki/doku.php/waqf/license for more infos.
 #===============================================================================
 
+#TODO: Resize output.
+#TODO: Add mkv format.
+
 try:
     import sys
     import os
@@ -22,7 +25,7 @@ try:
     
     from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, \
     CustomHScale
-    from about import APP_NAME, APP_VERSION, About
+    from about import APP_NAME, About
     from functions import show_message, get_format_size, \
     duration_to_time, time_to_duration
     from logdialog import LogDialog
@@ -100,7 +103,7 @@ class Curlew(Gtk.Window):
                
         Gtk.Window.__init__(self)        
         self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_title('{} {}'.format(APP_NAME, APP_VERSION))
+        self.set_title('{}'.format(APP_NAME))
         self.set_border_width(6)
         self.set_size_request(680, -1)
         self.set_icon_name('curlew')
@@ -358,7 +361,6 @@ class Curlew(Gtk.Window):
         self.hb_font = LabeledHBox(_('Font: '), self.vb_sub, 9)
         self.b_font = Gtk.FontButton()
         self.hb_font.pack_start(self.b_font, True, True, 0)
-        self.b_font.set_font_name('Arial 12')
         self.b_font.set_show_size(False)
         self.b_font.set_show_style(False)
         
@@ -512,7 +514,7 @@ abort conversion process?'),
         Gtk.main_quit()
     
     #--- Add files
-    def tb_add_clicked(self, widget):
+    def tb_add_clicked(self, *args):
         open_dlg = Gtk.FileChooserDialog(_("Add file"),
                                          self, Gtk.FileChooserAction.OPEN,
                                         (Gtk.STOCK_OK, 
@@ -604,9 +606,7 @@ abort conversion process?'),
         elif media_type == 'video':
             sens = [True, True, False, False, False]
         elif media_type == 'mvideo':
-            sens = [True, True, True, False, False]
-        elif media_type == 'fixed':
-            sens = [False, False, False, False, False]
+            sens = [True, True, True, False, False]            
         elif media_type == 'ogg':
             sens = [True, False, False, True, False]
         elif media_type == 'ogv':
@@ -623,7 +623,7 @@ abort conversion process?'),
         self.cb_same_qual.set_active(False)
         self.cb_video_only.set_active(False)
         is_true = not(self.f_file.get(section, 'encoder') == 'm' \
-                      or media_type in ['fixed', 'presets'])
+                      or media_type == 'presets')
         self.cb_same_qual.set_sensitive(is_true)
     
     
@@ -760,14 +760,8 @@ abort conversion process?'),
             if self.e_extra.get_text().strip() != '':
                 cmd.extend(self.e_extra.get_text().split())
         
-        
-        # Fixed opts
-        if media_type == 'fixed':
-            target = self.f_file.get(section, 'target')
-            cmd.extend(['-target', target])
-        
         # Presets formats
-        elif media_type == 'presets':
+        if media_type == 'presets':
             cmd.extend(self.presets_cmd)
         
         # Split file
@@ -1271,6 +1265,10 @@ abort conversion process?'),
             
     # Mouse events
     def on_button_press(self, widget, event):
+        if len(self.store) == 0:
+            if event.button == 1 and event.get_click_count()[1] == 2:
+                self.tb_add_clicked()
+                return
         treepath = self.tree.get_selection().get_selected_rows()[1]
         if len(treepath) == 0:
             return
@@ -1516,6 +1514,7 @@ abort conversion process?'),
         self.e_dest.set_sensitive(sens)
         self.b_dest.set_sensitive(sens)
         self.cb_dest.set_sensitive(sens)
+        self.cb_same_qual.set_sensitive(sens)
         
         self.vb_audio.set_sensitive(sens)
         self.vb_video.set_sensitive(sens)
@@ -1537,6 +1536,7 @@ abort conversion process?'),
         conf.set('configs', 'cb_same_qual_on', self.cb_same_qual.get_active())
         conf.set('configs', 'overwrite_mode', self.cmb_exist.get_active())
         conf.set('configs', 'encoder', self.cmb_encoder.get_active())
+        conf.set('configs', 'font', self.b_font.get_font_family().get_name())
         
         with open(OPTS_FILE, 'w') as configfile:
             conf.write(configfile)
@@ -1561,6 +1561,8 @@ abort conversion process?'),
             self.cmb_exist.set_active(conf.getboolean('configs',
                                                       'overwrite_mode'))
             self.cmb_encoder.set_active(conf.getint('configs', 'encoder'))
+            self.b_font.set_font(conf.get('configs', 'font'))
+            
         except NoOptionError as err:
             print(err)
     
