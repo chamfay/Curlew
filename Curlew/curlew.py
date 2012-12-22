@@ -8,9 +8,6 @@
 # Please see: http://www.ojuba.org/wiki/doku.php/waqf/license for more infos.
 #===============================================================================
 
-#TODO: Resize output.
-#TODO: Add mkv format.
-
 try:
     import sys
     import os
