@@ -1,3 +1,10 @@
+Version 0.1.12
+--------------
+
+* Added tooltip informations about the file when cursor moved over it.
+* Added subtitle delay option, can be negative value.
+
+
 Version 0.1.11
 --------------
 

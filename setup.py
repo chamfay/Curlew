@@ -17,7 +17,7 @@ setup(
       name="Curlew",
       description='Easy to use multimedia converter in Linux',
       long_description='Easy to use multimedia converter in Linux',
-      version="0.1.11",
+      version="0.1.12",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',

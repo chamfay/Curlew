@@ -8,6 +8,7 @@
 # Please see: http://www.ojuba.org/wiki/doku.php/waqf/license for more infos.
 #===============================================================================
 
+
 try:
     import sys
     import os
@@ -15,7 +16,7 @@ try:
     import time
     from subprocess import Popen, PIPE, call
     from os.path import basename, isdir, splitext, join, dirname, realpath, \
-    isfile, exists
+    isfile, exists, getsize
     from ConfigParser import ConfigParser, NoOptionError
     from urllib import unquote
     from gi.repository import Gtk, GLib, Gdk
@@ -176,6 +177,7 @@ class Curlew(Gtk.Window):
         
         self.tree.connect("button-press-event", self.on_button_press)
         self.tree.connect("key-press-event", self.on_key_press)
+        self.tree.connect("query-tooltip", self.tooltip_toc)
         
         scroll = Gtk.ScrolledWindow()
         scroll.set_size_request(-1, 200)
@@ -401,6 +403,15 @@ class Curlew(Gtk.Window):
         self.cmb_enc.set_wrap_width(4)
         self.hb_enc.pack_start(self.cmb_enc, True, True, 0)
         self.hb_enc.set_sensitive(False)
+        
+        # Delay subtitle
+        self.hb_delay = LabeledHBox(_('Delay: '), self.vb_sub, 9)
+        self.sub_delay = Gtk.SpinButton()        
+        self.sub_delay.set_adjustment(Gtk.Adjustment(0, -90000, 90000, 1))
+        self.hb_delay.pack_start(self.sub_delay, True, True, 0)
+        self.hb_delay.pack_start(Gtk.Label(_("sec")), False, False, 0)
+        self.hb_delay.set_sensitive(False)
+        
         
         #--- Other page (split,...)
         self.vb_other = Gtk.VBox()
@@ -811,6 +822,9 @@ abort conversion process?'),
                         str(self.spin_size.get_value_as_int())])
             cmd.extend(['-subpos', str(self.spin_pos.get_value_as_int())])
             cmd.extend(['-subcp', self.cmb_enc.get_active_text()])
+            #--- Delay Sub
+            if self.sub_delay.get_value() != 0:
+                cmd.extend(['-subdelay', str(self.sub_delay.get_value_as_int())])
             # RTL language (Arabic)
             cmd.append('-flip-hebrew')
             cmd.append('-noflip-hebrew-commas')
@@ -926,7 +940,6 @@ abort conversion process?'),
         if self.c_vfps.get_active_text() != 'default':
             cmd.append('-mf')
             cmd.append('fps={}'.format(self.c_vfps.get_active_text()))
-        
         
         return cmd
 
@@ -1248,6 +1261,7 @@ abort conversion process?'),
         self.hb_font.set_sensitive(widget.get_active())
         self.hb_pos.set_sensitive(widget.get_active())
         self.hb_size.set_sensitive(widget.get_active())
+        self.hb_delay.set_sensitive(widget.get_active())
     
     # Keyboard events.
     def on_key_press(self, widget, event):
@@ -1484,7 +1498,7 @@ abort conversion process?'),
     
     def force_delete_file(self, file_name):
         ''' Force delete file_name '''
-        while os.path.exists(file_name):
+        while exists(file_name):
             try:
                 os.unlink(file_name)
             except OSError:
@@ -1573,6 +1587,27 @@ abort conversion process?'),
             f_log.write('\nError detail:\n*************\n')
             f_log.write(self.log.read())
             f_log.write('\n')
+            
+    
+    
+    def tooltip_toc(self, tree, x, y, keyboard_tip, tooltip):
+        path = tree.get_tooltip_context(x, y, keyboard_tip)[4]
+        if path:
+            file_name = self.store[path][C_NAME]
+            full_path = self.store[path][C_FILE]
+            file_path = dirname(full_path)
+            file_size = get_format_size(getsize(full_path)/1024)
+            file_duration = self.store[path][C_DURA]
+            
+            infos  = _('''<b>File:</b>\t{}
+<b>Path:</b>\t{}
+<b>Size:</b>\t{}
+<b>Duration:</b>\t{}'''.format(file_name, file_path, file_size, file_duration))
+            
+            tooltip.set_markup(infos)
+            tree.set_tooltip_row(tooltip, path)
+            return True
+        else: return False
 
 
 def main():
