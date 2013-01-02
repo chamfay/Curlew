@@ -3,7 +3,7 @@
 from gi.repository import Gtk
 import i18n
 
-APP_VERSION = '0.1.12'
+APP_VERSION = '0.1.13'
 APP_NAME = _('Curlew')
 
 class About(Gtk.AboutDialog):
@@ -11,7 +11,7 @@ class About(Gtk.AboutDialog):
         Gtk.AboutDialog.__init__(self, parent=parent, wrap_license=True)
         self.set_program_name(APP_NAME)
         self.set_authors(['Fayssal Chamekh <chamfay@gmail.com>'])
-        self.set_copyright("Copyright © 2012 Fayssal Chamekh <chamfay@gmail.com>")
+        self.set_copyright("Copyright © 2012, 2013 Fayssal Chamekh <chamfay@gmail.com>")
         self.set_version(APP_VERSION)
         self.set_title(_('About ' + APP_NAME))
         self.set_logo_icon_name('curlew')

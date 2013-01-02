@@ -8,7 +8,6 @@
 # Please see: http://www.ojuba.org/wiki/doku.php/waqf/license for more infos.
 #===============================================================================
 
-
 try:
     import sys
     import os
@@ -38,6 +37,7 @@ TEN_SECONDS  = '10'
 CONF_PATH    = join(HOME, '.curlew')
 OPTS_FILE    = join(CONF_PATH, 'curlew.cfg')
 ERROR_LOG    = join(CONF_PATH, 'errors.log')
+LAST_FILES   = join(CONF_PATH, 'last.txt')
 PASS_LOG     = '/tmp/pass1log'
 PASS_1_FILE  = '/tmp/pass1file'
 PREVIEW_FILE = '/tmp/preview'
@@ -119,6 +119,7 @@ class Curlew(Gtk.Window):
         self.tb_add = create_tool_btn('add.png',
                                       _('Add files'),
                                       self.tb_add_clicked)
+        
         toolbar.insert(self.tb_add, -1)
         
         self.tb_remove = create_tool_btn('remove.png',
@@ -408,7 +409,7 @@ class Curlew(Gtk.Window):
         self.hb_delay = LabeledHBox(_('Delay: '), self.vb_sub, 9)
         self.sub_delay = Gtk.SpinButton()        
         self.sub_delay.set_adjustment(Gtk.Adjustment(0, -90000, 90000, 1))
-        self.hb_delay.pack_start(self.sub_delay, True, True, 0)
+        self.hb_delay.pack_start(self.sub_delay, False, True, 0)
         self.hb_delay.pack_start(Gtk.Label(_("sec")), False, False, 0)
         self.hb_delay.set_sensitive(False)
         
@@ -434,8 +435,13 @@ class Curlew(Gtk.Window):
                                                _('Converter:'), 0)
         self.cmb_encoder.set_label_width(10)
         self.cmb_encoder.connect('changed', self.cmb_encoder_cb)
-        self.cmb_encoder.set_list(['avconv', 'ffmpeg'])
         
+        # Load available encoder
+        if call(['which', 'avconv'], stdout=PIPE) == 0:
+            self.cmb_encoder.append_text('avconv')
+        if call(['which', 'ffmpeg'], stdout=PIPE) == 0:
+            self.cmb_encoder.append_text('ffmpeg')
+            
         # Other Parameters.
         hb_other = LabeledHBox(_('Others opts:'), self.vb_other, 10)
         self.e_extra = Gtk.Entry()
@@ -1059,11 +1065,15 @@ abort conversion process?'),
             self.enable_controls(False)
             
             #--- Start the process
-            self.fp = Popen(full_cmd,
-                            stdout=PIPE,
-                            stderr=PIPE,
-                            universal_newlines=True,
-                            bufsize= -1)
+            try:
+                self.fp = Popen(full_cmd, stdout=PIPE, stderr=PIPE,
+                                universal_newlines=True, bufsize=-1)
+            except:
+                print('Encoder not found (ffmpeg/avconv or mencoder) :(')
+                self.is_converting = False
+                self.enable_controls(True)
+                return -1
+            
             #--- Watch stdout and stderr
             GLib.io_add_watch(self.fp.stdout,
                               GLib.IO_IN | GLib.IO_HUP,
@@ -1080,7 +1090,8 @@ abort conversion process?'),
             if self.errs_nbr > 0:
                 resp = show_message(
                                     self,
-                _('There are some errors occured.\nDo you want to show more details?'),
+                                    _('There are some errors occured.\n'
+                                      'Do you want to show more details?'),
                                     Gtk.MessageType.WARNING,
                                     Gtk.ButtonsType.YES_NO)
                 if resp == Gtk.ResponseType.YES:
@@ -1120,8 +1131,11 @@ abort conversion process?'),
         ''' Get duration file in seconds (float)'''
         duration = 0.0
         cmd = [self.encoder, '-i', input_file]
-        Proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
-        out_str = Proc.stderr.read()
+        try:
+            Proc = Popen(cmd, stdout=PIPE, stderr=PIPE)
+            out_str = Proc.stderr.read()
+        except: pass
+                
         try:
             time_list = self.reg_duration.findall(out_str)[0].split(':')
         except:
@@ -1212,7 +1226,9 @@ abort conversion process?'),
             cmd = self.build_mencoder_cmd(input_file, PREVIEW_FILE,
                                           preview_begin, TEN_SECONDS)
     
-        fp = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        try:
+            fp = Popen(cmd, stdout=PIPE, stderr=PIPE)
+        except: return -1
         
         # Disable main window
         self.set_sensitive(False)
@@ -1572,6 +1588,10 @@ abort conversion process?'),
             self.cmb_exist.set_active(conf.getboolean('configs',
                                                       'overwrite_mode'))
             self.cmb_encoder.set_active(conf.getint('configs', 'encoder'))
+            # Out of range
+            if self.cmb_encoder.get_active() == -1:
+                self.cmb_encoder.set_active(0)
+            
             self.b_font.set_font(conf.get('configs', 'font'))
             
         except NoOptionError as err:
@@ -1608,6 +1628,7 @@ abort conversion process?'),
             tree.set_tooltip_row(tooltip, path)
             return True
         else: return False
+    
 
 
 def main():
