@@ -42,7 +42,7 @@ PASS_LOG     = '/tmp/pass1log'
 PASS_1_FILE  = '/tmp/pass1file'
 PREVIEW_FILE = '/tmp/preview'
 
-# Make .curlew folder
+# Make .curlew folder if not exist
 if not exists(CONF_PATH):
     os.mkdir(CONF_PATH)
 
@@ -1496,10 +1496,22 @@ abort conversion process?'),
             if i.startswith('file://'):
                 File = unquote(i[7:])
                 if isfile(File):
-                    self.store.append([True, File, None, None, 0.0,
-                                       _('Ready!')])
+                    self.store.append([True,
+                                       basename(File),
+                                       None,
+                                       None,
+                                       None,
+                                       0.0,
+                                       _('Ready!'),
+                                       -1,
+                                       File])
                 # Save directory from dragged filename.
                 self.curr_open_folder = dirname(File)
+        # Try to calculate file(s) duration(s)
+        for row in self.store:
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            row[C_DURA] = self.get_time(row[C_FILE])
     
     def on_cb_dest_toggled(self, widget):
         Active = not widget.get_active()
