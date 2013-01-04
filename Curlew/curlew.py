@@ -1631,12 +1631,14 @@ abort conversion process?'),
             file_size = get_format_size(getsize(full_path)/1024)
             file_duration = self.store[path][C_DURA]
             
-            infos  = _('''<b>File:</b>\t{}
-<b>Path:</b>\t{}
-<b>Size:</b>\t{}
-<b>Duration:</b>\t{}'''.format(file_name, file_path, file_size, file_duration))
+            infos  = _('<b>File:</b>\t{}\n'
+                       '<b>Path:</b>\t{}\n'
+                       '<b>Size:</b>\t{}\n'
+                       '<b>Duration:</b>\t{}'
+                       ).format(file_name, file_path, file_size, file_duration)
             
             tooltip.set_markup(infos)
+            
             tree.set_tooltip_row(tooltip, path)
             return True
         else: return False
