@@ -10,6 +10,8 @@ def show_message(parent,
                              message_type,
                              button_type)
     mess_dlg.set_markup(message)
+    if not parent:
+        mess_dlg.set_keep_above(True)
     resp = mess_dlg.run()
     mess_dlg.destroy()
     return resp

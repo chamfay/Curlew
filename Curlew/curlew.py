@@ -19,6 +19,7 @@ try:
     from ConfigParser import ConfigParser, NoOptionError
     from urllib import unquote
     from gi.repository import Gtk, GLib, Gdk
+    import dbus.glib, dbus.service
     
     from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, \
     CustomHScale
@@ -26,6 +27,7 @@ try:
     from functions import show_message, get_format_size, \
     duration_to_time, time_to_duration
     from logdialog import LogDialog
+    from tray import StatusIcon
     
 except Exception as detail:
     print(detail)
@@ -67,6 +69,8 @@ def create_tool_btn(icon_name, tooltip, callback):
     toolbtn.connect('clicked', callback)
     return toolbtn
 
+
+
 #--- Main class        
 class Curlew(Gtk.Window):
     
@@ -88,6 +92,7 @@ class Curlew(Gtk.Window):
         '''
         self.encoder = ''
         self.player = 'ffplay'
+        self.is_preview = False
         
         #--- Regex
         self.reg_avconv_u = \
@@ -112,7 +117,7 @@ class Curlew(Gtk.Window):
         #--- Toolbar
         toolbar = Gtk.Toolbar()
         toolbar.set_style(Gtk.ToolbarStyle.ICONS)
-        toolbar.set_icon_size(Gtk.IconSize.BUTTON)
+        toolbar.set_icon_size(Gtk.IconSize.DIALOG)
         vbox.pack_start(toolbar, False, True, 0)
         
         
@@ -177,7 +182,7 @@ class Curlew(Gtk.Window):
         tree_select.set_mode(Gtk.SelectionMode.MULTIPLE)
         
         self.tree.connect("button-press-event", self.on_button_press)
-        self.tree.connect("key-press-event", self.on_key_press)
+        self.tree.connect("key-press-event", self.on_tree_key_press)
         self.tree.connect("query-tooltip", self.tooltip_toc)
         
         scroll = Gtk.ScrolledWindow()
@@ -459,12 +464,20 @@ class Curlew(Gtk.Window):
                                  _('Choose another name'),
                                  _('Skip conversion')])
         
+        # Use tray icon
+        self.cb_tray = Gtk.CheckButton(_('Show tray icon'))
+        self.cb_tray.connect('toggled', self.on_cb_tray_toggled)
+        self.vb_other.pack_start(self.cb_tray, False, False, 0)
+        
         vbox.pack_start(Gtk.Separator(), False, False, 0)
         
         #--- Status
         self.label_details = Gtk.Label()
         self.label_details.set_text('')
         vbox.pack_start(self.label_details, False, False, 0)
+        
+        # Status icon
+        self.trayico = StatusIcon(self)
         
         #--- Show interface
         '''Must show interface before loading cmb_formats combobox.'''
@@ -477,8 +490,10 @@ class Curlew(Gtk.Window):
             self.cmb_formats.append_text(section)
         self.cmb_formats.set_active(0)
         
+        
         #--- Load saved options.
         self.load_options()
+        
         
         #--- Drag and Drop
         targets = Gtk.TargetList.new([])
@@ -490,7 +505,10 @@ class Curlew(Gtk.Window):
         #--- Window connections
         self.connect('destroy', Gtk.main_quit)
         self.connect('delete-event', self.on_delete)
+        self.connect("key-press-event", self.on_key_press)
     
+        #--- Status icon
+        self.trayico.set_visible(self.cb_tray.get_active())
     
     def on_toggled_cb(self, widget, Path):
         self.store[Path][C_SKIP] = not self.store[Path][C_SKIP]
@@ -504,15 +522,25 @@ class Curlew(Gtk.Window):
             self.set_sensitives()
         
     
+    def on_key_press(self, widget, event):
+        """Cancel preview and stop conversion"""
+        if event.keyval == Gdk.KEY_Escape:
+            self.is_preview = False
+            self.tb_stop_clicked()
+            
     def on_delete(self, widget, data):
-        self.quit_cb(widget)
-        return True
+        if self.cb_tray.get_active():
+            self.hide_on_delete()
+            return True
+        else:
+            self.quit_cb(widget)
+            return False
     
-    def quit_cb(self, widget):
+    def quit_cb(self, *args):
         self.save_options()
         if self.is_converting:
             ''' Press quit btn during conversion process '''
-            resp = show_message(self, _('Do you want to quit Curlew and \
+            resp = show_message(None, _('Do you want to quit Curlew and \
 abort conversion process?'),
                                 Gtk.MessageType.QUESTION,
                                 Gtk.ButtonsType.YES_NO)
@@ -1100,9 +1128,9 @@ abort conversion process?'),
     
     
     #--- Stop conversion cb
-    def tb_stop_clicked(self, widget):        
+    def tb_stop_clicked(self, *args):        
         if self.is_converting == True:
-            resp = show_message(self,
+            resp = show_message(None,
                                 _('Do you want to stop conversion process?'),
                                 Gtk.MessageType.QUESTION,
                                 Gtk.ButtonsType.YES_NO)
@@ -1111,10 +1139,11 @@ abort conversion process?'),
                     if self.fp:
                         self.fp.kill()
                 except OSError as err:
-                    print(err) 
+                    print(err)
                 finally:
                     self.is_converting = False
                     self.enable_controls(True)
+                return True
                     
     
     def new_name(self, filename):
@@ -1212,6 +1241,8 @@ abort conversion process?'),
     def on_preview_cb(self, widget):
         if self.is_converting:
             return
+        
+        self.is_preview = True
         encoder_type = self.f_file.get(self.cmb_formats.get_active_text(),
                                        'encoder')
         Iter = self.get_selected_iters()[0]
@@ -1231,12 +1262,16 @@ abort conversion process?'),
         except: return -1
         
         # Disable main window
-        self.set_sensitive(False)
+        self.get_child().set_sensitive(False)
         
         # Wait...
         while fp.poll() == None:
             while Gtk.events_pending():
                 Gtk.main_iteration()
+            # Cancel preview
+            if not self.is_preview:
+                self.get_child().set_sensitive(True)
+                return
             self.store[Iter][C_PULS] = self.store[Iter][C_PULS] + 1
             self.store[Iter][C_STAT] = _('Wait...')
             time.sleep(0.05)
@@ -1259,7 +1294,7 @@ abort conversion process?'),
         self.force_delete_file(PREVIEW_FILE)
         
         # Enable main window
-        self.set_sensitive(True)
+        self.get_child().set_sensitive(True)
     
 
     #--- Clear list    
@@ -1280,7 +1315,7 @@ abort conversion process?'),
         self.hb_delay.set_sensitive(widget.get_active())
     
     # Keyboard events.
-    def on_key_press(self, widget, event):
+    def on_tree_key_press(self, widget, event):
         
         # Delete file with "Delete" key
         if event.keyval == Gdk.KEY_Delete:
@@ -1576,6 +1611,7 @@ abort conversion process?'),
         conf.set('configs', 'overwrite_mode', self.cmb_exist.get_active())
         conf.set('configs', 'encoder', self.cmb_encoder.get_active())
         conf.set('configs', 'font', self.b_font.get_font_family().get_name())
+        conf.set('configs', 'tray', self.cb_tray.get_active())
         
         with open(OPTS_FILE, 'w') as configfile:
             conf.write(configfile)
@@ -1605,6 +1641,8 @@ abort conversion process?'),
                 self.cmb_encoder.set_active(0)
             
             self.b_font.set_font(conf.get('configs', 'font'))
+            
+            self.cb_tray.set_active(conf.getboolean('configs', 'tray'))
             
         except NoOptionError as err:
             print(err)
@@ -1643,11 +1681,33 @@ abort conversion process?'),
             return True
         else: return False
     
+    def on_cb_tray_toggled(self, cb_tray):
+        self.trayico.set_visible(cb_tray.get_active())
+
+
+class DBusService(dbus.service.Object):
+    def __init__(self, app):
+        self.app = app
+        bus_name = dbus.service.BusName('org.Curlew', bus = dbus.SessionBus())
+        dbus.service.Object.__init__(self, bus_name, '/org/Curlew')
+
+    @dbus.service.method(dbus_interface='org.Curlew')
+    
+    def present(self):
+        self.app.present()
 
 
 def main():
-    Curlew()
-    Gtk.main()
+    if dbus.SessionBus().request_name("org.Curlew") != \
+       dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER:
+        print('Curlew already running')
+        method = dbus.SessionBus().get_object("org.Curlew", "/org/Curlew").\
+        get_dbus_method("present")
+        method()
+    else:
+        app = Curlew()
+        DBusService(app)
+        Gtk.main()
 
 if __name__ == '__main__':
     main()
