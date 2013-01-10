@@ -1,3 +1,10 @@
+Version 0.1.14.2
+----------------
+
+* Bug fixes (setup.py, "Source quality" option with ffmpeg)
+* Other updates and fixes.
+
+
 Version 0.1.14.1
 ----------------
 

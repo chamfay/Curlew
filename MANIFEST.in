@@ -1,5 +1,5 @@
 include LICENSE-ar.txt LICENSE-en AUTHORS ChangeLog README formats.cfg
-include curlew.desktop curlew.svg
-recursive-include Curlew/data *.png
+include curlew.desktop curlew.svg curlew.pot
+recursive-include Curlew/icons *.png
 recursive-include locale *
 recursive-exclude *.pyc

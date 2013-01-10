@@ -1,15 +1,24 @@
-#!/usr/bin/env xdg-open
-
 [Desktop Entry]
-Name=Curlew
+Categories=GNOME;GTK;AudioVideo;Video;
+Comment[en_US]=Easy to use Multimedia Converter for Linux
 Comment=Easy to use Multimedia Converter for Linux
 Comment[ar]=محول وسائط على لينكس سهل الاستخدام
-Exec=curlew
-Icon=curlew
-Terminal=false
-Type=Application
 Encoding=UTF-8
-Categories=GNOME;GTK;AudioVideo;Video;
-StartupNotify=false
-Name[en]=Curlew
+Exec=curlew
+GenericName[en_US]=
+GenericName=
+Icon=curlew
+MimeType=
+Name[en_US]=Curlew
+Name=Curlew
 Name[ar]=كروان
+Name[en]=Curlew
+Path=
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+X-DBUS-ServiceName=
+X-DBUS-StartupType=
+X-KDE-SubstituteUID=false
+X-KDE-Username=

@@ -14,13 +14,11 @@ data_files.extend(locales)
 
 
 setup(
-      name="Curlew",
+      name="curlew",
       description='Easy to use multimedia converter in Linux',
-      long_description='''Easy to use, Free and Open-Source Multimedia converter for Linux.
-Curlew written in python and GTK3 and it depends on (ffmpeg/avconv, mencoder).
+      long_description='''Curlew written in python and GTK3 and it depends on (ffmpeg/avconv, mencoder).
 
 Main Features:
-
 - Easy to use with simple user interface.
 - Hide the advanced options with the ability to show them.
 - Convert to more than 100 different formats.
@@ -31,7 +29,7 @@ Main Features:
 - Combine subtitle with video file.
 - Show error details if exist.
 - And more ...''',
-      version="0.1.14.1",
+      version="0.1.14.2",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',

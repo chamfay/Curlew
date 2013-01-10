@@ -60,7 +60,7 @@ C_FILE = 8             # complete file name /path/file.ext
 
 
 def tool_button(icon_name, tooltip, callback, toolbar):
-    image_path = join(APP_DIR, 'icons', icon_name + '.png')
+    image_path = join(APP_DIR, 'icons', icon_name+'.png')
     image = Gtk.Image.new_from_file(image_path)
     toolbtn = Gtk.ToolButton()
     toolbtn.set_icon_widget(image)
@@ -739,10 +739,9 @@ abort conversion process?'),
         
         # Use the same quality
         if self.cb_same_qual.get_active():
-            cmd.append('-same_quant')
+            if self.encoder == 'ffmpeg': cmd.append('-sameq')
+            if self.encoder == 'avconv': cmd.append('-same_quant')
         else:
-        
-                
             # Video opts
             if media_type == 'video':
                 # Extract video only

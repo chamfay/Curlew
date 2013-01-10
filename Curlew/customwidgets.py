@@ -12,29 +12,29 @@ class CustomHScale(Gtk.HScale):
         
 
 class LabeledHBox(Gtk.HBox):
-    def __init__(self, Label, container=None, CWidth=10):
+    def __init__(self, label, container=None, width_chars=11):
         ''' hbox with label'''
         Gtk.HBox.__init__(self, spacing=4)
-        label = Gtk.Label(Label, use_markup=True)
-        label.set_alignment(0, 0.5)
-        label.set_width_chars(CWidth)
-        self.pack_start(label, False, False, 0)
+        _label = Gtk.Label(label, use_markup=True)
+        _label.set_alignment(0, 0.5)
+        _label.set_width_chars(width_chars)
+        self.pack_start(_label, False, False, 0)
         if container != None:
             container.pack_start(self, False, False, 0)
 
 
 class TimeLayout(Gtk.HBox):
-    def __init__(self, container, Label):
+    def __init__(self, container, label):
         '''    Time widget    '''
         Gtk.HBox.__init__(self)
         self._spin_h = Gtk.SpinButton().new_with_range(0, 5, 1)
         self._spin_m = Gtk.SpinButton().new_with_range(0, 59, 1)
         self._spin_s = Gtk.SpinButton().new_with_range(0, 59, 1)
         
-        label = Gtk.Label(Label, use_markup=True)
-        label.set_alignment(0, 0.5)
-        label.set_width_chars(10)
-        self.pack_start(label, False, False, 0)
+        _label = Gtk.Label(label, use_markup=True)
+        _label.set_alignment(0, 0.5)
+        _label.set_width_chars(10)
+        self.pack_start(_label, False, False, 0)
         self.pack_start(self._spin_h, False, False, 3)
         self.pack_start(Gtk.Label(label=_('hr')), False, False, 0)
         self.pack_start(self._spin_m, False, False, 3)
@@ -64,12 +64,12 @@ class TimeLayout(Gtk.HBox):
 
 class LabeledComboEntry(Gtk.ComboBoxText):
     ''' Create custom ComboBoxText with entry'''
-    def __init__(self, Container, Label, with_entry=True):
+    def __init__(self, Container, label, with_entry=True):
         Gtk.ComboBoxText.__init__(self, has_entry=with_entry)
         self.connect('changed', self._on_combo_changed)
         hbox = Gtk.HBox()
         hbox.set_spacing(4)
-        self._label = Gtk.Label(Label, use_markup=True)
+        self._label = Gtk.Label(label, use_markup=True)
         self._label.set_alignment(0, 0.5)
         self._label.set_width_chars(15)
         self.set_entry_text_column(0)
