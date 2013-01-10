@@ -16,8 +16,22 @@ data_files.extend(locales)
 setup(
       name="Curlew",
       description='Easy to use multimedia converter in Linux',
-      long_description='Easy to use multimedia converter in Linux',
-      version="0.1.14",
+      long_description='''Easy to use, Free and Open-Source Multimedia converter for Linux.
+Curlew written in python and GTK3 and it depends on (ffmpeg/avconv, mencoder).
+
+Main Features:
+
+- Easy to use with simple user interface.
+- Hide the advanced options with the ability to show them.
+- Convert to more than 100 different formats.
+- Show file informations (duration, remaining time, estimated size, progress value).
+- Allow to skip or remove file during conversion process.
+- Preview file before conversion.
+- Convert a specified portion of file.
+- Combine subtitle with video file.
+- Show error details if exist.
+- And more ...''',
+      version="0.1.14.1",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',
@@ -39,5 +53,5 @@ setup(
                      'Topic :: Utilities'],
       data_files=data_files,
       packages=['Curlew'],
-      package_data={'':['data/*.png', 'formats.cfg']}
+      package_data={'':['icons/*.png', 'formats.cfg']}
       )

@@ -12,7 +12,7 @@ class CustomHScale(Gtk.HScale):
         
 
 class LabeledHBox(Gtk.HBox):
-    def __init__(self, Label, container=None, CWidth=12):
+    def __init__(self, Label, container=None, CWidth=10):
         ''' hbox with label'''
         Gtk.HBox.__init__(self, spacing=4)
         label = Gtk.Label(Label, use_markup=True)

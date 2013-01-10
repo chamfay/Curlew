@@ -39,7 +39,6 @@ TEN_SECONDS  = '10'
 CONF_PATH    = join(HOME, '.curlew')
 OPTS_FILE    = join(CONF_PATH, 'curlew.cfg')
 ERROR_LOG    = join(CONF_PATH, 'errors.log')
-LAST_FILES   = join(CONF_PATH, 'last.txt')
 PASS_LOG     = '/tmp/pass1log'
 PASS_1_FILE  = '/tmp/pass1file'
 PREVIEW_FILE = '/tmp/preview'
@@ -60,15 +59,14 @@ C_PULS = 7             # Pulse
 C_FILE = 8             # complete file name /path/file.ext
 
 
-def create_tool_btn(icon_name, tooltip, callback):
-    ''' Build custom toolbutton '''
+def tool_button(icon_name, tooltip, callback, toolbar):
+    image_path = join(APP_DIR, 'icons', icon_name + '.png')
+    image = Gtk.Image.new_from_file(image_path)
     toolbtn = Gtk.ToolButton()
-    widget = Gtk.Image.new_from_file(join(APP_DIR, 'data', icon_name))
-    toolbtn.set_icon_widget(widget)
+    toolbtn.set_icon_widget(image)
     toolbtn.set_tooltip_markup(tooltip)
     toolbtn.connect('clicked', callback)
-    return toolbtn
-
+    toolbar.insert(toolbtn, -1)
 
 
 #--- Main class        
@@ -111,6 +109,7 @@ class Curlew(Gtk.Window):
         self.set_size_request(680, -1)
         self.set_icon_name('curlew')
         
+        #--- Global vbox
         vbox = Gtk.VBox(spacing=6)
         self.add(vbox)
         
@@ -121,47 +120,36 @@ class Curlew(Gtk.Window):
         vbox.pack_start(toolbar, False, True, 0)
         
         
-        self.tb_add = create_tool_btn('add.png',
-                                      _('Add files'),
-                                      self.tb_add_clicked)
+        #--- ToolButtons
+        # Add toolbutton
+        tool_button('add', _('Add files'), self.tb_add_cb, toolbar)
         
-        toolbar.insert(self.tb_add, -1)
+        # Remove toolbutton
+        tool_button('remove', _('Remove files'), self.tb_remove_cb, toolbar)
         
-        self.tb_remove = create_tool_btn('remove.png',
-                                         _('Remove selected file'),
-                                         self.tb_remove_clicked)
-        toolbar.insert(self.tb_remove, -1)
+        # Clear toolbutton
+        tool_button('clear', _('Clear files list'), self.tb_clear_cb, toolbar)
         
-        self.tb_clear = create_tool_btn('clear.png',
-                                        _('Clear files list'),
-                                        self.tb_clear_clicked)
-        toolbar.insert(self.tb_clear, -1)
-        
+        # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_convert = create_tool_btn('convert.png',
-                                          _('Start Conversion'),
-                                          self.convert_cb)
-        toolbar.insert(self.tb_convert, -1)
+        # Convert toolbutton
+        tool_button('convert', _('Start Conversion'), self.convert_cb, toolbar)
         
-        self.tb_stop = create_tool_btn('stop.png',
-                                       _('Stop Conversion'),
-                                       self.tb_stop_clicked)
-        toolbar.insert(self.tb_stop, -1)
+        # Stop toolbutton
+        tool_button('stop', _('Stop Conversion'), self.tb_stop_cb, toolbar)
         
+        # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_about = create_tool_btn('about.png',
-                                        _('About ') + APP_NAME,
-                                        self.tb_about_clicked)
-        toolbar.insert(self.tb_about, -1)
+        # About toolbutton
+        tool_button('about', _('About ') + APP_NAME, self.tb_about_cb, toolbar)
         
+        # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
-        self.tb_quit = create_tool_btn('close.png',
-                                       _('Quit application'),
-                                       self.quit_cb)
-        toolbar.insert(self.tb_quit, -1)
+        # Quit toolbutton
+        tool_button('quit', _('Quit application'), self.quit_cb, toolbar)
         
         #--- List of files
         self.store = Gtk.ListStore(bool,  # active 
@@ -232,7 +220,7 @@ class Curlew(Gtk.Window):
         self.popup = Gtk.Menu()
         remove_item = Gtk.ImageMenuItem().new_from_stock(Gtk.STOCK_REMOVE, None)
         remove_item.set_always_show_image(True)
-        remove_item.connect('activate', self.tb_remove_clicked)
+        remove_item.connect('activate', self.tb_remove_cb)
         
         play_item = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_MEDIA_PLAY, None)
         play_item.set_always_show_image(True)
@@ -258,12 +246,6 @@ class Curlew(Gtk.Window):
         self.cmb_formats.connect('changed', self.on_cmb_formats_changed)
         hl = LabeledHBox(_("<b>Format:</b>"), vbox)
         hl.pack_start(self.cmb_formats, True, True, 0)
-        
-        #-- Use same quality as source file
-        self.cb_same_qual = Gtk.CheckButton(_('Source Quality'))
-        self.cb_same_qual.set_tooltip_text(_('Use the same quality as source file'))
-        self.cb_same_qual.connect('toggled', self.on_cb_same_qual_toggled)
-        hl.pack_start(self.cb_same_qual, False, False, 0)
         
         #--- Destination
         self.e_dest = Gtk.Entry()
@@ -464,10 +446,22 @@ class Curlew(Gtk.Window):
                                  _('Choose another name'),
                                  _('Skip conversion')])
         
+        
+        hbox = Gtk.HBox(spacing=10)
+        self.vb_other.pack_start(hbox, False, False, 0)
+        
         # Use tray icon
         self.cb_tray = Gtk.CheckButton(_('Show tray icon'))
         self.cb_tray.connect('toggled', self.on_cb_tray_toggled)
-        self.vb_other.pack_start(self.cb_tray, False, False, 0)
+        hbox.pack_start(self.cb_tray, False, False, 0)
+        
+        #-- Use same quality as source file
+        self.cb_same_qual = Gtk.CheckButton(_('Source Quality'))
+        self.cb_same_qual.set_tooltip_text(_('Use the same quality as source'
+                                             ' file'))
+        self.cb_same_qual.connect('toggled', self.on_cb_same_qual_toggled)
+        hbox.pack_start(self.cb_same_qual, False, False, 0)
+        
         
         vbox.pack_start(Gtk.Separator(), False, False, 0)
         
@@ -526,7 +520,7 @@ class Curlew(Gtk.Window):
         """Cancel preview and stop conversion"""
         if event.keyval == Gdk.KEY_Escape:
             self.is_preview = False
-            self.tb_stop_clicked()
+            self.tb_stop_cb()
             
     def on_delete(self, widget, data):
         if self.cb_tray.get_active():
@@ -556,7 +550,7 @@ abort conversion process?'),
         Gtk.main_quit()
     
     #--- Add files
-    def tb_add_clicked(self, *args):
+    def tb_add_cb(self, *args):
         open_dlg = Gtk.FileChooserDialog(_("Add file"),
                                          self, Gtk.FileChooserAction.OPEN,
                                         (Gtk.STOCK_OK, 
@@ -614,7 +608,8 @@ abort conversion process?'),
         for row in self.store:
             while Gtk.events_pending():
                 Gtk.main_iteration()
-            row[C_DURA] = self.get_time(row[C_FILE])
+            try: row[C_DURA] = self.get_time(row[C_FILE])
+            except: pass
         
     
     def on_dest_clicked(self, widget):
@@ -1128,7 +1123,7 @@ abort conversion process?'),
     
     
     #--- Stop conversion cb
-    def tb_stop_clicked(self, *args):        
+    def tb_stop_cb(self, *args):        
         if self.is_converting == True:
             resp = show_message(None,
                                 _('Do you want to stop conversion process?'),
@@ -1203,7 +1198,7 @@ abort conversion process?'),
         dlg.destroy()
     
     #--- Remove item
-    def tb_remove_clicked(self, widget):
+    def tb_remove_cb(self, widget):
         iters = self.get_selected_iters()
         if not iters:
             return      
@@ -1298,11 +1293,11 @@ abort conversion process?'),
     
 
     #--- Clear list    
-    def tb_clear_clicked(self, widget):
+    def tb_clear_cb(self, widget):
         if not self.is_converting:
             self.store.clear()
         
-    def tb_about_clicked(self, widget):
+    def tb_about_cb(self, widget):
         a_dgl = About(self)
         a_dgl.show()
         
@@ -1319,7 +1314,7 @@ abort conversion process?'),
         
         # Delete file with "Delete" key
         if event.keyval == Gdk.KEY_Delete:
-            self.tb_remove_clicked(None)
+            self.tb_remove_cb(None)
         
         # Play file with "Return" key
         elif event.keyval == Gdk.KEY_Return:
@@ -1329,7 +1324,7 @@ abort conversion process?'),
     def on_button_press(self, widget, event):
         if len(self.store) == 0:
             if event.button == 1 and event.get_click_count()[1] == 2:
-                self.tb_add_clicked()
+                self.tb_add_cb()
                 return
         treepath = self.tree.get_selection().get_selected_rows()[1]
         if len(treepath) == 0:
@@ -1610,7 +1605,7 @@ abort conversion process?'),
         conf.set('configs', 'cb_same_qual_on', self.cb_same_qual.get_active())
         conf.set('configs', 'overwrite_mode', self.cmb_exist.get_active())
         conf.set('configs', 'encoder', self.cmb_encoder.get_active())
-        conf.set('configs', 'font', self.b_font.get_font_family().get_name())
+        conf.set('configs', 'font', self.b_font.get_font_name())
         conf.set('configs', 'tray', self.cb_tray.get_active())
         
         with open(OPTS_FILE, 'w') as configfile:
@@ -1641,7 +1636,7 @@ abort conversion process?'),
                 self.cmb_encoder.set_active(0)
             
             self.b_font.set_font(conf.get('configs', 'font'))
-            
+    
             self.cb_tray.set_active(conf.getboolean('configs', 'tray'))
             
         except NoOptionError as err:

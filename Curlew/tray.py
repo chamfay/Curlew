@@ -59,7 +59,7 @@ class StatusIcon(Gtk.StatusIcon):
             self._window.present()
         
     def stop(self, stop_item):
-        if self._window.tb_stop_clicked():
+        if self._window.tb_stop_cb():
             self._window.present()
         
     def quit(self, *args):
