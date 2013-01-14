@@ -1,6 +1,23 @@
 from gi.repository import Gtk
+from os.path import join
 
 
+class CustomToolButton(Gtk.ToolButton):
+    def __init__(self, name, tooltip, callback, toolbar):
+        Gtk.ToolButton.__init__(self)
+        
+        self._name = name + '.png'
+        
+        self.set_tooltip_markup(tooltip)
+        self.connect('clicked', callback)
+        toolbar.insert(self, -1)
+    
+    def set_icon(self, path):
+        image_path = join(path, self._name)
+        image = Gtk.Image.new_from_file(image_path)
+        self.set_icon_widget(image)
+        
+        
 class CustomHScale(Gtk.HScale):
     def __init__(self, container, def_value, min_value, max_value, step=1):
         Gtk.HScale.__init__(self)
@@ -86,10 +103,10 @@ class LabeledComboEntry(Gtk.ComboBoxText):
     def get_text(self):
         return self.get_active_text()
     
-    def set_text(self, Text):
+    def set_text(self, text):
         ''' Set text to Entry '''
         entry = self.get_child()
-        entry.set_text(Text)
+        entry.set_text(text)
     
     def _on_combo_changed(self, *args):
         enabled = self.get_text() == 'default' and len(self.get_model()) < 2

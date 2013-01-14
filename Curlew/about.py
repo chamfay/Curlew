@@ -1,19 +1,18 @@
 #-*- coding:utf-8 -*-
 
 from gi.repository import Gtk
-import i18n
 
-APP_VERSION = '0.1.14.2'
-APP_NAME = _('Curlew')
+def AppName():
+    return _('Curlew')
 
 class About(Gtk.AboutDialog):
     def __init__(self, parent):
         Gtk.AboutDialog.__init__(self, parent=parent, wrap_license=True)
-        self.set_program_name(APP_NAME)
+        self.set_program_name(AppName())
         self.set_authors(['Fayssal Chamekh <chamfay@gmail.com>'])
         self.set_copyright("Copyright © 2012, 2013 Fayssal Chamekh <chamfay@gmail.com>")
-        self.set_version(APP_VERSION)
-        self.set_title(_('About ') + APP_NAME)
+        self.set_version('0.1.15')
+        self.set_title(_('About ') + AppName())
         self.set_logo_icon_name('curlew')
         self.set_comments(_('Easy to use Multimedia Converter for Linux'))
         self.set_license("""
@@ -29,6 +28,7 @@ http://www.ojuba.org/wiki/doku.php/waqf/license
         self.set_website('https://github.com/chamfay/Curlew')
         self.set_website_label('https://github.com/chamfay/Curlew')
         self.set_translator_credits(_('Fayssal Chamekh <chamfay@gmail.com>'))
+        self.set_artists(['Smail <kungfu07mail@gmail.com>'])
     
     def show(self):
         self.run()

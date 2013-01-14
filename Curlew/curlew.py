@@ -8,22 +8,25 @@
 # Please see: http://www.ojuba.org/wiki/doku.php/waqf/license for more infos.
 #===============================================================================
 
+
 try:
     import sys
     import os
     import re
     import time
+    import gettext
     from subprocess import Popen, PIPE, call
     from os.path import basename, isdir, splitext, join, dirname, realpath, \
     isfile, exists, getsize
+    from os import listdir
     from ConfigParser import ConfigParser, NoOptionError
     from urllib import unquote
-    from gi.repository import Gtk, GLib, Gdk
+    from gi.repository import Gtk, GLib, Gdk, GObject
     import dbus.glib, dbus.service
     
     from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, \
-    CustomHScale
-    from about import APP_NAME, About
+    CustomHScale, CustomToolButton
+    from about import About, AppName
     from functions import show_message, get_format_size, \
     duration_to_time, time_to_duration
     from logdialog import LogDialog
@@ -33,6 +36,28 @@ except Exception as detail:
     print(detail)
     sys.exit(1)
 
+#--- Localization setup
+exedir = dirname(sys.argv[0])
+
+domain   = 'curlew'
+
+localdir = ''
+# Curlew script (default locale)
+if isdir(join(exedir, '..', 'share/locale')):
+    localdir = join(exedir, '..', 'share/locale')
+
+# Curlew script (test)
+elif isdir(join(exedir, 'locale')):
+    localdir = join(exedir, 'locale')
+
+# curlew.py
+else:
+    localdir = join(exedir, '..', 'locale')
+    
+gettext.install(domain, localdir)
+
+
+#--- Constants
 APP_DIR      = dirname(realpath(__file__))
 HOME         = os.getenv("HOME")
 TEN_SECONDS  = '10'
@@ -43,9 +68,14 @@ PASS_LOG     = '/tmp/pass1log'
 PASS_1_FILE  = '/tmp/pass1file'
 PREVIEW_FILE = '/tmp/preview'
 
+LANGUAGES = {
+             'العربية'  : 'ar',
+             'English'  : 'en'
+             }
+
+
 # Make .curlew folder if not exist
-if not exists(CONF_PATH):
-    os.mkdir(CONF_PATH)
+if not exists(CONF_PATH): os.mkdir(CONF_PATH)
 
 # Treeview cols nbrs
 C_SKIP = 0             # Skip (checkbox)
@@ -59,18 +89,8 @@ C_PULS = 7             # Pulse
 C_FILE = 8             # complete file name /path/file.ext
 
 
-def tool_button(icon_name, tooltip, callback, toolbar):
-    image_path = join(APP_DIR, 'icons', icon_name+'.png')
-    image = Gtk.Image.new_from_file(image_path)
-    toolbtn = Gtk.ToolButton()
-    toolbtn.set_icon_widget(image)
-    toolbtn.set_tooltip_markup(tooltip)
-    toolbtn.connect('clicked', callback)
-    toolbar.insert(toolbtn, -1)
-
-
 #--- Main class        
-class Curlew(Gtk.Window):
+class Curlew(Gtk.Window):    
     
     def __init__(self):
         #--- Variables
@@ -81,6 +101,7 @@ class Curlew(Gtk.Window):
         self.Iter = None
         self.total_duration = 0.0
         self.out_file = None
+        self.counter = 20
         self.errs_nbr = 0
         self.pass_nbr = 0
         '''
@@ -91,6 +112,8 @@ class Curlew(Gtk.Window):
         self.encoder = ''
         self.player = 'ffplay'
         self.is_preview = False
+        self.dict_icons = {}
+        self.icons_path = ''
         
         #--- Regex
         self.reg_avconv_u = \
@@ -101,10 +124,13 @@ class Curlew(Gtk.Window):
         re.compile('''.(\d+\.*\d*)s.*\((.\d+)%.*\s+(\d+)mb''')
         self.reg_duration = \
         re.compile('''Duration:.*(\d+:\d+:\d+\.\d+)''')
+        
+        # Install Local
+        self.install_locale()
                
         Gtk.Window.__init__(self)        
         self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_title('{}'.format(APP_NAME))
+        self.set_title('{}'.format(AppName()))
         self.set_border_width(6)
         self.set_size_request(680, -1)
         self.set_icon_name('curlew')
@@ -122,34 +148,41 @@ class Curlew(Gtk.Window):
         
         #--- ToolButtons
         # Add toolbutton
-        tool_button('add', _('Add files'), self.tb_add_cb, toolbar)
+        self.add_tb = CustomToolButton('add', _('Add files'),
+                                       self.tb_add_cb, toolbar)
         
         # Remove toolbutton
-        tool_button('remove', _('Remove files'), self.tb_remove_cb, toolbar)
+        self.remove_tb = CustomToolButton('remove', _('Remove files'),
+                                          self.tb_remove_cb, toolbar)
         
         # Clear toolbutton
-        tool_button('clear', _('Clear files list'), self.tb_clear_cb, toolbar)
+        self.clear_tb = CustomToolButton('clear', _('Clear files list'),
+                                         self.tb_clear_cb, toolbar)
         
         # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         # Convert toolbutton
-        tool_button('convert', _('Start Conversion'), self.convert_cb, toolbar)
+        self.convert_tb = CustomToolButton('convert', _('Start Conversion'),
+                                           self.convert_cb, toolbar)
         
         # Stop toolbutton
-        tool_button('stop', _('Stop Conversion'), self.tb_stop_cb, toolbar)
+        self.stop_tb = CustomToolButton('stop', _('Stop Conversion'),
+                                        self.tb_stop_cb, toolbar)
         
         # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         # About toolbutton
-        tool_button('about', _('About ') + APP_NAME, self.tb_about_cb, toolbar)
+        self.about_tb = CustomToolButton('about', _('About ') + AppName(),
+                                         self.tb_about_cb, toolbar)
         
         # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         # Quit toolbutton
-        tool_button('quit', _('Quit application'), self.quit_cb, toolbar)
+        self.quit_tb = CustomToolButton('quit', _('Quit application'),
+                                        self.quit_cb, toolbar)
         
         #--- List of files
         self.store = Gtk.ListStore(bool,  # active 
@@ -401,24 +434,53 @@ class Curlew(Gtk.Window):
         self.hb_delay.set_sensitive(False)
         
         
-        #--- Other page (split,...)
-        self.vb_other = Gtk.VBox()
-        self.vb_other.set_border_width(6)
-        self.vb_other.set_spacing(8)
-        note.append_page(self.vb_other, Gtk.Label(_("Other")))
+        #--- "More" page
+        self.vb_more = Gtk.VBox()
+        self.vb_more.set_border_width(6)
+        self.vb_more.set_spacing(8)
+        note.append_page(self.vb_more, Gtk.Label(_("More")))
         
-        #--- Split file section
-        self.cb_split = Gtk.CheckButton(label=_('Split File'), active=False)
+        # Split file
+        self.cb_split = Gtk.CheckButton(_('Split File'))
         self.cb_split.connect('toggled', self.cb_split_cb)
-        self.vb_other.pack_start(self.cb_split, False, False, 0)
-        self.tl_begin = TimeLayout(self.vb_other, _('Begin time: '))
-        self.tl_duration = TimeLayout(self.vb_other, _('Duration: '))
+        
+        self.frame = Gtk.Frame(label_widget = self.cb_split)
+        self.vb_more.pack_start(self.frame, False, False, 0)
+        
+        self.vb_group = Gtk.VBox(sensitive=False, spacing=6)
+        self.vb_group.set_border_width(6)
+        self.frame.add(self.vb_group)
+        
+        self.tl_begin = TimeLayout(self.vb_group, _('Begin time: '))
+        self.tl_duration = TimeLayout(self.vb_group, _('Duration: '))
         self.tl_duration.set_duration(5)
-        self.tl_begin.set_sensitive(False)
-        self.tl_duration.set_sensitive(False)
-         
+        
+        # Other Parameters entry.
+        hb_other = LabeledHBox(_('Others opts:'), self.vb_more, 10)
+        self.e_extra = Gtk.Entry()
+        hb_other.pack_start(self.e_extra, True, True, 0)
+        
+        # Threads
+        hb_threads = LabeledHBox(_('Threads:'), self.vb_more, 10)
+        self.s_threads = Gtk.SpinButton().new_with_range(0, 10, 1)
+        hb_threads.pack_start(self.s_threads, False, False, 0)
+
+        #-- Use same quality as source file
+        self.cb_same_qual = Gtk.CheckButton(_('Source Quality'))
+        self.cb_same_qual.set_tooltip_text(_('Use the same quality as source'
+                                             ' file'))
+        self.cb_same_qual.connect('toggled', self.on_cb_same_qual_toggled)
+        self.vb_more.pack_start(self.cb_same_qual, False, False, 0)
+        
+        
+        #--- Configuration page
+        self.vb_config = Gtk.VBox()
+        self.vb_config.set_border_width(6)
+        self.vb_config.set_spacing(8)
+        note.append_page(self.vb_config, Gtk.Label(_('Configs')))
+        
         # Encoder type (ffmpeg / avconv)
-        self.cmb_encoder = LabeledComboEntry(self.vb_other, 
+        self.cmb_encoder = LabeledComboEntry(self.vb_config, 
                                                _('Converter:'), 0)
         self.cmb_encoder.set_label_width(10)
         self.cmb_encoder.connect('changed', self.cmb_encoder_cb)
@@ -428,41 +490,40 @@ class Curlew(Gtk.Window):
             self.cmb_encoder.append_text('avconv')
         if call(['which', 'ffmpeg'], stdout=PIPE) == 0:
             self.cmb_encoder.append_text('ffmpeg')
-            
-        # Other Parameters.
-        hb_other = LabeledHBox(_('Others opts:'), self.vb_other, 10)
-        self.e_extra = Gtk.Entry()
-        hb_other.pack_start(self.e_extra, True, True, 0)
-        
-        # Threads
-        hb_threads = LabeledHBox(_('Threads:'), self.vb_other, 10)
-        self.s_threads = Gtk.SpinButton().new_with_range(0, 10, 1)
-        hb_threads.pack_start(self.s_threads, False, False, 0)
         
         # Replace/Skip/Rename
-        self.cmb_exist = LabeledComboEntry(self.vb_other, _('File exist:'), 0)
+        self.cmb_exist = LabeledComboEntry(self.vb_config, _('File exist:'), 0)
         self.cmb_exist.set_label_width(10)
         self.cmb_exist.set_list([_('Overwrite it'),
                                  _('Choose another name'),
                                  _('Skip conversion')])
         
+        #--- Application language
+        self.cmb_lang = LabeledComboEntry(self.vb_config, _('Language:'), 0)
+        self.cmb_lang.set_label_width(10)
+        self.cmb_lang.set_id_column(0)
+        # Fill
+        self.cmb_lang.set_list(LANGUAGES.keys())
+        self.cmb_lang.prepend_text('< Auto >')
+        self.cmb_lang.set_active(0)
         
-        hbox = Gtk.HBox(spacing=10)
-        self.vb_other.pack_start(hbox, False, False, 0)
+        #--- Icons theme
+        self.cmb_icons = LabeledComboEntry(self.vb_config, _('Icons:'), 0)
+        self.cmb_icons.connect('changed', self.on_cmb_icons_changed)
+        self.cmb_icons.set_label_width(10)
+        self.cmb_icons.set_id_column(0)
         
         # Use tray icon
         self.cb_tray = Gtk.CheckButton(_('Show tray icon'))
         self.cb_tray.connect('toggled', self.on_cb_tray_toggled)
-        hbox.pack_start(self.cb_tray, False, False, 0)
+        self.vb_config.pack_start(self.cb_tray, False, False, 0)
         
-        #-- Use same quality as source file
-        self.cb_same_qual = Gtk.CheckButton(_('Source Quality'))
-        self.cb_same_qual.set_tooltip_text(_('Use the same quality as source'
-                                             ' file'))
-        self.cb_same_qual.connect('toggled', self.on_cb_same_qual_toggled)
-        hbox.pack_start(self.cb_same_qual, False, False, 0)
-        
-        
+        # Shutdown after conversion
+        self.cb_halt = Gtk.CheckButton(_('Shutdown computer after finish'))
+        self.vb_config.pack_start(self.cb_halt, False, False, 0)
+
+
+
         vbox.pack_start(Gtk.Separator(), False, False, 0)
         
         #--- Status
@@ -472,6 +533,8 @@ class Curlew(Gtk.Window):
         
         # Status icon
         self.trayico = StatusIcon(self)
+        self.fill_dict()
+        
         
         #--- Show interface
         '''Must show interface before loading cmb_formats combobox.'''
@@ -487,7 +550,6 @@ class Curlew(Gtk.Window):
         
         #--- Load saved options.
         self.load_options()
-        
         
         #--- Drag and Drop
         targets = Gtk.TargetList.new([])
@@ -624,10 +686,8 @@ abort conversion process?'),
         self.curr_save_folder = save_dlg.get_current_folder()
         save_dlg.destroy()
     
-    def cb_split_cb(self, widget):
-        is_checked = widget.get_active()
-        self.tl_begin.set_sensitive(is_checked)
-        self.tl_duration.set_sensitive(is_checked)
+    def cb_split_cb(self, cb_split):
+        self.vb_group.set_sensitive(cb_split.get_active())
         
     def on_cmb_formats_changed(self, widget):
         self.fill_options()
@@ -714,7 +774,7 @@ abort conversion process?'),
     
     def build_avconv_cmd(self,
                          input_file, out_file,
-                         start_pos= -1, part_dura= -1):
+                         start_pos='-1', part_dura='-1'):
         '''
         start_pos <=> -ss, part_dura <=> -t
         '''
@@ -800,8 +860,8 @@ abort conversion process?'),
         if media_type == 'presets':
             cmd.extend(self.presets_cmd)
         
-        # Split file
-        if start_pos != -1 and part_dura != -1:
+        # Split file by time
+        if start_pos != '-1' and part_dura != '-1':
             cmd.extend(['-ss', start_pos])
             cmd.extend(['-t', part_dura])
         
@@ -1059,9 +1119,10 @@ abort conversion process?'),
             #--- Which encoder use (avconv of mencoder)
             if encoder_type == 'f':
                 if self.cb_split.get_active():
-                    full_cmd = self.build_avconv_cmd(input_file, out_file,
-                                            self.tl_begin.get_time_str(),
-                                            self.tl_duration.get_time_str())
+                    full_cmd = \
+                    self.build_avconv_cmd(input_file, out_file,
+                                          self.tl_begin.get_time_str(),
+                                          self.tl_duration.get_time_str())
                 else:
                     full_cmd = self.build_avconv_cmd(input_file, out_file)
                     
@@ -1383,8 +1444,13 @@ abort conversion process?'),
                     
         else:
             self.is_converting = False
+            
+        # Shutdown system
+        if self.Iter == None and self.cb_halt.get_active():
+            self.shutdown()
         
         self.enable_controls(True)
+    
         
     
     #--- Catch output 
@@ -1587,7 +1653,7 @@ abort conversion process?'),
         self.vb_audio.set_sensitive(sens)
         self.vb_video.set_sensitive(sens)
         self.vb_sub.set_sensitive(sens)
-        self.vb_other.set_sensitive(sens)
+        self.vb_more.set_sensitive(sens)
     
     def save_options(self):
         conf = ConfigParser()
@@ -1606,6 +1672,8 @@ abort conversion process?'),
         conf.set('configs', 'encoder', self.cmb_encoder.get_active())
         conf.set('configs', 'font', self.b_font.get_font_name())
         conf.set('configs', 'tray', self.cb_tray.get_active())
+        conf.set('configs', 'icons', self.cmb_icons.get_active_id())
+        conf.set('configs', 'language', self.cmb_lang.get_active_id())
         
         with open(OPTS_FILE, 'w') as configfile:
             conf.write(configfile)
@@ -1638,6 +1706,10 @@ abort conversion process?'),
     
             self.cb_tray.set_active(conf.getboolean('configs', 'tray'))
             
+            self.cmb_icons.set_active_id(conf.get('configs', 'icons'))
+            
+            self.cmb_lang.set_active_id(conf.get('configs', 'language'))
+            
         except NoOptionError as err:
             print(err)
     
@@ -1652,7 +1724,6 @@ abort conversion process?'),
             f_log.write(self.log.read())
             f_log.write('\n')
             
-    
     
     def tooltip_toc(self, tree, x, y, keyboard_tip, tooltip):
         path = tree.get_tooltip_context(x, y, keyboard_tip)[4]
@@ -1677,6 +1748,79 @@ abort conversion process?'),
     
     def on_cb_tray_toggled(self, cb_tray):
         self.trayico.set_visible(cb_tray.get_active())
+    
+    def on_cmb_icons_changed(self, cmb_icons):
+        icons_path = self.dict_icons[cmb_icons.get_active_text()]
+        
+        self.add_tb.set_icon(icons_path)
+        self.remove_tb.set_icon(icons_path)
+        self.clear_tb.set_icon(icons_path)
+        self.convert_tb.set_icon(icons_path)
+        self.stop_tb.set_icon(icons_path)
+        self.about_tb.set_icon(icons_path)
+        self.quit_tb.set_icon(icons_path)
+        self.show_all()
+    
+    
+    def fill_dict(self):
+        self.dict_icons = {}
+        
+        root_icons_path = join(APP_DIR, 'icons')
+        user_icons_path = join(CONF_PATH, 'icons')
+        
+        if not exists(user_icons_path):
+            os.mkdir(user_icons_path)
+        
+        # Default directory
+        for i in listdir(root_icons_path):
+            if isdir(join(root_icons_path, i)):
+                self.dict_icons[i] = join(root_icons_path, i)
+        
+        # User directory
+        for i in listdir(user_icons_path):
+            if isdir(join(user_icons_path, i)):
+                self.dict_icons[i] = join(user_icons_path, i)
+        
+        self.cmb_icons.set_list(self.dict_icons.keys())
+    
+    
+    def install_locale(self):
+        conf = ConfigParser()
+        conf.read(OPTS_FILE)
+        # .curlew.cfg not found
+        try:
+            lang_name = conf.get('configs', 'language')
+        except:
+            return
+        
+        # System language
+        if lang_name == '< Auto >':
+            return
+        
+        # RTL/LTR direction
+        if lang_name == 'العربية':
+            self.set_default_direction(Gtk.TextDirection.RTL)
+        else:
+            self.set_default_direction(Gtk.TextDirection.LTR)
+            
+        # Set language
+        try:
+            lang_code = LANGUAGES[lang_name]
+            lang = gettext.translation(domain, localdir, languages=[lang_code])
+            lang.install()
+        except: pass
+    
+    def shutdown(self):
+        GObject.timeout_add(1000, self._on_timer)
+    
+    def _on_timer(self):
+        self.label_details.set_markup(_('<span foreground="red" weight="bold">System will shutdown after {} sec.</span>').format(self.counter))
+        self.counter -= 1
+        if self.counter < 0:
+            cmd = 'dbus-send --system --print-reply --system --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop'
+            call(cmd, shell=True)
+            return False
+        return True
 
 
 class DBusService(dbus.service.Object):

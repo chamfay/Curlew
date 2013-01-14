@@ -29,7 +29,7 @@ Main Features:
 - Combine subtitle with video file.
 - Show error details if exist.
 - And more ...''',
-      version="0.1.14.2",
+      version="0.1.15",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',
@@ -51,5 +51,5 @@ Main Features:
                      'Topic :: Utilities'],
       data_files=data_files,
       packages=['Curlew'],
-      package_data={'':['icons/*.png', 'formats.cfg']}
+      package_data={'':['icons/*/*.png', 'formats.cfg']}
       )

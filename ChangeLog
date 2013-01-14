@@ -1,3 +1,13 @@
+Version 0.1.15
+--------------
+
+* Added option to swicth manualy between available languages.
+* Added new icons set (Thanks to Smail <kungfu07mail@gmail.com>).
+* Added option to change toolbar icons, or make your own icons.
+* Added option shutdown computer after finish (after 20 seconds).
+* Fixed bug in "same quality" option.
+* Update translation.
+
 Version 0.1.14.2
 ----------------
 
