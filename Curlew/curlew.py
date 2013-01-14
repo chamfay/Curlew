@@ -1,6 +1,5 @@
 #-*- coding:utf-8 -*-
 
-
 #===============================================================================
 # Application : Curlew multimedia converter
 # Author: Chamekh Fayssal <chamfay@gmail.com>
@@ -31,6 +30,7 @@ try:
     duration_to_time, time_to_duration
     from logdialog import LogDialog
     from tray import StatusIcon
+    from languages import LANGUAGES
     
 except Exception as detail:
     print(detail)
@@ -67,11 +67,6 @@ ERROR_LOG    = join(CONF_PATH, 'errors.log')
 PASS_LOG     = '/tmp/pass1log'
 PASS_1_FILE  = '/tmp/pass1file'
 PREVIEW_FILE = '/tmp/preview'
-
-LANGUAGES = {
-             'العربية'  : 'ar',
-             'English'  : 'en'
-             }
 
 
 # Make .curlew folder if not exist
@@ -1445,11 +1440,12 @@ abort conversion process?'),
         else:
             self.is_converting = False
             
-        # Shutdown system
-        if self.Iter == None and self.cb_halt.get_active():
-            self.shutdown()
+        if self.Iter == None:
+            self.enable_controls(True)
+            # Shutdown system
+            if self.cb_halt.get_active():
+                self.shutdown()
         
-        self.enable_controls(True)
     
         
     

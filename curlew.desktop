@@ -1,12 +1,14 @@
 [Desktop Entry]
-Categories=GNOME;GTK;AudioVideo;Video;
+Name=Curlew
+Icon=curlew
+Exec=curlew
+Name[ar]=كروان
+Name[en]=Curlew
+Name[en_US]=Curlew
 Comment[en_US]=Easy to use Multimedia Converter for Linux
 Comment=Easy to use Multimedia Converter for Linux
 Comment[ar]=محول وسائط على لينكس سهل الاستخدام
+Categories=GNOME;GTK;AudioVideo;Video;
 Encoding=UTF-8
-Exec=curlew
-Icon=curlew
-Name[en_US]=Curlew
-Name=Curlew
-Name[ar]=كروان
-Name[en]=Curlew
+Type=Application
+Terminal=false

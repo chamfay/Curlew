@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 from gi.repository import Gtk
 
 def show_message(parent, 

@@ -29,7 +29,7 @@ Dependencies:
 - gir1.2-gtk-3.0
 - ffmpeg >= 0.8 (or libav-tools >= 0.8)
 - mencoder
-- libavcodec-extra-53
+- libavcodec-extra-53 (Ubuntu/Debian)
 - xdg-utils
 
 
