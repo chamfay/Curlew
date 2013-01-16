@@ -11,7 +11,7 @@ class About(Gtk.AboutDialog):
         self.set_program_name(AppName())
         self.set_authors(['Fayssal Chamekh <chamfay@gmail.com>'])
         self.set_copyright("Copyright © 2012, 2013 Fayssal Chamekh <chamfay@gmail.com>")
-        self.set_version('0.1.15.1')
+        self.set_version('0.1.15.2')
         self.set_title(_('About ') + AppName())
         self.set_logo_icon_name('curlew')
         self.set_comments(_('Easy to use Multimedia Converter for Linux'))
@@ -27,7 +27,7 @@ http://www.ojuba.org/wiki/doku.php/waqf/license
 """)
         self.set_website('https://github.com/chamfay/Curlew')
         self.set_website_label('https://github.com/chamfay/Curlew')
-        self.set_translator_credits(_('Fayssal Chamekh <chamfay@gmail.com>'))
+        self.set_translator_credits(_("translator-credits"))
         self.set_artists(['Smail <kungfu07mail@gmail.com>'])
     
     def show(self):

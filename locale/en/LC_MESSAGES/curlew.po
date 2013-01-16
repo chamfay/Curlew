@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-12 23:55+0100\n"
-"PO-Revision-Date: 2013-01-13 00:28-0000\n"
+"POT-Creation-Date: 2013-01-15 20:41+0100\n"
+"PO-Revision-Date: 2013-01-16 15:01-0000\n"
 "Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -16,355 +16,375 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:194
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:146
+msgid "Add"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:146
 msgid "Add files"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:198
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:150
+msgid "Remove"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:150
 msgid "Remove files"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:202
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:154
+msgid "Clear"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:154
 msgid "Clear files list"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:209
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:161
+msgid "Convert"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:161
 msgid "Start Conversion"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:213
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:20
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:165
+msgid "Stop"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:165
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:22
 msgid "Stop Conversion"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:220
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:172
+msgid "About"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:172
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/about.py:15
 msgid "About "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:227
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:24
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:179
+msgid "Quit"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:179
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:26
 msgid "Quit application"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:266
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:218
 msgid "File"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:273
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:225
 msgid "Duration"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:279
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:231
 msgid "Estimated size"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:285
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:237
 msgid "Remaining time"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:290
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:242
 msgid "Progress"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:307
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:259
 msgid "Browse destination"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:310
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:262
 msgid "Preview before converting"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:323
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:275
 msgid "<b>Format:</b>"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:331
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:283
 msgid "Source Path"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:334
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:286
 msgid "<b>Destination:</b>"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:340
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:292
 msgid "<b>Advanced</b>"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:352
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:304
 msgid "Audio"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:354
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:306
 msgid "Audio Bitrate"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:355
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:307
 msgid "Audio Frequency"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:356
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:308
 msgid "Audio Channels"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:357
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:309
 msgid "Audio Codec"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:360
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:312
 msgid "Volume (%)"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:366
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:318
 msgid "Audio Quality"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:374
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:326
 msgid "Video"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:376
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:328
 msgid "Video Bitrate"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:377
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:329
 msgid "Video FPS"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:378
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:330
 msgid "Video Size"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:379
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:331
 msgid "Video Codec"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:380
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:332
 msgid "Aspect Ratio"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:386
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:338
 msgid "2-Pass"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:390
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:342
 msgid "Video only"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:397
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:349
 msgid "Video Quality"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:404
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:356
 msgid "Subtitle"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:407
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:359
 msgid "Use Subtitle"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:412
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:364
 msgid "Subtitle: "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:424
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:376
 msgid "Font: "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:436
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:388
 msgid "Position: "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:444
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:396
 msgid "Size: "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:461
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:413
 msgid "Encoding: "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:472
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:424
 msgid "Delay: "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:476
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:60
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:428
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:63
 msgid "sec"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:484
-msgid "Splitting"
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:436
+msgid "More"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:487
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:439
 msgid "Split File"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:497
-msgid "By limit duration:"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:502
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:449
 msgid "Begin time: "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:503
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:450
 msgid "Duration: "
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:508
-msgid "By limit size:"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:511
-msgid "File size:"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:522
-msgid "Other"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:527
-msgid "Converter:"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:538
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:454
 msgid "Others opts:"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:543
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:459
 msgid "Threads:"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:548
-msgid "File exist:"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:550
-msgid "Overwrite it"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:551
-msgid "Choose another name"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:552
-msgid "Skip conversion"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:555
-msgid "Language:"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:559
-msgid "< Auto >"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:562
-msgid "Icons:"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:571
-msgid "Show tray icon"
-msgstr ""
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:576
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:464
 msgid "Source Quality"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:577
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:465
 msgid "Use the same quality as source file"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:655
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:475
+msgid "Configs"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:479
+msgid "Converter:"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:490
+msgid "File exist:"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:492
+msgid "Overwrite it"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:493
+msgid "Choose another name"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:494
+msgid "Skip conversion"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:497
+msgid "Language:"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:506
+msgid "Icons:"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:512
+msgid "Show toolbar's buttons text"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:517
+msgid "Show tray icon"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:522
+msgid "Shutdown computer after finish"
+msgstr ""
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:599
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:672
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:616
 msgid "Add file"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:683
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:627
 msgid "All supported files"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:690
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:634
 msgid "Video files"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:696
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:640
 msgid "Audio files"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:702
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:646
 msgid "All files"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:716
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1403
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1662
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:660
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1336
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1601
 msgid "Ready!"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:734
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:678
 msgid "Choose destination"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1102
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1042
 msgid "Destination path is not valid."
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1108
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1048
 msgid "Destination path is not accessible."
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1131
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1168
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1530
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1071
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1108
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1469
 msgid "Skipped!"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1141
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1081
 msgid "Not found!"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1243
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1176
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1256
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1189
 msgid "Do you want to stop conversion process?"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1310
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1243
 msgid "Select subtitle"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1318
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1251
 msgid "Subtitle files"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1398
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1584
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1641
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1331
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1523
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1580
 msgid "Wait..."
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1408
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1341
 msgid "Preview"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1487
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1420
 msgid "Done!"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1495
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1428
 msgid "Failed!"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1798
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1740
 msgid ""
 "<b>File:</b>\t{}\n"
 "<b>Path:</b>\t{}\n"
@@ -372,8 +392,12 @@ msgid ""
 "<b>Duration:</b>\t{}"
 msgstr ""
 
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1820
+msgid "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</span>"
+msgstr ""
+
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/about.py:6
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:10
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:12
 msgid "Curlew"
 msgstr ""
 
@@ -382,27 +406,27 @@ msgid "Easy to use Multimedia Converter for Linux"
 msgstr ""
 
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/about.py:30
-msgid "Fayssal Chamekh <chamfay@gmail.com>"
+msgid "translator-credits"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:56
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:59
 msgid "hr"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:58
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:61
 msgid "min"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/logdialog.py:9
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/logdialog.py:11
 msgid "Errors detail"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:16
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:46
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:18
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:48
 msgid "Hide"
 msgstr ""
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:48
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:50
 msgid "Show"
 msgstr ""
 

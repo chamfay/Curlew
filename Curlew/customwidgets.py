@@ -5,12 +5,13 @@ from os.path import join
 
 
 class CustomToolButton(Gtk.ToolButton):
-    def __init__(self, name, tooltip, callback, toolbar):
+    def __init__(self, name, label, tooltip, callback, toolbar):
         Gtk.ToolButton.__init__(self)
         
         self._name = name + '.png'
         
         self.set_tooltip_markup(tooltip)
+        self.set_label(label)
         self.connect('clicked', callback)
         toolbar.insert(self, -1)
     

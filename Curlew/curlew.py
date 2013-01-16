@@ -136,47 +136,53 @@ class Curlew(Gtk.Window):
         
         #--- Toolbar
         toolbar = Gtk.Toolbar()
-        toolbar.set_style(Gtk.ToolbarStyle.ICONS)
         toolbar.set_icon_size(Gtk.IconSize.DIALOG)
         vbox.pack_start(toolbar, False, True, 0)
         
         
         #--- ToolButtons
         # Add toolbutton
-        self.add_tb = CustomToolButton('add', _('Add files'),
+        self.add_tb = CustomToolButton('add', _('Add'), 
+                                       _('Add files'),
                                        self.tb_add_cb, toolbar)
         
         # Remove toolbutton
-        self.remove_tb = CustomToolButton('remove', _('Remove files'),
+        self.remove_tb = CustomToolButton('remove', _('Remove'), 
+                                          _('Remove files'),
                                           self.tb_remove_cb, toolbar)
         
         # Clear toolbutton
-        self.clear_tb = CustomToolButton('clear', _('Clear files list'),
+        self.clear_tb = CustomToolButton('clear', _('Clear'), 
+                                         _('Clear files list'),
                                          self.tb_clear_cb, toolbar)
         
         # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         # Convert toolbutton
-        self.convert_tb = CustomToolButton('convert', _('Start Conversion'),
+        self.convert_tb = CustomToolButton('convert', _('Convert'), 
+                                           _('Start Conversion'),
                                            self.convert_cb, toolbar)
         
         # Stop toolbutton
-        self.stop_tb = CustomToolButton('stop', _('Stop Conversion'),
+        self.stop_tb = CustomToolButton('stop', _('Stop'), 
+                                        _('Stop Conversion'),
                                         self.tb_stop_cb, toolbar)
         
         # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         # About toolbutton
-        self.about_tb = CustomToolButton('about', _('About ') + AppName(),
+        self.about_tb = CustomToolButton('about', _('About'), 
+                                         _('About ') + AppName(),
                                          self.tb_about_cb, toolbar)
         
         # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         # Quit toolbutton
-        self.quit_tb = CustomToolButton('quit', _('Quit application'),
+        self.quit_tb = CustomToolButton('quit', _('Quit'), 
+                                        _('Quit application'),
                                         self.quit_cb, toolbar)
         
         #--- List of files
@@ -471,7 +477,7 @@ class Curlew(Gtk.Window):
         #--- Configuration page
         self.vb_config = Gtk.VBox()
         self.vb_config.set_border_width(6)
-        self.vb_config.set_spacing(8)
+        self.vb_config.set_spacing(6)
         note.append_page(self.vb_config, Gtk.Label(_('Configs')))
         
         # Encoder type (ffmpeg / avconv)
@@ -502,11 +508,19 @@ class Curlew(Gtk.Window):
         self.cmb_lang.prepend_text('< Auto >')
         self.cmb_lang.set_active(0)
         
+        hb_icons = Gtk.HBox(spacing=20)
+        self.vb_config.pack_start(hb_icons, False, False, 0)
+        
         #--- Icons theme
-        self.cmb_icons = LabeledComboEntry(self.vb_config, _('Icons:'), 0)
+        self.cmb_icons = LabeledComboEntry(hb_icons, _('Icons:'), 0)
         self.cmb_icons.connect('changed', self.on_cmb_icons_changed)
         self.cmb_icons.set_label_width(10)
         self.cmb_icons.set_id_column(0)
+        
+        #--- Show icons text
+        self.cb_icon_text = Gtk.CheckButton(_('Show toolbar\'s buttons text'))
+        self.cb_icon_text.connect('toggled', self.cb_icon_text_cb, toolbar)
+        hb_icons.pack_start(self.cb_icon_text, False, False, 0)
         
         # Use tray icon
         self.cb_tray = Gtk.CheckButton(_('Show tray icon'))
@@ -523,7 +537,7 @@ class Curlew(Gtk.Window):
         
         #--- Status
         self.label_details = Gtk.Label()
-        self.label_details.set_text('')
+        #self.label_details.set_text('')
         vbox.pack_start(self.label_details, False, False, 0)
         
         # Status icon
@@ -1670,6 +1684,7 @@ abort conversion process?'),
         conf.set('configs', 'tray', self.cb_tray.get_active())
         conf.set('configs', 'icons', self.cmb_icons.get_active_id())
         conf.set('configs', 'language', self.cmb_lang.get_active_id())
+        conf.set('configs', 'text_icon', self.cb_icon_text.get_active())
         
         with open(OPTS_FILE, 'w') as configfile:
             conf.write(configfile)
@@ -1691,7 +1706,7 @@ abort conversion process?'),
                                                     'cb_same_dest_on'))
             self.cb_same_qual.set_active(conf.getboolean('configs',
                                                          'cb_same_qual_on'))
-            self.cmb_exist.set_active(conf.getboolean('configs',
+            self.cmb_exist.set_active(conf.getint('configs',
                                                       'overwrite_mode'))
             self.cmb_encoder.set_active(conf.getint('configs', 'encoder'))
             # Out of range
@@ -1705,6 +1720,7 @@ abort conversion process?'),
             self.cmb_icons.set_active_id(conf.get('configs', 'icons'))
             
             self.cmb_lang.set_active_id(conf.get('configs', 'language'))
+            self.cb_icon_text.set_active(conf.getboolean('configs', 'text_icon'))
             
         except NoOptionError as err:
             print(err)
@@ -1817,6 +1833,13 @@ abort conversion process?'),
             call(cmd, shell=True)
             return False
         return True
+    
+    def cb_icon_text_cb(self, cb_icon_text, toolbar):
+        if cb_icon_text.get_active():
+            toolbar.set_style(Gtk.ToolbarStyle.BOTH)
+        else:
+            toolbar.set_style(Gtk.ToolbarStyle.ICONS)
+        
 
 
 class DBusService(dbus.service.Object):
