@@ -2,17 +2,15 @@
 
 from gi.repository import Gtk
 
-def AppName():
-    return _('Curlew')
 
 class About(Gtk.AboutDialog):
     def __init__(self, parent):
         Gtk.AboutDialog.__init__(self, parent=parent, wrap_license=True)
-        self.set_program_name(AppName())
+        self.set_program_name(_('Curlew'))
         self.set_authors(['Fayssal Chamekh <chamfay@gmail.com>'])
         self.set_copyright("Copyright © 2012, 2013 Fayssal Chamekh <chamfay@gmail.com>")
-        self.set_version('0.1.15.2')
-        self.set_title(_('About ') + AppName())
+        self.set_version('0.1.15.3')
+        self.set_title(_('About Curlew'))
         self.set_logo_icon_name('curlew')
         self.set_comments(_('Easy to use Multimedia Converter for Linux'))
         self.set_license("""

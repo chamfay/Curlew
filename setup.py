@@ -1,5 +1,3 @@
-#!/usr/bin/env python2
-
 from distutils.core import setup
 from glob import glob
 
@@ -29,7 +27,7 @@ Main Features:
 - Combine subtitle with video file.
 - Show error details if exist.
 - And more ...''',
-      version="0.1.15.2",
+      version="0.1.15.3",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',

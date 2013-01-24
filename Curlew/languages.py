@@ -3,4 +3,5 @@
 LANGUAGES = {
              'العربية': 'ar',
              'English': 'en',
+             'Français': 'fr',
              }

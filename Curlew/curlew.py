@@ -25,7 +25,7 @@ try:
     
     from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, \
     CustomHScale, CustomToolButton
-    from about import About, AppName
+    from about import About
     from functions import show_message, get_format_size, \
     duration_to_time, time_to_duration
     from logdialog import LogDialog
@@ -39,22 +39,22 @@ except Exception as detail:
 #--- Localization setup
 exedir = dirname(sys.argv[0])
 
-domain   = 'curlew'
+DOMAIN = 'curlew'
+LOCALDIR = ''
 
-localdir = ''
 # Curlew script (default locale)
 if isdir(join(exedir, '..', 'share/locale')):
-    localdir = join(exedir, '..', 'share/locale')
+    LOCALDIR = join(exedir, '..', 'share/locale')
 
 # Curlew script (test)
 elif isdir(join(exedir, 'locale')):
-    localdir = join(exedir, 'locale')
+    LOCALDIR = join(exedir, 'locale')
 
 # curlew.py
 else:
-    localdir = join(exedir, '..', 'locale')
+    LOCALDIR = join(exedir, '..', 'locale')
     
-gettext.install(domain, localdir)
+gettext.install(DOMAIN, LOCALDIR)
 
 
 #--- Constants
@@ -125,7 +125,7 @@ class Curlew(Gtk.Window):
                
         Gtk.Window.__init__(self)        
         self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_title('{}'.format(AppName()))
+        self.set_title('{}'.format(_('Curlew')))
         self.set_border_width(6)
         self.set_size_request(680, -1)
         self.set_icon_name('curlew')
@@ -174,7 +174,7 @@ class Curlew(Gtk.Window):
         
         # About toolbutton
         self.about_tb = CustomToolButton('about', _('About'), 
-                                         _('About ') + AppName(),
+                                         _('About Curlew'),
                                          self.tb_about_cb, toolbar)
         
         # Separator
@@ -481,8 +481,7 @@ class Curlew(Gtk.Window):
         note.append_page(self.vb_config, Gtk.Label(_('Configs')))
         
         # Encoder type (ffmpeg / avconv)
-        self.cmb_encoder = LabeledComboEntry(self.vb_config, 
-                                               _('Converter:'), 0)
+        self.cmb_encoder = LabeledComboEntry(self.vb_config, _('Converter:'), 0)
         self.cmb_encoder.set_label_width(10)
         self.cmb_encoder.connect('changed', self.cmb_encoder_cb)
         
@@ -1335,6 +1334,7 @@ abort conversion process?'),
             # Cancel preview
             if not self.is_preview:
                 self.get_child().set_sensitive(True)
+                self.force_delete_file(PREVIEW_FILE)
                 return
             self.store[Iter][C_PULS] = self.store[Iter][C_PULS] + 1
             self.store[Iter][C_STAT] = _('Wait...')
@@ -1818,7 +1818,7 @@ abort conversion process?'),
         # Set language
         try:
             lang_code = LANGUAGES[lang_name]
-            lang = gettext.translation(domain, localdir, languages=[lang_code])
+            lang = gettext.translation(DOMAIN, LOCALDIR, languages=[lang_code])
             lang.install()
         except: pass
     
