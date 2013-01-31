@@ -88,7 +88,7 @@ C_FILE = 8             # complete file name /path/file.ext
 class Curlew(Gtk.Window):    
     
     def __init__(self):
-        #--- Variables
+        #--- Global Variables
         self.curr_open_folder = HOME
         self.curr_save_folder = HOME
         self.is_converting = False
@@ -529,6 +529,10 @@ class Curlew(Gtk.Window):
         # Shutdown after conversion
         self.cb_halt = Gtk.CheckButton(_('Shutdown computer after finish'))
         self.vb_config.pack_start(self.cb_halt, False, False, 0)
+        
+        # Remove source file
+        self.cb_remove = Gtk.CheckButton(_('Delete input file after conversion'))
+        self.vb_config.pack_start(self.cb_remove, False, False, 0)
 
 
 
@@ -544,10 +548,6 @@ class Curlew(Gtk.Window):
         self.fill_dict()
         
         
-        #--- Show interface
-        '''Must show interface before loading cmb_formats combobox.'''
-        self.show_all()
-        
         #--- Load formats from formats.cfg file
         self.f_file = ConfigParser()
         self.f_file.read(join(APP_DIR, 'formats.cfg'))
@@ -558,6 +558,10 @@ class Curlew(Gtk.Window):
         
         #--- Load saved options.
         self.load_options()
+        
+        
+        #--- Show interface
+        self.show_all()
         
         #--- Drag and Drop
         targets = Gtk.TargetList.new([])
@@ -1428,6 +1432,11 @@ abort conversion process?'),
                 self.store[self.Iter][C_PRGR] = 100.0
                 self.store[self.Iter][C_STAT] = _("Done!")
                 self.store[self.Iter][C_PULS] = -1
+                
+                # Remove source file
+                if self.cb_remove.get_active():
+                    self.force_delete_file(self.store[self.Iter][C_FILE])
+                
                 # Convert the next file
                 self.Iter = self.store.iter_next(self.Iter)
                 self.convert_file()
@@ -1740,8 +1749,13 @@ abort conversion process?'),
     def tooltip_toc(self, tree, x, y, keyboard_tip, tooltip):
         path = tree.get_tooltip_context(x, y, keyboard_tip)[4]
         if path:
-            file_name = self.store[path][C_NAME]
             full_path = self.store[path][C_FILE]
+            
+            # Return if file not found
+            if not exists(full_path):
+                return
+            
+            file_name = self.store[path][C_NAME]
             file_path = dirname(full_path)
             file_size = get_format_size(getsize(full_path)/1024)
             file_duration = self.store[path][C_DURA]
@@ -1783,7 +1797,7 @@ abort conversion process?'),
         if not exists(user_icons_path):
             os.mkdir(user_icons_path)
         
-        # Default directory
+        # Default (root) directory
         for i in listdir(root_icons_path):
             if isdir(join(root_icons_path, i)):
                 self.dict_icons[i] = join(root_icons_path, i)
@@ -1823,6 +1837,7 @@ abort conversion process?'),
         except: pass
     
     def shutdown(self):
+        # Start timer
         GObject.timeout_add(1000, self._on_timer)
     
     def _on_timer(self):
