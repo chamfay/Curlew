@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-31 14:35+0100\n"
-"PO-Revision-Date: 2013-01-31 14:36-0000\n"
+"POT-Creation-Date: 2013-02-03 17:29+0100\n"
+"PO-Revision-Date: 2013-02-03 17:33-0000\n"
 "Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Arabic <chamfay@gmail.com>\n"
 "Language: \n"
@@ -18,349 +18,361 @@ msgstr ""
 "X-Poedit-Language: Arabic\n"
 "X-Poedit-Country: ALGERIA\n"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:128
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:127
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/about.py:9
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:12
 msgid "Curlew"
 msgstr "كـروان"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:145
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:144
 msgid "Add"
 msgstr "أضِف"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:146
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:145
 msgid "Add files"
 msgstr "أضِف ملفات"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:150
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:149
 msgid "Remove"
 msgstr "اِحذف"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:151
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:150
 msgid "Remove files"
 msgstr "اِحذِف ملفات"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:155
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:154
 msgid "Clear"
 msgstr "اِمسح"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:156
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:155
 msgid "Clear files list"
 msgstr "اِمسح قائمة الملفات"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:163
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:162
 msgid "Convert"
 msgstr "حوّل"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:164
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:163
 msgid "Start Conversion"
 msgstr "اِبدأ التحويل"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:168
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:167
 msgid "Stop"
 msgstr "أوقِف"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:169
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:168
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:22
 msgid "Stop Conversion"
 msgstr "أوقف التحويل"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:176
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:175
 msgid "About"
 msgstr "عنْ"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:177
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:176
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/about.py:13
 msgid "About Curlew"
 msgstr "عنْ كروان"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:184
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:183
 msgid "Quit"
 msgstr "غادِر"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:185
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:184
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/tray.py:26
 msgid "Quit application"
 msgstr "غادِر البرنامج"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:224
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:223
 msgid "File"
 msgstr "الملف"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:231
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:230
 msgid "Duration"
 msgstr "المـدة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:237
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:236
 msgid "Estimated size"
 msgstr "الحجم المقدّر"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:243
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:242
 msgid "Remaining time"
 msgstr "الوقت المتبقّي"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:248
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:247
 msgid "Progress"
 msgstr "التقدم"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:265
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:264
 msgid "Browse destination"
 msgstr "اِستعرض الوِجهة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:268
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:267
 msgid "Preview before converting"
 msgstr "عايِن قبل التحويل"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:281
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:280
 msgid "<b>Format:</b>"
 msgstr "<b>الصيـــغة:</b>"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:289
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:288
 msgid "Source Path"
 msgstr "مسار المصدر"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:292
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:291
 msgid "<b>Destination:</b>"
 msgstr "<b>الوِجهــــة:</b>"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:298
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:297
 msgid "<b>Advanced</b>"
 msgstr "<b>خيارات متقدمة</b>"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:310
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:307
 msgid "Audio"
 msgstr "الصوت"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:312
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:309
 msgid "Audio Bitrate"
 msgstr "معدل بتات الصوت"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:313
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:310
 msgid "Audio Frequency"
 msgstr "تردد الصوت"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:314
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:311
 msgid "Audio Channels"
 msgstr "قناة الصوت"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:315
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:312
 msgid "Audio Codec"
 msgstr "ترميز الصوت"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:318
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:315
 msgid "Volume (%)"
 msgstr "حجم الصوت (%)"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:324
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:321
 msgid "Audio Quality"
 msgstr "جودة الصوت"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:332
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:327
 msgid "Video"
 msgstr "الفيديو"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:334
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:329
 msgid "Video Bitrate"
 msgstr "معدّل بتات الفيديو"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:335
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:330
 msgid "Video FPS"
 msgstr "قيمة FPS"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:336
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:331
 msgid "Video Size"
 msgstr "مقاس الفيديو"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:337
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:332
 msgid "Video Codec"
 msgstr "ترميز الفيديو"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:338
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:333
 msgid "Aspect Ratio"
 msgstr "التناسب"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:344
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:339
 msgid "2-Pass"
 msgstr "تحويلٌ مضاعف"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:348
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:343
 msgid "Video only"
 msgstr "فيديو فقط"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:355
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:350
 msgid "Video Quality"
 msgstr "جودة الفيديو"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:362
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:355
 msgid "Subtitle"
 msgstr "الترجمة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:365
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:361
 msgid "Use Subtitle"
 msgstr "اِستعمل ملف الترجمة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:370
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:366
 msgid "Subtitle: "
 msgstr "ملف الترجمة:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:382
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:377
 msgid "Font: "
 msgstr "الخط:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:394
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:386
 msgid "Position: "
 msgstr "الموضع:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:402
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:392
 msgid "Size: "
 msgstr "الحجم:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:419
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:408
 msgid "Encoding: "
 msgstr "ترميز الخط:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:430
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:418
 msgid "Delay: "
 msgstr "التأخير:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:434
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:63
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:422
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:150
 msgid "sec"
 msgstr "ثا"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:442
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:426
+msgid "Crop / Pad"
+msgstr "قص / حشو"
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:429
+msgid "Crop"
+msgstr "قص"
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:433
+msgid "Pad"
+msgstr "أضِف حاشية"
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:439
 msgid "More"
 msgstr "المزيد"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:445
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:442
 msgid "Split File"
 msgstr "أنشِئ مقطعاً"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:455
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:452
 msgid "Begin time: "
-msgstr "بداية المقطع:"
+msgstr "بدايتــــــهُ:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:456
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:453
 msgid "Duration: "
-msgstr "مـدّة المقطع:"
+msgstr "مـدّتــــــــهُ:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:460
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:457
 msgid "Others opts:"
 msgstr "وسائط أخرى:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:465
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:462
 msgid "Threads:"
 msgstr "الخيوط:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:470
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:467
 msgid "Source Quality"
 msgstr "جودة المصدر"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:471
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:468
 msgid "Use the same quality as source file"
 msgstr "اِستعمل نفس جودة الملف المصدر"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:481
-msgid "Configs"
-msgstr "إعدادات"
-
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:484
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:474
 msgid "Converter:"
 msgstr "المحوّل:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:495
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:489
+msgid "Configs"
+msgstr "إعدادات"
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:492
 msgid "File exist:"
 msgstr "الملف موجود:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:497
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:494
 msgid "Overwrite it"
 msgstr "اِستبدله"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:498
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:495
 msgid "Choose another name"
 msgstr "اِختر اسما آخر"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:499
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:496
 msgid "Skip conversion"
 msgstr "تخطّ التحويل"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:502
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:499
 msgid "Language:"
 msgstr "اللغة:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:514
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:511
 msgid "Icons:"
 msgstr "اﻷيقونات:"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:520
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:517
 msgid "Show toolbar's buttons text"
 msgstr "أظهِر النصوص في شريط اﻷدوات"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:525
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:522
 msgid "Show tray icon"
 msgstr "أظهِر الأيقونة في مساحة التبليغ"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:530
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:527
 msgid "Shutdown computer after finish"
 msgstr "أغلِق الجهاز بعد انتهاء التحويل"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:534
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:531
 msgid "Delete input file after conversion"
 msgstr "اِحذف الملف المصدر بعد تحويله"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:611
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:608
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr "هل تريد إيقاف برنامج كروان وإلغاء عملية التحويل؟"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:628
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:625
 msgid "Add file"
 msgstr "أضِف ملفاً"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:639
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:636
 msgid "All supported files"
 msgstr "جميع الملفات المدعومة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:646
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:643
 msgid "Video files"
-msgstr "ملفات فيديو"
+msgstr "ملفاتُ فيديو"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:652
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:649
 msgid "Audio files"
-msgstr "ملفات صوتية"
+msgstr "ملفاتٌ صوتية"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:658
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:655
 msgid "All files"
 msgstr "جميع الملفات"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:672
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1349
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1619
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:669
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1363
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1629
 msgid "Ready!"
 msgstr "جاهز!"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:690
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:687
 msgid "Choose destination"
 msgstr "اِختر الوِجهة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1054
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1068
 msgid "Destination path is not valid."
-msgstr "مسار الوِجهة غير صالح"
+msgstr "مسارُ الوِجهة غير صالح"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1060
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1074
 msgid "Destination path is not accessible."
-msgstr "مسار الوِجهة لا يمكن الوصول إليه"
+msgstr "مسارُ الوِجهة لا يمكن الوصول إليه"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1083
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1120
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1487
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1097
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1134
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1497
 msgid "Skipped!"
 msgstr "تمّ تخطيه!"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1093
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1107
 msgid "Not found!"
 msgstr "غيرُ موجود!"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1188
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1202
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
@@ -368,33 +380,33 @@ msgstr ""
 "هناك أخطاءٌ حدثت أثناء التحويل.\n"
 "هل تريد مشاهدة تفاصيلها؟"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1201
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1215
 msgid "Do you want to stop conversion process?"
 msgstr "هل تريد إيقاف عملية التحويل؟"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1255
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1269
 msgid "Select subtitle"
 msgstr "اِختر ملف الترجمة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1263
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1277
 msgid "Subtitle files"
 msgstr "ملفاتُ ترجمة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1344
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1541
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1598
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1358
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1551
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1608
 msgid "Wait..."
 msgstr "انتظار..."
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1354
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1368
 msgid "Preview"
 msgstr "المعاينة"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1433
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1442
 msgid "Done!"
 msgstr "تمّ التحويل!"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1446
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1455
 msgid "Failed!"
 msgstr "فشل!"
 
@@ -410,7 +422,7 @@ msgstr ""
 "<b>الحجم:</b>\t{}\n"
 "<b>المدة:</b>\t{}"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1844
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:1845
 msgid "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</span>"
 msgstr "<span foreground=\"red\" weight=\"bold\">سيتم إيقاف الجهاز بعد {} ثا.</span>"
 
@@ -422,11 +434,27 @@ msgstr "محوّل وسائط على لينُكس سهل الاستخدام"
 msgid "translator-credits"
 msgstr "فيصل شامخ <chamfay@gmail.com>"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:59
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:34
+msgid "Top"
+msgstr "أعلى"
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:42
+msgid "Button"
+msgstr "أسفل"
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:50
+msgid "Left"
+msgstr "يسار"
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:58
+msgid "Right"
+msgstr "يمين"
+
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:140
 msgid "hr"
 msgstr "سا"
 
-#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:61
+#: /media/DATA2/Projects/Python-Projects/curlew/Curlew/customwidgets.py:145
 msgid "min"
 msgstr "د"
 
@@ -443,3 +471,5 @@ msgstr "أخفِ"
 msgid "Show"
 msgstr "أظهِر"
 
+#~ msgid "Crop Video"
+#~ msgstr "قص الفيديو"

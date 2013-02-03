@@ -4,6 +4,85 @@ from gi.repository import Gtk
 from os.path import join
 
 
+class SpinsFrame(Gtk.Frame):
+    '''4 SpinButton collection'''
+    def __init__(self, title):
+        Gtk.Frame.__init__(self)
+        
+        self._top = 0
+        self._buttom = 0
+        self._left = 0
+        self._right = 0
+        self._sum = 0
+        
+        hbox = Gtk.HBox(sensitive=False, spacing=2, border_width=4)
+        self.add(hbox)
+        
+        self.check_btn = Gtk.CheckButton(title)
+        self.check_btn.connect('toggled', self._on_check_cb, hbox)
+        self.set_label_widget(self.check_btn)
+        
+        # Adjustments
+        adj_top    = Gtk.Adjustment(0, 0, 10000, 1)
+        adj_buttom = Gtk.Adjustment(0, 0, 10000, 1)
+        adj_left   = Gtk.Adjustment(0, 0, 10000, 1)
+        adj_right  = Gtk.Adjustment(0, 0, 10000, 1)
+        
+        # Top spin
+        self.spin_top = Gtk.SpinButton(adjustment=adj_top)
+        self.spin_top.connect('value-changed', self._on_spins_changed)
+        hbox.pack_start(Gtk.Label(_('Top')), False, False, 0)
+        hbox.pack_start(self.spin_top, False, False, 0)
+        
+        hbox.pack_start(Gtk.VSeparator(), False, False, 8)
+        
+        # Buttom spin
+        self.spin_buttom = Gtk.SpinButton(adjustment=adj_buttom)
+        self.spin_buttom.connect('value-changed', self._on_spins_changed)
+        hbox.pack_start(Gtk.Label(_('Button')), False, False, 0)
+        hbox.pack_start(self.spin_buttom, False, False, 0)
+        
+        hbox.pack_start(Gtk.VSeparator(), False, False, 8)
+        
+        # Left Spin
+        self.spin_left = Gtk.SpinButton(adjustment=adj_left)
+        self.spin_left.connect('value-changed', self._on_spins_changed)
+        hbox.pack_start(Gtk.Label(_('Left')), False, False, 0)
+        hbox.pack_start(self.spin_left, False, False, 0)
+        
+        hbox.pack_start(Gtk.VSeparator(), False, False, 8)
+        
+        # Right spin
+        self.spin_right = Gtk.SpinButton(adjustment=adj_right)
+        self.spin_right.connect('value-changed', self._on_spins_changed)
+        hbox.pack_start(Gtk.Label(_('Right')), False, False, 0)
+        hbox.pack_start(self.spin_right, False, False, 0)
+    
+    def _on_check_cb(self, check_btn, hbox):
+        hbox.set_sensitive(check_btn.get_active())
+    
+    def _on_spins_changed(self, spin):
+        self._top = self.spin_top.get_value_as_int()
+        self._buttom = self.spin_buttom.get_value_as_int()
+        self._left = self.spin_left.get_value_as_int()
+        self._right = self.spin_right.get_value_as_int()
+        
+        self._sum = self._top + self._buttom + self._left + self._right
+    
+    def get_active(self):
+        return self.check_btn.get_active() and self._sum != 0
+    
+    def get_crop(self):
+        return 'crop=iw-{}:ih-{}:{}:{}'.format(self._left+self._right,
+                                               self._top+self._buttom,
+                                               self._left, self._top)
+    
+    def get_pad(self):
+        return 'pad=iw+{}:ih-{}:{}:{}'.format(self._left+self._right,
+                                               self._top+self._buttom,
+                                               self._left, self._top)
+    
+    
 class CustomToolButton(Gtk.ToolButton):
     def __init__(self, name, label, tooltip, callback, toolbar):
         Gtk.ToolButton.__init__(self)
@@ -54,13 +133,22 @@ class TimeLayout(Gtk.HBox):
         _label = Gtk.Label(label, use_markup=True)
         _label.set_alignment(0, 0.5)
         _label.set_width_chars(10)
+        
         self.pack_start(_label, False, False, 0)
+        
         self.pack_start(self._spin_h, False, False, 3)
         self.pack_start(Gtk.Label(label=_('hr')), False, False, 0)
+        
+        self.pack_start(Gtk.Label(6*' '), False, False, 0)
+        
         self.pack_start(self._spin_m, False, False, 3)
-        self.pack_start(Gtk.Label(label=_('min')), False, False, 0) 
+        self.pack_start(Gtk.Label(label=_('min')), False, False, 0)
+        
+        self.pack_start(Gtk.Label(6*' '), False, False, 0)
+        
         self.pack_start(self._spin_s, False, False, 3)
         self.pack_start(Gtk.Label(label=_('sec')), False, False, 0)
+        
         container.pack_start(self, False, False, 0)
     
     def set_duration(self, duration):
@@ -117,6 +205,9 @@ class LabeledComboEntry(Gtk.ComboBoxText):
     
     def set_label_width(self, charwidth):
         self._label.set_width_chars(charwidth)
+    
+    def not_default(self):
+        return self.get_active_text() != 'default'
 
 
 

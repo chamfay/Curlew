@@ -24,7 +24,7 @@ try:
     import dbus.glib, dbus.service
     
     from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, \
-    CustomHScale, CustomToolButton
+    CustomHScale, CustomToolButton, SpinsFrame
     from about import About
     from functions import show_message, get_format_size, \
     duration_to_time, time_to_duration
@@ -99,11 +99,10 @@ class Curlew(Gtk.Window):
         self.counter = 20
         self.errs_nbr = 0
         self.pass_nbr = 0
-        '''
-        0: Single pass encoding option
-        1: Two-pass encoding option (1st pass)
-        2: Two-pass encoding option (2nd pass)
-        '''
+        '''0: Single pass encoding option
+           1: Two-pass encoding option (1st pass)
+           2: Two-pass encoding option (2nd pass)'''
+        
         self.encoder = ''
         self.player = 'ffplay'
         self.is_preview = False
@@ -125,9 +124,9 @@ class Curlew(Gtk.Window):
                
         Gtk.Window.__init__(self)        
         self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_title('{}'.format(_('Curlew')))
+        self.set_title(_('Curlew'))
         self.set_border_width(6)
-        self.set_size_request(680, -1)
+        self.set_size_request(700, -1)
         self.set_icon_name('curlew')
         
         #--- Global vbox
@@ -304,9 +303,7 @@ class Curlew(Gtk.Window):
         self.exp_advanced.add(note)
         
         #--- audio page
-        self.vb_audio = Gtk.VBox()
-        self.vb_audio.set_border_width(6)
-        self.vb_audio.set_spacing(6)
+        self.vb_audio = Gtk.VBox(spacing=5, border_width=5)
         note.append_page(self.vb_audio, Gtk.Label(_("Audio")))
        
         self.c_abitrate = LabeledComboEntry(self.vb_audio, _("Audio Bitrate"))
@@ -326,9 +323,7 @@ class Curlew(Gtk.Window):
         
         
         #--- video page
-        self.vb_video = Gtk.VBox()
-        self.vb_video.set_border_width(6)
-        self.vb_video.set_spacing(6)
+        self.vb_video = Gtk.VBox(spacing=5, border_width=5)
         note.append_page(self.vb_video, Gtk.Label(_("Video")))
         
         self.c_vbitrate = LabeledComboEntry(self.vb_video, _("Video Bitrate"))
@@ -337,7 +332,7 @@ class Curlew(Gtk.Window):
         self.c_vcodec = LabeledComboEntry(self.vb_video, _("Video Codec"))
         self.c_vratio = LabeledComboEntry(self.vb_video, _("Aspect Ratio"))
         
-        hbox = Gtk.HBox(spacing=10)
+        hbox = Gtk.HBox(spacing=8)
         self.vb_video.pack_start(hbox, False, False, 0)
         
         # 2-pass
@@ -356,21 +351,21 @@ class Curlew(Gtk.Window):
         self.v_scale = CustomHScale(self.hb_vqual, 5, 0, 20)
         
         #--- Subtitle page
-        self.vb_sub = Gtk.VBox()
-        self.vb_sub.set_border_width(6)
-        self.vb_sub.set_spacing(6)
-        note.append_page(self.vb_sub, Gtk.Label(_("Subtitle")))
+        self.frame_sub = Gtk.Frame(border_width=5)
+        note.append_page(self.frame_sub, Gtk.Label(_("Subtitle")))
+        
+        self.vb_sub = Gtk.VBox(spacing=5, border_width=5, sensitive=False)
+        self.frame_sub.add(self.vb_sub)
         
         #--- Sub Active/Desactive
         self.cb_sub = Gtk.CheckButton(_('Use Subtitle'))
+        self.frame_sub.set_label_widget(self.cb_sub)
         self.cb_sub.connect('toggled', self.cb_sub_toggled)
-        self.vb_sub.pack_start(self.cb_sub, False, False, 0)
         
         #--- Subtitle filename
         self.hb_sub = LabeledHBox(_('Subtitle: '), self.vb_sub, 9)
         self.entry_sub = Gtk.Entry()
         self.hb_sub.pack_start(self.entry_sub, True, True, 0)
-        self.hb_sub.set_sensitive(False)
         
         #---- Select subtitle
         b_enc = Gtk.Button(' ... ')
@@ -385,18 +380,13 @@ class Curlew(Gtk.Window):
         self.b_font.set_show_size(False)
         self.b_font.set_show_style(False)
         
-        self.hb_font.set_sensitive(False)
-        
-        hbox = Gtk.HBox()
-        hbox.set_spacing(30)
+        hbox = Gtk.HBox(spacing=30)
         
         #--- Subtitle position
         self.hb_pos = LabeledHBox(_('Position: '), hbox, 9)
         adj = Gtk.Adjustment(100, 0, 100, 2)
-        self.spin_pos = Gtk.SpinButton()
-        self.spin_pos.set_adjustment(adj)
+        self.spin_pos = Gtk.SpinButton(adjustment=adj)
         self.hb_pos.pack_start(self.spin_pos, True, True, 0)
-        self.hb_pos.set_sensitive(False)
         
         #--- Subtitle size
         self.hb_size = LabeledHBox(_('Size: '), hbox, 0)
@@ -404,7 +394,6 @@ class Curlew(Gtk.Window):
         self.spin_size = Gtk.SpinButton()
         self.spin_size.set_adjustment(adj)
         self.hb_size.pack_start(self.spin_size, True, True, 0)
-        self.hb_size.set_sensitive(False)
         
         self.vb_sub.pack_start(hbox, False, False, 0)
         
@@ -424,7 +413,6 @@ class Curlew(Gtk.Window):
         self.cmb_enc.set_active(5)
         self.cmb_enc.set_wrap_width(4)
         self.hb_enc.pack_start(self.cmb_enc, True, True, 0)
-        self.hb_enc.set_sensitive(False)
         
         # Delay subtitle
         self.hb_delay = LabeledHBox(_('Delay: '), self.vb_sub, 9)
@@ -432,13 +420,22 @@ class Curlew(Gtk.Window):
         self.sub_delay.set_adjustment(Gtk.Adjustment(0, -90000, 90000, 1))
         self.hb_delay.pack_start(self.sub_delay, False, True, 0)
         self.hb_delay.pack_start(Gtk.Label(_("sec")), False, False, 0)
-        self.hb_delay.set_sensitive(False)
+        
+        #--- Crop/Pad page
+        self.vb_crop = Gtk.VBox(spacing=5, border_width=5)
+        note.append_page(self.vb_crop, Gtk.Label(_('Crop / Pad')))
+        
+        # Cropping video
+        self.crop = SpinsFrame(_('Crop'))
+        self.vb_crop.pack_start(self.crop, False, False, 0)
+        
+        # Padding video
+        self.pad = SpinsFrame(_('Pad'))
+        self.vb_crop.pack_start(self.pad, False, False, 0)
         
         
         #--- "More" page
-        self.vb_more = Gtk.VBox()
-        self.vb_more.set_border_width(6)
-        self.vb_more.set_spacing(8)
+        self.vb_more = Gtk.VBox(spacing=5, border_width=5)
         note.append_page(self.vb_more, Gtk.Label(_("More")))
         
         # Split file
@@ -448,8 +445,8 @@ class Curlew(Gtk.Window):
         self.frame = Gtk.Frame(label_widget = self.cb_split)
         self.vb_more.pack_start(self.frame, False, False, 0)
         
-        self.vb_group = Gtk.VBox(sensitive=False, spacing=6)
-        self.vb_group.set_border_width(6)
+        self.vb_group = Gtk.VBox(sensitive=False, spacing=4)
+        self.vb_group.set_border_width(4)
         self.frame.add(self.vb_group)
         
         self.tl_begin = TimeLayout(self.vb_group, _('Begin time: '))
@@ -473,16 +470,10 @@ class Curlew(Gtk.Window):
         self.cb_same_qual.connect('toggled', self.on_cb_same_qual_toggled)
         self.vb_more.pack_start(self.cb_same_qual, False, False, 0)
         
-        
-        #--- Configuration page
-        self.vb_config = Gtk.VBox()
-        self.vb_config.set_border_width(6)
-        self.vb_config.set_spacing(6)
-        note.append_page(self.vb_config, Gtk.Label(_('Configs')))
-        
         # Encoder type (ffmpeg / avconv)
-        self.cmb_encoder = LabeledComboEntry(self.vb_config, _('Converter:'), 0)
+        self.cmb_encoder = LabeledComboEntry(self.vb_more, _('Converter:'), 0)
         self.cmb_encoder.set_label_width(10)
+        self.cmb_encoder.set_id_column(0)
         self.cmb_encoder.connect('changed', self.cmb_encoder_cb)
         
         # Load available encoder
@@ -490,6 +481,12 @@ class Curlew(Gtk.Window):
             self.cmb_encoder.append_text('avconv')
         if call(['which', 'ffmpeg'], stdout=PIPE) == 0:
             self.cmb_encoder.append_text('ffmpeg')
+        self.cmb_encoder.set_active(0)
+        
+        
+        #--- Configuration page
+        self.vb_config = Gtk.VBox(spacing=5, border_width=5)
+        note.append_page(self.vb_config, Gtk.Label(_('Configs')))
         
         # Replace/Skip/Rename
         self.cmb_exist = LabeledComboEntry(self.vb_config, _('File exist:'), 0)
@@ -709,31 +706,30 @@ abort conversion process?'),
         section = self.cmb_formats.get_active_text()
         media_type = self.f_file.get(section, 'type')
 
-        # sens = [AudioP, VideoP, SubtitleP, QualityC, aQuality, vQuality]
+        # sens = [AudioP, VideoP, SubtitleP, aQuality, vQuality, CropPad, SameQual]
         if media_type == 'audio':
-            sens = [True, False, False, False, False]
+            sens = [True, False, False, False, False, False, True]
         elif media_type == 'video':
-            sens = [True, True, False, False, False]
+            sens = [True, True, False, False, False, True, True]
         elif media_type == 'mvideo':
-            sens = [True, True, True, False, False]            
+            sens = [True, True, True, False, False, False, False]            
         elif media_type == 'ogg':
-            sens = [True, False, False, True, False]
+            sens = [True, False, False, True, False, False, True]
         elif media_type == 'ogv':
-            sens = [True, True, False, True, True]
+            sens = [True, True, False, True, True, False, True]
         elif media_type == 'presets':
-            sens = [False, False, False, False, False]
+            sens = [False, False, False, False, False, False, False]
 
-        self.vb_audio.set_sensitive(sens[0])   # Audio page
-        self.vb_video.set_sensitive(sens[1])   # Video page
-        self.vb_sub.set_sensitive(sens[2])     # Subtitle page
-        self.hb_aqual.set_sensitive(sens[3])   # Audio quality slider (ogg)
-        self.hb_vqual.set_sensitive(sens[4])   # video Quality slider (ogv)
+        self.vb_audio.set_sensitive(sens[0])      # Audio page
+        self.vb_video.set_sensitive(sens[1])      # Video page
+        self.frame_sub.set_sensitive(sens[2])     # Subtitle page
+        self.hb_aqual.set_sensitive(sens[3])      # Audio quality slider (ogg)
+        self.hb_vqual.set_sensitive(sens[4])      # video Quality slider (ogv)
+        self.vb_crop.set_sensitive(sens[5])       # Crop/Pad page
+        self.cb_same_qual.set_sensitive(sens[6])  # Same quality combo
         
         self.cb_same_qual.set_active(False)
         self.cb_video_only.set_active(False)
-        is_true = not(self.f_file.get(section, 'encoder') == 'm' \
-                      or media_type == 'presets')
-        self.cb_same_qual.set_sensitive(is_true)
     
     
     #--- fill options widgets
@@ -821,17 +817,15 @@ abort conversion process?'),
                     cmd.append('-an')
                 
                 # Video bitrate
-                if self.c_vbitrate.get_text() != 'default':
+                if self.c_vbitrate.not_default():
                     cmd.extend(['-b', self.c_vbitrate.get_text()])
                 # Video FPS
-                if self.c_vfps.get_text() != 'default':
+                if self.c_vfps.not_default():
                     cmd.extend(['-r', self.c_vfps.get_text()])
                 # Video codec
-                if self.c_vcodec.get_text() != 'default':
+                if self.c_vcodec.not_default():
                     cmd.extend(['-vcodec', self.c_vcodec.get_text()])
-                # Video size
-                if self.c_vsize.get_text() != 'default':
-                    cmd.extend(['-s', self.c_vsize.get_text()])
+                
                 # Video aspect ratio    
                 if self.c_vratio.get_text() == 'default':
                     #-- force aspect ratio
@@ -839,21 +833,41 @@ abort conversion process?'),
                         cmd.extend(['-aspect', self.get_aspect_ratio(input_file)])
                 else:
                     cmd.extend(['-aspect', self.c_vratio.get_text()])
-    
+                
+                
+                #--- Apply filters crop/pad/resize
+                filters = []
+                # Crop
+                if self.crop.get_active():
+                    filters.append(self.crop.get_crop())
+                
+                # Pad
+                if self.pad.get_active():
+                    filters.append(self.pad.get_pad())
+                
+                # Resize video
+                if self.c_vsize.not_default():
+                    filters.append('scale={}'.format(self.c_vsize.get_text()))
+                
+                if filters:
+                    cmd.append('-vf')
+                    cmd.append(','.join(filters))
+            
+            
             # Audio
             if media_type in ['audio', 'video', 'ogg', 'ogv']:
                 # Audio bitrate
-                if self.c_abitrate.get_text() != 'default':
+                if self.c_abitrate.not_default():
                     cmd.extend(['-ab', self.c_abitrate.get_text()])
                 # Audio Freq.
-                if self.c_afreq.get_text() != 'default':
+                if self.c_afreq.not_default():
                     cmd.extend(['-ar', self.c_afreq.get_text()])
                 # Audio channel
-                if self.c_ach.get_text() != 'default':
+                if self.c_ach.not_default():
                     cmd.extend(['-ac', self.c_ach.get_text()])
                 
                 # Audio codec
-                if self.c_acodec.get_text() != 'default':
+                if self.c_acodec.not_default():
                     cmd.extend(['-acodec', self.c_acodec.get_text()])
 
             # Ogg format
@@ -1032,7 +1046,7 @@ abort conversion process?'),
             cmd.extend(['-endpos', self.tl_duration.get_time_str()])
         
         #--- Video size
-        if self.c_vsize.get_text() != 'default':
+        if self.c_vsize.not_default():
             cmd.append('-vf')
             cmd.append('scale={}'.format(self.c_vsize.get_text()))
         
@@ -1374,13 +1388,8 @@ abort conversion process?'),
         a_dgl = About(self)
         a_dgl.show()
         
-    def cb_sub_toggled(self, widget):
-        self.hb_sub.set_sensitive(widget.get_active())
-        self.hb_enc.set_sensitive(widget.get_active())
-        self.hb_font.set_sensitive(widget.get_active())
-        self.hb_pos.set_sensitive(widget.get_active())
-        self.hb_size.set_sensitive(widget.get_active())
-        self.hb_delay.set_sensitive(widget.get_active())
+    def cb_sub_toggled(self, cb_sub):
+        self.vb_sub.set_sensitive(cb_sub.get_active())
     
     # Keyboard events.
     def on_tree_key_press(self, widget, event):
@@ -1465,6 +1474,7 @@ abort conversion process?'),
             
         if self.Iter == None:
             self.enable_controls(True)
+            self.label_details.set_text('')
             # Shutdown system
             if self.cb_halt.get_active():
                 self.shutdown()
@@ -1673,6 +1683,7 @@ abort conversion process?'),
         self.vb_video.set_sensitive(sens)
         self.vb_sub.set_sensitive(sens)
         self.vb_more.set_sensitive(sens)
+        self.vb_crop.set_sensitive(sens)
     
     def save_options(self):
         conf = ConfigParser()
@@ -1688,7 +1699,7 @@ abort conversion process?'),
         conf.set('configs', 'cb_same_dest_on', self.cb_dest.get_active())
         conf.set('configs', 'cb_same_qual_on', self.cb_same_qual.get_active())
         conf.set('configs', 'overwrite_mode', self.cmb_exist.get_active())
-        conf.set('configs', 'encoder', self.cmb_encoder.get_active())
+        conf.set('configs', 'encoder', self.cmb_encoder.get_active_id())
         conf.set('configs', 'font', self.b_font.get_font_name())
         conf.set('configs', 'tray', self.cb_tray.get_active())
         conf.set('configs', 'icons', self.cmb_icons.get_active_id())
@@ -1709,25 +1720,14 @@ abort conversion process?'),
             self.curr_open_folder = conf.get('configs', 'curr_open_folder')
             self.curr_save_folder = conf.get('configs', 'curr_save_folder')
             self.e_dest.set_text(conf.get('configs', 'e_dest_text'))
-            self.cmb_formats.set_active(conf.getint('configs', 
-                                                    'cmb_formats_ind'))
-            self.cb_dest.set_active(conf.getboolean('configs',
-                                                    'cb_same_dest_on'))
-            self.cb_same_qual.set_active(conf.getboolean('configs',
-                                                         'cb_same_qual_on'))
-            self.cmb_exist.set_active(conf.getint('configs',
-                                                      'overwrite_mode'))
-            self.cmb_encoder.set_active(conf.getint('configs', 'encoder'))
-            # Out of range
-            if self.cmb_encoder.get_active() == -1:
-                self.cmb_encoder.set_active(0)
-            
+            self.cmb_formats.set_active(conf.getint('configs', 'cmb_formats_ind'))
+            self.cb_dest.set_active(conf.getboolean('configs', 'cb_same_dest_on'))
+            self.cb_same_qual.set_active(conf.getboolean('configs', 'cb_same_qual_on'))
+            self.cmb_exist.set_active(conf.getint('configs', 'overwrite_mode'))
+            self.cmb_encoder.set_active_id(conf.get('configs', 'encoder'))
             self.b_font.set_font(conf.get('configs', 'font'))
-    
             self.cb_tray.set_active(conf.getboolean('configs', 'tray'))
-            
             self.cmb_icons.set_active_id(conf.get('configs', 'icons'))
-            
             self.cmb_lang.set_active_id(conf.get('configs', 'language'))
             self.cb_icon_text.set_active(conf.getboolean('configs', 'text_icon'))
             
@@ -1776,6 +1776,7 @@ abort conversion process?'),
         self.trayico.set_visible(cb_tray.get_active())
     
     def on_cmb_icons_changed(self, cmb_icons):
+        '''Change toolbar icons'''
         icons_path = self.dict_icons[cmb_icons.get_active_text()]
         
         self.add_tb.set_icon(icons_path)
@@ -1792,8 +1793,8 @@ abort conversion process?'),
         self.dict_icons = {}
         
         root_icons_path = join(APP_DIR, 'icons')
-        user_icons_path = join(CONF_PATH, 'icons')
         
+        user_icons_path = join(CONF_PATH, 'icons')
         if not exists(user_icons_path):
             os.mkdir(user_icons_path)
         
