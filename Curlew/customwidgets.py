@@ -19,7 +19,6 @@ class SpinsFrame(Gtk.Frame):
         self.add(hbox)
         
         self.check_btn = Gtk.CheckButton(title)
-        self.check_btn.connect('toggled', self._on_check_cb, hbox)
         self.set_label_widget(self.check_btn)
         
         # Adjustments
@@ -30,7 +29,7 @@ class SpinsFrame(Gtk.Frame):
         
         # Top spin
         self.spin_top = Gtk.SpinButton(adjustment=adj_top)
-        self.spin_top.connect('value-changed', self._on_spins_changed)
+        self.spin_top.set_numeric(True)
         hbox.pack_start(Gtk.Label(_('Top')), False, False, 0)
         hbox.pack_start(self.spin_top, False, False, 0)
         
@@ -38,7 +37,7 @@ class SpinsFrame(Gtk.Frame):
         
         # Buttom spin
         self.spin_buttom = Gtk.SpinButton(adjustment=adj_buttom)
-        self.spin_buttom.connect('value-changed', self._on_spins_changed)
+        self.spin_buttom.set_numeric(True)
         hbox.pack_start(Gtk.Label(_('Button')), False, False, 0)
         hbox.pack_start(self.spin_buttom, False, False, 0)
         
@@ -46,7 +45,7 @@ class SpinsFrame(Gtk.Frame):
         
         # Left Spin
         self.spin_left = Gtk.SpinButton(adjustment=adj_left)
-        self.spin_left.connect('value-changed', self._on_spins_changed)
+        self.spin_left.set_numeric(True)
         hbox.pack_start(Gtk.Label(_('Left')), False, False, 0)
         hbox.pack_start(self.spin_left, False, False, 0)
         
@@ -54,9 +53,17 @@ class SpinsFrame(Gtk.Frame):
         
         # Right spin
         self.spin_right = Gtk.SpinButton(adjustment=adj_right)
-        self.spin_right.connect('value-changed', self._on_spins_changed)
+        self.spin_right.set_numeric(True)
         hbox.pack_start(Gtk.Label(_('Right')), False, False, 0)
         hbox.pack_start(self.spin_right, False, False, 0)
+        
+        
+        # Connection
+        self.spin_top.connect('value-changed', self._on_spins_changed)
+        self.spin_buttom.connect('value-changed', self._on_spins_changed)
+        self.spin_left.connect('value-changed', self._on_spins_changed)
+        self.spin_right.connect('value-changed', self._on_spins_changed)
+        self.check_btn.connect('toggled', self._on_check_cb, hbox)
     
     def _on_check_cb(self, check_btn, hbox):
         hbox.set_sensitive(check_btn.get_active())
@@ -78,17 +85,16 @@ class SpinsFrame(Gtk.Frame):
                                                self._left, self._top)
     
     def get_pad(self):
-        return 'pad=iw+{}:ih-{}:{}:{}'.format(self._left+self._right,
+        return 'pad=iw+{}:ih+{}:{}:{}'.format(self._left+self._right,
                                                self._top+self._buttom,
                                                self._left, self._top)
     
     
 class CustomToolButton(Gtk.ToolButton):
     def __init__(self, name, label, tooltip, callback, toolbar):
+        
         Gtk.ToolButton.__init__(self)
-        
         self._name = name + '.png'
-        
         self.set_tooltip_markup(tooltip)
         self.set_label(label)
         self.connect('clicked', callback)

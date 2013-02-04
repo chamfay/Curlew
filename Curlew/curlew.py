@@ -1,8 +1,8 @@
 #-*- coding:utf-8 -*-
 
 #===============================================================================
-# Application : Curlew multimedia converter
-# Author: Chamekh Fayssal <chamfay@gmail.com>
+# Application: Curlew multimedia converter
+# Author: Fayssal Chamekh <chamfay@gmail.com>
 # License: Waqf public license,
 # Please see: http://www.ojuba.org/wiki/doku.php/waqf/license for more infos.
 #===============================================================================
@@ -1076,6 +1076,8 @@ abort conversion process?'),
             self.set_focus(self.e_dest)
             return
         
+        self.set_focus(None)
+        
         self.Iter = self.store.get_iter_first()
         self.is_converting = True
         self.pass_nbr = int(self.cb_2pass.get_active())
@@ -1224,6 +1226,7 @@ abort conversion process?'),
                 finally:
                     self.is_converting = False
                     self.enable_controls(True)
+                    self.label_details.set_text('')
                 return True
                     
     
