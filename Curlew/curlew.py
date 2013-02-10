@@ -87,7 +87,7 @@ C_FILE = 8             # complete file name /path/file.ext
 #--- Main class        
 class Curlew(Gtk.Window):    
     
-    def __init__(self):
+    def __init__(self, *cmd_line_files):
         #--- Global Variables
         self.curr_open_folder = HOME
         self.curr_save_folder = HOME
@@ -99,9 +99,11 @@ class Curlew(Gtk.Window):
         self.counter = 20
         self.errs_nbr = 0
         self.pass_nbr = 0
-        '''0: Single pass encoding option
-           1: Two-pass encoding option (1st pass)
-           2: Two-pass encoding option (2nd pass)'''
+        '''
+        self.pass_nbr = 0: Single pass encoding option
+        self.pass_nbr = 1: Two-pass encoding option (1st pass)
+        self.pass_nbr = 2: Two-pass encoding option (2nd pass)
+        '''
         
         self.encoder = ''
         self.player = 'ffplay'
@@ -574,7 +576,10 @@ class Curlew(Gtk.Window):
     
         #--- Status icon
         self.trayico.set_visible(self.cb_tray.get_active())
-    
+        
+        if cmd_line_files:
+            self.tb_do_add(*cmd_line_files)
+            
     def on_toggled_cb(self, widget, Path):
         self.store[Path][C_SKIP] = not self.store[Path][C_SKIP]
         
@@ -658,7 +663,14 @@ abort conversion process?'),
         
         res = open_dlg.run()
         if res == Gtk.ResponseType.OK:
-            for file_name in open_dlg.get_filenames():
+            self.tb_do_add(open_dlg.get_filenames())
+            #--- Saved current folder
+            self.curr_open_folder = open_dlg.get_current_folder()
+        open_dlg.destroy()
+        
+    def tb_do_add(self, *args):
+        for file_name in args:
+            if isfile(file_name):
                 self.store.append([
                                    True,
                                    basename(file_name),
@@ -670,18 +682,15 @@ abort conversion process?'),
                                    -1,
                                    file_name
                                    ])
-                
-            #--- Saved current folder
-            self.curr_open_folder = open_dlg.get_current_folder()
-        open_dlg.destroy()
-        
-        #
+            
+        # Load file(s) duration
         for row in self.store:
             while Gtk.events_pending():
                 Gtk.main_iteration()
+            #FIXME: get_time function slow for many files.
             try: row[C_DURA] = self.get_time(row[C_FILE])
             except: pass
-        
+    
     
     def on_dest_clicked(self, widget):
         save_dlg = Gtk.FileChooserDialog(_("Choose destination"), self,
@@ -1796,7 +1805,6 @@ abort conversion process?'),
         self.dict_icons = {}
         
         root_icons_path = join(APP_DIR, 'icons')
-        
         user_icons_path = join(CONF_PATH, 'icons')
         if not exists(user_icons_path):
             os.mkdir(user_icons_path)
@@ -1862,26 +1870,27 @@ abort conversion process?'),
 
 
 class DBusService(dbus.service.Object):
-    def __init__(self, app):
+    def __init__(self, app, *args):
         self.app = app
         bus_name = dbus.service.BusName('org.Curlew', bus = dbus.SessionBus())
         dbus.service.Object.__init__(self, bus_name, '/org/Curlew')
 
     @dbus.service.method(dbus_interface='org.Curlew')
     
-    def present(self):
+    def present(self, *args):
+        self.app.tb_do_add(*args)
         self.app.present()
 
 
-def main():
+def main(*args):
     if dbus.SessionBus().request_name("org.Curlew") != \
        dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER:
         print('Curlew already running')
         method = dbus.SessionBus().get_object("org.Curlew", "/org/Curlew").\
         get_dbus_method("present")
-        method()
+        method(*args)
     else:
-        app = Curlew()
+        app = Curlew(*args)
         DBusService(app)
         Gtk.main()
 
