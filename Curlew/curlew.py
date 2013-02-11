@@ -1718,6 +1718,20 @@ abort conversion process?'),
         conf.set('configs', 'language', self.cmb_lang.get_active_id())
         conf.set('configs', 'text_icon', self.cb_icon_text.get_active())
         
+        conf.set('configs', 'audio_bitrate', self.c_abitrate.get_text())
+        conf.set('configs', 'audio_frequency', self.c_afreq.get_text())
+        conf.set('configs', 'audio_channels', self.c_ach.get_text())
+        conf.set('configs', 'audio_codec', self.c_acodec.get_text())
+        
+        conf.set('configs', 'video_bitrate', self.c_vbitrate.get_text())
+        conf.set('configs', 'video_fps', self.c_vfps.get_text())
+        conf.set('configs', 'video_size', self.c_vsize.get_text())
+        conf.set('configs', 'video_codec', self.c_vcodec.get_text())
+        conf.set('configs', 'video_ratio', self.c_vratio.get_text())
+        
+        conf.set('configs', 'video_2pass', self.cb_2pass.get_active())
+        conf.set('configs', 'video_video_only', self.cb_video_only.get_active())
+        
         with open(OPTS_FILE, 'w') as configfile:
             conf.write(configfile)
         
@@ -1742,6 +1756,20 @@ abort conversion process?'),
             self.cmb_icons.set_active_id(conf.get('configs', 'icons'))
             self.cmb_lang.set_active_id(conf.get('configs', 'language'))
             self.cb_icon_text.set_active(conf.getboolean('configs', 'text_icon'))
+            
+            self.c_abitrate.set_text(conf.get('configs', 'audio_bitrate'))
+            self.c_afreq.set_text(conf.get('configs', 'audio_frequency'))
+            self.c_ach.set_text(conf.get('configs', 'audio_channels'))
+            self.c_acodec.set_text(conf.get('configs', 'audio_codec'))
+            
+            self.c_vbitrate.set_text(conf.get('configs', 'video_bitrate'))
+            self.c_vfps.set_text(conf.get('configs', 'video_fps'))
+            self.c_vsize.set_text(conf.get('configs', 'video_size'))
+            self.c_vcodec.set_text(conf.get('configs', 'video_codec'))
+            self.c_vratio.set_text(conf.get('configs', 'video_ratio'))
+            
+            self.cb_2pass.set_active(conf.getboolean('configs', 'video_2pass'))
+            self.cb_video_only.set_active(conf.getboolean('configs', 'video_video_only'))
             
         except NoOptionError as err:
             print(err)
