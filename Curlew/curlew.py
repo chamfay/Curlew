@@ -529,6 +529,10 @@ class Curlew(Gtk.Window):
         self.cb_halt = Gtk.CheckButton(_('Shutdown computer after finish'))
         self.vb_config.pack_start(self.cb_halt, False, False, 0)
         
+        # Suspend after conversion
+        self.cb_suspend = Gtk.CheckButton(_('Suspend computer after finish'))
+        self.vb_config.pack_start(self.cb_suspend, False, False, 0)
+        
         # Remove source file
         self.cb_remove = Gtk.CheckButton(_('Delete input file after conversion'))
         self.vb_config.pack_start(self.cb_remove, False, False, 0)
@@ -1490,6 +1494,9 @@ abort conversion process?'),
             # Shutdown system
             if self.cb_halt.get_active():
                 self.shutdown()
+            # Suspend system
+            if self.cb_suspend.get_active():
+                self.suspend()
         
     
         
@@ -1878,13 +1885,27 @@ abort conversion process?'),
     
     def shutdown(self):
         # Start timer
-        GObject.timeout_add(1000, self._on_timer)
+        GObject.timeout_add(1000, self._on_timer_shutdown)
     
-    def _on_timer(self):
+    def _on_timer_shutdown(self):
         self.label_details.set_markup(_('<span foreground="red" weight="bold">System will shutdown after {} sec.</span>').format(self.counter))
         self.counter -= 1
         if self.counter < 0:
             cmd = 'dbus-send --system --print-reply --system --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop'
+            call(cmd, shell=True)
+            return False
+        return True
+    
+    def suspend(self):
+        # Start timer
+        GObject.timeout_add(1000, self._on_timer_suspend)
+    
+    def _on_timer_suspend(self):
+        self.label_details.set_markup(_('<span foreground="red" weight="bold">System will suspend after {} sec.</span>').format(self.counter))
+        self.counter -= 1
+        if self.counter < 0:
+            self.label_details.set_text('')
+            cmd = 'dbus-send --system --print-reply --system --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend'
             call(cmd, shell=True)
             return False
         return True

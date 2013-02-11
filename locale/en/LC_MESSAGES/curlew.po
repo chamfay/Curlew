@@ -296,6 +296,9 @@ msgstr ""
 msgid "Shutdown computer after finish"
 msgstr ""
 
+msgid "Suspend computer after finish"
+msgstr ""
+
 #: /media/DATA2/Projects/Python-Projects/curlew/Curlew/curlew.py:599
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr ""
