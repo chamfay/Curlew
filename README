@@ -43,11 +43,16 @@ Please see LICENSE-ar.txt/LICENSE-en files for more informations.
 Installation:
 -------------
 
-Run script "install" as root. (ex: sudo ./install).
+Run the following commands:
+
+make
+make install (as root).
 
 
 Remove:
 -------
 
-Run script "uninstall" as root. (ex: sudo ./uninstall).
+Run command:
+
+make uninstall (as root).
 

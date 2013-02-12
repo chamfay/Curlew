@@ -554,9 +554,10 @@ class Curlew(Gtk.Window):
         #--- Load formats from formats.cfg file
         self.f_file = ConfigParser()
         self.f_file.read(join(APP_DIR, 'formats.cfg'))
-        for section in self.f_file.sections():
+        for section in sorted(self.f_file.sections()):
             self.cmb_formats.append_text(section)
         self.cmb_formats.set_active(0)
+        #self.cmb_formats.set_wrap_width(2)
         
         
         #--- Load saved options.
@@ -667,7 +668,7 @@ abort conversion process?'),
         
         res = open_dlg.run()
         if res == Gtk.ResponseType.OK:
-            self.tb_do_add(open_dlg.get_filenames())
+            self.tb_do_add(*open_dlg.get_filenames())
             #--- Saved current folder
             self.curr_open_folder = open_dlg.get_current_folder()
         open_dlg.destroy()

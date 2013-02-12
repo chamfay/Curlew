@@ -1,6 +1,0 @@
-#!/bin/bash
-xgettext --keyword=_ -o curlew.pot $PWD/Curlew/curlew.py \
-                                   $PWD/Curlew/about.py \
-                                   $PWD/Curlew/customwidgets.py \
-                                   $PWD/Curlew/logdialog.py \
-                                   $PWD/Curlew/tray.py

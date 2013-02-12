@@ -1,7 +1,22 @@
+Version 0.1.17
+--------------
+
+Commited by Ehab El-Gedawy <ehabsas@gmail.com>
+* Sorted formats.
+* Added program to Video/Audio files menu.
+* Makefile
+* rpm initial packing (making a .spec file).
+
+Commited by Andrej Kvasnica <andrej@gmail.com>
+* Save/load last audio and video properties.
+* Suspend computer after finish.
+
+
 Version 0.1.16.2
 ----------------
 
 * Allow to add file(s) via command line (Thanks to Ehab El-Gedawy <ehabsas@gmail.com>).
+
 
 Version 0.1.16.1
 ----------------

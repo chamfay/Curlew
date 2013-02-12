@@ -1,6 +1,6 @@
-include LICENSE-ar.txt LICENSE-en AUTHORS ChangeLog README formats.cfg
-include curlew.desktop curlew.svg curlew.pot
-include curlew.desktop install uninstall
-recursive-include Curlew/icons *.png
-recursive-include locale *
-recursive-exclude *.pyc
+include LICENSE-ar.txt LICENSE-en ChangeLog 
+include README TODO AUTHORS VERSION
+include curlew.desktop.in curlew.svg curlew.pot curlew.spec
+include Makefile
+recursive-include po *
+recursive-include Curlew/icons *

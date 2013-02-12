@@ -1,6 +1,5 @@
 بسم الله الرحمن الرحيم
 
-- Add program to Video/Audio files menu.
-- Add Makefile.
-- Add RPM spec file.
+- Prevent to duplicate file in the same session.
+- Move icons to /usr/share/curlew/icons
 - ?

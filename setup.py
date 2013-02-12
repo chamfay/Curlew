@@ -1,15 +1,17 @@
+import sys, os, os.path
 from distutils.core import setup
 from glob import glob
 
-doc_files  = ['LICENSE-ar.txt', 'LICENSE-en', 'AUTHORS', 'ChangeLog', 'README']
-data_files = [('share/applications/', ['curlew.desktop']),
-              ('share/icons/hicolor/scalable/apps', ['curlew.svg']),
-              ('share/doc/curlew', doc_files),
-              ]
+VERSION = open(os.path.join(os.path.dirname(sys.argv[0]), 'VERSION'), 'r').read().strip()
+#doc_files  = ['LICENSE-ar.txt', 'LICENSE-en', 'AUTHORS', 'ChangeLog', 'README']
+#data_files = [('share/applications/', ['curlew.desktop']),
+#              ('share/icons/hicolor/scalable/apps', ['curlew.svg']),
+#              ('share/doc/curlew', doc_files),
+#              ]
 
 locales = map(lambda i: ('share/' + i, ['' + i + '/curlew.mo', ]), glob('locale/*/LC_MESSAGES'))
+data_files = []
 data_files.extend(locales)
-
 
 setup(
       name="curlew",
@@ -27,7 +29,7 @@ Main Features:
 - Combine subtitle with video file.
 - Show error details if exist.
 - And more ...''',
-      version="0.1.16.2",
+      version=VERSION,
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',
