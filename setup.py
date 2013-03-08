@@ -61,7 +61,7 @@ def clean_all():
     print("Clean...")
     
     call("rm -rfv icons dist locale build", shell=True)
-    call("rm -fv po/curlew.pot MANIFEST", shell=True)
+    call("rm -fv po/curlew.pot MANIFEST po/*.mo", shell=True)
     call("rm -fv Curlew/icons/*/*.png", shell=True)
     call("rm -fv Curlew/*.pyc *.pyc", shell=True)
     exit(0)
@@ -127,7 +127,7 @@ Main Features:
 - Combine subtitle with video file.
 - Show error details if exist.
 - And more ...''',
-      version="0.1.18",
+      version="0.1.18.1",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',

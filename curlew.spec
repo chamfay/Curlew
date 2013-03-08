@@ -73,6 +73,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/icons/hicolor/*/apps/*.svg
 
 %changelog
+* Thu Mar 07 2013 Fayssal Chamekh <chamfay@gmail.com> - 0.1.18.1-1
+ - Updates.
 * Thu Mar 07 2013 Fayssal Chamekh <chamfay@gmail.com> - 0.1.18-1
  - Moved all install stuffs to setup.py and remove makefiles.
 * Sun Feb 10 2013 Ehab El-Gedawy <ehabsas@gmail.com> - 0.1.17-1

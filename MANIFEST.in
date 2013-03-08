@@ -1,6 +1,5 @@
-include LICENSE-ar.txt LICENSE-en.txt AUTHORS ChangeLog README TODO VERSION
+include LICENSE-ar.txt LICENSE-en.txt AUTHORS ChangeLog README TODO
 include curlew.desktop curlew.svg curlew.spec
-include install uninstall
 recursive-include Curlew/icons *.svg
 recursive-exclude Curlew/icons *.png
 recursive-include po *.po

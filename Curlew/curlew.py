@@ -77,11 +77,12 @@ C_SKIP = 0             # Skip (checkbox)
 C_NAME = 1             # File name
 C_FSIZE = 2            # File size
 C_ESIZE = 3            # Estimated output size
-C_REMN = 4             # Remaining time
-C_PRGR = 5             # Progress value
-C_STAT = 6             # Stat string
-C_PULS = 7             # Pulse
-C_FILE = 8             # complete file name /path/file.ext
+C_ELAPT = 4            # Elapsed time
+C_REMN = 5             # Remaining time
+C_PRGR = 6             # Progress value
+C_STAT = 7             # Stat string
+C_PULS = 8             # Pulse
+C_FILE = 9             # complete file name /path/file.ext
 
 
 #--- Main class        
@@ -110,6 +111,9 @@ class Curlew(Gtk.Window):
         self.is_preview = False
         self.dict_icons = {}
         self.icons_path = ''
+        
+        #self._start_time = None
+        self.elapsed_time = '0.00.00'
         
         #--- Regex
         self.reg_avconv_u = \
@@ -191,6 +195,7 @@ class Curlew(Gtk.Window):
                                    str,   # file_name
                                    str,   # duration
                                    str,   # estimated file_size
+                                   str,   # elapsed time
                                    str,   # time remaining
                                    float, # progress
                                    str,   # status (progress txt)
@@ -224,7 +229,7 @@ class Curlew(Gtk.Window):
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("File"), cell, text=C_NAME)
         col.set_resizable(True)
-        col.set_min_width(180)
+        col.set_min_width(150)
         self.tree.append_column(col)
         
         #--- Duration cell
@@ -236,6 +241,12 @@ class Curlew(Gtk.Window):
         #--- Size cell
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("Estimated size"), cell, text=C_ESIZE)
+        col.set_fixed_width(60)
+        self.tree.append_column(col)
+        
+        #--- Elapsed time cell
+        cell = Gtk.CellRendererText()
+        col = Gtk.TreeViewColumn(_("Elapsed time"), cell, text=C_ELAPT)
         col.set_fixed_width(60)
         self.tree.append_column(col)
         
@@ -424,6 +435,11 @@ class Curlew(Gtk.Window):
         self.sub_delay.set_adjustment(Gtk.Adjustment(0, -90000, 90000, 1))
         self.hb_delay.pack_start(self.sub_delay, False, True, 0)
         self.hb_delay.pack_start(Gtk.Label(_("sec")), False, False, 0)
+        
+        # harddup option
+        self.cb_hard = Gtk.CheckButton(_('Harddup'))
+        self.vb_sub.pack_start(self.cb_hard, True, True, 0)
+        
         
         #--- Crop/Pad page
         self.vb_crop = Gtk.VBox(spacing=5, border_width=5)
@@ -680,6 +696,7 @@ abort conversion process?'),
                                    True,
                                    splitext(basename(file_name))[0],
                                    get_format_size(getsize(file_name)/1024),
+                                   None,
                                    None,
                                    None,
                                    0.0,
@@ -1065,10 +1082,18 @@ abort conversion process?'),
             cmd.extend(['-ss', self.tl_begin.get_time_str()])
             cmd.extend(['-endpos', self.tl_duration.get_time_str()])
         
+        filters = []
         #--- Video size
         if self.c_vsize.not_default():
+            filters.append('scale={}'.format(self.c_vsize.get_text()))
+        
+        # Harddup
+        if self.cb_hard.get_active():
+            filters.append('harddup')
+        
+        if filters:
             cmd.append('-vf')
-            cmd.append('scale={}'.format(self.c_vsize.get_text()))
+            cmd.append(','.join(filters))
         
         #--- Video FPS
         if self.c_vfps.get_active_text() != 'default':
@@ -1104,6 +1129,10 @@ abort conversion process?'),
         # Delete error log
         self.force_delete_file(ERROR_LOG)
         self.errs_nbr = 0
+        
+        self._start_time = time.time()
+        GObject.timeout_add(100, self._on_elapsed_timer)
+        
         self.convert_file()
         
 
@@ -1469,6 +1498,9 @@ abort conversion process?'),
                 if self.cb_remove.get_active():
                     self.force_delete_file(self.store[self.Iter][C_FILE])
                 
+                # Update start time
+                self._start_time = time.time()
+                
                 # Convert the next file
                 self.Iter = self.store.iter_next(self.Iter)
                 self.convert_file()
@@ -1588,10 +1620,10 @@ abort conversion process?'),
                         
                         # Convert duration (sec) to time (0:00:00)
                         rem_time = duration_to_time(rem_dur)
-                        
-                        self.store[self.Iter][C_ESIZE] = size_str # estimated size
-                        self.store[self.Iter][C_REMN] = rem_time # remaining time
-                        self.store[self.Iter][C_PRGR] = float(time_ratio * 100) # progress value
+                        self.store[self.Iter][C_ESIZE] = size_str
+                        self.store[self.Iter][C_ELAPT] = self.elapsed_time
+                        self.store[self.Iter][C_REMN] = rem_time
+                        self.store[self.Iter][C_PRGR] = float(time_ratio * 100) 
                         if self.pass_nbr != 0:
                             self.store[self.Iter][C_STAT] = '{:.2%} (P{})'\
                             .format(time_ratio, self.pass_nbr) # progress text
@@ -1619,6 +1651,7 @@ abort conversion process?'),
                     prog_value = float(self.reg_menc.findall(line)[0][1])
                     
                     self.store[self.Iter][C_ESIZE] = file_size + ' MB'
+                    self.store[self.Iter][C_ELAPT] = self.elapsed_time
                     self.store[self.Iter][C_REMN] = rem_time
                     self.store[self.Iter][C_PRGR] = prog_value
                     if self.pass_nbr != 0:
@@ -1649,6 +1682,7 @@ abort conversion process?'),
                     self.store.append([True,
                                        basename(File),
                                        get_format_size(getsize(File)/1024),
+                                       None,
                                        None,
                                        None,
                                        0.0,
@@ -1912,11 +1946,19 @@ abort conversion process?'),
             return False
         return True
     
+    # Show / Hide text in toolbar
     def cb_icon_text_cb(self, cb_icon_text, toolbar):
         if cb_icon_text.get_active():
             toolbar.set_style(Gtk.ToolbarStyle.BOTH)
         else:
             toolbar.set_style(Gtk.ToolbarStyle.ICONS)
+    
+    # Calculate elapsed time
+    def _on_elapsed_timer(self):
+        if not self.is_converting:
+            return False
+        self.elapsed_time = duration_to_time(time.time() - self._start_time)
+        return True
         
 
 

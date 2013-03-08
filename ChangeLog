@@ -1,3 +1,11 @@
+Version 0.1.18.1
+----------------
+
+* Show elapsed time for each conversion process.
+* Added harddup option (work with mencoder only).
+* Updates...
+
+
 Version 0.1.18
 --------------
 
