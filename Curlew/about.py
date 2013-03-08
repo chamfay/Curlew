@@ -9,7 +9,7 @@ class About(Gtk.AboutDialog):
         self.set_program_name(_('Curlew'))
         self.set_authors(['Fayssal Chamekh <chamfay@gmail.com>', 'Ehab El-Gedawy <ehabsas@gmail.com>', 'Andrej Kvasnica <andrej@gmail.com>'])
         self.set_copyright("Copyright © 2012, 2013 Fayssal Chamekh <chamfay@gmail.com>")
-        self.set_version('0.1.17')
+        self.set_version('0.1.18')
         self.set_title(_('About Curlew'))
         self.set_logo_icon_name('curlew')
         self.set_comments(_('Easy to use Multimedia Converter for Linux'))

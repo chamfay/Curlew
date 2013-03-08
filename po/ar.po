@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-10 23:19+0200\n"
-"PO-Revision-Date: 2013-02-03 17:33-0000\n"
+"POT-Creation-Date: 2013-03-08 09:50+0100\n"
+"PO-Revision-Date: 2013-03-08 09:09-0000\n"
 "Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Arabic <chamfay@gmail.com>\n"
 "Language: \n"
@@ -18,400 +18,393 @@ msgstr ""
 "X-Poedit-Language: Arabic\n"
 "X-Poedit-Country: ALGERIA\n"
 
-#: ../curlew.desktop.in.h:1 ../Curlew/about.py:9 ../Curlew/curlew.py:127
-#: ../Curlew/tray.py:12
-msgid "Curlew"
-msgstr "كـروان"
+#: Curlew/customwidgets.py:33
+msgid "Top"
+msgstr "أعلى"
 
-#: ../curlew.desktop.in.h:2
-msgid "Curlew Multimedia converter"
-msgstr "محوّل وسائط كروان"
+#: Curlew/customwidgets.py:41
+msgid "Button"
+msgstr "أسفل"
 
-#: ../curlew.desktop.in.h:3 ../Curlew/about.py:15
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr "محوّل وسائط على لينُكس سهل الاستخدام"
+#: Curlew/customwidgets.py:49
+msgid "Left"
+msgstr "يسار"
 
-#: ../Curlew/about.py:13 ../Curlew/curlew.py:176
-msgid "About Curlew"
-msgstr "عنْ كروان"
+#: Curlew/customwidgets.py:57
+msgid "Right"
+msgstr "يمين"
 
-#: ../Curlew/about.py:28
-msgid "translator-credits"
-msgstr "فيصل شامخ <chamfay@gmail.com>"
+#: Curlew/customwidgets.py:146
+msgid "hr"
+msgstr "سا"
 
-#. --- ToolButtons
-#. Add toolbutton
-#: ../Curlew/curlew.py:144
-msgid "Add"
-msgstr "أضِف"
+#: Curlew/customwidgets.py:151
+msgid "min"
+msgstr "د"
 
-#: ../Curlew/curlew.py:145
-msgid "Add files"
-msgstr "أضِف ملفات"
-
-#. Remove toolbutton
-#: ../Curlew/curlew.py:149
-msgid "Remove"
-msgstr "اِحذف"
-
-#: ../Curlew/curlew.py:150
-msgid "Remove files"
-msgstr "اِحذِف ملفات"
-
-#. Clear toolbutton
-#: ../Curlew/curlew.py:154
-msgid "Clear"
-msgstr "اِمسح"
-
-#: ../Curlew/curlew.py:155
-msgid "Clear files list"
-msgstr "اِمسح قائمة الملفات"
-
-#. Convert toolbutton
-#: ../Curlew/curlew.py:162
-msgid "Convert"
-msgstr "حوّل"
-
-#: ../Curlew/curlew.py:163
-msgid "Start Conversion"
-msgstr "اِبدأ التحويل"
-
-#. Stop toolbutton
-#: ../Curlew/curlew.py:167
-msgid "Stop"
-msgstr "أوقِف"
-
-#. Stop conversion
-#: ../Curlew/curlew.py:168 ../Curlew/tray.py:22
-msgid "Stop Conversion"
-msgstr "أوقف التحويل"
-
-#. About toolbutton
-#: ../Curlew/curlew.py:175
-msgid "About"
-msgstr "عنْ"
-
-#. Quit toolbutton
-#: ../Curlew/curlew.py:183
-msgid "Quit"
-msgstr "غادِر"
-
-#. Quit application
-#: ../Curlew/curlew.py:184 ../Curlew/tray.py:26
-msgid "Quit application"
-msgstr "غادِر البرنامج"
-
-#: ../Curlew/curlew.py:223
-msgid "File"
-msgstr "الملف"
-
-#: ../Curlew/curlew.py:230
-msgid "Duration"
-msgstr "المـدة"
-
-#: ../Curlew/curlew.py:236
-msgid "Estimated size"
-msgstr "الحجم المقدّر"
-
-#: ../Curlew/curlew.py:242
-msgid "Remaining time"
-msgstr "الوقت المتبقّي"
-
-#: ../Curlew/curlew.py:247
-msgid "Progress"
-msgstr "التقدم"
-
-#: ../Curlew/curlew.py:264
-msgid "Browse destination"
-msgstr "اِستعرض الوِجهة"
-
-#: ../Curlew/curlew.py:267
-msgid "Preview before converting"
-msgstr "عايِن قبل التحويل"
-
-#: ../Curlew/curlew.py:281
-msgid "<b>Format:</b>"
-msgstr "<b>الصيـــغة:</b>"
-
-#: ../Curlew/curlew.py:289
-msgid "Source Path"
-msgstr "مسار المصدر"
-
-#: ../Curlew/curlew.py:292
-msgid "<b>Destination:</b>"
-msgstr "<b>الوِجهــــة:</b>"
-
-#. --- advanced options
-#: ../Curlew/curlew.py:298
-msgid "<b>Advanced</b>"
-msgstr "<b>خيارات متقدمة</b>"
-
-#: ../Curlew/curlew.py:308
-msgid "Audio"
-msgstr "الصوت"
-
-#: ../Curlew/curlew.py:310
-msgid "Audio Bitrate"
-msgstr "معدل بتات الصوت"
-
-#: ../Curlew/curlew.py:311
-msgid "Audio Frequency"
-msgstr "تردد الصوت"
-
-#: ../Curlew/curlew.py:312
-msgid "Audio Channels"
-msgstr "قناة الصوت"
-
-#: ../Curlew/curlew.py:313
-msgid "Audio Codec"
-msgstr "ترميز الصوت"
-
-#. volume
-#: ../Curlew/curlew.py:316
-msgid "Volume (%)"
-msgstr "حجم الصوت (%)"
-
-#. Audio quality for ogg
-#: ../Curlew/curlew.py:322
-msgid "Audio Quality"
-msgstr "جودة الصوت"
-
-#: ../Curlew/curlew.py:328
-msgid "Video"
-msgstr "الفيديو"
-
-#: ../Curlew/curlew.py:330
-msgid "Video Bitrate"
-msgstr "معدّل بتات الفيديو"
-
-#: ../Curlew/curlew.py:331
-msgid "Video FPS"
-msgstr "قيمة FPS"
-
-#: ../Curlew/curlew.py:332
-msgid "Video Size"
-msgstr "مقاس الفيديو"
-
-#: ../Curlew/curlew.py:333
-msgid "Video Codec"
-msgstr "ترميز الفيديو"
-
-#: ../Curlew/curlew.py:334
-msgid "Aspect Ratio"
-msgstr "التناسب"
-
-#. 2-pass
-#: ../Curlew/curlew.py:340
-msgid "2-Pass"
-msgstr "تحويلٌ مضاعف"
-
-#. Video only (no sound)
-#: ../Curlew/curlew.py:344
-msgid "Video only"
-msgstr "فيديو فقط"
-
-#. Video quality for ogv
-#: ../Curlew/curlew.py:351
-msgid "Video Quality"
-msgstr "جودة الفيديو"
-
-#: ../Curlew/curlew.py:356
-msgid "Subtitle"
-msgstr "الترجمة"
-
-#. --- Sub Active/Desactive
-#: ../Curlew/curlew.py:362
-msgid "Use Subtitle"
-msgstr "اِستعمل ملف الترجمة"
-
-#. --- Subtitle filename
-#: ../Curlew/curlew.py:367
-msgid "Subtitle: "
-msgstr "ملف الترجمة:"
-
-#. --- Subtitle font
-#: ../Curlew/curlew.py:378
-msgid "Font: "
-msgstr "الخط:"
-
-#. --- Subtitle position
-#: ../Curlew/curlew.py:387
-msgid "Position: "
-msgstr "الموضع:"
-
-#. --- Subtitle size
-#: ../Curlew/curlew.py:393
-msgid "Size: "
-msgstr "الحجم:"
-
-#: ../Curlew/curlew.py:409
-msgid "Encoding: "
-msgstr "ترميز الخط:"
-
-#. Delay subtitle
-#: ../Curlew/curlew.py:419
-msgid "Delay: "
-msgstr "التأخير:"
-
-#: ../Curlew/curlew.py:423 ../Curlew/customwidgets.py:156
+#: Curlew/customwidgets.py:156 Curlew/curlew.py:426
 msgid "sec"
 msgstr "ثا"
 
-#: ../Curlew/curlew.py:427
+#: Curlew/logdialog.py:11
+msgid "Errors detail"
+msgstr "تفاصيلُ اﻷخطاء"
+
+#: Curlew/curlew.py:129 Curlew/tray.py:12 Curlew/about.py:9
+msgid "Curlew"
+msgstr "كـروان"
+
+#: Curlew/curlew.py:146
+msgid "Add"
+msgstr "أضِف"
+
+#: Curlew/curlew.py:147
+msgid "Add files"
+msgstr "أضِف ملفات"
+
+#: Curlew/curlew.py:151
+msgid "Remove"
+msgstr "اِحذف"
+
+#: Curlew/curlew.py:152
+msgid "Remove files"
+msgstr "اِحذِف ملفات"
+
+#: Curlew/curlew.py:156
+msgid "Clear"
+msgstr "اِمسح"
+
+#: Curlew/curlew.py:157
+msgid "Clear files list"
+msgstr "اِمسح قائمة الملفات"
+
+#: Curlew/curlew.py:164
+msgid "Convert"
+msgstr "حوّل"
+
+#: Curlew/curlew.py:165
+msgid "Start Conversion"
+msgstr "اِبدأ التحويل"
+
+#: Curlew/curlew.py:169
+msgid "Stop"
+msgstr "أوقِف"
+
+#: Curlew/curlew.py:170 Curlew/tray.py:22
+msgid "Stop Conversion"
+msgstr "أوقف التحويل"
+
+#: Curlew/curlew.py:177
+msgid "About"
+msgstr "عنْ"
+
+#: Curlew/curlew.py:178 Curlew/about.py:13
+msgid "About Curlew"
+msgstr "عنْ كروان"
+
+#: Curlew/curlew.py:185
+msgid "Quit"
+msgstr "غادِر"
+
+#: Curlew/curlew.py:186 Curlew/tray.py:26
+msgid "Quit application"
+msgstr "غادِر البرنامج"
+
+#: Curlew/curlew.py:225
+msgid "File"
+msgstr "الملف"
+
+#: Curlew/curlew.py:232
+msgid "Size"
+msgstr "الحجم"
+
+#: Curlew/curlew.py:238
+msgid "Estimated size"
+msgstr "الحجم المقدّر"
+
+#: Curlew/curlew.py:244
+msgid "Remaining time"
+msgstr "الوقت المتبقّي"
+
+#: Curlew/curlew.py:249
+msgid "Progress"
+msgstr "التقدم"
+
+#: Curlew/curlew.py:266
+msgid "Browse destination"
+msgstr "اِستعرض الوِجهة"
+
+#: Curlew/curlew.py:269
+msgid "Preview before converting"
+msgstr "عايِن قبل التحويل"
+
+#: Curlew/curlew.py:284
+msgid "<b>Format:</b>"
+msgstr "<b>الصيـــغة:</b>"
+
+#: Curlew/curlew.py:292
+msgid "Source Path"
+msgstr "مسار المصدر"
+
+#: Curlew/curlew.py:295
+msgid "<b>Destination:</b>"
+msgstr "<b>الوِجهــــة:</b>"
+
+#: Curlew/curlew.py:301
+msgid "<b>Advanced</b>"
+msgstr "<b>خيارات متقدمة</b>"
+
+#: Curlew/curlew.py:311
+msgid "Audio"
+msgstr "الصوت"
+
+#: Curlew/curlew.py:313
+msgid "Audio Bitrate"
+msgstr "معدل بتات الصوت"
+
+#: Curlew/curlew.py:314
+msgid "Audio Frequency"
+msgstr "تردد الصوت"
+
+#: Curlew/curlew.py:315
+msgid "Audio Channels"
+msgstr "قناة الصوت"
+
+#: Curlew/curlew.py:316
+msgid "Audio Codec"
+msgstr "ترميز الصوت"
+
+#: Curlew/curlew.py:319
+msgid "Volume (%)"
+msgstr "حجم الصوت (%)"
+
+#: Curlew/curlew.py:325
+msgid "Audio Quality"
+msgstr "جودة الصوت"
+
+#: Curlew/curlew.py:331
+msgid "Video"
+msgstr "الفيديو"
+
+#: Curlew/curlew.py:333
+msgid "Video Bitrate"
+msgstr "معدّل بتات الفيديو"
+
+#: Curlew/curlew.py:334
+msgid "Video FPS"
+msgstr "قيمة FPS"
+
+#: Curlew/curlew.py:335
+msgid "Video Size"
+msgstr "مقاس الفيديو"
+
+#: Curlew/curlew.py:336
+msgid "Video Codec"
+msgstr "ترميز الفيديو"
+
+#: Curlew/curlew.py:337
+msgid "Aspect Ratio"
+msgstr "التناسب"
+
+#: Curlew/curlew.py:343
+msgid "2-Pass"
+msgstr "تحويلٌ مضاعف"
+
+#: Curlew/curlew.py:347
+msgid "Video only"
+msgstr "فيديو فقط"
+
+#: Curlew/curlew.py:354
+msgid "Video Quality"
+msgstr "جودة الفيديو"
+
+#: Curlew/curlew.py:359
+msgid "Subtitle"
+msgstr "الترجمة"
+
+#: Curlew/curlew.py:365
+msgid "Use Subtitle"
+msgstr "اِستعمل ملف الترجمة"
+
+#: Curlew/curlew.py:370
+msgid "Subtitle: "
+msgstr "ملف الترجمة:"
+
+#: Curlew/curlew.py:381
+msgid "Font: "
+msgstr "الخط:"
+
+#: Curlew/curlew.py:390
+msgid "Position: "
+msgstr "الموضع:"
+
+#: Curlew/curlew.py:396
+msgid "Size: "
+msgstr "الحجم:"
+
+#: Curlew/curlew.py:412
+msgid "Encoding: "
+msgstr "ترميز الخط:"
+
+#: Curlew/curlew.py:422
+msgid "Delay: "
+msgstr "التأخير:"
+
+#: Curlew/curlew.py:430
 msgid "Crop / Pad"
 msgstr "قص / حشو"
 
-#. Cropping video
-#: ../Curlew/curlew.py:430
+#: Curlew/curlew.py:433
 msgid "Crop"
 msgstr "قص"
 
-#. Padding video
-#: ../Curlew/curlew.py:434
+#: Curlew/curlew.py:437
 msgid "Pad"
 msgstr "أضِف حاشية"
 
-#: ../Curlew/curlew.py:440
+#: Curlew/curlew.py:443
 msgid "More"
 msgstr "المزيد"
 
-#. Split file
-#: ../Curlew/curlew.py:443
+#: Curlew/curlew.py:446
 msgid "Split File"
 msgstr "أنشِئ مقطعاً"
 
-#: ../Curlew/curlew.py:453
+#: Curlew/curlew.py:456
 msgid "Begin time: "
 msgstr "بدايتــــــهُ:"
 
-#: ../Curlew/curlew.py:454
+#: Curlew/curlew.py:457
 msgid "Duration: "
 msgstr "مـدّتــــــــهُ:"
 
-#. Other Parameters entry.
-#: ../Curlew/curlew.py:458
+#: Curlew/curlew.py:461
 msgid "Others opts:"
 msgstr "وسائط أخرى:"
 
-#. Threads
-#: ../Curlew/curlew.py:463
+#: Curlew/curlew.py:466
 msgid "Threads:"
 msgstr "الخيوط:"
 
-#. -- Use same quality as source file
-#: ../Curlew/curlew.py:468
+#: Curlew/curlew.py:471
 msgid "Source Quality"
 msgstr "جودة المصدر"
 
-#: ../Curlew/curlew.py:469
+#: Curlew/curlew.py:472
 msgid "Use the same quality as source file"
 msgstr "اِستعمل نفس جودة الملف المصدر"
 
-#. Encoder type (ffmpeg / avconv)
-#: ../Curlew/curlew.py:475
+#: Curlew/curlew.py:478
 msgid "Converter:"
 msgstr "المحوّل:"
 
-#: ../Curlew/curlew.py:490
+#: Curlew/curlew.py:493
 msgid "Configs"
 msgstr "إعدادات"
 
-#. Replace/Skip/Rename
-#: ../Curlew/curlew.py:493
+#: Curlew/curlew.py:496
 msgid "File exist:"
 msgstr "الملف موجود:"
 
-#: ../Curlew/curlew.py:495
+#: Curlew/curlew.py:498
 msgid "Overwrite it"
 msgstr "اِستبدله"
 
-#: ../Curlew/curlew.py:496
+#: Curlew/curlew.py:499
 msgid "Choose another name"
 msgstr "اِختر اسما آخر"
 
-#: ../Curlew/curlew.py:497
+#: Curlew/curlew.py:500
 msgid "Skip conversion"
 msgstr "تخطّ التحويل"
 
-#. --- Application language
-#: ../Curlew/curlew.py:500
+#: Curlew/curlew.py:503
 msgid "Language:"
 msgstr "اللغة:"
 
-#. --- Icons theme
-#: ../Curlew/curlew.py:512
+#: Curlew/curlew.py:515
 msgid "Icons:"
 msgstr "اﻷيقونات:"
 
-#. --- Show icons text
-#: ../Curlew/curlew.py:518
+#: Curlew/curlew.py:521
 msgid "Show toolbar's buttons text"
 msgstr "أظهِر النصوص في شريط اﻷدوات"
 
-#. Use tray icon
-#: ../Curlew/curlew.py:523
+#: Curlew/curlew.py:526
 msgid "Show tray icon"
 msgstr "أظهِر الأيقونة في مساحة التبليغ"
 
-#. Shutdown after conversion
-#: ../Curlew/curlew.py:528
+#: Curlew/curlew.py:531
 msgid "Shutdown computer after finish"
 msgstr "أغلِق الجهاز بعد انتهاء التحويل"
 
-#. Remove source file
-#: ../Curlew/curlew.py:532
+#: Curlew/curlew.py:535
+msgid "Suspend computer after finish"
+msgstr "أسبِت الجهاز بعد انتهاء التحويل"
+
+#: Curlew/curlew.py:539
 msgid "Delete input file after conversion"
 msgstr "اِحذف الملف المصدر بعد تحويله"
 
-#: ../Curlew/curlew.py:613
+#: Curlew/curlew.py:618
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr "هل تريد إيقاف برنامج كروان وإلغاء عملية التحويل؟"
 
-#: ../Curlew/curlew.py:630
+#: Curlew/curlew.py:635
 msgid "Add file"
 msgstr "أضِف ملفاً"
 
-#: ../Curlew/curlew.py:641
+#: Curlew/curlew.py:646
 msgid "All supported files"
 msgstr "جميع الملفات المدعومة"
 
-#: ../Curlew/curlew.py:648
+#: Curlew/curlew.py:653
 msgid "Video files"
 msgstr "ملفاتُ فيديو"
 
-#: ../Curlew/curlew.py:654
+#: Curlew/curlew.py:659
 msgid "Audio files"
 msgstr "ملفاتٌ صوتية"
 
-#: ../Curlew/curlew.py:660
+#: Curlew/curlew.py:665
 msgid "All files"
 msgstr "جميع الملفات"
 
-#: ../Curlew/curlew.py:684 ../Curlew/curlew.py:1377 ../Curlew/curlew.py:1643
+#: Curlew/curlew.py:686 Curlew/curlew.py:1386 Curlew/curlew.py:1655
 msgid "Ready!"
 msgstr "جاهز!"
 
-#: ../Curlew/curlew.py:698
+#: Curlew/curlew.py:693
 msgid "Choose destination"
 msgstr "اِختر الوِجهة"
 
-#: ../Curlew/curlew.py:1079
+#: Curlew/curlew.py:715
+msgid ""
+"<b>Format:</b>\t{}\n"
+"<b>Extension:</b>\t{}\n"
+"<b>Encoder:</b>\t{}"
+msgstr ""
+"<b>الصيغة:</b>\t{}\n"
+"<b>اللاحقة:</b>\t{}\n"
+"<b>المحول:</b>\t{}"
+
+#: Curlew/curlew.py:1088
 msgid "Destination path is not valid."
 msgstr "مسارُ الوِجهة غير صالح"
 
-#: ../Curlew/curlew.py:1085
+#: Curlew/curlew.py:1094
 msgid "Destination path is not accessible."
 msgstr "مسارُ الوِجهة لا يمكن الوصول إليه"
 
-#: ../Curlew/curlew.py:1110 ../Curlew/curlew.py:1147 ../Curlew/curlew.py:1511
+#: Curlew/curlew.py:1119 Curlew/curlew.py:1156 Curlew/curlew.py:1523
 msgid "Skipped!"
 msgstr "تمّ تخطيه!"
 
-#: ../Curlew/curlew.py:1120
+#: Curlew/curlew.py:1129
 msgid "Not found!"
 msgstr "غيرُ موجود!"
 
-#: ../Curlew/curlew.py:1215
+#: Curlew/curlew.py:1224
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
@@ -419,89 +412,81 @@ msgstr ""
 "هناك أخطاءٌ حدثت أثناء التحويل.\n"
 "هل تريد مشاهدة تفاصيلها؟"
 
-#: ../Curlew/curlew.py:1228
+#: Curlew/curlew.py:1237
 msgid "Do you want to stop conversion process?"
 msgstr "هل تريد إيقاف عملية التحويل؟"
 
-#: ../Curlew/curlew.py:1283
+#: Curlew/curlew.py:1292
 msgid "Select subtitle"
 msgstr "اِختر ملف الترجمة"
 
-#: ../Curlew/curlew.py:1291
+#: Curlew/curlew.py:1300
 msgid "Subtitle files"
 msgstr "ملفاتُ ترجمة"
 
-#: ../Curlew/curlew.py:1372 ../Curlew/curlew.py:1565 ../Curlew/curlew.py:1622
+#: Curlew/curlew.py:1381 Curlew/curlew.py:1577 Curlew/curlew.py:1634
 msgid "Wait..."
 msgstr "انتظار..."
 
-#: ../Curlew/curlew.py:1382
+#: Curlew/curlew.py:1391
 msgid "Preview"
 msgstr "المعاينة"
 
-#: ../Curlew/curlew.py:1456
+#: Curlew/curlew.py:1465
 msgid "Done!"
 msgstr "تمّ التحويل!"
 
-#: ../Curlew/curlew.py:1469
+#: Curlew/curlew.py:1478
 msgid "Failed!"
 msgstr "فشل!"
 
-#: ../Curlew/curlew.py:1777
+#: Curlew/curlew.py:1812
 msgid ""
 "<b>File:</b>\t{}\n"
+"<b>Extension:</b>\t{}\n"
 "<b>Path:</b>\t{}\n"
-"<b>Size:</b>\t{}\n"
-"<b>Duration:</b>\t{}"
+"<b>Size:</b>\t{}"
 msgstr ""
 "<b>الملف:</b>\t{}\n"
+"<b>اللاحقة:</b>\t{}\n"
 "<b>المسار:</b>\t{}\n"
-"<b>الحجم:</b>\t{}\n"
-"<b>المدة:</b>\t{}"
+"<b>الحجم:</b>\t{}"
 
-#: ../Curlew/curlew.py:1859
+#: Curlew/curlew.py:1893
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
 msgstr ""
 "<span foreground=\"red\" weight=\"bold\">سيتم إيقاف الجهاز بعد {} ثا.</span>"
 
-#: ../Curlew/customwidgets.py:33
-msgid "Top"
-msgstr "أعلى"
+#: Curlew/curlew.py:1906
+msgid ""
+"<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
+"span>"
+msgstr ""
+"<span foreground=\"red\" weight=\"bold\">سيتم إسبات الجهاز بعد {} ثا.</span>"
 
-#: ../Curlew/customwidgets.py:41
-msgid "Button"
-msgstr "أسفل"
-
-#: ../Curlew/customwidgets.py:49
-msgid "Left"
-msgstr "يسار"
-
-#: ../Curlew/customwidgets.py:57
-msgid "Right"
-msgstr "يمين"
-
-#: ../Curlew/customwidgets.py:146
-msgid "hr"
-msgstr "سا"
-
-#: ../Curlew/customwidgets.py:151
-msgid "min"
-msgstr "د"
-
-#: ../Curlew/logdialog.py:11
-msgid "Errors detail"
-msgstr "تفاصيلُ اﻷخطاء"
-
-#. Show main window
-#: ../Curlew/tray.py:18 ../Curlew/tray.py:48
+#: Curlew/tray.py:18 Curlew/tray.py:48
 msgid "Hide"
 msgstr "أخفِ"
 
-#: ../Curlew/tray.py:50
+#: Curlew/tray.py:50
 msgid "Show"
 msgstr "أظهِر"
+
+#: Curlew/about.py:15
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "محوّل وسائط على لينُكس سهل الاستخدام"
+
+#: Curlew/about.py:28
+msgid "translator-credits"
+msgstr "فيصل شامخ <chamfay@gmail.com>"
+
+#~ msgid "Duration"
+#~ msgstr "المـدة"
+
+#~ msgid "Curlew Multimedia converter"
+#~ msgstr "محوّل وسائط كروان"
 
 #~ msgid "Crop Video"
 #~ msgstr "قص الفيديو"

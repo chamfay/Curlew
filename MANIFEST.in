@@ -1,6 +1,6 @@
-include LICENSE-ar.txt LICENSE-en ChangeLog 
-include README TODO AUTHORS VERSION
-include curlew.desktop.in curlew.svg curlew.pot curlew.spec
-include Makefile
-recursive-include po *
-recursive-include Curlew/icons *
+include LICENSE-ar.txt LICENSE-en.txt AUTHORS ChangeLog README TODO VERSION
+include curlew.desktop curlew.svg curlew.spec
+include install uninstall
+recursive-include Curlew/icons *.svg
+recursive-exclude Curlew/icons *.png
+recursive-include po *.po

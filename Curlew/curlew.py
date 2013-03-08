@@ -75,8 +75,8 @@ if not exists(CONF_PATH): os.mkdir(CONF_PATH)
 # Treeview cols nbrs
 C_SKIP = 0             # Skip (checkbox)
 C_NAME = 1             # File name
-C_DURA = 2             # Duration
-C_SIZE = 3             # Estimated output size
+C_FSIZE = 2            # File size
+C_ESIZE = 3            # Estimated output size
 C_REMN = 4             # Remaining time
 C_PRGR = 5             # Progress value
 C_STAT = 6             # Stat string
@@ -229,13 +229,13 @@ class Curlew(Gtk.Window):
         
         #--- Duration cell
         cell = Gtk.CellRendererText()
-        col = Gtk.TreeViewColumn(_("Duration"), cell, text=C_DURA)
+        col = Gtk.TreeViewColumn(_("Size"), cell, text=C_FSIZE)
         self.tree.append_column(col)
         
         
         #--- Size cell
         cell = Gtk.CellRendererText()
-        col = Gtk.TreeViewColumn(_("Estimated size"), cell, text=C_SIZE)
+        col = Gtk.TreeViewColumn(_("Estimated size"), cell, text=C_ESIZE)
         col.set_fixed_width(60)
         self.tree.append_column(col)
         
@@ -278,7 +278,9 @@ class Curlew(Gtk.Window):
         #--- Output formats
         self.cmb_formats = Gtk.ComboBoxText()
         self.cmb_formats.set_entry_text_column(0)
+        self.cmb_formats.set_has_tooltip(True)
         self.cmb_formats.connect('changed', self.on_cmb_formats_changed)
+        self.cmb_formats.connect('query-tooltip', self.on_cmb_formats_tooltip)
         hl = LabeledHBox(_("<b>Format:</b>"), vbox)
         hl.pack_start(self.cmb_formats, True, True, 0)
         
@@ -543,7 +545,6 @@ class Curlew(Gtk.Window):
         
         #--- Status
         self.label_details = Gtk.Label()
-        #self.label_details.set_text('')
         vbox.pack_start(self.label_details, False, False, 0)
         
         # Status icon
@@ -557,7 +558,6 @@ class Curlew(Gtk.Window):
         for section in sorted(self.f_file.sections()):
             self.cmb_formats.append_text(section)
         self.cmb_formats.set_active(0)
-        #self.cmb_formats.set_wrap_width(2)
         
         
         #--- Load saved options.
@@ -678,23 +678,15 @@ abort conversion process?'),
             if isfile(file_name):
                 self.store.append([
                                    True,
-                                   basename(file_name),
-                                   None,
+                                   splitext(basename(file_name))[0],
+                                   get_format_size(getsize(file_name)/1024),
                                    None,
                                    None,
                                    0.0,
                                    _('Ready!'),
                                    -1,
-                                   file_name
+                                   realpath(file_name)
                                    ])
-            
-        # Load file(s) duration
-        for row in self.store:
-            while Gtk.events_pending():
-                Gtk.main_iteration()
-            #FIXME: get_time function slow for many files.
-            try: row[C_DURA] = self.get_time(row[C_FILE])
-            except: pass
     
     
     def on_dest_clicked(self, widget):
@@ -715,6 +707,20 @@ abort conversion process?'),
     def on_cmb_formats_changed(self, widget):
         self.fill_options()
         self.set_sensitives()
+    
+    def on_cmb_formats_tooltip(self, widget, x, y, keyboard_mode, tooltip):
+        #TODO: Enhance tooltip infos
+        sect = self.cmb_formats.get_active_text()
+        encoder = {'f': self.encoder, 'm': 'mencoder'}
+        infos  = _('<b>Format:</b>\t{}\n'
+                   '<b>Extension:</b>\t{}\n'
+                   '<b>Encoder:</b>\t{}'
+                   ).format(sect,
+                            self.f_file.get(sect, 'ext'),
+                            encoder[self.f_file.get(sect, 'encoder')],
+                            )
+        widget.set_tooltip_markup(infos)
+    
     
     def set_sensitives(self):
         section = self.cmb_formats.get_active_text()
@@ -1583,7 +1589,7 @@ abort conversion process?'),
                         # Convert duration (sec) to time (0:00:00)
                         rem_time = duration_to_time(rem_dur)
                         
-                        self.store[self.Iter][C_SIZE] = size_str # estimated size
+                        self.store[self.Iter][C_ESIZE] = size_str # estimated size
                         self.store[self.Iter][C_REMN] = rem_time # remaining time
                         self.store[self.Iter][C_PRGR] = float(time_ratio * 100) # progress value
                         if self.pass_nbr != 0:
@@ -1612,7 +1618,7 @@ abort conversion process?'),
                     #--- Progress
                     prog_value = float(self.reg_menc.findall(line)[0][1])
                     
-                    self.store[self.Iter][C_SIZE] = file_size + ' MB'
+                    self.store[self.Iter][C_ESIZE] = file_size + ' MB'
                     self.store[self.Iter][C_REMN] = rem_time
                     self.store[self.Iter][C_PRGR] = prog_value
                     if self.pass_nbr != 0:
@@ -1642,7 +1648,7 @@ abort conversion process?'),
                 if isfile(File):
                     self.store.append([True,
                                        basename(File),
-                                       None,
+                                       get_format_size(getsize(File)/1024),
                                        None,
                                        None,
                                        0.0,
@@ -1651,11 +1657,6 @@ abort conversion process?'),
                                        File])
                 # Save directory from dragged filename.
                 self.curr_open_folder = dirname(File)
-        # Try to calculate file(s) duration(s)
-        for row in self.store:
-            while Gtk.events_pending():
-                Gtk.main_iteration()
-            row[C_DURA] = self.get_time(row[C_FILE])
     
     def on_cb_dest_toggled(self, widget):
         Active = not widget.get_active()
@@ -1805,14 +1806,14 @@ abort conversion process?'),
             
             file_name = self.store[path][C_NAME]
             file_path = dirname(full_path)
-            file_size = get_format_size(getsize(full_path)/1024)
-            file_duration = self.store[path][C_DURA]
+            file_size = self.store[path][C_FSIZE]
+            file_ext  = splitext(full_path)[1][1:]
             
             infos  = _('<b>File:</b>\t{}\n'
+                       '<b>Extension:</b>\t{}\n'
                        '<b>Path:</b>\t{}\n'
-                       '<b>Size:</b>\t{}\n'
-                       '<b>Duration:</b>\t{}'
-                       ).format(file_name, file_path, file_size, file_duration)
+                       '<b>Size:</b>\t{}'
+                       ).format(file_name, file_ext, file_path, file_size)
             
             tooltip.set_markup(infos)
             

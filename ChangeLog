@@ -1,3 +1,12 @@
+Version 0.1.18
+--------------
+
+* Removed makefiles and moved all install stuffs to setup.py file.
+* Replace duration by file size in the files list (treeview).
+* Show file without extension in the files list (treeview).
+* Fixed a bug in when add file via command line.
+* Some fixes...
+
 Version 0.1.17
 --------------
 
@@ -10,6 +19,8 @@ Commited by Ehab El-Gedawy <ehabsas@gmail.com>
 Commited by Andrej Kvasnica <andrej@gmail.com>
 * Save/load last audio and video properties.
 * Suspend computer after finish.
+
+Update: Fixed a bug in Makefile.
 
 
 Version 0.1.16.2

@@ -43,16 +43,18 @@ Please see LICENSE-ar.txt/LICENSE-en files for more informations.
 Installation:
 -------------
 
-Run the following commands:
-
-make
-make install (as root).
+In terminal run the following (as root).
+sudo python setup.py install
 
 
-Remove:
--------
+Remove (Uninstall):
+-------------------
 
-Run command:
+In terminal run the following (as root).
+sudo python setup.py uninstall
 
-make uninstall (as root).
+Clean project:
+--------------
+
+sudo python setup.py clean
 
