@@ -112,7 +112,7 @@ class Curlew(Gtk.Window):
         self.dict_icons = {}
         self.icons_path = ''
         
-        #self._start_time = None
+        self._start_time = None
         self.elapsed_time = '0.00.00'
         
         #--- Regex
@@ -1556,13 +1556,15 @@ abort conversion process?'),
             self.store[self.Iter][C_PRGR] = 0.0
             
             # Stop conversion
-            try:
-                self.fp.kill()
+            try: self.fp.kill()
             except OSError as detail:
                 print(detail)
             
             # Delete the file
             self.force_delete_file(out_file)
+            
+            # Update start time
+            self._start_time = time.time()
             
             # Jump to next file
             self.Iter = self.store.iter_next(self.Iter)
