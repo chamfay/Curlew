@@ -1,10 +1,10 @@
 from distutils.core import setup
 from glob import glob
-from subprocess import call, Popen
+from subprocess import call
 import sys
 from os.path import splitext, split
 
-#NOTE: You must install imagemagick, intltools packages.
+#NOTE: You must install imagemagick, intltool packages.
 
 doc_files  = ['LICENSE-ar.txt', 'LICENSE-en.txt', 'AUTHORS', 'ChangeLog', 'README']
 data_files = [('share/applications/', ['curlew.desktop']),
@@ -16,8 +16,8 @@ data_files = [('share/applications/', ['curlew.desktop']),
 def generate_icons():
     # Generate curlew.png icons
     for i in [16, 22, 24, 32, 36, 48, 64, 72, 96, 128]:
-        call("mkdir -p icons/hicolor/{0}x{0}/apps/".format(i), shell=True)
-        call("convert -background none curlew.svg -resize {0}x{0} icons/hicolor/{0}x{0}/apps/curlew.png".format(i), shell=True)
+        call("mkdir -p hicolor/{0}x{0}/apps/".format(i), shell=True)
+        call("convert -background none curlew.svg -resize {0}x{0} hicolor/{0}x{0}/apps/curlew.png".format(i), shell=True)
     
     # List all svg files
     svg_files = glob('Curlew/icons/*/*.svg')
@@ -25,7 +25,7 @@ def generate_icons():
         png_file = splitext(svg_file)[0] + ".png"
         ret = call("convert -background none {} -resize 48x48 {}".format(svg_file, png_file), shell=True)
     
-    icons = map(lambda i: ('share/'+i, [i+'/curlew.png', ]), glob("icons/hicolor/*/apps"))
+    icons = map(lambda i: ('share/icons/'+i, [i+'/curlew.png', ]), glob("hicolor/*/apps"))
     data_files.extend(icons)
     
     return ret
@@ -60,8 +60,9 @@ def update_locale():
 def clean_all():
     print("Clean...")
     
-    call("rm -rfv icons dist locale build", shell=True)
-    call("rm -fv po/curlew.pot MANIFEST po/*.mo", shell=True)
+    call("rm -rfv hicolor dist locale build", shell=True)
+    call("rm -rfv dist locale build", shell=True)
+    call("rm -fv MANIFEST po/*.mo", shell=True)
     call("rm -fv Curlew/icons/*/*.png", shell=True)
     call("rm -fv Curlew/*.pyc *.pyc", shell=True)
     exit(0)
@@ -71,36 +72,38 @@ def clean_all():
 def uninstall():
     print("Uninstall...")
     # Remove icons
-    Popen("rm -rfv /usr/share/icons/hicolor/*/apps/curlew*", shell=True)
-    Popen("rm -rfv /usr/*/share/icons/hicolor/*/apps/curlew*", shell=True)
+    call("rm -rfv /usr/share/icons/hicolor/*/apps/curlew*", shell=True)
+    call("rm -rfv /usr/*/share/icons/hicolor/*/apps/curlew*", shell=True)
     
     # Remove mos
-    Popen("rm -rfv /usr/share/locale/*/LC_MESSAGES/curlew.mo", shell=True)
-    Popen("rm -rfv /usr/*/share/locale/*/LC_MESSAGES/curlew.mo", shell=True)
+    call("rm -rfv /usr/share/locale/*/LC_MESSAGES/curlew.mo", shell=True)
+    call("rm -rfv /usr/*/share/locale/*/LC_MESSAGES/curlew.mo", shell=True)
     
     # Remove packages
-    Popen("rm -rfv /usr/lib/python*/*-packages/[cC]urlew*", shell=True)
-    Popen("rm -rfv /usr/*/lib/python*/*-packages/[cC]urlew*", shell=True)
+    call("rm -rfv /usr/lib/python*/*-packages/[cC]urlew*", shell=True)
+    call("rm -rfv /usr/*/lib/python*/*-packages/[cC]urlew*", shell=True)
     
     # Remove Docs
-    Popen("rm -rfv /usr/share/doc/curlew", shell=True)
-    Popen("rm -rfv /usr/*/share/doc/curlew", shell=True)
+    call("rm -rfv /usr/share/doc/curlew", shell=True)
+    call("rm -rfv /usr/*/share/doc/curlew", shell=True)
     
     # Remove .desktop file
-    Popen("rm -rfv /usr/share/applications/curlew*", shell=True)
-    Popen("rm -rfv /usr/*/share/applications/curlew*", shell=True)
+    call("rm -rfv /usr/share/applications/curlew*", shell=True)
+    call("rm -rfv /usr/*/share/applications/curlew*", shell=True)
     
     # Remove script
-    Popen("rm -rfv /usr/bin/curlew", shell=True)
-    Popen("rm -rfv /usr/*/bin/curlew", shell=True)
+    call("rm -rfv /usr/bin/curlew", shell=True)
+    call("rm -rfv /usr/*/bin/curlew", shell=True)
     
     # Remove configurations
-    Popen("rm -rfv ~/.curlew", shell=True)
+    call("rm -rfv ~/.curlew/curlew.cfg", shell=True)
+    call("rm -rfv ~/.curlew/fav.list", shell=True)
     
     exit(0)
-    
 
 
+
+# Begin
 if len(sys.argv) < 2: exit(1)
 
 if sys.argv[1] in ['bdist', 'bdist_rpm', 'build', 'install']:
@@ -127,7 +130,7 @@ Main Features:
 - Combine subtitle with video file.
 - Show error details if exist.
 - And more ...''',
-      version="0.1.18.2",
+      version="0.1.18.3",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',

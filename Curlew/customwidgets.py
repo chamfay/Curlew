@@ -10,7 +10,7 @@ class SpinsFrame(Gtk.Frame):
         Gtk.Frame.__init__(self)
         
         self._top = 0
-        self._buttom = 0
+        self._bottom = 0
         self._left = 0
         self._right = 0
         self._sum = 0
@@ -23,7 +23,7 @@ class SpinsFrame(Gtk.Frame):
         
         # Adjustments
         adj_top    = Gtk.Adjustment(0, 0, 10000, 1)
-        adj_buttom = Gtk.Adjustment(0, 0, 10000, 1)
+        adj_bottom = Gtk.Adjustment(0, 0, 10000, 1)
         adj_left   = Gtk.Adjustment(0, 0, 10000, 1)
         adj_right  = Gtk.Adjustment(0, 0, 10000, 1)
         
@@ -35,11 +35,11 @@ class SpinsFrame(Gtk.Frame):
         
         hbox.pack_start(Gtk.VSeparator(), False, False, 8)
         
-        # Buttom spin
-        self.spin_buttom = Gtk.SpinButton(adjustment=adj_buttom)
-        self.spin_buttom.set_numeric(True)
-        hbox.pack_start(Gtk.Label(_('Button')), False, False, 0)
-        hbox.pack_start(self.spin_buttom, False, False, 0)
+        # bottom spin
+        self.spin_bottom = Gtk.SpinButton(adjustment=adj_bottom)
+        self.spin_bottom.set_numeric(True)
+        hbox.pack_start(Gtk.Label(_('Bottom')), False, False, 0)
+        hbox.pack_start(self.spin_bottom, False, False, 0)
         
         hbox.pack_start(Gtk.VSeparator(), False, False, 8)
         
@@ -60,7 +60,7 @@ class SpinsFrame(Gtk.Frame):
         
         # Connection
         self.spin_top.connect('value-changed', self._on_spins_changed)
-        self.spin_buttom.connect('value-changed', self._on_spins_changed)
+        self.spin_bottom.connect('value-changed', self._on_spins_changed)
         self.spin_left.connect('value-changed', self._on_spins_changed)
         self.spin_right.connect('value-changed', self._on_spins_changed)
         self.check_btn.connect('toggled', self._on_check_cb, hbox)
@@ -70,23 +70,23 @@ class SpinsFrame(Gtk.Frame):
     
     def _on_spins_changed(self, spin):
         self._top = self.spin_top.get_value_as_int()
-        self._buttom = self.spin_buttom.get_value_as_int()
+        self._bottom = self.spin_bottom.get_value_as_int()
         self._left = self.spin_left.get_value_as_int()
         self._right = self.spin_right.get_value_as_int()
         
-        self._sum = self._top + self._buttom + self._left + self._right
+        self._sum = self._top + self._bottom + self._left + self._right
     
     def get_active(self):
         return self.check_btn.get_active() and self._sum != 0
     
     def get_crop(self):
         return 'crop=iw-{}:ih-{}:{}:{}'.format(self._left+self._right,
-                                               self._top+self._buttom,
+                                               self._top+self._bottom,
                                                self._left, self._top)
     
     def get_pad(self):
         return 'pad=iw+{}:ih+{}:{}:{}'.format(self._left+self._right,
-                                               self._top+self._buttom,
+                                               self._top+self._bottom,
                                                self._left, self._top)
     
     

@@ -22,6 +22,7 @@ try:
     from urllib import unquote
     from gi.repository import Gtk, GLib, Gdk, GObject
     import dbus.glib, dbus.service
+    import cPickle
     
     from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, \
     CustomHScale, CustomToolButton, SpinsFrame
@@ -31,6 +32,7 @@ try:
     from logdialog import LogDialog
     from tray import StatusIcon
     from languages import LANGUAGES
+    from favdialog import Favorite
     
 except Exception as detail:
     print(detail)
@@ -67,6 +69,7 @@ ERROR_LOG    = join(CONF_PATH, 'errors.log')
 PASS_LOG     = '/tmp/pass1log'
 PASS_1_FILE  = '/tmp/pass1file'
 PREVIEW_FILE = '/tmp/preview'
+FAV_FILE     = join(CONF_PATH, 'fav.list')
 
 
 # Make .curlew folder if not exist
@@ -289,11 +292,24 @@ class Curlew(Gtk.Window):
         #--- Output formats
         self.cmb_formats = Gtk.ComboBoxText()
         self.cmb_formats.set_entry_text_column(0)
+        self.cmb_formats.set_id_column(0)
         self.cmb_formats.set_has_tooltip(True)
         self.cmb_formats.connect('changed', self.on_cmb_formats_changed)
         self.cmb_formats.connect('query-tooltip', self.on_cmb_formats_tooltip)
         hl = LabeledHBox(_("<b>Format:</b>"), vbox)
         hl.pack_start(self.cmb_formats, True, True, 0)
+        
+        # Favorite button
+        self.btn_fav = Gtk.Button()
+        self.btn_fav.set_image(Gtk.Image
+                               .new_from_icon_name("emblem-favorite", 
+                                                   Gtk.IconSize.BUTTON))
+        self.btn_fav.connect('clicked', self.show_menu)
+        self.btn_fav.set_tooltip_markup(_("Favorite list"))
+        hl.pack_start(self.btn_fav, False, False, 0)
+        
+        # Buid Favorite menu
+        self.build_fav_menu()        
         
         #--- Destination
         self.e_dest = Gtk.Entry()
@@ -1961,7 +1977,92 @@ abort conversion process?'),
             return False
         self.elapsed_time = duration_to_time(time.time() - self._start_time)
         return True
+    
+    # Add current format to favorite list.
+    def to_fav_cb(self, widget):
+        fav_list = self.get_fav_list()
+        fav_format = self.cmb_formats.get_active_text()
         
+        # format already exist
+        if fav_format in fav_list:
+            return
+        
+        fav_list.append(fav_format)
+        favfile = open(FAV_FILE, "wb")
+        cPickle.dump(fav_list, favfile)
+        favfile.close()
+        
+        self.build_fav_menu()
+    
+    # Remove current item from favorite
+    def remove_from_fav(self, item):
+        fav_list = self.get_fav_list()
+        if not item in fav_list:
+            return
+        fav_list.remove(item)
+        favfile = open(FAV_FILE, "wb")
+        cPickle.dump(fav_list, favfile)
+        favfile.close()
+        
+    def get_fav_list(self):
+        if not exists(FAV_FILE):
+            return []
+        with open(FAV_FILE, 'r') as favfile:
+            return cPickle.load(favfile)
+    
+    # show favorite menu
+    def show_menu(self, widget):
+        self.fav_menu.show_all()
+        self.fav_menu.popup(None, None, None, None, 3, 
+                            Gtk.get_current_event_time())
+    
+    # Select format from fav
+    def on_item_activated(self, item):
+        self.cmb_formats.set_active_id(item.get_label())
+        self.fav_menu.select_item(item)
+    
+    def append(self, menu, text):
+        item = Gtk.MenuItem(text)
+        item.connect('activate', self.on_item_activated)
+        menu.append(item)
+    
+    
+    def build_fav_menu(self):
+        menu = Gtk.Menu()
+        
+        for fformat in self.get_fav_list():
+            self.append(menu, fformat)
+        
+        menu.append(Gtk.SeparatorMenuItem())
+        
+        # "Add" item
+        add_item = Gtk.ImageMenuItem(_("Add to favorite"))
+        add_item.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_ADD, 
+                                                    Gtk.IconSize.BUTTON))
+        add_item.set_always_show_image(True)
+        add_item.connect('activate', self.to_fav_cb)
+        menu.append(add_item)
+        
+        # Edit item
+        edt_item = Gtk.ImageMenuItem(_("Edit list"))
+        edt_item.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_EDIT, 
+                                                    Gtk.IconSize.BUTTON))
+        edt_item.set_always_show_image(True)
+        edt_item.connect('activate', self.edit_favorite)
+        menu.append(edt_item)
+        
+        self.fav_menu = menu
+        self.fav_menu.show_all()
+    
+    # Edit favorite list
+    def edit_favorite(self, item):
+        fav_dlg = Favorite(self, self.get_fav_list())
+        fav_dlg.run()
+        fav_dlg.save(FAV_FILE)
+        self.build_fav_menu()
+        fav_dlg.destroy()
+
+
 
 
 class DBusService(dbus.service.Object):
