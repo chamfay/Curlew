@@ -4,5 +4,5 @@ LANGUAGES = {
              'العربية': 'ar',
              'English': 'en',
              'Français': 'fr',
-             'Dutch': 'nl',
+             'Nederlands': 'nl',
              }

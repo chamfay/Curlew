@@ -1,3 +1,12 @@
+Version 0.1.18.4
+----------------
+
+* Added support for SSA/ASS subtitle.
+* Enhnaced favorite list dialog (added delete key shortcut).
+* Enhanced saving/loading functions.
+* Update translation.
+
+
 Version 0.1.18.3
 ----------------
 

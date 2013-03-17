@@ -1,4 +1,4 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 import cPickle
 
 class Favorite(Gtk.Dialog):
@@ -9,6 +9,7 @@ class Favorite(Gtk.Dialog):
         self.set_size_request(350, 280)
         self.store = Gtk.ListStore(str)
         self.list_view = Gtk.TreeView(self.store)
+        self.list_view.connect("key-press-event", self.on_key_press)
         
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("Format"), cell, text=0)
@@ -42,6 +43,8 @@ class Favorite(Gtk.Dialog):
         
         self.vbox.pack_start(hbox, True, True, 0)
         
+        self.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
+        
         # load
         for fformat in fav_list:
             self.store.append((fformat,))
@@ -49,7 +52,7 @@ class Favorite(Gtk.Dialog):
         self.show_all()
     
     # Delete Item
-    def delete_item(self, widget):
+    def delete_item(self, *args):
         sele = self.get_selected_iter()
         if sele:
             self.store.remove(sele)
@@ -75,4 +78,7 @@ class Favorite(Gtk.Dialog):
         cPickle.dump(fav_list, favfile)
         favfile.close()
     
+    def on_key_press(self, widget, event):
+        if event.keyval == Gdk.KEY_Delete:
+            self.delete_item()
     

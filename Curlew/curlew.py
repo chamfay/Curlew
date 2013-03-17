@@ -439,6 +439,7 @@ class Curlew(Gtk.Window):
         self.hb_enc = LabeledHBox(_('Encoding: '), self.vb_sub, 9)
         self.cmb_enc = Gtk.ComboBoxText()
         self.cmb_enc.set_entry_text_column(0)
+        self.cmb_enc.set_id_column(0)
         for enc in encs:
             self.cmb_enc.append_text(enc)
         self.cmb_enc.set_active(5)
@@ -455,6 +456,11 @@ class Curlew(Gtk.Window):
         # harddup option
         self.cb_hard = Gtk.CheckButton(_('Harddup'))
         self.vb_sub.pack_start(self.cb_hard, True, True, 0)
+        
+        # SSA/ASS
+        self.cb_ass = Gtk.CheckButton(_('Use SSA/ASS subtitle'))
+        self.cb_ass.connect('toggled', self.on_cb_ass_toggled)
+        self.vb_sub.pack_start(self.cb_ass, True, True, 0)
         
         
         #--- Crop/Pad page
@@ -490,12 +496,12 @@ class Curlew(Gtk.Window):
         self.tl_duration.set_duration(5)
         
         # Other Parameters entry.
-        hb_other = LabeledHBox(_('Others opts:'), self.vb_more, 10)
+        hb_other = LabeledHBox(_('Others opts:'), self.vb_more, 12)
         self.e_extra = Gtk.Entry()
         hb_other.pack_start(self.e_extra, True, True, 0)
         
         # Threads
-        hb_threads = LabeledHBox(_('Threads:'), self.vb_more, 10)
+        hb_threads = LabeledHBox(_('Threads:'), self.vb_more, 12)
         self.s_threads = Gtk.SpinButton().new_with_range(0, 10, 1)
         hb_threads.pack_start(self.s_threads, False, False, 0)
 
@@ -983,15 +989,23 @@ abort conversion process?'),
             # Subtitle file
             cmd.extend(['-sub', self.entry_sub.get_text()])
             cmd.append('-fontconfig') # configure font
-            # Font name
-            cmd.extend(['-subfont', self.b_font.get_font_family().get_name()])
-            cmd.extend(['-subfont-text-scale',
-                        str(self.spin_size.get_value_as_int())])
-            cmd.extend(['-subpos', str(self.spin_pos.get_value_as_int())])
-            cmd.extend(['-subcp', self.cmb_enc.get_active_text()])
-            #--- Delay Sub
-            if self.sub_delay.get_value() != 0:
-                cmd.extend(['-subdelay', str(self.sub_delay.get_value_as_int())])
+            
+            # Use SSA/ASS
+            if self.cb_ass.get_active():
+                cmd.append('-ass')
+                #TODO: Add more options here.
+            # Normal OSD
+            else:
+                # Font name
+                cmd.extend(['-subfont', self.b_font.get_font_family().get_name()])
+                cmd.extend(['-subfont-text-scale',
+                            str(self.spin_size.get_value_as_int())])
+                cmd.extend(['-subpos', str(self.spin_pos.get_value_as_int())])
+                cmd.extend(['-subcp', self.cmb_enc.get_active_text()])
+                #--- Delay Sub
+                if self.sub_delay.get_value() != 0:
+                    cmd.extend(['-subdelay', str(self.sub_delay.get_value_as_int())])
+            
             # RTL language (Arabic)
             cmd.append('-flip-hebrew')
             cmd.append('-noflip-hebrew-commas')
@@ -1345,14 +1359,21 @@ abort conversion process?'),
         Filter.set_name(_("Subtitle files"))
         Filter.add_pattern("*.[Ss][Rr][Tt]*")
         Filter.add_pattern("*.[Ss][Uu][Bb]*")
+        Filter.add_pattern("*.[Aa][Ss][Ss]*")
         dlg.add_filter(Filter)
+        
+        Filter = Gtk.FileFilter()
+        Filter.set_name(_("All files"))
+        Filter.add_pattern("*")
+        dlg.add_filter(Filter)
+        
         res = dlg.run()
         if res == Gtk.ResponseType.OK:
             self.entry_sub.set_text(dlg.get_filename())
         dlg.destroy()
     
     #--- Remove item
-    def tb_remove_cb(self, widget):
+    def tb_remove_cb(self, *args):
         iters = self.get_selected_iters()
         if not iters:
             return      
@@ -1464,7 +1485,7 @@ abort conversion process?'),
         
         # Delete file with "Delete" key
         if event.keyval == Gdk.KEY_Delete:
-            self.tb_remove_cb(None)
+            self.tb_remove_cb()
         
         # Play file with "Return" key
         elif event.keyval == Gdk.KEY_Return:
@@ -1774,6 +1795,8 @@ abort conversion process?'),
         conf.set('configs', 'overwrite_mode', self.cmb_exist.get_active())
         conf.set('configs', 'encoder', self.cmb_encoder.get_active_id())
         conf.set('configs', 'font', self.b_font.get_font_name())
+        conf.set('configs', 'encoding', self.cmb_enc.get_active_id())
+        conf.set('configs', 'use_ass', self.cb_ass.get_active())
         conf.set('configs', 'tray', self.cb_tray.get_active())
         conf.set('configs', 'icons', self.cmb_icons.get_active_id())
         conf.set('configs', 'language', self.cmb_lang.get_active_id())
@@ -1813,6 +1836,8 @@ abort conversion process?'),
             self.cmb_exist.set_active(conf.getint('configs', 'overwrite_mode'))
             self.cmb_encoder.set_active_id(conf.get('configs', 'encoder'))
             self.b_font.set_font(conf.get('configs', 'font'))
+            self.cmb_enc.set_active_id(conf.get('configs', 'encoding'))
+            self.cb_ass.set_active(conf.getboolean('configs', 'use_ass'))
             self.cb_tray.set_active(conf.getboolean('configs', 'tray'))
             self.cmb_icons.set_active_id(conf.get('configs', 'icons'))
             self.cmb_lang.set_active_id(conf.get('configs', 'language'))
@@ -1971,6 +1996,12 @@ abort conversion process?'),
         else:
             toolbar.set_style(Gtk.ToolbarStyle.ICONS)
     
+    def on_cb_ass_toggled(self, cb_ass):
+        active = not cb_ass.get_active()
+        self.hb_font.set_sensitive(active)
+        self.hb_pos.set_sensitive(active)
+        self.hb_size.set_sensitive(active)
+    
     # Calculate elapsed time
     def _on_elapsed_timer(self):
         if not self.is_converting:
@@ -2021,17 +2052,16 @@ abort conversion process?'),
         self.cmb_formats.set_active_id(item.get_label())
         self.fav_menu.select_item(item)
     
-    def append(self, menu, text):
+    def _append(self, menu, text):
         item = Gtk.MenuItem(text)
         item.connect('activate', self.on_item_activated)
         menu.append(item)
-    
     
     def build_fav_menu(self):
         menu = Gtk.Menu()
         
         for fformat in self.get_fav_list():
-            self.append(menu, fformat)
+            self._append(menu, fformat)
         
         menu.append(Gtk.SeparatorMenuItem())
         
