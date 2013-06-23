@@ -1,266 +1,265 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Pavel Fric <pavelfric@seznam.cz>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.1\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-06-23 06:58+0000\n"
-"PO-Revision-Date: 2013-03-07 14:21-0000\n"
-"Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
-"Language-Team: English <chamfay@gmail.com>\n"
-"Language: \n"
+"PO-Revision-Date: 2013-06-19 23:37+0200\n"
+"Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
+"Language-Team: Czech <kde-i18n-doc@kde.org>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: English\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Lokalize 1.5\n"
 
 #: Curlew/customwidgets.py:33
 msgid "Top"
-msgstr ""
+msgstr "Nahoře"
 
 #: Curlew/customwidgets.py:41
 msgid "Bottom"
-msgstr ""
+msgstr "Dole"
 
 #: Curlew/customwidgets.py:49
 msgid "Left"
-msgstr ""
+msgstr "Vlevo"
 
 #: Curlew/customwidgets.py:57
 msgid "Right"
-msgstr ""
+msgstr "Vpravo"
 
 #: Curlew/customwidgets.py:146
 msgid "hr"
-msgstr ""
+msgstr "hod"
 
 #: Curlew/customwidgets.py:151
 msgid "min"
-msgstr ""
+msgstr "min"
 
 #: Curlew/customwidgets.py:156 Curlew/curlew.py:456
 msgid "sec"
-msgstr ""
+msgstr "s"
 
 #: Curlew/logdialog.py:11
 msgid "Errors detail"
-msgstr ""
+msgstr "Podrobnosti chyb"
 
 #: Curlew/favdialog.py:7 Curlew/curlew.py:310
 msgid "Favorite list"
-msgstr ""
+msgstr "Seznam oblíbených"
 
 #: Curlew/favdialog.py:15
 msgid "Format"
-msgstr ""
+msgstr "Formát"
 
 #: Curlew/curlew.py:138 Curlew/tray.py:12 Curlew/about.py:9
 msgid "Curlew"
-msgstr ""
+msgstr "Curlew"
 
 #: Curlew/curlew.py:155
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 #: Curlew/curlew.py:156
 msgid "Add files"
-msgstr ""
+msgstr "Přidat soubory"
 
 #: Curlew/curlew.py:160
 msgid "Remove"
-msgstr ""
+msgstr "Odstranit"
 
 #: Curlew/curlew.py:161
 msgid "Remove files"
-msgstr ""
+msgstr "Odstranit soubory"
 
 #: Curlew/curlew.py:165
 msgid "Clear"
-msgstr ""
+msgstr "Vyprázdnit"
 
 #: Curlew/curlew.py:166
 msgid "Clear files list"
-msgstr ""
+msgstr "Smazat seznam souborů"
 
 #: Curlew/curlew.py:173
 msgid "Convert"
-msgstr ""
+msgstr "Převést"
 
 #: Curlew/curlew.py:174
 msgid "Start Conversion"
-msgstr ""
+msgstr "Spustit převod"
 
 #: Curlew/curlew.py:178
 msgid "Stop"
-msgstr ""
+msgstr "Zastavit"
 
 #: Curlew/curlew.py:179 Curlew/tray.py:22
 msgid "Stop Conversion"
-msgstr ""
+msgstr "Zastavit převod"
 
 #: Curlew/curlew.py:186
 msgid "About"
-msgstr ""
+msgstr "O programu"
 
 #: Curlew/curlew.py:187 Curlew/about.py:13
 msgid "About Curlew"
-msgstr ""
+msgstr "O programu Curlew"
 
 #: Curlew/curlew.py:194
 msgid "Quit"
-msgstr ""
+msgstr "Ukončit"
 
 #: Curlew/curlew.py:195 Curlew/tray.py:26
 msgid "Quit application"
-msgstr ""
+msgstr "Ukončit program"
 
 #: Curlew/curlew.py:235
 msgid "File"
-msgstr ""
+msgstr "Soubor"
 
 #: Curlew/curlew.py:242
 msgid "Size"
-msgstr ""
+msgstr "Velikost"
 
 #: Curlew/curlew.py:248
 msgid "Estimated size"
-msgstr ""
+msgstr "Odhadovaná velikost"
 
 #: Curlew/curlew.py:254
 msgid "Elapsed time"
-msgstr ""
+msgstr "Uplynulý čas"
 
 #: Curlew/curlew.py:260
 msgid "Remaining time"
-msgstr ""
+msgstr "Zbývající čas"
 
 #: Curlew/curlew.py:265
 msgid "Progress"
-msgstr ""
+msgstr "Postup"
 
 #: Curlew/curlew.py:282
 msgid "Browse destination"
-msgstr ""
+msgstr "Procházet cíl"
 
 #: Curlew/curlew.py:285
 msgid "Preview before converting"
-msgstr ""
+msgstr "Náhled před převodem"
 
 #: Curlew/curlew.py:301
 msgid "<b>Format:</b>"
-msgstr ""
+msgstr "<b>Formát</b>"
 
 #: Curlew/curlew.py:321
 msgid "Source Path"
-msgstr ""
+msgstr "Cesta ke zdroji"
 
 #: Curlew/curlew.py:324
 msgid "<b>Destination:</b>"
-msgstr ""
+msgstr "<b>Cíl</b>"
 
 #: Curlew/curlew.py:330
 msgid "<b>Advanced</b>"
-msgstr ""
+msgstr "<b>Pokročilé</b>"
 
 #: Curlew/curlew.py:340
 msgid "Audio"
-msgstr ""
+msgstr "Zvuk"
 
 #: Curlew/curlew.py:342
 msgid "Audio Bitrate"
-msgstr ""
+msgstr "Datový tok zvuku"
 
 #: Curlew/curlew.py:343
 msgid "Audio Frequency"
-msgstr ""
+msgstr "Kmitočet zvuku"
 
 #: Curlew/curlew.py:344
 msgid "Audio Channels"
-msgstr ""
+msgstr "Zvukové kanály"
 
 #: Curlew/curlew.py:345
 msgid "Audio Codec"
-msgstr ""
+msgstr "Zvukový kodek"
 
 #: Curlew/curlew.py:348
 msgid "Volume (%)"
-msgstr ""
+msgstr "Hlasitost (%)"
 
 #: Curlew/curlew.py:354
 msgid "Audio Quality"
-msgstr ""
+msgstr "Jakost zvuku"
 
 #: Curlew/curlew.py:360
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 #: Curlew/curlew.py:362
 msgid "Video Bitrate"
-msgstr ""
+msgstr "Datový tok obrazu"
 
 #: Curlew/curlew.py:363
 msgid "Video FPS"
-msgstr ""
+msgstr "Snímků za sekundu"
 
 #: Curlew/curlew.py:364
 msgid "Video Size"
-msgstr ""
+msgstr "Velikost obrazu"
 
 #: Curlew/curlew.py:365
 msgid "Video Codec"
-msgstr ""
+msgstr "Kodek  obrazu"
 
 #: Curlew/curlew.py:366
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "Poměr stran"
 
 #: Curlew/curlew.py:372
 msgid "2-Pass"
-msgstr ""
+msgstr "Dva průchody"
 
 #: Curlew/curlew.py:376
 msgid "Video only"
-msgstr ""
+msgstr "Pouze  obraz"
 
 #: Curlew/curlew.py:383
 msgid "Video Quality"
-msgstr ""
+msgstr "Jakost obrazu"
 
 #: Curlew/curlew.py:388
 msgid "Subtitle"
-msgstr ""
+msgstr "Titulky"
 
 #: Curlew/curlew.py:394
 msgid "Use Subtitle"
-msgstr ""
+msgstr "Použít titulky"
 
 #: Curlew/curlew.py:399
 msgid "Subtitle: "
-msgstr ""
+msgstr "Titulky: "
 
 #: Curlew/curlew.py:410
 msgid "Font: "
-msgstr ""
+msgstr "Písmo: "
 
 #: Curlew/curlew.py:419
 msgid "Position: "
-msgstr ""
+msgstr "Poloha: "
 
 #: Curlew/curlew.py:425
 msgid "Size: "
-msgstr ""
+msgstr "Velikost: "
 
 #: Curlew/curlew.py:441
 msgid "Encoding: "
-msgstr ""
+msgstr "Kódování: "
 
 #: Curlew/curlew.py:452
 msgid "Delay: "
-msgstr ""
+msgstr "Zpoždění: "
 
 #: Curlew/curlew.py:459
 msgid "Harddup"
@@ -268,35 +267,35 @@ msgstr ""
 
 #: Curlew/curlew.py:463
 msgid "Use SSA/ASS subtitle"
-msgstr ""
+msgstr "Použít titulky SSA/ASS"
 
 #: Curlew/curlew.py:470
 msgid "Crop / Pad"
-msgstr ""
+msgstr "Oříznout/Vycpat"
 
 #: Curlew/curlew.py:473
 msgid "Crop"
-msgstr ""
+msgstr "Oříznout"
 
 #: Curlew/curlew.py:477
 msgid "Pad"
-msgstr ""
+msgstr "Vycpat"
 
 #: Curlew/curlew.py:483
 msgid "More"
-msgstr ""
+msgstr "Více"
 
 #: Curlew/curlew.py:486
 msgid "Split File"
-msgstr ""
+msgstr "Rozdělit soubor"
 
 #: Curlew/curlew.py:496
 msgid "Begin time: "
-msgstr ""
+msgstr "Čas začátku: "
 
 #: Curlew/curlew.py:499
 msgid "Duration: "
-msgstr ""
+msgstr "Doba trvání: "
 
 #: Curlew/curlew.py:500
 msgid "To the end"
@@ -312,47 +311,47 @@ msgstr ""
 
 #: Curlew/curlew.py:512
 msgid "Others opts:"
-msgstr ""
+msgstr "Další volby:"
 
 #: Curlew/curlew.py:517
 msgid "Threads:"
-msgstr ""
+msgstr "Vlákna:"
 
 #: Curlew/curlew.py:522
 msgid "Source Quality"
-msgstr ""
+msgstr "Jakost zdroje"
 
 #: Curlew/curlew.py:523
 msgid "Use the same quality as source file"
-msgstr ""
+msgstr "Použít stejnou jakost, jakou má zdrojový soubor"
 
 #: Curlew/curlew.py:529
 msgid "Converter:"
-msgstr ""
+msgstr "Převodník:"
 
 #: Curlew/curlew.py:544
 msgid "Configs"
-msgstr ""
+msgstr "Nastavení"
 
 #: Curlew/curlew.py:547
 msgid "File exist:"
-msgstr ""
+msgstr "Soubor existuje:"
 
 #: Curlew/curlew.py:549
 msgid "Overwrite it"
-msgstr ""
+msgstr "Přepsat jej"
 
 #: Curlew/curlew.py:550
 msgid "Choose another name"
-msgstr ""
+msgstr "Vybrat jiný název"
 
 #: Curlew/curlew.py:551
 msgid "Skip conversion"
-msgstr ""
+msgstr "Přeskočit převod"
 
 #: Curlew/curlew.py:554
 msgid "Language:"
-msgstr ""
+msgstr "Jazyk:"
 
 #: Curlew/curlew.py:555
 msgid "Your language will appear after restart Curlew"
@@ -360,59 +359,59 @@ msgstr ""
 
 #: Curlew/curlew.py:567
 msgid "Icons:"
-msgstr ""
+msgstr "Ikony:"
 
 #: Curlew/curlew.py:573
 msgid "Show toolbar's buttons text"
-msgstr ""
+msgstr "Ukázat text tlačítek v nástrojovém pruhu"
 
 #: Curlew/curlew.py:578
 msgid "Show tray icon"
-msgstr ""
+msgstr "Ukazovat ikonu v oznamovací oblasti"
 
 #: Curlew/curlew.py:583
 msgid "Shutdown computer after finish"
-msgstr ""
+msgstr "Po dokončení vypnout počítač"
 
 #: Curlew/curlew.py:587
 msgid "Suspend computer after finish"
-msgstr ""
+msgstr "Po dokončení uspat počítač"
 
 #: Curlew/curlew.py:591
 msgid "Delete input file after conversion"
-msgstr ""
+msgstr "Po převodu smazat vstupní soubor"
 
 #: Curlew/curlew.py:669
 msgid "Do you want to quit Curlew and abort conversion process?"
-msgstr ""
+msgstr "Chcete Curlew ukončit a převod zrušit?"
 
 #: Curlew/curlew.py:686
 msgid "Add file"
-msgstr ""
+msgstr "Přidat soubor"
 
 #: Curlew/curlew.py:697
 msgid "All supported files"
-msgstr ""
+msgstr "Všechny podporované soubory"
 
 #: Curlew/curlew.py:704
 msgid "Video files"
-msgstr ""
+msgstr "Obrazové soubory"
 
 #: Curlew/curlew.py:710
 msgid "Audio files"
-msgstr ""
+msgstr "Zvukové soubory"
 
 #: Curlew/curlew.py:716 Curlew/curlew.py:1402
 msgid "All files"
-msgstr ""
+msgstr "Všechny soubory"
 
 #: Curlew/curlew.py:738 Curlew/curlew.py:1488 Curlew/curlew.py:1764
 msgid "Ready!"
-msgstr ""
+msgstr "Připraven!"
 
 #: Curlew/curlew.py:745
 msgid "Choose destination"
-msgstr ""
+msgstr "Vybrat cíl"
 
 #: Curlew/curlew.py:767
 msgid ""
@@ -420,56 +419,61 @@ msgid ""
 "<b>Extension:</b>\t{}\n"
 "<b>Encoder:</b>\t{}"
 msgstr ""
+"<b>Formát:</b>\t{}\n"
+"<b>Přípona:</b>\t{}\n"
+"<b>Kodér:</b>\t{}"
 
 #: Curlew/curlew.py:1169
 msgid "Destination path is not valid."
-msgstr ""
+msgstr "Cílová cesta není platná."
 
 #: Curlew/curlew.py:1175
 msgid "Destination path is not accessible."
-msgstr ""
+msgstr "Cílová cesta není přístupná."
 
 #: Curlew/curlew.py:1205 Curlew/curlew.py:1246 Curlew/curlew.py:1628
 msgid "Skipped!"
-msgstr ""
+msgstr "Přeskočeno!"
 
 #: Curlew/curlew.py:1215
 msgid "Not found!"
-msgstr ""
+msgstr "Nenalezeno!"
 
 #: Curlew/curlew.py:1318
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
 msgstr ""
+"Vyskytly se chyby.\n"
+"Chcete ukázat více podrobností?"
 
 #: Curlew/curlew.py:1331
 msgid "Do you want to stop conversion process?"
-msgstr ""
+msgstr "Chcete převod ukončit?"
 
 #: Curlew/curlew.py:1386
 msgid "Select subtitle"
-msgstr ""
+msgstr "Vybrat titulky"
 
 #: Curlew/curlew.py:1394
 msgid "Subtitle files"
-msgstr ""
+msgstr "Soubory s titulky"
 
 #: Curlew/curlew.py:1483 Curlew/curlew.py:1684 Curlew/curlew.py:1742
 msgid "Wait..."
-msgstr ""
+msgstr "Počkejte..."
 
 #: Curlew/curlew.py:1493
 msgid "Preview"
-msgstr ""
+msgstr "Náhled"
 
 #: Curlew/curlew.py:1567
 msgid "Done!"
-msgstr ""
+msgstr "Hotovo!"
 
 #: Curlew/curlew.py:1583
 msgid "Failed!"
-msgstr ""
+msgstr "Nepodařilo se!"
 
 #: Curlew/curlew.py:1925
 msgid ""
@@ -478,39 +482,46 @@ msgid ""
 "<b>Path:</b>\t{}\n"
 "<b>Size:</b>\t{}"
 msgstr ""
+"<b>Soubor:</b>\t{}\n"
+"<b>Přípona:</b>\t{}\n"
+"<b>Cesta:</b>\t{}\n"
+"<b>Velikost:</b>\t{}"
 
 #: Curlew/curlew.py:2006
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
 msgstr ""
+"<span foreground=\"red\" weight=\"bold\">Systém bude zastaven po {} sec.</"
+"span>"
 
 #: Curlew/curlew.py:2019
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
 msgstr ""
+"<span foreground=\"red\" weight=\"bold\">Systém bude uspán po {} sec.</span>"
 
 #: Curlew/curlew.py:2105
 msgid "Add to favorite"
-msgstr ""
+msgstr "Přidat do oblíbených"
 
 #: Curlew/curlew.py:2113
 msgid "Edit list"
-msgstr ""
+msgstr "Upravit seznam"
 
 #: Curlew/tray.py:18 Curlew/tray.py:48
 msgid "Hide"
-msgstr ""
+msgstr "Skrýt"
 
 #: Curlew/tray.py:50
 msgid "Show"
-msgstr ""
+msgstr "Ukázat"
 
 #: Curlew/about.py:15
 msgid "Easy to use Multimedia Converter for Linux"
-msgstr ""
+msgstr "Snadno použitelný převodník multimédií pro Linux"
 
 #: Curlew/about.py:28
 msgid "translator-credits"
-msgstr ""
+msgstr "www.fripohled.blogspot.com"

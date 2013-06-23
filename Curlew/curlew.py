@@ -118,6 +118,8 @@ class Curlew(Gtk.Window):
         self._start_time = None
         self.elapsed_time = '0.00.00'
         
+        self.last_format = None
+        
         #--- Regex
         self.reg_avconv_u = \
         re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
@@ -135,7 +137,7 @@ class Curlew(Gtk.Window):
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_title(_('Curlew'))
         self.set_border_width(6)
-        self.set_size_request(700, -1)
+        self.set_size_request(730, -1)
         self.set_icon_name('curlew')
         
         #--- Global vbox
@@ -217,7 +219,7 @@ class Curlew(Gtk.Window):
         self.tree.connect("query-tooltip", self.tooltip_toc)
         
         scroll = Gtk.ScrolledWindow()
-        scroll.set_size_request(-1, 200)
+        scroll.set_size_request(-1, 220)
         scroll.set_shadow_type(Gtk.ShadowType.IN)
         scroll.add(self.tree)
         vbox.pack_start(scroll, True, True, 0)
@@ -264,8 +266,8 @@ class Curlew(Gtk.Window):
                                  value=C_PRGR, text=C_STAT, pulse=C_PULS)
         col.set_min_width(130)
         self.tree.append_column(col)
-
-        #--- Popup menu
+        
+        #--- Popup menu (TreeView)
         self.popup = Gtk.Menu()
         remove_item = Gtk.ImageMenuItem().new_from_stock(Gtk.STOCK_REMOVE, None)
         remove_item.set_always_show_image(True)
@@ -492,8 +494,19 @@ class Curlew(Gtk.Window):
         self.frame.add(self.vb_group)
         
         self.tl_begin = TimeLayout(self.vb_group, _('Begin time: '))
-        self.tl_duration = TimeLayout(self.vb_group, _('Duration: '))
+        hb_dur = Gtk.HBox(spacing=10)
+        self.vb_group.pack_start(hb_dur, False, False, 0)
+        self.tl_duration = TimeLayout(hb_dur, _('Duration: '))
+        self.cb_end = Gtk.CheckButton(_('To the end'))
+        self.cb_end.connect('toggled', self.cb_end_cb)
+        hb_dur.pack_start(self.cb_end, False, False, 0)
         self.tl_duration.set_duration(5)
+        
+        # Copy Mode
+        self.cb_copy = Gtk.CheckButton(_('Use Copy Mode'))
+        self.cb_copy.set_tooltip_text(_("Keep the same codecs as the input file"))
+        self.cb_copy.connect('toggled', self.on_cb_copy_mode_toggled)
+        self.vb_group.add(self.cb_copy)
         
         # Other Parameters entry.
         hb_other = LabeledHBox(_('Others opts:'), self.vb_more, 12)
@@ -539,6 +552,7 @@ class Curlew(Gtk.Window):
         
         #--- Application language
         self.cmb_lang = LabeledComboEntry(self.vb_config, _('Language:'), 0)
+        self.cmb_lang.set_tooltip_markup(_("Your language will appear after restart Curlew"))
         self.cmb_lang.set_label_width(10)
         self.cmb_lang.set_id_column(0)
         # Fill
@@ -596,7 +610,6 @@ class Curlew(Gtk.Window):
         for section in sorted(self.f_file.sections()):
             self.cmb_formats.append_text(section)
         self.cmb_formats.set_active(0)
-        
         
         #--- Load saved options.
         self.load_options()
@@ -743,9 +756,9 @@ abort conversion process?'),
     def cb_split_cb(self, cb_split):
         self.vb_group.set_sensitive(cb_split.get_active())
         
-    def on_cmb_formats_changed(self, widget):
-        self.fill_options()
+    def on_cmb_formats_changed(self, w):
         self.set_sensitives()
+        self.fill_options()
     
     def on_cmb_formats_tooltip(self, widget, x, y, keyboard_mode, tooltip):
         #TODO: Enhance tooltip infos
@@ -778,6 +791,8 @@ abort conversion process?'),
             sens = [True, True, False, True, True, False, True]
         elif media_type == 'presets':
             sens = [False, False, False, False, False, False, False]
+        elif media_type == 'copy':
+            sens = [False, False, False, False, False, False, False]
 
         self.vb_audio.set_sensitive(sens[0])      # Audio page
         self.vb_video.set_sensitive(sens[1])      # Video page
@@ -788,7 +803,7 @@ abort conversion process?'),
         self.cb_same_qual.set_sensitive(sens[6])  # Same quality combo
         
         self.cb_same_qual.set_active(False)
-        self.cb_video_only.set_active(False)
+        #self.cb_copy.set_active(False)
     
     
     #--- fill options widgets
@@ -849,6 +864,10 @@ abort conversion process?'),
         media_type = self.f_file.get(section, 'type')
         
         cmd = [self.encoder, '-y'] #, '-xerror']
+        
+        if start_pos != '-1' and part_dura != '-1':
+            cmd.extend(['-ss', start_pos])
+        
         cmd.extend(["-i", input_file])
         
         # Threads
@@ -936,6 +955,11 @@ abort conversion process?'),
             # ogv format
             if media_type == 'ogv':
                 cmd.extend(['-qscale', str(self.v_scale.get_value())])
+                
+            # Copy mode format
+            if media_type == 'copy':
+                cmd.extend(['-acodec', 'copy'])
+                cmd.extend(['-vcodec', 'copy'])
             
             #--- Extra options (add other specific options if exist)
             if self.e_extra.get_text().strip() != '':
@@ -947,8 +971,8 @@ abort conversion process?'),
         
         # Split file by time
         if start_pos != '-1' and part_dura != '-1':
-            cmd.extend(['-ss', start_pos])
-            cmd.extend(['-t', part_dura])
+            if not self.cb_end.get_active():
+                cmd.extend(['-t', part_dura])
         
         # Volume (gain)
         if self.vol_scale.get_value() != 100:
@@ -962,7 +986,7 @@ abort conversion process?'),
         elif self.pass_nbr == 2:
             cmd.extend(['-pass', '2'])
             cmd.extend(['-passlogfile', PASS_LOG])
-            
+        
         #--- Last
         cmd.append(out_file)
         return cmd
@@ -982,7 +1006,8 @@ abort conversion process?'),
         # Split file (mencoder)
         if start_pos != -1 and part_dura != -1:
             cmd.extend(['-ss', start_pos])
-            cmd.extend(['-endpos', part_dura])
+            if not self.cb_end.get_active():
+                cmd.extend(['-endpos', part_dura])
         
         #--- Subtitle font
         if self.cb_sub.get_active():
@@ -1001,12 +1026,12 @@ abort conversion process?'),
                 cmd.extend(['-subfont-text-scale',
                             str(self.spin_size.get_value_as_int())])
                 cmd.extend(['-subpos', str(self.spin_pos.get_value_as_int())])
-                cmd.extend(['-subcp', self.cmb_enc.get_active_text()])
                 #--- Delay Sub
                 if self.sub_delay.get_value() != 0:
                     cmd.extend(['-subdelay', str(self.sub_delay.get_value_as_int())])
             
             # RTL language (Arabic)
+            cmd.extend(['-subcp', self.cmb_enc.get_active_text()])
             cmd.append('-flip-hebrew')
             cmd.append('-noflip-hebrew-commas')
         
@@ -1110,7 +1135,8 @@ abort conversion process?'),
         #--- Split file (encode part of file)
         if self.cb_split.get_active():
             cmd.extend(['-ss', self.tl_begin.get_time_str()])
-            cmd.extend(['-endpos', self.tl_duration.get_time_str()])
+            if not self.cb_end.get_active():
+                cmd.extend(['-endpos', self.tl_duration.get_time_str()])
         
         filters = []
         #--- Video size
@@ -1167,6 +1193,7 @@ abort conversion process?'),
         
 
     def convert_file(self):
+        f_type = self.f_file.get(self.cmb_formats.get_active_text(), 'type')
         ext = self.f_file.get(self.cmb_formats.get_active_text(), 'ext')
         encoder_type = self.f_file.get(self.cmb_formats.get_active_text(),
                                        'encoder')
@@ -1188,8 +1215,12 @@ abort conversion process?'),
                 self.store[self.Iter][C_STAT] = _("Not found!")
                 self.Iter = self.store.iter_next(self.Iter)
                 self.convert_file()
-                return
-                
+                return    
+            
+            #----------------------------
+            if f_type == 'copy':
+                ext = splitext(basename(input_file))[1][1:]
+
             part = splitext(basename(input_file))[0] + '.' + ext
             
             # Same destination as source file
@@ -1246,7 +1277,11 @@ abort conversion process?'),
             
             #---  To be converted duration
             if self.cb_split.get_active():
-                self.total_duration = self.tl_duration.get_duration()
+                # to the end.
+                if self.cb_end.get_active():
+                    self.total_duration = self.total_duration - self.tl_begin.get_duration()
+                else:
+                    self.total_duration = self.tl_duration.get_duration()
             
             # Stored start time
             self.begin_time = time.time()
@@ -1360,6 +1395,7 @@ abort conversion process?'),
         Filter.add_pattern("*.[Ss][Rr][Tt]*")
         Filter.add_pattern("*.[Ss][Uu][Bb]*")
         Filter.add_pattern("*.[Aa][Ss][Ss]*")
+        Filter.add_pattern("*.[Ss][Ss][Aa]*")
         dlg.add_filter(Filter)
         
         Filter = Gtk.FileFilter()
@@ -2091,7 +2127,18 @@ abort conversion process?'),
         fav_dlg.save(FAV_FILE)
         self.build_fav_menu()
         fav_dlg.destroy()
-
+    
+    #
+    def cb_end_cb(self, w):
+        self.tl_duration.set_sensitive(not w.get_active())
+    
+    # Copy mode callback 
+    def on_cb_copy_mode_toggled(self, w):
+        if w.get_active():
+            self.last_format = self.cmb_formats.get_active_text()
+            self.cmb_formats.set_active_id("Copy Mode")
+        else:
+            self.cmb_formats.set_active_id(self.last_format)
 
 
 

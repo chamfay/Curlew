@@ -1,3 +1,12 @@
+Version 0.1.19
+--------------
+
+* Added 'libvo_aacenc' audio codec.
+* Added 'Copy Mode' option (to split too faster without converting).
+* Added 'to the end' option.
+* Added Czech language (Pavel Fric <pavelfric@seznam.cz>).
+
+
 Version 0.1.18.4
 ----------------
 

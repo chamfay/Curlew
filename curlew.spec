@@ -1,7 +1,7 @@
 Name:           curlew
 Summary:        Easy to use and Free Multimedia converter for Linux
 URL:            https://github.com/chamfay/Curlew
-Version:        0.1.18
+Version:        0.1.19
 Release:        1%{?dist}
 Source0:        %{name}-%{version}.tar.bz2
 License:        Waqf
@@ -73,6 +73,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/icons/hicolor/*/apps/*.svg
 
 %changelog
+* Sun Jun 07 2013 Fayssal Chamekh <chamfay@gmail.com> - 0.1.19-1
+ - Added 'libvo_aacenc' audio codec.
+ - Added 'Copy Mode' option (to split too faster without converting).
+ - Added 'to the end' option.
+ - Added Czech language (Pavel Fric <pavelfric@seznam.cz>).
 * Thu Mar 07 2013 Fayssal Chamekh <chamfay@gmail.com> - 0.1.18.1-1
  - Updates.
 * Thu Mar 07 2013 Fayssal Chamekh <chamfay@gmail.com> - 0.1.18-1
