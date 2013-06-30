@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-23 06:58+0000\n"
-"PO-Revision-Date: 2013-06-20 14:30-0000\n"
+"POT-Creation-Date: 2013-06-30 08:01+0000\n"
+"PO-Revision-Date: 2013-06-29 22:39-0000\n"
 "Last-Translator: Fayssal <chamfay@gmail.com>\n"
 "Language-Team: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language: fr_FR\n"
@@ -60,7 +60,7 @@ msgstr "Format"
 
 #: Curlew/curlew.py:138 Curlew/tray.py:12 Curlew/about.py:9
 msgid "Curlew"
-msgstr "Courlis"
+msgstr "Curlew"
 
 #: Curlew/curlew.py:155
 msgid "Add"
@@ -108,7 +108,7 @@ msgstr "A propos de"
 
 #: Curlew/curlew.py:187 Curlew/about.py:13
 msgid "About Curlew"
-msgstr "A propos de Courlis"
+msgstr "A propos de Curlew"
 
 #: Curlew/curlew.py:194
 msgid "Quit"
@@ -300,7 +300,7 @@ msgstr "Durée"
 
 #: Curlew/curlew.py:500
 msgid "To the end"
-msgstr "Jusqu'a la fin"
+msgstr "Jusqu'à la fin"
 
 #: Curlew/curlew.py:506
 msgid "Use Copy Mode"
@@ -384,7 +384,7 @@ msgstr "Supprimer fichier d'entrée après la conversion"
 
 #: Curlew/curlew.py:669
 msgid "Do you want to quit Curlew and abort conversion process?"
-msgstr "Voulez-vous quiter Courlis et abondonner la conversion?"
+msgstr "Voulez-vous quiter Curlew et abondonner la conversion?"
 
 #: Curlew/curlew.py:686
 msgid "Add file"
@@ -402,11 +402,11 @@ msgstr "Fichiers vidéo"
 msgid "Audio files"
 msgstr "Fichiers audio"
 
-#: Curlew/curlew.py:716 Curlew/curlew.py:1402
+#: Curlew/curlew.py:716 Curlew/curlew.py:1405
 msgid "All files"
 msgstr "Tous"
 
-#: Curlew/curlew.py:738 Curlew/curlew.py:1488 Curlew/curlew.py:1764
+#: Curlew/curlew.py:738 Curlew/curlew.py:1491 Curlew/curlew.py:1767
 msgid "Ready!"
 msgstr "Prêt"
 
@@ -424,23 +424,23 @@ msgstr ""
 "<b>Extension:</b>\t{}\n"
 "<b>Encodeur:</b>\t{}"
 
-#: Curlew/curlew.py:1169
+#: Curlew/curlew.py:1172
 msgid "Destination path is not valid."
 msgstr "Le chemin de destination est invalide."
 
-#: Curlew/curlew.py:1175
+#: Curlew/curlew.py:1178
 msgid "Destination path is not accessible."
 msgstr "Le chemin de destination n'est pas accessible."
 
-#: Curlew/curlew.py:1205 Curlew/curlew.py:1246 Curlew/curlew.py:1628
+#: Curlew/curlew.py:1208 Curlew/curlew.py:1249 Curlew/curlew.py:1631
 msgid "Skipped!"
 msgstr "Sauté!"
 
-#: Curlew/curlew.py:1215
+#: Curlew/curlew.py:1218
 msgid "Not found!"
 msgstr "Pas trouvé!"
 
-#: Curlew/curlew.py:1318
+#: Curlew/curlew.py:1321
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
@@ -448,35 +448,35 @@ msgstr ""
 "Il y a des erreurs.\n"
 "Voulez-vous les afficher?"
 
-#: Curlew/curlew.py:1331
+#: Curlew/curlew.py:1334
 msgid "Do you want to stop conversion process?"
 msgstr "Voulez-vous arrêter l'opération de conversion?"
 
-#: Curlew/curlew.py:1386
+#: Curlew/curlew.py:1389
 msgid "Select subtitle"
 msgstr "Sélectionner un sous-titre"
 
-#: Curlew/curlew.py:1394
+#: Curlew/curlew.py:1397
 msgid "Subtitle files"
 msgstr "Fichers sous-titre"
 
-#: Curlew/curlew.py:1483 Curlew/curlew.py:1684 Curlew/curlew.py:1742
+#: Curlew/curlew.py:1486 Curlew/curlew.py:1687 Curlew/curlew.py:1745
 msgid "Wait..."
 msgstr "Attendre..."
 
-#: Curlew/curlew.py:1493
+#: Curlew/curlew.py:1496
 msgid "Preview"
 msgstr "Prévision"
 
-#: Curlew/curlew.py:1567
+#: Curlew/curlew.py:1570
 msgid "Done!"
 msgstr "Terminé!"
 
-#: Curlew/curlew.py:1583
+#: Curlew/curlew.py:1586
 msgid "Failed!"
 msgstr "Echoué!"
 
-#: Curlew/curlew.py:1925
+#: Curlew/curlew.py:1928
 msgid ""
 "<b>File:</b>\t{}\n"
 "<b>Extension:</b>\t{}\n"
@@ -488,7 +488,7 @@ msgstr ""
 "<b>Chemin:</b>\t{}\n"
 "<b>Taille:</b>\t{}"
 
-#: Curlew/curlew.py:2006
+#: Curlew/curlew.py:2009
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
@@ -496,7 +496,7 @@ msgstr ""
 "<span foreground=\"red\" weight=\"bold\">Le système s'arrête après {} sec.</"
 "span>"
 
-#: Curlew/curlew.py:2019
+#: Curlew/curlew.py:2022
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
@@ -504,11 +504,11 @@ msgstr ""
 "<span foreground=\"red\" weight=\"bold\">Le système va suspendu après {} sec."
 "</span>"
 
-#: Curlew/curlew.py:2105
+#: Curlew/curlew.py:2108
 msgid "Add to favorite"
 msgstr "Ajouter aux favoris"
 
-#: Curlew/curlew.py:2113
+#: Curlew/curlew.py:2116
 msgid "Edit list"
 msgstr "Editer la liste"
 

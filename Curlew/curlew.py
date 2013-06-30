@@ -947,6 +947,9 @@ abort conversion process?'),
                 # Audio codec
                 if self.c_acodec.not_default():
                     cmd.extend(['-acodec', self.c_acodec.get_text()])
+                    #
+                    if self.c_acodec.get_text() == 'aac':
+                        cmd.extend(['-strict', 'experimental'])
 
             # Ogg format
             if media_type in ['ogg', 'ogv']:
