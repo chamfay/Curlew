@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-06-30 08:01+0000\n"
+"POT-Creation-Date: 2013-07-25 07:05+0000\n"
 "PO-Revision-Date: 2013-03-07 14:21-0000\n"
 "Last-Translator: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: English <chamfay@gmail.com>\n"
@@ -311,7 +311,7 @@ msgid "Keep the same codecs as the input file"
 msgstr ""
 
 #: Curlew/curlew.py:512
-msgid "Others opts:"
+msgid "Other opts:"
 msgstr ""
 
 #: Curlew/curlew.py:517
@@ -382,96 +382,96 @@ msgstr ""
 msgid "Delete input file after conversion"
 msgstr ""
 
-#: Curlew/curlew.py:669
+#: Curlew/curlew.py:667
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr ""
 
-#: Curlew/curlew.py:686
+#: Curlew/curlew.py:684
 msgid "Add file"
 msgstr ""
 
-#: Curlew/curlew.py:697
+#: Curlew/curlew.py:695
 msgid "All supported files"
 msgstr ""
 
-#: Curlew/curlew.py:704
+#: Curlew/curlew.py:702
 msgid "Video files"
 msgstr ""
 
-#: Curlew/curlew.py:710
+#: Curlew/curlew.py:708
 msgid "Audio files"
 msgstr ""
 
-#: Curlew/curlew.py:716 Curlew/curlew.py:1405
+#: Curlew/curlew.py:714 Curlew/curlew.py:1403
 msgid "All files"
 msgstr ""
 
-#: Curlew/curlew.py:738 Curlew/curlew.py:1491 Curlew/curlew.py:1767
+#: Curlew/curlew.py:736 Curlew/curlew.py:1489 Curlew/curlew.py:1765
 msgid "Ready!"
 msgstr ""
 
-#: Curlew/curlew.py:745
+#: Curlew/curlew.py:743
 msgid "Choose destination"
 msgstr ""
 
-#: Curlew/curlew.py:767
+#: Curlew/curlew.py:765
 msgid ""
 "<b>Format:</b>\t{}\n"
 "<b>Extension:</b>\t{}\n"
 "<b>Encoder:</b>\t{}"
 msgstr ""
 
-#: Curlew/curlew.py:1172
+#: Curlew/curlew.py:1170
 msgid "Destination path is not valid."
 msgstr ""
 
-#: Curlew/curlew.py:1178
+#: Curlew/curlew.py:1176
 msgid "Destination path is not accessible."
 msgstr ""
 
-#: Curlew/curlew.py:1208 Curlew/curlew.py:1249 Curlew/curlew.py:1631
+#: Curlew/curlew.py:1206 Curlew/curlew.py:1247 Curlew/curlew.py:1629
 msgid "Skipped!"
 msgstr ""
 
-#: Curlew/curlew.py:1218
+#: Curlew/curlew.py:1216
 msgid "Not found!"
 msgstr ""
 
-#: Curlew/curlew.py:1321
+#: Curlew/curlew.py:1319
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
 msgstr ""
 
-#: Curlew/curlew.py:1334
+#: Curlew/curlew.py:1332
 msgid "Do you want to stop conversion process?"
 msgstr ""
 
-#: Curlew/curlew.py:1389
+#: Curlew/curlew.py:1387
 msgid "Select subtitle"
 msgstr ""
 
-#: Curlew/curlew.py:1397
+#: Curlew/curlew.py:1395
 msgid "Subtitle files"
 msgstr ""
 
-#: Curlew/curlew.py:1486 Curlew/curlew.py:1687 Curlew/curlew.py:1745
+#: Curlew/curlew.py:1484 Curlew/curlew.py:1685 Curlew/curlew.py:1743
 msgid "Wait..."
 msgstr ""
 
-#: Curlew/curlew.py:1496
+#: Curlew/curlew.py:1494
 msgid "Preview"
 msgstr ""
 
-#: Curlew/curlew.py:1570
+#: Curlew/curlew.py:1568
 msgid "Done!"
 msgstr ""
 
-#: Curlew/curlew.py:1586
+#: Curlew/curlew.py:1584
 msgid "Failed!"
 msgstr ""
 
-#: Curlew/curlew.py:1928
+#: Curlew/curlew.py:1926
 msgid ""
 "<b>File:</b>\t{}\n"
 "<b>Extension:</b>\t{}\n"
@@ -479,23 +479,23 @@ msgid ""
 "<b>Size:</b>\t{}"
 msgstr ""
 
-#: Curlew/curlew.py:2009
+#: Curlew/curlew.py:2007
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
 msgstr ""
 
-#: Curlew/curlew.py:2022
+#: Curlew/curlew.py:2020
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
 msgstr ""
 
-#: Curlew/curlew.py:2108
+#: Curlew/curlew.py:2106
 msgid "Add to favorite"
 msgstr ""
 
-#: Curlew/curlew.py:2116
+#: Curlew/curlew.py:2114
 msgid "Edit list"
 msgstr ""
 

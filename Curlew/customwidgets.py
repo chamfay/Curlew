@@ -194,7 +194,7 @@ class LabeledComboEntry(Gtk.ComboBoxText):
     def set_list(self, list_of_elements):
         ''' Fill combobox with list directly [] '''
         self.remove_all()
-        map(self.append_text, list_of_elements)
+        for i in list_of_elements: self.append_text(i)
         self.set_active(0)
     
     def get_text(self):

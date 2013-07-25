@@ -264,7 +264,7 @@ class Curlew(Gtk.Window):
         cell = Gtk.CellRendererProgress()
         col = Gtk.TreeViewColumn(_("Progress"), cell, 
                                  value=C_PRGR, text=C_STAT, pulse=C_PULS)
-        col.set_min_width(130)
+        col.set_min_width(100)
         self.tree.append_column(col)
         
         #--- Popup menu (TreeView)
@@ -509,7 +509,7 @@ class Curlew(Gtk.Window):
         self.vb_group.add(self.cb_copy)
         
         # Other Parameters entry.
-        hb_other = LabeledHBox(_('Others opts:'), self.vb_more, 12)
+        hb_other = LabeledHBox(_('Other opts:'), self.vb_more, 12)
         self.e_extra = Gtk.Entry()
         hb_other.pack_start(self.e_extra, True, True, 0)
         
@@ -557,7 +557,7 @@ class Curlew(Gtk.Window):
         self.cmb_lang.set_id_column(0)
         # Fill
         self.cmb_lang.set_list(LANGUAGES.keys())
-        self.cmb_lang.prepend_text('< Auto >')
+        self.cmb_lang.prepend_text('< System >')
         self.cmb_lang.set_active(0)
         
         hb_icons = Gtk.HBox(spacing=20)
@@ -590,8 +590,6 @@ class Curlew(Gtk.Window):
         # Remove source file
         self.cb_remove = Gtk.CheckButton(_('Delete input file after conversion'))
         self.vb_config.pack_start(self.cb_remove, False, False, 0)
-
-
 
         vbox.pack_start(Gtk.Separator(), False, False, 0)
         
@@ -1421,7 +1419,7 @@ abort conversion process?'),
                 if self.store[Iter][:] != self.store[self.Iter][:]:
                     self.store.remove(Iter)
         else:
-            map(self.store.remove, iters)
+            for i in iters: self.store.remove(i)
     
     def get_selected_iters(self):
         ''' Get a list contain selected iters '''
@@ -1985,7 +1983,7 @@ abort conversion process?'),
             return
         
         # System language
-        if lang_name == '< Auto >':
+        if lang_name == '< System >':
             return
         
         # RTL/LTR direction

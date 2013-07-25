@@ -32,6 +32,12 @@ Dependencies:
 - libavcodec-extra-53 (Ubuntu/Debian)
 - xdg-utils
 
+Note:
+-----
+
+To install Curlew, you MUST have 'imagemagick' and 'intltool' installed in
+your machine.
+
 
 License:
 --------
