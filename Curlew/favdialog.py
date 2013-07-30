@@ -15,29 +15,29 @@ class Favorite(Gtk.Dialog):
         col = Gtk.TreeViewColumn(_("Format"), cell, text=0)
         self.list_view.append_column(col)
         
-        hbox = Gtk.HBox(spacing=6)
+        hbox = Gtk.Box(spacing=6, orientation=Gtk.Orientation.HORIZONTAL)
         
         scroll = Gtk.ScrolledWindow()
         scroll.set_shadow_type(Gtk.ShadowType.IN)
         scroll.add(self.list_view)
         
-        hbox.add(scroll)
+        hbox.pack_start(scroll, True, True, 0)
         
-        vbox_tool = Gtk.VBox()
+        vbox_tool = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         hbox.pack_start(vbox_tool, False, False, 0)
         
         btn_delete = Gtk.Button()
-        btn_delete.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_REMOVE, Gtk.IconSize.BUTTON))
+        btn_delete.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_REMOVE, Gtk.IconSize.MENU))
         btn_delete.connect('clicked', self.delete_item)
         vbox_tool.pack_end(btn_delete, False, False, 0)
         
         btn_up = Gtk.Button()
-        btn_up.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_GO_UP, Gtk.IconSize.BUTTON))
+        btn_up.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_GO_UP, Gtk.IconSize.MENU))
         btn_up.connect('clicked', self.go_up)
         vbox_tool.pack_start(btn_up, False, False, 0)
         
         btn_down = Gtk.Button()
-        btn_down.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_GO_DOWN, Gtk.IconSize.BUTTON))
+        btn_down.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_GO_DOWN, Gtk.IconSize.MENU))
         btn_down.connect('clicked', self.go_down)
         vbox_tool.pack_start(btn_down, False, False, 0)
         

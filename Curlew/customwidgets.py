@@ -15,7 +15,7 @@ class SpinsFrame(Gtk.Frame):
         self._right = 0
         self._sum = 0
         
-        hbox = Gtk.HBox(sensitive=False, spacing=2, border_width=4)
+        hbox = Gtk.Box(sensitive=False, spacing=2, border_width=4)
         self.add(hbox)
         
         self.check_btn = Gtk.CheckButton(title)
@@ -109,29 +109,48 @@ class CustomToolButton(Gtk.ToolButton):
 class CustomHScale(Gtk.HScale):
     def __init__(self, container, def_value, min_value, max_value, step=1):
         Gtk.HScale.__init__(self)
-        container.add(self)
+        container.pack_start(self, True, True, 0)
         adj = Gtk.Adjustment(def_value, min_value, max_value, step)
         self.set_adjustment(adj)
         self.set_value_pos(Gtk.PositionType.RIGHT)
         self.set_digits(0)
         
 
-class LabeledHBox(Gtk.HBox):
-    def __init__(self, label, container=None, width_chars=11):
+class LabeledHBox(Gtk.Box):
+    def __init__(self, label, container=None):
         ''' hbox with label'''
-        Gtk.HBox.__init__(self, spacing=4)
+        Gtk.Box.__init__(self, spacing=4)
         _label = Gtk.Label(label, use_markup=True)
         _label.set_alignment(0, 0.5)
-        _label.set_width_chars(width_chars)
         self.pack_start(_label, False, False, 0)
         if container != None:
             container.pack_start(self, False, False, 0)
 
 
-class TimeLayout(Gtk.HBox):
+class LabeledGrid(Gtk.Grid):
+    def __init__(self, container):
+        super(LabeledGrid, self).__init__()
+        self.set_column_spacing(4)
+        self.set_row_spacing(4)
+        self.set_row_homogeneous(False)
+        self._n_childs = 0
+        container.pack_start(self, False, False, 0)
+        
+    def append_row(self, label, widget, expanded=False):
+        _label = Gtk.Label(label, use_markup=True)
+        _label.set_alignment(0, 0.5)
+        _hbox = Gtk.Box()
+        _hbox.set_hexpand(True)
+        _hbox.pack_start(widget, expanded, expanded, 0)
+        self.attach(_label, 0, self._n_childs, 1, 1)
+        self.attach(_hbox, 1, self._n_childs, 1, 1)
+        self._n_childs += 1
+
+
+class TimeLayout(Gtk.Box):
     def __init__(self, container, label):
         '''    Time widget    '''
-        Gtk.HBox.__init__(self)
+        Gtk.Box.__init__(self)
         self._spin_h = Gtk.SpinButton().new_with_range(0, 5, 1)
         self._spin_m = Gtk.SpinButton().new_with_range(0, 59, 1)
         self._spin_s = Gtk.SpinButton().new_with_range(0, 59, 1)
@@ -176,20 +195,12 @@ class TimeLayout(Gtk.HBox):
                                                    self._spin_s.get_value())
 
 
-class LabeledComboEntry(Gtk.ComboBoxText):
+class CustomComboEntry(Gtk.ComboBoxText):
     ''' Create custom ComboBoxText with entry'''
-    def __init__(self, Container, label, with_entry=True):
+    def __init__(self, with_entry=True):
         Gtk.ComboBoxText.__init__(self, has_entry=with_entry)
         self.connect('changed', self._on_combo_changed)
-        hbox = Gtk.HBox()
-        hbox.set_spacing(4)
-        self._label = Gtk.Label(label, use_markup=True)
-        self._label.set_alignment(0, 0.5)
-        self._label.set_width_chars(15)
         self.set_entry_text_column(0)
-        hbox.pack_start(self._label, False, False, 0)
-        hbox.pack_start(self, False, False, 0)
-        Container.pack_start(hbox, False, False, 0)
     
     def set_list(self, list_of_elements):
         ''' Fill combobox with list directly [] '''
@@ -209,21 +220,7 @@ class LabeledComboEntry(Gtk.ComboBoxText):
         enabled = self.get_text() == 'default' and len(self.get_model()) < 2
         self.set_sensitive(not enabled)
     
-    def set_label_width(self, charwidth):
-        self._label.set_width_chars(charwidth)
-    
     def not_default(self):
         return self.get_active_text() != 'default'
 
 
-
-
-
-
-
-
-
-
-
-            
-            

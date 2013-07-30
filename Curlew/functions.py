@@ -22,13 +22,13 @@ def get_format_size(size):
     ''' formating file size '''
     size_str = ''
     if 0 <= size <= 1024:
-        size_str = '{:.2f} KB'.format(size)
+        size_str = '{:.2f}'.format(size) + _(' KB')
     elif 1024 <= size < 1024 * 1024:
         e_size = size / 1024.0
-        size_str = '{:.2f} MB'.format(e_size)
+        size_str = '{:.2f}'.format(e_size) + _(' MB')
     elif size >= 1024 * 1024:
         e_size = size / 1048576.0
-        size_str = '{:.2f} GB'.format(e_size)
+        size_str = '{:.2f}'.format(e_size) + _(' GB')
     return size_str
 
 

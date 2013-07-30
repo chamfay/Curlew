@@ -26,7 +26,7 @@ Dependencies:
 
 - python >= 2.7 << 3.0
 - python-gobject >= 3.0
-- gir1.2-gtk-3.0
+- gir1.2-gtk-3.0 >> 3.2
 - ffmpeg >= 0.8 (or libav-tools >= 0.8)
 - mencoder
 - libavcodec-extra-53 (Ubuntu/Debian)

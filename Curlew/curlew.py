@@ -7,7 +7,6 @@
 # Please see: http://www.ojuba.org/wiki/doku.php/waqf/license for more infos.
 #===============================================================================
 
-
 try:
     import sys
     import os
@@ -24,11 +23,11 @@ try:
     import dbus.glib, dbus.service
     import cPickle
     
-    from customwidgets import LabeledHBox, TimeLayout, LabeledComboEntry, \
-    CustomHScale, CustomToolButton, SpinsFrame
+    from customwidgets import LabeledHBox, TimeLayout, CustomHScale, \
+    CustomToolButton, SpinsFrame, LabeledGrid, CustomComboEntry
     from about import About
-    from functions import show_message, get_format_size, \
-    duration_to_time, time_to_duration
+    from functions import show_message, get_format_size, duration_to_time, \
+    time_to_duration
     from logdialog import LogDialog
     from tray import StatusIcon
     from languages import LANGUAGES
@@ -69,6 +68,7 @@ ERROR_LOG    = join(CONF_PATH, 'errors.log')
 PASS_LOG     = '/tmp/pass1log'
 PASS_1_FILE  = '/tmp/pass1file'
 PREVIEW_FILE = '/tmp/preview'
+IMG_PREV     = '/tmp/img_prev.jpeg'
 FAV_FILE     = join(CONF_PATH, 'fav.list')
 
 
@@ -141,7 +141,7 @@ class Curlew(Gtk.Window):
         self.set_icon_name('curlew')
         
         #--- Global vbox
-        vbox = Gtk.VBox(spacing=6)
+        vbox = Gtk.Box(spacing=6, orientation=Gtk.Orientation.VERTICAL)
         self.add(vbox)
         
         #--- Toolbar
@@ -216,13 +216,49 @@ class Curlew(Gtk.Window):
         
         self.tree.connect("button-press-event", self.on_button_press)
         self.tree.connect("key-press-event", self.on_tree_key_press)
-        self.tree.connect("query-tooltip", self.tooltip_toc)
+        self.tree.connect("cursor-changed", self.on_tree_cursor_changed)
         
         scroll = Gtk.ScrolledWindow()
-        scroll.set_size_request(-1, 220)
+        scroll.set_size_request(500, 220)
         scroll.set_shadow_type(Gtk.ShadowType.IN)
         scroll.add(self.tree)
-        vbox.pack_start(scroll, True, True, 0)
+        
+        self.paned = Gtk.Paned()
+        vbox.pack_start(self.paned, True, True, 0)
+        
+        #--- Image preview
+        vbox_image = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
+        vbox_image.set_border_width(4)
+        
+        frame = Gtk.Frame()
+        frame.set_shadow_type(Gtk.ShadowType.IN)
+        frame.add(vbox_image)
+        
+        event_box = Gtk.EventBox()
+        event_box.add(frame)
+        event_box.connect('button-press-event', self.on_event_cb)
+        
+        self.image_prev  = Gtk.Image()
+        self.image_prev.set_padding(4, 4)
+        
+        # popup
+        self.popup_hide = Gtk.Menu()
+        self.hide_item = Gtk.CheckMenuItem().new_with_label(_('Show sidebar'))
+        self.hide_item.connect('toggled', self.on_hide_item_activate)
+        self.popup_hide.append(self.hide_item)
+        self.popup_hide.show_all()
+        
+        
+        self.label_infos = Gtk.Label()
+        
+        vbox_image.pack_start(self.image_prev, False, True, 0)
+        vbox_image.pack_start(self.label_infos, False, True, 6)
+        
+        self.paned.pack1(scroll, True, False)
+        self.paned.pack2(event_box, False, False)
+        
+        self._child = self.paned.get_child2()
+        
         
         #--- CheckButton cell
         cell = Gtk.CellRendererToggle()
@@ -289,7 +325,6 @@ class Curlew(Gtk.Window):
         self.popup.append(preview_item)
         self.popup.append(remove_item)
         self.popup.append(browse_item)
-        self.popup.show_all()
         
         #--- Output formats
         self.cmb_formats = Gtk.ComboBoxText()
@@ -298,17 +333,20 @@ class Curlew(Gtk.Window):
         self.cmb_formats.set_has_tooltip(True)
         self.cmb_formats.connect('changed', self.on_cmb_formats_changed)
         self.cmb_formats.connect('query-tooltip', self.on_cmb_formats_tooltip)
-        hl = LabeledHBox(_("<b>Format:</b>"), vbox)
-        hl.pack_start(self.cmb_formats, True, True, 0)
+        
+        hbox = Gtk.Box(spacing=6)
+        hl = LabeledGrid(vbox)
+        hl.append_row(_("<b>Format:</b>"), hbox, True)
         
         # Favorite button
         self.btn_fav = Gtk.Button()
         self.btn_fav.set_image(Gtk.Image
                                .new_from_icon_name("emblem-favorite", 
-                                                   Gtk.IconSize.BUTTON))
+                                                   Gtk.IconSize.MENU))
         self.btn_fav.connect('clicked', self.show_menu)
         self.btn_fav.set_tooltip_markup(_("Favorite list"))
-        hl.pack_start(self.btn_fav, False, False, 0)
+        hbox.pack_start(self.cmb_formats, True, True, 0)
+        hbox.pack_start(self.btn_fav, False, False, 0)
         
         # Buid Favorite menu
         self.build_fav_menu()        
@@ -320,11 +358,15 @@ class Curlew(Gtk.Window):
         self.b_dest.set_size_request(30, -1)
         self.cb_dest = Gtk.CheckButton(_('Source Path'))
         self.cb_dest.connect('toggled', self.on_cb_dest_toggled)
-        self.b_dest.connect('clicked', self.on_dest_clicked)     
-        hl = LabeledHBox(_('<b>Destination:</b>'), vbox)
-        hl.pack_start(self.e_dest, True, True, 0)
-        hl.pack_start(self.b_dest, False, True, 0)
-        hl.pack_start(self.cb_dest, False, True, 0)
+        self.b_dest.connect('clicked', self.on_dest_clicked)
+        
+        hbox = Gtk.Box(spacing=6)
+        hl.append_row(_('<b>Destination:</b>'), hbox, True)
+        
+        hbox.pack_start(self.e_dest, True, True, 0)
+        hbox.pack_start(self.b_dest, False, True, 0)
+        hbox.pack_start(self.cb_dest, False, True, 0)
+        
         
         #--- advanced options
         self.exp_advanced = Gtk.Expander(label=_("<b>Advanced</b>"))
@@ -336,36 +378,50 @@ class Curlew(Gtk.Window):
         self.exp_advanced.add(note)
         
         #--- audio page
-        self.vb_audio = Gtk.VBox(spacing=5, border_width=5)
+        self.vb_audio = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
         note.append_page(self.vb_audio, Gtk.Label(_("Audio")))
        
-        self.c_abitrate = LabeledComboEntry(self.vb_audio, _("Audio Bitrate"))
-        self.c_afreq = LabeledComboEntry(self.vb_audio, _("Audio Frequency"))
-        self.c_ach = LabeledComboEntry(self.vb_audio, _("Audio Channels"))
-        self.c_acodec = LabeledComboEntry(self.vb_audio, _("Audio Codec"))
+        self.c_abitrate = CustomComboEntry()
+        self.c_afreq = CustomComboEntry()
+        self.c_ach = CustomComboEntry()
+        self.c_acodec = CustomComboEntry()
+        
+        grid_audio = LabeledGrid(self.vb_audio)
+        grid_audio.append_row(_("Audio Bitrate"), self.c_abitrate)
+        grid_audio.append_row(_("Audio Frequency"), self.c_afreq)
+        grid_audio.append_row(_("Audio Channels"), self.c_ach)
+        grid_audio.append_row(_("Audio Codec"), self.c_acodec)
         
         # volume
-        self.hb_volume = LabeledHBox(_('Volume (%)'), self.vb_audio, 14)
+        self.hb_volume = LabeledHBox(_('Volume (%)'), self.vb_audio)
         self.vol_scale = CustomHScale(self.hb_volume, 100, 25, 400, 25)
         
         self.vb_audio.pack_start(Gtk.Separator(), False, False, 0)
         
         # Audio quality for ogg
-        self.hb_aqual = LabeledHBox(_('Audio Quality'), self.vb_audio, 14)
+        self.hb_aqual = LabeledHBox(_('Audio Quality'), self.vb_audio)
         self.a_scale = CustomHScale(self.hb_aqual, 3, 0, 10)
         
         
         #--- video page
-        self.vb_video = Gtk.VBox(spacing=5, border_width=5)
+        self.vb_video = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
         note.append_page(self.vb_video, Gtk.Label(_("Video")))
         
-        self.c_vbitrate = LabeledComboEntry(self.vb_video, _("Video Bitrate"))
-        self.c_vfps = LabeledComboEntry(self.vb_video, _("Video FPS"))
-        self.c_vsize = LabeledComboEntry(self.vb_video, _("Video Size"))
-        self.c_vcodec = LabeledComboEntry(self.vb_video, _("Video Codec"))
-        self.c_vratio = LabeledComboEntry(self.vb_video, _("Aspect Ratio"))
+
+        self.c_vbitrate = CustomComboEntry()
+        self.c_vfps = CustomComboEntry()
+        self.c_vsize = CustomComboEntry()
+        self.c_vcodec = CustomComboEntry()
+        self.c_vratio = CustomComboEntry()
         
-        hbox = Gtk.HBox(spacing=8)
+        grid_video = LabeledGrid(self.vb_video)
+        grid_video.append_row(_("Video Bitrate"), self.c_vbitrate)
+        grid_video.append_row(_("Video FPS"), self.c_vfps)
+        grid_video.append_row(_("Video Size"), self.c_vsize)
+        grid_video.append_row(_("Video Codec"), self.c_vcodec)
+        grid_video.append_row(_("Aspect Ratio"), self.c_vratio)
+        
+        hbox = Gtk.Box(spacing=8)
         self.vb_video.pack_start(hbox, False, False, 0)
         
         # 2-pass
@@ -380,14 +436,14 @@ class Curlew(Gtk.Window):
         self.vb_video.pack_start(Gtk.Separator(), False, False, 0)
         
         # Video quality for ogv
-        self.hb_vqual = LabeledHBox(_('Video Quality'), self.vb_video, 14)
+        self.hb_vqual = LabeledHBox(_('Video Quality'), self.vb_video)
         self.v_scale = CustomHScale(self.hb_vqual, 5, 0, 20)
         
         #--- Subtitle page
         self.frame_sub = Gtk.Frame(border_width=5)
         note.append_page(self.frame_sub, Gtk.Label(_("Subtitle")))
         
-        self.vb_sub = Gtk.VBox(spacing=5, border_width=5, sensitive=False)
+        self.vb_sub = Gtk.Box(spacing=5, border_width=5, sensitive=False, orientation=Gtk.Orientation.VERTICAL)
         self.frame_sub.add(self.vb_sub)
         
         #--- Sub Active/Desactive
@@ -395,8 +451,10 @@ class Curlew(Gtk.Window):
         self.frame_sub.set_label_widget(self.cb_sub)
         self.cb_sub.connect('toggled', self.cb_sub_toggled)
         
+        grid_sub = LabeledGrid(self.vb_sub)
+        
         #--- Subtitle filename
-        self.hb_sub = LabeledHBox(_('Subtitle: '), self.vb_sub, 9)
+        self.hb_sub = Gtk.Box(spacing=6)
         self.entry_sub = Gtk.Entry()
         self.hb_sub.pack_start(self.entry_sub, True, True, 0)
         
@@ -405,30 +463,35 @@ class Curlew(Gtk.Window):
         b_enc.set_size_request(30, -1)
         self.hb_sub.pack_start(b_enc, False, False, 0)
         b_enc.connect('clicked', self.b_enc_cb)
+        grid_sub.append_row(_('Subtitle: '), self.hb_sub, True)
         
         #--- Subtitle font
-        self.hb_font = LabeledHBox(_('Font: '), self.vb_sub, 9)
         self.b_font = Gtk.FontButton()
-        self.hb_font.pack_start(self.b_font, True, True, 0)
         self.b_font.set_show_size(False)
         self.b_font.set_show_style(False)
         
-        hbox = Gtk.HBox(spacing=30)
+        grid_sub.append_row(_('Font: '), self.b_font, True)
+        
+        hbox = Gtk.Box(spacing=30)
         
         #--- Subtitle position
-        self.hb_pos = LabeledHBox(_('Position: '), hbox, 9)
+        self.hb_pos = Gtk.Box(spacing=4)
+        
         adj = Gtk.Adjustment(100, 0, 100, 2)
         self.spin_pos = Gtk.SpinButton(adjustment=adj)
         self.hb_pos.pack_start(self.spin_pos, True, True, 0)
         
+        self.hb_pos.pack_start(Gtk.Label('      ' + _('Size: ')), True, True, 0)
+        
         #--- Subtitle size
-        self.hb_size = LabeledHBox(_('Size: '), hbox, 0)
         adj = Gtk.Adjustment(4, 0, 100, 1)
-        self.spin_size = Gtk.SpinButton()
-        self.spin_size.set_adjustment(adj)
-        self.hb_size.pack_start(self.spin_size, True, True, 0)
+        self.spin_size = Gtk.SpinButton(adjustment=adj)
+        self.hb_pos.pack_start(self.spin_size, True, True, 0)
+        
+        grid_sub.append_row(_('Position: '), self.hb_pos, False)
         
         self.vb_sub.pack_start(hbox, False, False, 0)
+        
         
         #--- Subtitle Encoding
         encs = ['cp1250', 'cp1252', 'cp1253', 'cp1254',
@@ -438,7 +501,6 @@ class Curlew(Gtk.Window):
                'iso-8859-9', 'iso-8859-10', 'iso-8859-11', 'iso-8859-12',
                'iso-8859-13', 'iso-8859-14', 'iso-8859-15',
                'utf-7', 'utf-8', 'utf-16', 'utf-32', 'ASCII']
-        self.hb_enc = LabeledHBox(_('Encoding: '), self.vb_sub, 9)
         self.cmb_enc = Gtk.ComboBoxText()
         self.cmb_enc.set_entry_text_column(0)
         self.cmb_enc.set_id_column(0)
@@ -446,27 +508,28 @@ class Curlew(Gtk.Window):
             self.cmb_enc.append_text(enc)
         self.cmb_enc.set_active(5)
         self.cmb_enc.set_wrap_width(4)
-        self.hb_enc.pack_start(self.cmb_enc, True, True, 0)
+        grid_sub.append_row(_('Encoding: '), self.cmb_enc, True)
         
         # Delay subtitle
-        self.hb_delay = LabeledHBox(_('Delay: '), self.vb_sub, 9)
+        self.hb_delay = Gtk.Box(spacing=6)
         self.sub_delay = Gtk.SpinButton()        
         self.sub_delay.set_adjustment(Gtk.Adjustment(0, -90000, 90000, 1))
         self.hb_delay.pack_start(self.sub_delay, False, True, 0)
         self.hb_delay.pack_start(Gtk.Label(_("sec")), False, False, 0)
+        grid_sub.append_row(_('Delay: '), self.hb_delay)
         
         # harddup option
         self.cb_hard = Gtk.CheckButton(_('Harddup'))
-        self.vb_sub.pack_start(self.cb_hard, True, True, 0)
+        self.vb_sub.pack_start(self.cb_hard, False, False, 0)
         
         # SSA/ASS
         self.cb_ass = Gtk.CheckButton(_('Use SSA/ASS subtitle'))
         self.cb_ass.connect('toggled', self.on_cb_ass_toggled)
-        self.vb_sub.pack_start(self.cb_ass, True, True, 0)
+        self.vb_sub.pack_start(self.cb_ass, False, False, 0)
         
         
         #--- Crop/Pad page
-        self.vb_crop = Gtk.VBox(spacing=5, border_width=5)
+        self.vb_crop = Gtk.Box(spacing=5, border_width=5, orientation=Gtk.Orientation.VERTICAL)
         note.append_page(self.vb_crop, Gtk.Label(_('Crop / Pad')))
         
         # Cropping video
@@ -479,7 +542,7 @@ class Curlew(Gtk.Window):
         
         
         #--- "More" page
-        self.vb_more = Gtk.VBox(spacing=5, border_width=5)
+        self.vb_more = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
         note.append_page(self.vb_more, Gtk.Label(_("More")))
         
         # Split file
@@ -489,12 +552,12 @@ class Curlew(Gtk.Window):
         self.frame = Gtk.Frame(label_widget = self.cb_split)
         self.vb_more.pack_start(self.frame, False, False, 0)
         
-        self.vb_group = Gtk.VBox(sensitive=False, spacing=4)
+        self.vb_group = Gtk.Box(sensitive=False, spacing=4, orientation=Gtk.Orientation.VERTICAL)
         self.vb_group.set_border_width(4)
         self.frame.add(self.vb_group)
         
         self.tl_begin = TimeLayout(self.vb_group, _('Begin time: '))
-        hb_dur = Gtk.HBox(spacing=10)
+        hb_dur = Gtk.Box(spacing=10)
         self.vb_group.pack_start(hb_dur, False, False, 0)
         self.tl_duration = TimeLayout(hb_dur, _('Duration: '))
         self.cb_end = Gtk.CheckButton(_('To the end'))
@@ -509,14 +572,14 @@ class Curlew(Gtk.Window):
         self.vb_group.add(self.cb_copy)
         
         # Other Parameters entry.
-        hb_other = LabeledHBox(_('Other opts:'), self.vb_more, 12)
+        grid_other = LabeledGrid(self.vb_more)
         self.e_extra = Gtk.Entry()
-        hb_other.pack_start(self.e_extra, True, True, 0)
+        
+        grid_other.append_row(_('Other opts:'), self.e_extra, True)
         
         # Threads
-        hb_threads = LabeledHBox(_('Threads:'), self.vb_more, 12)
         self.s_threads = Gtk.SpinButton().new_with_range(0, 10, 1)
-        hb_threads.pack_start(self.s_threads, False, False, 0)
+        grid_other.append_row(_('Threads:'), self.s_threads)
 
         #-- Use same quality as source file
         self.cb_same_qual = Gtk.CheckButton(_('Source Quality'))
@@ -526,10 +589,10 @@ class Curlew(Gtk.Window):
         self.vb_more.pack_start(self.cb_same_qual, False, False, 0)
         
         # Encoder type (ffmpeg / avconv)
-        self.cmb_encoder = LabeledComboEntry(self.vb_more, _('Converter:'), 0)
-        self.cmb_encoder.set_label_width(10)
+        self.cmb_encoder = CustomComboEntry(False)
         self.cmb_encoder.set_id_column(0)
         self.cmb_encoder.connect('changed', self.cmb_encoder_cb)
+        grid_other.append_row(_('Converter:'), self.cmb_encoder)
         
         # Load available encoder
         if call(['which', 'avconv'], stdout=PIPE) == 0:
@@ -540,39 +603,49 @@ class Curlew(Gtk.Window):
         
         
         #--- Configuration page
-        self.vb_config = Gtk.VBox(spacing=5, border_width=5)
+        self.vb_config = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
         note.append_page(self.vb_config, Gtk.Label(_('Configs')))
         
+        grid_config = LabeledGrid(self.vb_config)
+        
         # Replace/Skip/Rename
-        self.cmb_exist = LabeledComboEntry(self.vb_config, _('File exist:'), 0)
-        self.cmb_exist.set_label_width(10)
+        self.cmb_exist = CustomComboEntry(False)
         self.cmb_exist.set_list([_('Overwrite it'),
                                  _('Choose another name'),
                                  _('Skip conversion')])
+        grid_config.append_row(_('File exist:'), self.cmb_exist)
+        
         
         #--- Application language
-        self.cmb_lang = LabeledComboEntry(self.vb_config, _('Language:'), 0)
+        self.cmb_lang = CustomComboEntry(False)
         self.cmb_lang.set_tooltip_markup(_("Your language will appear after restart Curlew"))
-        self.cmb_lang.set_label_width(10)
         self.cmb_lang.set_id_column(0)
         # Fill
         self.cmb_lang.set_list(LANGUAGES.keys())
         self.cmb_lang.prepend_text('< System >')
         self.cmb_lang.set_active(0)
         
-        hb_icons = Gtk.HBox(spacing=20)
-        self.vb_config.pack_start(hb_icons, False, False, 0)
+        grid_config.append_row(_('Language:'), self.cmb_lang)
+        
+        hb_icons = Gtk.Box(spacing=4)
         
         #--- Icons theme
-        self.cmb_icons = LabeledComboEntry(hb_icons, _('Icons:'), 0)
+        self.cmb_icons = CustomComboEntry(False)
         self.cmb_icons.connect('changed', self.on_cmb_icons_changed)
-        self.cmb_icons.set_label_width(10)
         self.cmb_icons.set_id_column(0)
+        hb_icons.pack_start(self.cmb_icons, False, False, 0)
         
         #--- Show icons text
         self.cb_icon_text = Gtk.CheckButton(_('Show toolbar\'s buttons text'))
         self.cb_icon_text.connect('toggled', self.cb_icon_text_cb, toolbar)
         hb_icons.pack_start(self.cb_icon_text, False, False, 0)
+        
+        grid_config.append_row(_('Icons:'), hb_icons)
+        
+        # Show / Hide side bar
+        self.cb_sideb = Gtk.CheckButton(_('Show sidebar'))
+        self.cb_sideb.connect('toggled', self.on_cb_sideb_toggled)
+        self.vb_config.pack_start(self.cb_sideb, False, False, 0)
         
         # Use tray icon
         self.cb_tray = Gtk.CheckButton(_('Show tray icon'))
@@ -581,10 +654,12 @@ class Curlew(Gtk.Window):
         
         # Shutdown after conversion
         self.cb_halt = Gtk.CheckButton(_('Shutdown computer after finish'))
+        self.cb_halt.connect('toggled', self.on_cb_halt_toggled)
         self.vb_config.pack_start(self.cb_halt, False, False, 0)
         
         # Suspend after conversion
         self.cb_suspend = Gtk.CheckButton(_('Suspend computer after finish'))
+        self.cb_suspend.connect('toggled', self.on_cb_suspend_toggled)
         self.vb_config.pack_start(self.cb_suspend, False, False, 0)
         
         # Remove source file
@@ -615,6 +690,9 @@ class Curlew(Gtk.Window):
         
         #--- Show interface
         self.show_all()
+        
+        #-- Show/Hide sidebar
+        self._child.set_visible(self.cb_sideb.get_active())
         
         #--- Drag and Drop
         targets = Gtk.TargetList.new([])
@@ -687,7 +765,8 @@ abort conversion process?'),
                                          Gtk.ResponseType.OK,
                                          Gtk.STOCK_CANCEL,
                                          Gtk.ResponseType.CANCEL))
-        open_dlg.set_current_folder(self.curr_open_folder)
+        if self.curr_open_folder:
+            open_dlg.set_current_folder(self.curr_open_folder)
         open_dlg.set_select_multiple(True)
         
         #--- File filters
@@ -801,7 +880,6 @@ abort conversion process?'),
         self.cb_same_qual.set_sensitive(sens[6])  # Same quality combo
         
         self.cb_same_qual.set_active(False)
-        #self.cb_copy.set_active(False)
     
     
     #--- fill options widgets
@@ -1423,8 +1501,8 @@ abort conversion process?'),
     
     def get_selected_iters(self):
         ''' Get a list contain selected iters '''
-        model, tree_path = self.tree.get_selection().get_selected_rows()
         iters = []
+        model, tree_path = self.tree.get_selection().get_selected_rows()
         if not tree_path:
             return iters
         for path in tree_path:
@@ -1508,7 +1586,9 @@ abort conversion process?'),
     #--- Clear list    
     def tb_clear_cb(self, widget):
         if not self.is_converting:
+            self.tree.set_model(None)
             self.store.clear()
+            self.tree.set_model(self.store)
         
     def tb_about_cb(self, widget):
         a_dgl = About(self)
@@ -1530,23 +1610,25 @@ abort conversion process?'),
             
     # Mouse events
     def on_button_press(self, widget, event):
+        # There is no file
         if len(self.store) == 0:
             if event.button == 1 and event.get_click_count()[1] == 2:
                 self.tb_add_cb()
                 return
-        treepath = self.tree.get_selection().get_selected_rows()[1]
-        if len(treepath) == 0:
-            return
+        
+            treepath = self.tree.get_selection().get_selected_rows()[1]
+            if len(treepath) == 0:
+                return
         
         # Show popup menu with right click
         if event.button == 3:
             self.popup.show_all()
             self.popup.popup(None, None, None, None, 3,
                              Gtk.get_current_event_time())
-        # play with double click
+        # Play with double click
         elif event.button == 1 and event.get_click_count()[1] == 2:
-            self.on_play_cb()
-        
+            self.on_play_cb()        
+    
     
     #---- On end conversion
     def on_end(self, pid, err_code, (out_file, cmd)):
@@ -1726,7 +1808,7 @@ abort conversion process?'),
                     #--- Progress
                     prog_value = float(self.reg_menc.findall(line)[0][1])
                     
-                    self.store[self.Iter][C_ESIZE] = file_size + ' MB'
+                    self.store[self.Iter][C_ESIZE] = file_size + _(' MB')
                     self.store[self.Iter][C_ELAPT] = self.elapsed_time
                     self.store[self.Iter][C_REMN] = rem_time
                     self.store[self.Iter][C_PRGR] = prog_value
@@ -1834,6 +1916,7 @@ abort conversion process?'),
         conf.set('configs', 'font', self.b_font.get_font_name())
         conf.set('configs', 'encoding', self.cmb_enc.get_active_id())
         conf.set('configs', 'use_ass', self.cb_ass.get_active())
+        conf.set('configs', 'side_bar', self.cb_sideb.get_active())
         conf.set('configs', 'tray', self.cb_tray.get_active())
         conf.set('configs', 'icons', self.cmb_icons.get_active_id())
         conf.set('configs', 'language', self.cmb_lang.get_active_id())
@@ -1875,6 +1958,7 @@ abort conversion process?'),
             self.b_font.set_font(conf.get('configs', 'font'))
             self.cmb_enc.set_active_id(conf.get('configs', 'encoding'))
             self.cb_ass.set_active(conf.getboolean('configs', 'use_ass'))
+            self.cb_sideb.set_active(conf.getboolean('configs', 'side_bar'))
             self.cb_tray.set_active(conf.getboolean('configs', 'tray'))
             self.cmb_icons.set_active_id(conf.get('configs', 'icons'))
             self.cmb_lang.set_active_id(conf.get('configs', 'language'))
@@ -1907,33 +1991,6 @@ abort conversion process?'),
             f_log.write('\nError detail:\n*************\n')
             f_log.write(self.log.read())
             f_log.write('\n')
-            
-    
-    def tooltip_toc(self, tree, x, y, keyboard_tip, tooltip):
-        path = tree.get_tooltip_context(x, y, keyboard_tip)[4]
-        if path:
-            full_path = self.store[path][C_FILE]
-            
-            # Return if file not found
-            if not exists(full_path):
-                return
-            
-            file_name = self.store[path][C_NAME]
-            file_path = dirname(full_path)
-            file_size = self.store[path][C_FSIZE]
-            file_ext  = splitext(full_path)[1][1:]
-            
-            infos  = _('<b>File:</b>\t{}\n'
-                       '<b>Extension:</b>\t{}\n'
-                       '<b>Path:</b>\t{}\n'
-                       '<b>Size:</b>\t{}'
-                       ).format(file_name, file_ext, file_path, file_size)
-            
-            tooltip.set_markup(infos)
-            
-            tree.set_tooltip_row(tooltip, path)
-            return True
-        else: return False
     
     def on_cb_tray_toggled(self, cb_tray):
         self.trayico.set_visible(cb_tray.get_active())
@@ -2035,9 +2092,8 @@ abort conversion process?'),
     
     def on_cb_ass_toggled(self, cb_ass):
         active = not cb_ass.get_active()
-        self.hb_font.set_sensitive(active)
+        self.b_font.set_sensitive(active)
         self.hb_pos.set_sensitive(active)
-        self.hb_size.set_sensitive(active)
     
     # Calculate elapsed time
     def _on_elapsed_timer(self):
@@ -2105,7 +2161,7 @@ abort conversion process?'),
         # "Add" item
         add_item = Gtk.ImageMenuItem(_("Add to favorite"))
         add_item.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_ADD, 
-                                                    Gtk.IconSize.BUTTON))
+                                                    Gtk.IconSize.MENU))
         add_item.set_always_show_image(True)
         add_item.connect('activate', self.to_fav_cb)
         menu.append(add_item)
@@ -2113,7 +2169,7 @@ abort conversion process?'),
         # Edit item
         edt_item = Gtk.ImageMenuItem(_("Edit list"))
         edt_item.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_EDIT, 
-                                                    Gtk.IconSize.BUTTON))
+                                                    Gtk.IconSize.MENU))
         edt_item.set_always_show_image(True)
         edt_item.connect('activate', self.edit_favorite)
         menu.append(edt_item)
@@ -2140,7 +2196,68 @@ abort conversion process?'),
             self.cmb_formats.set_active_id("Copy Mode")
         else:
             self.cmb_formats.set_active_id(self.last_format)
+    
+    
+    #
+    def on_cb_halt_toggled(self, w):
+        self.cb_suspend.set_sensitive(not w.get_active())
 
+    #
+    def on_cb_suspend_toggled(self, w):
+        self.cb_halt.set_sensitive(not w.get_active())
+       
+    #
+    def on_tree_cursor_changed(self, w):
+        if not self.cb_sideb.get_active():
+            return
+        
+        while Gtk.events_pending():
+            Gtk.main_iteration()
+        
+        if len(self.store) == 0:
+            return
+        
+        try : Iter = self.get_selected_iters()[0]
+        except: return
+        
+        input_file = self.store[Iter][C_FILE]
+        
+        # Show file informations
+        self.label_infos.set_markup(_('<b>Duration:</b> {}\n'
+                                    '<b>Size:</b> {}\n'
+                                    '<b>Extension:</b> {}\n')
+                                    .format(self.get_time(input_file),
+                                            self.store[Iter][C_FSIZE],
+                                            splitext(input_file)[1],
+                                            ))
+        
+        # Show image preview (screenshot)
+        self.force_delete_file(IMG_PREV)
+        img_pos = self.get_duration(input_file) / 10
+        call('{} -ss {} -i "{}" -f image2 -frames:v 1 -s sqcif {}'
+             .format(self.encoder, img_pos, input_file, IMG_PREV),
+             shell=True, stdout=PIPE, stderr=PIPE)
+        if exists(IMG_PREV):
+            self.image_prev.set_from_file(IMG_PREV)
+        else:
+            self.image_prev.clear()
+    
+    
+    def on_cb_sideb_toggled(self, w):
+        self._child.set_visible(self.cb_sideb.get_active())
+        self.hide_item.set_active(self.cb_sideb.get_active())
+    
+    
+    def on_event_cb(self, w, e):
+        if e.button == 3:
+            self.popup_hide.show_all()
+            self.popup_hide.popup(None, None, None, None, 3,
+                             Gtk.get_current_event_time())
+    
+    
+    def on_hide_item_activate(self, w):
+        self.cb_sideb.set_active(self.hide_item.get_active())
+        
 
 
 class DBusService(dbus.service.Object):
