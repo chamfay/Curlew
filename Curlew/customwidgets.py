@@ -15,7 +15,7 @@ class SpinsFrame(Gtk.Frame):
         self._right = 0
         self._sum = 0
         
-        hbox = Gtk.Box(sensitive=False, spacing=2, border_width=4)
+        hbox = Gtk.Box(sensitive=False, spacing=4, border_width=4)
         self.add(hbox)
         
         self.check_btn = Gtk.CheckButton(title)

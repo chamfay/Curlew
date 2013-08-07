@@ -774,19 +774,19 @@ abort conversion process?'),
         Filter.set_name(_("All supported files"))
         Filter.add_mime_type("video/*")
         Filter.add_mime_type("audio/*")
-        Filter.add_pattern("*.[Rr][AaMm]*")
+        Filter.add_pattern("*.[Rr][Mm]*")
         open_dlg.add_filter(Filter)
         
         Filter = Gtk.FileFilter()
         Filter.set_name(_("Video files"))
         Filter.add_mime_type("video/*")
-        Filter.add_pattern("*.[Rr][AaMm]*")
+        Filter.add_pattern("*.[Rr][Mm]*")
         open_dlg.add_filter(Filter)
         
         Filter = Gtk.FileFilter()
         Filter.set_name(_("Audio files"))
         Filter.add_mime_type("audio/*")
-        Filter.add_pattern("*.[Rr][AaMm]*")
+        Filter.add_pattern("*.[Rr][Mm]")
         open_dlg.add_filter(Filter)
         
         Filter = Gtk.FileFilter()
@@ -1571,8 +1571,7 @@ abort conversion process?'),
         fp = Popen('{} -autoexit -window_title {} "{}"'.format(self.player,
                                                          _('Preview'),
                                                          PREVIEW_FILE),
-             shell=True,
-             stdout=PIPE, stderr=PIPE)
+             shell=True)
         
         # Delete preview file after the end of playing
         while fp.poll() == None:
