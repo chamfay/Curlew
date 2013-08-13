@@ -259,7 +259,6 @@ class Curlew(Gtk.Window):
         
         self._child = self.paned.get_child2()
         
-        
         #--- CheckButton cell
         cell = Gtk.CellRendererToggle()
         cell.connect('toggled', self.on_toggled_cb)
