@@ -620,7 +620,7 @@ class Curlew(Gtk.Window):
         self.cmb_lang.set_tooltip_markup(_("Your language will appear after restart Curlew"))
         self.cmb_lang.set_id_column(0)
         # Fill
-        self.cmb_lang.set_list(LANGUAGES.keys())
+        self.cmb_lang.set_list(sorted(LANGUAGES.keys()))
         self.cmb_lang.prepend_text('< System >')
         self.cmb_lang.set_active(0)
         
