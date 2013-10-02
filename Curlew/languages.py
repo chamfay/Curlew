@@ -7,4 +7,5 @@ LANGUAGES = {
              'Euskara': 'eu',
              'Français': 'fr',
              'Nederlands': 'nl',
+             'Русский': 'ru',
              }
