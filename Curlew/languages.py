@@ -9,4 +9,5 @@ LANGUAGES = {
              'Français': 'fr',
              'Italiano': 'it',
              'Nederlands': 'nl',
+             'Русский': 'ru',
              }
