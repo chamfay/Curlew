@@ -10,4 +10,5 @@ LANGUAGES = {
              'Italiano': 'it',
              'Nederlands': 'nl',
              'Русский': 'ru',
+             'Traditional Chinese: 正體中文': 'zh_TW'
              }

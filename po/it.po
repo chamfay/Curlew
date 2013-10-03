@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-13 22:12+0000\n"
+"POT-Creation-Date: 2013-10-03 20:08+0100\n"
 "PO-Revision-Date: 2013-08-12 15:58+0100\n"
 "Last-Translator: bernardo miguel savone <bmsavone@gmail.com>\n"
 "Language-Team: Italian <bmsavone@gmail.com>\n"
@@ -19,37 +19,21 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Poedit 1.5.7\n"
 
-#: Curlew/customwidgets.py:33
-msgid "Top"
-msgstr "Sopra"
+#: Curlew/about.py:9 Curlew/curlew.py:138 Curlew/tray.py:12
+msgid "Curlew"
+msgstr "Curlew"
 
-#: Curlew/customwidgets.py:41
-msgid "Bottom"
-msgstr "Sotto"
+#: Curlew/about.py:13 Curlew/curlew.py:187
+msgid "About Curlew"
+msgstr "Info su Curlew"
 
-#: Curlew/customwidgets.py:49
-msgid "Left"
-msgstr "Sinistra"
+#: Curlew/about.py:15
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "Convertitore multimediale per Linux facile da usare"
 
-#: Curlew/customwidgets.py:57
-msgid "Right"
-msgstr "Destra"
-
-#: Curlew/customwidgets.py:165
-msgid "hr"
-msgstr "Ora"
-
-#: Curlew/customwidgets.py:170
-msgid "min"
-msgstr "min"
-
-#: Curlew/customwidgets.py:175 Curlew/curlew.py:517
-msgid "sec"
-msgstr "sec"
-
-#: Curlew/logdialog.py:11
-msgid "Errors detail"
-msgstr "Dettagli del errore"
+#: Curlew/about.py:28
+msgid "translator-credits"
+msgstr "bersil <bmsavone@gmail.com>"
 
 #: Curlew/favdialog.py:7 Curlew/curlew.py:346
 msgid "Favorite list"
@@ -58,10 +42,6 @@ msgstr "Lista dei preferiti"
 #: Curlew/favdialog.py:15
 msgid "Format"
 msgstr "Formato"
-
-#: Curlew/curlew.py:138 Curlew/tray.py:12 Curlew/about.py:9
-msgid "Curlew"
-msgstr "Curlew"
 
 #: Curlew/curlew.py:155
 msgid "Add"
@@ -106,10 +86,6 @@ msgstr "Ferma Conversione"
 #: Curlew/curlew.py:186
 msgid "About"
 msgstr "Info"
-
-#: Curlew/curlew.py:187 Curlew/about.py:13
-msgid "About Curlew"
-msgstr "Info su Curlew"
 
 #: Curlew/curlew.py:194
 msgid "Quit"
@@ -262,6 +238,10 @@ msgstr "Posizione: "
 #: Curlew/curlew.py:510
 msgid "Encoding: "
 msgstr "Codifica: "
+
+#: Curlew/curlew.py:517 Curlew/customwidgets.py:175
+msgid "sec"
+msgstr "sec"
 
 #: Curlew/curlew.py:518
 msgid "Delay: "
@@ -519,6 +499,30 @@ msgstr ""
 "<b>Dimensioni:</b> {}\n"
 "<b>Estensione:</b> {}\n"
 
+#: Curlew/customwidgets.py:33
+msgid "Top"
+msgstr "Sopra"
+
+#: Curlew/customwidgets.py:41
+msgid "Bottom"
+msgstr "Sotto"
+
+#: Curlew/customwidgets.py:49
+msgid "Left"
+msgstr "Sinistra"
+
+#: Curlew/customwidgets.py:57
+msgid "Right"
+msgstr "Destra"
+
+#: Curlew/customwidgets.py:165
+msgid "hr"
+msgstr "Ora"
+
+#: Curlew/customwidgets.py:170
+msgid "min"
+msgstr "min"
+
 #: Curlew/functions.py:25
 msgid " KB"
 msgstr " KB"
@@ -527,6 +531,10 @@ msgstr " KB"
 msgid " GB"
 msgstr " GB"
 
+#: Curlew/logdialog.py:11
+msgid "Errors detail"
+msgstr "Dettagli del errore"
+
 #: Curlew/tray.py:18 Curlew/tray.py:48
 msgid "Hide"
 msgstr "Nascondi"
@@ -534,11 +542,3 @@ msgstr "Nascondi"
 #: Curlew/tray.py:50
 msgid "Show"
 msgstr "Mostra"
-
-#: Curlew/about.py:15
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr "Convertitore multimediale per Linux facile da usare"
-
-#: Curlew/about.py:28
-msgid "translator-credits"
-msgstr "bersil <bmsavone@gmail.com>"

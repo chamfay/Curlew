@@ -7,48 +7,32 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-10 19:08+0000\n"
-"PO-Revision-Date: 2013-03-07 14:21-0000\n"
+"POT-Creation-Date: 2013-10-03 20:08+0100\n"
+"PO-Revision-Date: 2013-10-03 20:07-0000\n"
 "Last-Translator: VitalD (vitald@ro.ru)\n"
 "Language-Team: None\n"
-"Language: \n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Russian\n"
 "X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.4\n"
 
-#: Curlew/customwidgets.py:33
-msgid "Top"
-msgstr "Верх"
-
-#: Curlew/customwidgets.py:41
-msgid "Bottom"
-msgstr "Низ"
-
-#: Curlew/customwidgets.py:49
-msgid "Left"
-msgstr "Лево"
-
-#: Curlew/customwidgets.py:57
-msgid "Right"
-msgstr "Право"
-
-#: Curlew/customwidgets.py:165
-msgid "hr"
+#: Curlew/about.py:9 Curlew/curlew.py:138 Curlew/tray.py:12
+msgid "Curlew"
 msgstr ""
 
-#: Curlew/customwidgets.py:170
-msgid "min"
-msgstr "мин"
+#: Curlew/about.py:13 Curlew/curlew.py:187
+msgid "About Curlew"
+msgstr "О Churlew"
 
-#: Curlew/customwidgets.py:175 Curlew/curlew.py:517
-msgid "sec"
-msgstr "сек"
+#: Curlew/about.py:15
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "Легкий для использования Мультимедиа Конвертер для GNU/Linux"
 
-#: Curlew/logdialog.py:11
-msgid "Errors detail"
-msgstr "Подробности ошибки"
+#: Curlew/about.py:28
+msgid "translator-credits"
+msgstr "о переводчиках"
 
 #: Curlew/favdialog.py:7 Curlew/curlew.py:346
 msgid "Favorite list"
@@ -57,10 +41,6 @@ msgstr "Список избранного"
 #: Curlew/favdialog.py:15
 msgid "Format"
 msgstr "Формат"
-
-#: Curlew/curlew.py:138 Curlew/tray.py:12 Curlew/about.py:9
-msgid "Curlew"
-msgstr ""
 
 #: Curlew/curlew.py:155
 msgid "Add"
@@ -105,10 +85,6 @@ msgstr "Остановить конвертацию"
 #: Curlew/curlew.py:186
 msgid "About"
 msgstr "О программе"
-
-#: Curlew/curlew.py:187 Curlew/about.py:13
-msgid "About Curlew"
-msgstr "О Churlew"
 
 #: Curlew/curlew.py:194
 msgid "Quit"
@@ -164,7 +140,7 @@ msgstr "Исходная папка"
 
 #: Curlew/curlew.py:363
 msgid "<b>Destination:</b>"
-msgstr "Папка назначения"
+msgstr "<b>Папка назначения:</b>"
 
 #: Curlew/curlew.py:371
 msgid "<b>Advanced</b>"
@@ -262,6 +238,10 @@ msgstr "Позиция: "
 msgid "Encoding: "
 msgstr "Кодировка: "
 
+#: Curlew/curlew.py:517 Curlew/customwidgets.py:175
+msgid "sec"
+msgstr "сек"
+
 #: Curlew/curlew.py:518
 msgid "Delay: "
 msgstr "Задержка: "
@@ -279,8 +259,8 @@ msgid "Crop / Pad"
 msgstr "Обрезка / Растяжение"
 
 #: Curlew/curlew.py:535
-msgid "Обрезка"
-msgstr ""
+msgid "Crop"
+msgstr "Обрезка"
 
 #: Curlew/curlew.py:539
 msgid "Pad"
@@ -489,16 +469,16 @@ msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
 msgstr ""
-"<span foreground=\"red\" weight=\"bold\">Компьютер будет отключен через {} сек.</"
-"span>"
+"<span foreground=\"red\" weight=\"bold\">Компьютер будет отключен через {} "
+"сек.</span>"
 
 #: Curlew/curlew.py:2075
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
 msgstr ""
-"<span foreground=\"red\" weight=\"bold\">Компьютер будет переведен в спящий режим через {} сек.</"
-"span>"
+"<span foreground=\"red\" weight=\"bold\">Компьютер будет переведен в спящий "
+"режим через {} сек.</span>"
 
 #: Curlew/curlew.py:2160
 msgid "Add to favorite"
@@ -518,6 +498,30 @@ msgstr ""
 "<b>Размер:</b> {}\n"
 "<b>Расширение:</b> {}\n"
 
+#: Curlew/customwidgets.py:33
+msgid "Top"
+msgstr "Верх"
+
+#: Curlew/customwidgets.py:41
+msgid "Bottom"
+msgstr "Низ"
+
+#: Curlew/customwidgets.py:49
+msgid "Left"
+msgstr "Лево"
+
+#: Curlew/customwidgets.py:57
+msgid "Right"
+msgstr "Право"
+
+#: Curlew/customwidgets.py:165
+msgid "hr"
+msgstr ""
+
+#: Curlew/customwidgets.py:170
+msgid "min"
+msgstr "мин"
+
 #: Curlew/functions.py:25
 msgid " KB"
 msgstr " КБ"
@@ -525,6 +529,10 @@ msgstr " КБ"
 #: Curlew/functions.py:31
 msgid " GB"
 msgstr " ГБ"
+
+#: Curlew/logdialog.py:11
+msgid "Errors detail"
+msgstr "Подробности ошибки"
 
 #: Curlew/tray.py:18 Curlew/tray.py:48
 msgid "Hide"
@@ -534,10 +542,5 @@ msgstr "Скрыть"
 msgid "Show"
 msgstr "Показать"
 
-#: Curlew/about.py:15
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr "Легкий для использования Мультимедиа Конвертер для GNU/Linux"
-
-#: Curlew/about.py:28
-msgid "translator-credits"
-msgstr "о переводчиках"
+#~ msgid "Обрезка"
+#~ msgstr "Crop"

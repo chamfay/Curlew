@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-13 22:12+0000\n"
+"POT-Creation-Date: 2013-10-03 20:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,36 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Curlew/customwidgets.py:33
-msgid "Top"
+#: Curlew/about.py:9 Curlew/curlew.py:138 Curlew/tray.py:12
+msgid "Curlew"
 msgstr ""
 
-#: Curlew/customwidgets.py:41
-msgid "Bottom"
+#: Curlew/about.py:13 Curlew/curlew.py:187
+msgid "About Curlew"
 msgstr ""
 
-#: Curlew/customwidgets.py:49
-msgid "Left"
+#: Curlew/about.py:15
+msgid "Easy to use Multimedia Converter for Linux"
 msgstr ""
 
-#: Curlew/customwidgets.py:57
-msgid "Right"
-msgstr ""
-
-#: Curlew/customwidgets.py:165
-msgid "hr"
-msgstr ""
-
-#: Curlew/customwidgets.py:170
-msgid "min"
-msgstr ""
-
-#: Curlew/customwidgets.py:175 Curlew/curlew.py:517
-msgid "sec"
-msgstr ""
-
-#: Curlew/logdialog.py:11
-msgid "Errors detail"
+#: Curlew/about.py:28
+msgid "translator-credits"
 msgstr ""
 
 #: Curlew/favdialog.py:7 Curlew/curlew.py:346
@@ -55,10 +39,6 @@ msgstr ""
 
 #: Curlew/favdialog.py:15
 msgid "Format"
-msgstr ""
-
-#: Curlew/curlew.py:138 Curlew/tray.py:12 Curlew/about.py:9
-msgid "Curlew"
 msgstr ""
 
 #: Curlew/curlew.py:155
@@ -103,10 +83,6 @@ msgstr ""
 
 #: Curlew/curlew.py:186
 msgid "About"
-msgstr ""
-
-#: Curlew/curlew.py:187 Curlew/about.py:13
-msgid "About Curlew"
 msgstr ""
 
 #: Curlew/curlew.py:194
@@ -259,6 +235,10 @@ msgstr ""
 
 #: Curlew/curlew.py:510
 msgid "Encoding: "
+msgstr ""
+
+#: Curlew/curlew.py:517 Curlew/customwidgets.py:175
+msgid "sec"
 msgstr ""
 
 #: Curlew/curlew.py:518
@@ -505,6 +485,30 @@ msgid ""
 "<b>Extension:</b> {}\n"
 msgstr ""
 
+#: Curlew/customwidgets.py:33
+msgid "Top"
+msgstr ""
+
+#: Curlew/customwidgets.py:41
+msgid "Bottom"
+msgstr ""
+
+#: Curlew/customwidgets.py:49
+msgid "Left"
+msgstr ""
+
+#: Curlew/customwidgets.py:57
+msgid "Right"
+msgstr ""
+
+#: Curlew/customwidgets.py:165
+msgid "hr"
+msgstr ""
+
+#: Curlew/customwidgets.py:170
+msgid "min"
+msgstr ""
+
 #: Curlew/functions.py:25
 msgid " KB"
 msgstr ""
@@ -513,18 +517,14 @@ msgstr ""
 msgid " GB"
 msgstr ""
 
+#: Curlew/logdialog.py:11
+msgid "Errors detail"
+msgstr ""
+
 #: Curlew/tray.py:18 Curlew/tray.py:48
 msgid "Hide"
 msgstr ""
 
 #: Curlew/tray.py:50
 msgid "Show"
-msgstr ""
-
-#: Curlew/about.py:15
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr ""
-
-#: Curlew/about.py:28
-msgid "translator-credits"
 msgstr ""

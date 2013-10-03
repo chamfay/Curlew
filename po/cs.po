@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-13 22:12+0000\n"
+"POT-Creation-Date: 2013-10-03 20:08+0100\n"
 "PO-Revision-Date: 2013-08-08 09:13+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -17,37 +17,21 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Lokalize 1.5\n"
 
-#: Curlew/customwidgets.py:33
-msgid "Top"
-msgstr "Nahoře"
+#: Curlew/about.py:9 Curlew/curlew.py:138 Curlew/tray.py:12
+msgid "Curlew"
+msgstr "Curlew"
 
-#: Curlew/customwidgets.py:41
-msgid "Bottom"
-msgstr "Dole"
+#: Curlew/about.py:13 Curlew/curlew.py:187
+msgid "About Curlew"
+msgstr "O programu Curlew"
 
-#: Curlew/customwidgets.py:49
-msgid "Left"
-msgstr "Vlevo"
+#: Curlew/about.py:15
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "Snadno použitelný převodník multimédií pro Linux"
 
-#: Curlew/customwidgets.py:57
-msgid "Right"
-msgstr "Vpravo"
-
-#: Curlew/customwidgets.py:165
-msgid "hr"
-msgstr "hod"
-
-#: Curlew/customwidgets.py:170
-msgid "min"
-msgstr "min"
-
-#: Curlew/customwidgets.py:175 Curlew/curlew.py:517
-msgid "sec"
-msgstr "s"
-
-#: Curlew/logdialog.py:11
-msgid "Errors detail"
-msgstr "Podrobnosti chyb"
+#: Curlew/about.py:28
+msgid "translator-credits"
+msgstr "www.fripohled.blogspot.com"
 
 #: Curlew/favdialog.py:7 Curlew/curlew.py:346
 msgid "Favorite list"
@@ -56,10 +40,6 @@ msgstr "Seznam oblíbených"
 #: Curlew/favdialog.py:15
 msgid "Format"
 msgstr "Formát"
-
-#: Curlew/curlew.py:138 Curlew/tray.py:12 Curlew/about.py:9
-msgid "Curlew"
-msgstr "Curlew"
 
 #: Curlew/curlew.py:155
 msgid "Add"
@@ -104,10 +84,6 @@ msgstr "Zastavit převod"
 #: Curlew/curlew.py:186
 msgid "About"
 msgstr "O programu"
-
-#: Curlew/curlew.py:187 Curlew/about.py:13
-msgid "About Curlew"
-msgstr "O programu Curlew"
 
 #: Curlew/curlew.py:194
 msgid "Quit"
@@ -260,6 +236,10 @@ msgstr "Poloha: "
 #: Curlew/curlew.py:510
 msgid "Encoding: "
 msgstr "Kódování: "
+
+#: Curlew/curlew.py:517 Curlew/customwidgets.py:175
+msgid "sec"
+msgstr "s"
 
 #: Curlew/curlew.py:518
 msgid "Delay: "
@@ -516,6 +496,30 @@ msgstr ""
 "<b>Velikost:</b>\t{}\n"
 "<b>Přípona:</b>\t{}"
 
+#: Curlew/customwidgets.py:33
+msgid "Top"
+msgstr "Nahoře"
+
+#: Curlew/customwidgets.py:41
+msgid "Bottom"
+msgstr "Dole"
+
+#: Curlew/customwidgets.py:49
+msgid "Left"
+msgstr "Vlevo"
+
+#: Curlew/customwidgets.py:57
+msgid "Right"
+msgstr "Vpravo"
+
+#: Curlew/customwidgets.py:165
+msgid "hr"
+msgstr "hod"
+
+#: Curlew/customwidgets.py:170
+msgid "min"
+msgstr "min"
+
 #: Curlew/functions.py:25
 msgid " KB"
 msgstr " KB"
@@ -524,6 +528,10 @@ msgstr " KB"
 msgid " GB"
 msgstr " GB"
 
+#: Curlew/logdialog.py:11
+msgid "Errors detail"
+msgstr "Podrobnosti chyb"
+
 #: Curlew/tray.py:18 Curlew/tray.py:48
 msgid "Hide"
 msgstr "Skrýt"
@@ -531,14 +539,6 @@ msgstr "Skrýt"
 #: Curlew/tray.py:50
 msgid "Show"
 msgstr "Ukázat"
-
-#: Curlew/about.py:15
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr "Snadno použitelný převodník multimédií pro Linux"
-
-#: Curlew/about.py:28
-msgid "translator-credits"
-msgstr "www.fripohled.blogspot.com"
 
 #~ msgid ""
 #~ "<b>File:</b>\t{}\n"
