@@ -1,0 +1,543 @@
+# Russian translation.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# VitalD <vitald@ro.ru>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-10 19:08+0000\n"
+"PO-Revision-Date: 2013-03-07 14:21-0000\n"
+"Last-Translator: VitalD (vitald@ro.ru)\n"
+"Language-Team: None\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Russian\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: Curlew/customwidgets.py:33
+msgid "Top"
+msgstr "Верх"
+
+#: Curlew/customwidgets.py:41
+msgid "Bottom"
+msgstr "Низ"
+
+#: Curlew/customwidgets.py:49
+msgid "Left"
+msgstr "Лево"
+
+#: Curlew/customwidgets.py:57
+msgid "Right"
+msgstr "Право"
+
+#: Curlew/customwidgets.py:165
+msgid "hr"
+msgstr ""
+
+#: Curlew/customwidgets.py:170
+msgid "min"
+msgstr "мин"
+
+#: Curlew/customwidgets.py:175 Curlew/curlew.py:517
+msgid "sec"
+msgstr "сек"
+
+#: Curlew/logdialog.py:11
+msgid "Errors detail"
+msgstr "Подробности ошибки"
+
+#: Curlew/favdialog.py:7 Curlew/curlew.py:346
+msgid "Favorite list"
+msgstr "Список избранного"
+
+#: Curlew/favdialog.py:15
+msgid "Format"
+msgstr "Формат"
+
+#: Curlew/curlew.py:138 Curlew/tray.py:12 Curlew/about.py:9
+msgid "Curlew"
+msgstr ""
+
+#: Curlew/curlew.py:155
+msgid "Add"
+msgstr "Добавить"
+
+#: Curlew/curlew.py:156
+msgid "Add files"
+msgstr "Добавить файлы"
+
+#: Curlew/curlew.py:160
+msgid "Remove"
+msgstr "Убрать"
+
+#: Curlew/curlew.py:161
+msgid "Remove files"
+msgstr "Убрать файлы"
+
+#: Curlew/curlew.py:165
+msgid "Clear"
+msgstr "Очистить"
+
+#: Curlew/curlew.py:166
+msgid "Clear files list"
+msgstr "Очистить список файлов"
+
+#: Curlew/curlew.py:173
+msgid "Convert"
+msgstr "Конвертировать"
+
+#: Curlew/curlew.py:174
+msgid "Start Conversion"
+msgstr "Запуск конвертации"
+
+#: Curlew/curlew.py:178
+msgid "Stop"
+msgstr "Стоп"
+
+#: Curlew/curlew.py:179 Curlew/tray.py:22
+msgid "Stop Conversion"
+msgstr "Остановить конвертацию"
+
+#: Curlew/curlew.py:186
+msgid "About"
+msgstr "О программе"
+
+#: Curlew/curlew.py:187 Curlew/about.py:13
+msgid "About Curlew"
+msgstr "О Churlew"
+
+#: Curlew/curlew.py:194
+msgid "Quit"
+msgstr "Выход"
+
+#: Curlew/curlew.py:195 Curlew/tray.py:26
+msgid "Quit application"
+msgstr "Выйти из программы"
+
+#: Curlew/curlew.py:246 Curlew/curlew.py:645
+msgid "Show sidebar"
+msgstr "Показать боковую панель"
+
+#: Curlew/curlew.py:270
+msgid "File"
+msgstr "Файл"
+
+#: Curlew/curlew.py:277
+msgid "Size"
+msgstr "Размер"
+
+#: Curlew/curlew.py:283
+msgid "Estimated size"
+msgstr "Предполагаемый размер"
+
+#: Curlew/curlew.py:289
+msgid "Elapsed time"
+msgstr "Прошло времени"
+
+#: Curlew/curlew.py:295
+msgid "Remaining time"
+msgstr "Осталось времени"
+
+#: Curlew/curlew.py:300
+msgid "Progress"
+msgstr "Прогресс"
+
+#: Curlew/curlew.py:317
+msgid "Browse destination"
+msgstr "Обзор папки назначения"
+
+#: Curlew/curlew.py:320
+msgid "Preview before converting"
+msgstr "Просмотр после конвертации"
+
+#: Curlew/curlew.py:338
+msgid "<b>Format:</b>"
+msgstr "<b>Формат:</b>"
+
+#: Curlew/curlew.py:358
+msgid "Source Path"
+msgstr "Исходная папка"
+
+#: Curlew/curlew.py:363
+msgid "<b>Destination:</b>"
+msgstr "Папка назначения"
+
+#: Curlew/curlew.py:371
+msgid "<b>Advanced</b>"
+msgstr "<b>Подробнее</b>"
+
+#: Curlew/curlew.py:381
+msgid "Audio"
+msgstr "Звук"
+
+#: Curlew/curlew.py:389
+msgid "Audio Bitrate"
+msgstr "Скорость потока"
+
+#: Curlew/curlew.py:390
+msgid "Audio Frequency"
+msgstr "Частота звука"
+
+#: Curlew/curlew.py:391
+msgid "Audio Channels"
+msgstr "Звуковые каналы"
+
+#: Curlew/curlew.py:392
+msgid "Audio Codec"
+msgstr "Звуковой кодек"
+
+#: Curlew/curlew.py:395
+msgid "Volume (%)"
+msgstr "Громкость (%)"
+
+#: Curlew/curlew.py:401
+msgid "Audio Quality"
+msgstr "Качество звука"
+
+#: Curlew/curlew.py:407
+msgid "Video"
+msgstr "Видео"
+
+#: Curlew/curlew.py:417
+msgid "Video Bitrate"
+msgstr "Скорость потока"
+
+#: Curlew/curlew.py:418
+msgid "Video FPS"
+msgstr "Частота кадров"
+
+#: Curlew/curlew.py:419
+msgid "Video Size"
+msgstr "Размер видео"
+
+#: Curlew/curlew.py:420
+msgid "Video Codec"
+msgstr "Видео кодек"
+
+#: Curlew/curlew.py:421
+msgid "Aspect Ratio"
+msgstr "Соотношение сторон"
+
+#: Curlew/curlew.py:427
+msgid "2-Pass"
+msgstr "В 2 прохода"
+
+#: Curlew/curlew.py:431
+msgid "Video only"
+msgstr "Только видео"
+
+#: Curlew/curlew.py:438
+msgid "Video Quality"
+msgstr "Качество видео"
+
+#: Curlew/curlew.py:443
+msgid "Subtitle"
+msgstr "Субтитры"
+
+#: Curlew/curlew.py:449
+msgid "Use Subtitle"
+msgstr "Использовать субтитры"
+
+#: Curlew/curlew.py:465
+msgid "Subtitle: "
+msgstr "Субтитры: "
+
+#: Curlew/curlew.py:472
+msgid "Font: "
+msgstr "Шрифт: "
+
+#: Curlew/curlew.py:483
+msgid "Size: "
+msgstr "Размер: "
+
+#: Curlew/curlew.py:490
+msgid "Position: "
+msgstr "Позиция: "
+
+#: Curlew/curlew.py:510
+msgid "Encoding: "
+msgstr "Кодировка: "
+
+#: Curlew/curlew.py:518
+msgid "Delay: "
+msgstr "Задержка: "
+
+#: Curlew/curlew.py:521
+msgid "Harddup"
+msgstr ""
+
+#: Curlew/curlew.py:525
+msgid "Use SSA/ASS subtitle"
+msgstr "Использовать SSA/ASS субтитры"
+
+#: Curlew/curlew.py:532
+msgid "Crop / Pad"
+msgstr "Обрезка / Растяжение"
+
+#: Curlew/curlew.py:535
+msgid "Обрезка"
+msgstr ""
+
+#: Curlew/curlew.py:539
+msgid "Pad"
+msgstr "Растяжение"
+
+#: Curlew/curlew.py:545
+msgid "More"
+msgstr "Ещё"
+
+#: Curlew/curlew.py:548
+msgid "Split File"
+msgstr "Разделить на части"
+
+#: Curlew/curlew.py:558
+msgid "Begin time: "
+msgstr "Время начала: "
+
+#: Curlew/curlew.py:561
+msgid "Duration: "
+msgstr "Длительность: "
+
+#: Curlew/curlew.py:562
+msgid "To the end"
+msgstr "До конца"
+
+#: Curlew/curlew.py:568
+msgid "Use Copy Mode"
+msgstr "Использовать исходные"
+
+#: Curlew/curlew.py:569
+msgid "Keep the same codecs as the input file"
+msgstr "Оставить исходное сжатие потока"
+
+#: Curlew/curlew.py:577
+msgid "Other opts:"
+msgstr "Другие опции:"
+
+#: Curlew/curlew.py:581
+msgid "Threads:"
+msgstr "Потоки:"
+
+#: Curlew/curlew.py:584
+msgid "Source Quality"
+msgstr "Качество источника"
+
+#: Curlew/curlew.py:585
+msgid "Use the same quality as source file"
+msgstr "Использовать исходное качество"
+
+#: Curlew/curlew.py:594
+msgid "Converter:"
+msgstr "Конвертер:"
+
+#: Curlew/curlew.py:606
+msgid "Configs"
+msgstr "Настройки"
+
+#: Curlew/curlew.py:612
+msgid "Overwrite it"
+msgstr "Перезаписать это"
+
+#: Curlew/curlew.py:613
+msgid "Choose another name"
+msgstr "Выбрать другое имя"
+
+#: Curlew/curlew.py:614
+msgid "Skip conversion"
+msgstr "Пропустить конвертацию"
+
+#: Curlew/curlew.py:615
+msgid "File exist:"
+msgstr "Файл существует:"
+
+#: Curlew/curlew.py:620
+msgid "Your language will appear after restart Curlew"
+msgstr "Ваш язык будет применен после перезапуска Curlew"
+
+#: Curlew/curlew.py:627
+msgid "Language:"
+msgstr "Язык:"
+
+#: Curlew/curlew.py:638
+msgid "Show toolbar's buttons text"
+msgstr "Показывать текст на кнопках панели инструментов"
+
+#: Curlew/curlew.py:642
+msgid "Icons:"
+msgstr "Значки:"
+
+#: Curlew/curlew.py:650
+msgid "Show tray icon"
+msgstr "Показывать значок в трее"
+
+#: Curlew/curlew.py:655
+msgid "Shutdown computer after finish"
+msgstr "Выключить компьютер после завершения"
+
+#: Curlew/curlew.py:660
+msgid "Suspend computer after finish"
+msgstr "Перейти в спящий режим после завершения"
+
+#: Curlew/curlew.py:665
+msgid "Delete input file after conversion"
+msgstr "Удалить исходный файл после конвертации"
+
+#: Curlew/curlew.py:744
+msgid "Do you want to quit Curlew and abort conversion process?"
+msgstr "Вы хотите выйти из Curlew и прервать процесс конвертации"
+
+#: Curlew/curlew.py:761
+msgid "Add file"
+msgstr "Добавить файл"
+
+#: Curlew/curlew.py:773
+msgid "All supported files"
+msgstr "Все поддерживаемые файлы"
+
+#: Curlew/curlew.py:780
+msgid "Video files"
+msgstr "Видео файлы"
+
+#: Curlew/curlew.py:786
+msgid "Audio files"
+msgstr "Звуковые файлы"
+
+#: Curlew/curlew.py:792 Curlew/curlew.py:1480
+msgid "All files"
+msgstr "Все файлы"
+
+#: Curlew/curlew.py:814 Curlew/curlew.py:1566 Curlew/curlew.py:1845
+msgid "Ready!"
+msgstr "Готово!"
+
+#: Curlew/curlew.py:821
+msgid "Choose destination"
+msgstr "Выберите папку назначения"
+
+#: Curlew/curlew.py:843
+msgid ""
+"<b>Format:</b>\t{}\n"
+"<b>Extension:</b>\t{}\n"
+"<b>Encoder:</b>\t{}"
+msgstr ""
+"<b>Формат:</b>\t{}\n"
+"<b>Расширение:</b>\t{}\n"
+"<b>Encoder:</b>\t{}"
+
+#: Curlew/curlew.py:1247
+msgid "Destination path is not valid."
+msgstr "Папка назначения не доступна"
+
+#: Curlew/curlew.py:1253
+msgid "Destination path is not accessible."
+msgstr "Папка назначения не допустима"
+
+#: Curlew/curlew.py:1283 Curlew/curlew.py:1324 Curlew/curlew.py:1709
+msgid "Skipped!"
+msgstr "Пропущен!"
+
+#: Curlew/curlew.py:1293
+msgid "Not found!"
+msgstr "Не найден!"
+
+#: Curlew/curlew.py:1396
+msgid ""
+"There are some errors occured.\n"
+"Do you want to show more details?"
+msgstr ""
+"Произошли некоторые ошибки.\n"
+"Хотите узнать подробнее?"
+
+#: Curlew/curlew.py:1409
+msgid "Do you want to stop conversion process?"
+msgstr "Вы хотите остановить процесс конвертации?"
+
+#: Curlew/curlew.py:1464
+msgid "Select subtitle"
+msgstr "Выберите субтитры"
+
+#: Curlew/curlew.py:1472
+msgid "Subtitle files"
+msgstr "Файлы субтитров"
+
+#: Curlew/curlew.py:1561 Curlew/curlew.py:1765 Curlew/curlew.py:1823
+msgid "Wait..."
+msgstr "Подождите..."
+
+#: Curlew/curlew.py:1571
+msgid "Preview"
+msgstr "Превью"
+
+#: Curlew/curlew.py:1648
+msgid "Done!"
+msgstr "Выполнено!"
+
+#: Curlew/curlew.py:1664
+msgid "Failed!"
+msgstr "Ошибка!"
+
+#: Curlew/curlew.py:1809 Curlew/functions.py:28
+msgid " MB"
+msgstr " МБ"
+
+#: Curlew/curlew.py:2062
+msgid ""
+"<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
+"span>"
+msgstr ""
+"<span foreground=\"red\" weight=\"bold\">Компьютер будет отключен через {} сек.</"
+"span>"
+
+#: Curlew/curlew.py:2075
+msgid ""
+"<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
+"span>"
+msgstr ""
+"<span foreground=\"red\" weight=\"bold\">Компьютер будет переведен в спящий режим через {} сек.</"
+"span>"
+
+#: Curlew/curlew.py:2160
+msgid "Add to favorite"
+msgstr "Добавить в избранное"
+
+#: Curlew/curlew.py:2168
+msgid "Edit list"
+msgstr "Изменить список"
+
+#: Curlew/curlew.py:2224
+msgid ""
+"<b>Duration:</b> {}\n"
+"<b>Size:</b> {}\n"
+"<b>Extension:</b> {}\n"
+msgstr ""
+"<b>Длительность:</b> {}\n"
+"<b>Размер:</b> {}\n"
+"<b>Расширение:</b> {}\n"
+
+#: Curlew/functions.py:25
+msgid " KB"
+msgstr " КБ"
+
+#: Curlew/functions.py:31
+msgid " GB"
+msgstr " ГБ"
+
+#: Curlew/tray.py:18 Curlew/tray.py:48
+msgid "Hide"
+msgstr "Скрыть"
+
+#: Curlew/tray.py:50
+msgid "Show"
+msgstr "Показать"
+
+#: Curlew/about.py:15
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "Легкий для использования Мультимедиа Конвертер для GNU/Linux"
+
+#: Curlew/about.py:28
+msgid "translator-credits"
+msgstr "о переводчиках"
