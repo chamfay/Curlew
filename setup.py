@@ -130,7 +130,7 @@ Main Features:
 - Combine subtitle with video file.
 - Show error details if exist.
 - And more ...''',
-      version="0.1.20.5",
+      version="0.1.20.6",
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
       url='https://github.com/chamfay/Curlew',

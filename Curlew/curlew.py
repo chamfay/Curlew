@@ -2274,7 +2274,7 @@ class DBusService(dbus.service.Object):
 def main(*args):
     if dbus.SessionBus().request_name("org.Curlew") != \
        dbus.bus.REQUEST_NAME_REPLY_PRIMARY_OWNER:
-        print('Curlew already running')
+        print('Curlew is already running')
         method = dbus.SessionBus().get_object("org.Curlew", "/org/Curlew").\
         get_dbus_method("present")
         method(*args)

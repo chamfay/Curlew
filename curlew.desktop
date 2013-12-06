@@ -1,7 +1,8 @@
 [Desktop Entry]
+Type=Application
 Name=Curlew
 Icon=curlew
-Exec=curlew
+Exec=curlew %U
 Name[ar]=كروان
 Name[en]=Curlew
 Name[fr]=Courlis
@@ -11,7 +12,7 @@ Comment[en_US]=Easy to use Multimedia Converter for Linux
 Comment=Easy to use Multimedia Converter for Linux
 Comment[ar]=محول وسائط على لينكس سهل الاستخدام
 Comment[fr]=Un Convertisseur Multimédia simple à utiliser sous Linux
-Categories=GNOME;GTK;AudioVideo;Video;
+Categories=AudioVideo;Video;
+#MimeType=audio/vorbis;audio/x-mp3;audio/x-ms-wma;audio/x-vorbis;audio/x-wav;video/x-ms-asf;audio/ogg;audio/3gpp;audio/AMR;audio/AMR-WB;video/3gpp;video/flv;video/mpeg;video/msvideo;video/x-mpeg;video/x-ms-asf;video/x-ms-wmv;video/quicktime;audio/x-realaudio;audio/x-pn-realaudio;video/vnd.rn-realvideo;audio/mp4a-latm;video/x-m4v;video/mp4;audio/x-matroska;video/x-matroska;audio/x-aiff;audio/x-monkeys-audio;video/x-m4v;audio/mp4a-latm;video/webm
 Encoding=UTF-8
-Type=Application
 Terminal=false

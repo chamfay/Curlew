@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-03 20:08+0100\n"
+"POT-Creation-Date: 2013-12-06 14:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,28 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Curlew/about.py:9 Curlew/curlew.py:138 Curlew/tray.py:12
+#: Curlew/curlew.py:138 Curlew/about.py:9 Curlew/tray.py:12
 msgid "Curlew"
-msgstr ""
-
-#: Curlew/about.py:13 Curlew/curlew.py:187
-msgid "About Curlew"
-msgstr ""
-
-#: Curlew/about.py:15
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr ""
-
-#: Curlew/about.py:28
-msgid "translator-credits"
-msgstr ""
-
-#: Curlew/favdialog.py:7 Curlew/curlew.py:346
-msgid "Favorite list"
-msgstr ""
-
-#: Curlew/favdialog.py:15
-msgid "Format"
 msgstr ""
 
 #: Curlew/curlew.py:155
@@ -83,6 +63,10 @@ msgstr ""
 
 #: Curlew/curlew.py:186
 msgid "About"
+msgstr ""
+
+#: Curlew/curlew.py:187 Curlew/about.py:13
+msgid "About Curlew"
 msgstr ""
 
 #: Curlew/curlew.py:194
@@ -131,6 +115,10 @@ msgstr ""
 
 #: Curlew/curlew.py:338
 msgid "<b>Format:</b>"
+msgstr ""
+
+#: Curlew/curlew.py:346 Curlew/favdialog.py:7
+msgid "Favorite list"
 msgstr ""
 
 #: Curlew/curlew.py:358
@@ -485,6 +473,38 @@ msgid ""
 "<b>Extension:</b> {}\n"
 msgstr ""
 
+#: Curlew/logdialog.py:11
+msgid "Errors detail"
+msgstr ""
+
+#: Curlew/about.py:15
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr ""
+
+#: Curlew/about.py:28
+msgid "translator-credits"
+msgstr ""
+
+#: Curlew/functions.py:25
+msgid " KB"
+msgstr ""
+
+#: Curlew/functions.py:31
+msgid " GB"
+msgstr ""
+
+#: Curlew/favdialog.py:15
+msgid "Format"
+msgstr ""
+
+#: Curlew/tray.py:18 Curlew/tray.py:48
+msgid "Hide"
+msgstr ""
+
+#: Curlew/tray.py:50
+msgid "Show"
+msgstr ""
+
 #: Curlew/customwidgets.py:33
 msgid "Top"
 msgstr ""
@@ -507,24 +527,4 @@ msgstr ""
 
 #: Curlew/customwidgets.py:170
 msgid "min"
-msgstr ""
-
-#: Curlew/functions.py:25
-msgid " KB"
-msgstr ""
-
-#: Curlew/functions.py:31
-msgid " GB"
-msgstr ""
-
-#: Curlew/logdialog.py:11
-msgid "Errors detail"
-msgstr ""
-
-#: Curlew/tray.py:18 Curlew/tray.py:48
-msgid "Hide"
-msgstr ""
-
-#: Curlew/tray.py:50
-msgid "Show"
 msgstr ""

@@ -9,6 +9,7 @@ LANGUAGES = {
              'Français': 'fr',
              'Italiano': 'it',
              'Nederlands': 'nl',
+             'Polski': 'pl',
              'Русский': 'ru',
              'Traditional Chinese: 正體中文': 'zh_TW'
              }

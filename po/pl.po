@@ -1,21 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+# Daniel Napora <napcok@gmail.com>, 2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: 0.1\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-10-08 09:22+0100\n"
-"PO-Revision-Date: 2013-09-26 12:58+0800\n"
-"Last-Translator: taijuin <taijuin@gmail.com>\n"
-"Language-Team: taijuin <taijuin@gmail.com>\n"
-"Language: zh_TW\n"
+"POT-Creation-Date: 2013-10-03 20:08+0100\n"
+"PO-Revision-Date: 2013-12-05 19:50+0100\n"
+"Last-Translator: Daniel Napora <napcok@gmail.com>\n"
+"Language-Team: Polish <kde-i18n-doc@kde.org>\n"
+"Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 1.5.4\n"
 
 #: Curlew/about.py:9 Curlew/curlew.py:138 Curlew/tray.py:12
@@ -24,379 +24,379 @@ msgstr "Curlew"
 
 #: Curlew/about.py:13 Curlew/curlew.py:187
 msgid "About Curlew"
-msgstr "關於 Curlew"
+msgstr "O programie Curlew"
 
 #: Curlew/about.py:15
 msgid "Easy to use Multimedia Converter for Linux"
-msgstr "適用於Linux，且易於使用之多媒體轉換器"
+msgstr "Łatwy w użyciu konwerter multimedialny dla Linuksa"
 
 #: Curlew/about.py:28
 msgid "translator-credits"
-msgstr "翻譯者榮譽榜"
+msgstr "Daniel Napora <napcok@gmail.com>"
 
 #: Curlew/favdialog.py:7 Curlew/curlew.py:346
 msgid "Favorite list"
-msgstr "收藏清單"
+msgstr "Lista ulubionych"
 
 #: Curlew/favdialog.py:15
 msgid "Format"
-msgstr "格式"
+msgstr "Format"
 
 #: Curlew/curlew.py:155
 msgid "Add"
-msgstr "加入"
+msgstr "Dodaj"
 
 #: Curlew/curlew.py:156
 msgid "Add files"
-msgstr "加入檔案"
+msgstr "Dodaj pliki"
 
 #: Curlew/curlew.py:160
 msgid "Remove"
-msgstr "移除"
+msgstr "Usuń"
 
 #: Curlew/curlew.py:161
 msgid "Remove files"
-msgstr "移除檔案"
+msgstr "Usuń pliki"
 
 #: Curlew/curlew.py:165
 msgid "Clear"
-msgstr "清空"
+msgstr "Wyczyść"
 
 #: Curlew/curlew.py:166
 msgid "Clear files list"
-msgstr "清空檔案清單"
+msgstr "Wyczyść listę plików"
 
 #: Curlew/curlew.py:173
 msgid "Convert"
-msgstr "轉換"
+msgstr "Konwertuj"
 
 #: Curlew/curlew.py:174
 msgid "Start Conversion"
-msgstr "開始轉換"
+msgstr "Rozpocznij konwertowanie"
 
 #: Curlew/curlew.py:178
 msgid "Stop"
-msgstr "停止"
+msgstr "Stop"
 
 #: Curlew/curlew.py:179 Curlew/tray.py:22
 msgid "Stop Conversion"
-msgstr "停止轉換"
+msgstr "Zatrzymaj konwertowanie"
 
 #: Curlew/curlew.py:186
 msgid "About"
-msgstr "關於"
+msgstr "Informacje"
 
 #: Curlew/curlew.py:194
 msgid "Quit"
-msgstr "結束"
+msgstr "Zakończ"
 
 #: Curlew/curlew.py:195 Curlew/tray.py:26
 msgid "Quit application"
-msgstr "結束應用程式"
+msgstr "Zakończ"
 
 #: Curlew/curlew.py:246 Curlew/curlew.py:645
 msgid "Show sidebar"
-msgstr "顯示側邊欄"
+msgstr "Pokaż sidebar"
 
 #: Curlew/curlew.py:270
 msgid "File"
-msgstr "檔案"
+msgstr "Plik"
 
 #: Curlew/curlew.py:277
 msgid "Size"
-msgstr "大小"
+msgstr "Rozmiar"
 
 #: Curlew/curlew.py:283
 msgid "Estimated size"
-msgstr "估計大小"
+msgstr "Przewidywany rozmiar"
 
 #: Curlew/curlew.py:289
 msgid "Elapsed time"
-msgstr "已用時間"
+msgstr "Czas "
 
 #: Curlew/curlew.py:295
 msgid "Remaining time"
-msgstr "剩餘時間"
+msgstr "Pozostały czas"
 
 #: Curlew/curlew.py:300
 msgid "Progress"
-msgstr "進展"
+msgstr "Postęp"
 
 #: Curlew/curlew.py:317
 msgid "Browse destination"
-msgstr "瀏覽目的地"
+msgstr ""
 
 #: Curlew/curlew.py:320
 msgid "Preview before converting"
-msgstr "轉換前預覽"
+msgstr "Podejrzyj przed konwertowaniem"
 
 #: Curlew/curlew.py:338
 msgid "<b>Format:</b>"
-msgstr "<b>格式：</b>"
+msgstr "<b>Format:</b>"
 
 #: Curlew/curlew.py:358
 msgid "Source Path"
-msgstr "同來源路徑"
+msgstr "Ścieżka źródłowa"
 
 #: Curlew/curlew.py:363
 msgid "<b>Destination:</b>"
-msgstr "<b>目的地：</b>"
+msgstr "<b>Położenie:</b>"
 
 #: Curlew/curlew.py:371
 msgid "<b>Advanced</b>"
-msgstr "<b>進階的設定</b>"
+msgstr "<b>Zaawansowane</b>"
 
 #: Curlew/curlew.py:381
 msgid "Audio"
-msgstr "音訊"
+msgstr "Dźwięk"
 
 #: Curlew/curlew.py:389
 msgid "Audio Bitrate"
-msgstr "音訊位元率"
+msgstr "Bitrate:"
 
 #: Curlew/curlew.py:390
 msgid "Audio Frequency"
-msgstr "音訊頻率"
+msgstr "Częstotliwość"
 
 #: Curlew/curlew.py:391
 msgid "Audio Channels"
-msgstr "音訊頻道"
+msgstr "Kanały"
 
 #: Curlew/curlew.py:392
 msgid "Audio Codec"
-msgstr "音訊編解碼器"
+msgstr "Kodek"
 
 #: Curlew/curlew.py:395
 msgid "Volume (%)"
-msgstr "音量 (%)"
+msgstr "Głośność (%)"
 
 #: Curlew/curlew.py:401
 msgid "Audio Quality"
-msgstr "音訊品質"
+msgstr "Jakość dźwięku"
 
 #: Curlew/curlew.py:407
 msgid "Video"
-msgstr "影片"
+msgstr "Wideo"
 
 #: Curlew/curlew.py:417
 msgid "Video Bitrate"
-msgstr "影片位元率"
+msgstr "Bitrate"
 
 #: Curlew/curlew.py:418
 msgid "Video FPS"
-msgstr "畫面更新率"
+msgstr "FPS"
 
 #: Curlew/curlew.py:419
 msgid "Video Size"
-msgstr "影片大小"
+msgstr "Rozmiar"
 
 #: Curlew/curlew.py:420
 msgid "Video Codec"
-msgstr "視訊編解碼器"
+msgstr "Kodek"
 
 #: Curlew/curlew.py:421
 msgid "Aspect Ratio"
-msgstr "長寬比"
+msgstr "Proporcje obrazu"
 
 #: Curlew/curlew.py:427
 msgid "2-Pass"
-msgstr "2-Pass"
+msgstr "2-Przebiegi"
 
 #: Curlew/curlew.py:431
 msgid "Video only"
-msgstr "僅限視訊"
+msgstr "Tylko wideo"
 
 #: Curlew/curlew.py:438
 msgid "Video Quality"
-msgstr "影片品質"
+msgstr "Jakość wideo"
 
 #: Curlew/curlew.py:443
 msgid "Subtitle"
-msgstr "字幕"
+msgstr "Napisy"
 
 #: Curlew/curlew.py:449
 msgid "Use Subtitle"
-msgstr "使用字幕"
+msgstr "Użyj napisów"
 
 #: Curlew/curlew.py:465
 msgid "Subtitle: "
-msgstr "字幕："
+msgstr "Napisy:"
 
 #: Curlew/curlew.py:472
 msgid "Font: "
-msgstr "字型："
+msgstr "Font: "
 
 #: Curlew/curlew.py:483
 msgid "Size: "
-msgstr "大小："
+msgstr "Rozmiar:"
 
 #: Curlew/curlew.py:490
 msgid "Position: "
-msgstr "位置："
+msgstr "Pozycja:"
 
 #: Curlew/curlew.py:510
 msgid "Encoding: "
-msgstr "編碼："
+msgstr "Kodowanie:"
 
 #: Curlew/curlew.py:517 Curlew/customwidgets.py:175
 msgid "sec"
-msgstr "秒鐘"
+msgstr "sek"
 
 #: Curlew/curlew.py:518
 msgid "Delay: "
-msgstr "延遲："
+msgstr "Opóźnienie: "
 
 #: Curlew/curlew.py:521
 msgid "Harddup"
-msgstr "Harddup"
+msgstr ""
 
 #: Curlew/curlew.py:525
 msgid "Use SSA/ASS subtitle"
-msgstr "使用 SSA/ASS 字幕"
+msgstr "Użyj napisów SSA/ASS"
 
 #: Curlew/curlew.py:532
 msgid "Crop / Pad"
-msgstr "裁剪 / 填補"
+msgstr "Przytnij / Ramka"
 
 #: Curlew/curlew.py:535
 msgid "Crop"
-msgstr "裁剪"
+msgstr "Przytnij"
 
 #: Curlew/curlew.py:539
 msgid "Pad"
-msgstr "填補"
+msgstr "Ramka"
 
 #: Curlew/curlew.py:545
 msgid "More"
-msgstr "更多"
+msgstr "Więcej"
 
 #: Curlew/curlew.py:548
 msgid "Split File"
-msgstr "分割檔案"
+msgstr "Podziel plik"
 
 #: Curlew/curlew.py:558
 msgid "Begin time: "
-msgstr "開始時間："
+msgstr "Zacznij od:"
 
 #: Curlew/curlew.py:561
 msgid "Duration: "
-msgstr "持續時間︰"
+msgstr "Długość:"
 
 #: Curlew/curlew.py:562
 msgid "To the end"
-msgstr "到末尾"
+msgstr "Do końca"
 
 #: Curlew/curlew.py:568
 msgid "Use Copy Mode"
-msgstr "使用複製模式"
+msgstr "Użyj trybu kopiowania"
 
 #: Curlew/curlew.py:569
 msgid "Keep the same codecs as the input file"
-msgstr "保持和輸入檔案相同的編解碼器"
+msgstr "Zachowaj ten sam kodek co w pliku źródłowym"
 
 #: Curlew/curlew.py:577
 msgid "Other opts:"
-msgstr "其他選項："
+msgstr "Inne opcje:"
 
 #: Curlew/curlew.py:581
 msgid "Threads:"
-msgstr ""
+msgstr "Wątki:"
 
 #: Curlew/curlew.py:584
 msgid "Source Quality"
-msgstr "來源品質"
+msgstr "Jakość jak w pliku źródłowym"
 
 #: Curlew/curlew.py:585
 msgid "Use the same quality as source file"
-msgstr "使用和來源檔案相同的品質"
+msgstr "Ta sama jakość jak w pliku źródłowym"
 
 #: Curlew/curlew.py:594
 msgid "Converter:"
-msgstr "轉換器："
+msgstr "Konwerter:"
 
 #: Curlew/curlew.py:606
 msgid "Configs"
-msgstr "設定"
+msgstr "Konfiguracja"
 
 #: Curlew/curlew.py:612
 msgid "Overwrite it"
-msgstr "覆蓋它"
+msgstr "Nadpisz"
 
 #: Curlew/curlew.py:613
 msgid "Choose another name"
-msgstr "選擇其他名稱"
+msgstr "Wybierz inną nazwę"
 
 #: Curlew/curlew.py:614
 msgid "Skip conversion"
-msgstr "跳過轉換"
+msgstr "Nie konwertuj"
 
 #: Curlew/curlew.py:615
 msgid "File exist:"
-msgstr "檔案存在："
+msgstr "Jeśli plik istnieje:"
 
 #: Curlew/curlew.py:620
 msgid "Your language will appear after restart Curlew"
-msgstr "您的語言將在重新啟動 Curlew 後出現"
+msgstr "Twój język będzie użyty po restarcie Curlew"
 
 #: Curlew/curlew.py:627
 msgid "Language:"
-msgstr "語言："
+msgstr "Język:"
 
 #: Curlew/curlew.py:638
 msgid "Show toolbar's buttons text"
-msgstr "顯示工具列的按鈕文字"
+msgstr "Pokaż tekst na pasku narzędziowym"
 
 #: Curlew/curlew.py:642
 msgid "Icons:"
-msgstr "圖示："
+msgstr "Ikony:"
 
 #: Curlew/curlew.py:650
 msgid "Show tray icon"
-msgstr "顯示系統匣圖示"
+msgstr "Pokaż ikonę w zasobniku systemowym"
 
 #: Curlew/curlew.py:655
 msgid "Shutdown computer after finish"
-msgstr "完成後關閉電腦"
+msgstr "Wyłącz komputer po zakończeniu"
 
 #: Curlew/curlew.py:660
 msgid "Suspend computer after finish"
-msgstr "完成後電腦待機"
+msgstr "Uśpij komputer po zakończeniu"
 
 #: Curlew/curlew.py:665
 msgid "Delete input file after conversion"
-msgstr "轉換後刪除輸入檔"
+msgstr "Usuń plik źródłowy po zakończeniu"
 
 #: Curlew/curlew.py:744
 msgid "Do you want to quit Curlew and abort conversion process?"
-msgstr "您想要結束 Curlew 和中止轉換過程嗎？"
+msgstr "Czy chcesz opuścić Curlew i przerwać konwertowanie?"
 
 #: Curlew/curlew.py:761
 msgid "Add file"
-msgstr "加入檔案"
+msgstr "Dodaj plik"
 
 #: Curlew/curlew.py:773
 msgid "All supported files"
-msgstr "所有支援的檔案"
+msgstr "Wszystkie obsługiwane pliki"
 
 #: Curlew/curlew.py:780
 msgid "Video files"
-msgstr "影片檔"
+msgstr "Pliki Video"
 
 #: Curlew/curlew.py:786
 msgid "Audio files"
-msgstr "音訊檔"
+msgstr "Pliki Audio"
 
 #: Curlew/curlew.py:792 Curlew/curlew.py:1480
 msgid "All files"
-msgstr "所有檔案"
+msgstr "Wszystkie pliki"
 
 #: Curlew/curlew.py:814 Curlew/curlew.py:1566 Curlew/curlew.py:1845
 msgid "Ready!"
-msgstr "準備好了！"
+msgstr "Gotowe!"
 
 #: Curlew/curlew.py:821
 msgid "Choose destination"
-msgstr "選擇目的地"
+msgstr ""
 
 #: Curlew/curlew.py:843
 msgid ""
@@ -404,61 +404,61 @@ msgid ""
 "<b>Extension:</b>\t{}\n"
 "<b>Encoder:</b>\t{}"
 msgstr ""
-"<b>格式：</b>\t{}\n"
-"<b>擴展：</b>\t{}\n"
-"<b>編碼器：</b>\t{}"
+"<b>Format:</b>\t{}\n"
+"<b>Rozszerzenie:</b>\t{}\n"
+"<b>Enkoder:</b>\t{}"
 
 #: Curlew/curlew.py:1247
 msgid "Destination path is not valid."
-msgstr "目標路徑是無效的。"
+msgstr "Scieżka docelowa jest niepoprawna."
 
 #: Curlew/curlew.py:1253
 msgid "Destination path is not accessible."
-msgstr "目標路徑不可存取的。"
+msgstr "Ścieżka docelowa jest niedostępna."
 
 #: Curlew/curlew.py:1283 Curlew/curlew.py:1324 Curlew/curlew.py:1709
 msgid "Skipped!"
-msgstr "跳過！"
+msgstr "Pominięty!"
 
 #: Curlew/curlew.py:1293
 msgid "Not found!"
-msgstr "沒有找到！"
+msgstr "Nie znaleziono!"
 
 #: Curlew/curlew.py:1396
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
 msgstr ""
-"有一些錯誤發生。\n"
-"您想要顯示更多的細節嗎？"
+"Wystapoiły błędy.\n"
+"Czy chcesz zobaczyć szczegóły błędów?"
 
 #: Curlew/curlew.py:1409
 msgid "Do you want to stop conversion process?"
-msgstr "您想要停止轉換過程？"
+msgstr "Czy chcesz zatrzymać konwertowanie?"
 
 #: Curlew/curlew.py:1464
 msgid "Select subtitle"
-msgstr "選擇字幕"
+msgstr "Wybierz napisy"
 
 #: Curlew/curlew.py:1472
 msgid "Subtitle files"
-msgstr "字幕檔"
+msgstr "Pliki z napisami"
 
 #: Curlew/curlew.py:1561 Curlew/curlew.py:1765 Curlew/curlew.py:1823
 msgid "Wait..."
-msgstr "等待..."
+msgstr "Czekaj..."
 
 #: Curlew/curlew.py:1571
 msgid "Preview"
-msgstr "預覽"
+msgstr "Podgląd"
 
 #: Curlew/curlew.py:1648
 msgid "Done!"
-msgstr "完成！"
+msgstr "Zrobione!"
 
 #: Curlew/curlew.py:1664
 msgid "Failed!"
-msgstr "失敗！"
+msgstr "N ie powiodło się!"
 
 #: Curlew/curlew.py:1809 Curlew/functions.py:28
 msgid " MB"
@@ -468,22 +468,25 @@ msgstr " MB"
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
-msgstr "<span foreground=\"red\" weight=\"bold\">在 {} 秒後，系統關閉。</span>"
+msgstr ""
+"<span foreground=\"red\" weight=\"bold\">System zostanie wyłączony za {} sek."
+"</span>"
 
 #: Curlew/curlew.py:2075
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
 msgstr ""
-"<span foreground=\"red\" weight=\"bold\"> 在 {} 秒後，系統將暫停。</span>"
+"<span foreground=\"red\" weight=\"bold\">System zostanie uśpiony za {} sek.</"
+"span>"
 
 #: Curlew/curlew.py:2160
 msgid "Add to favorite"
-msgstr "加入收藏"
+msgstr "Dodaj do ulubionych"
 
 #: Curlew/curlew.py:2168
 msgid "Edit list"
-msgstr "編輯清單"
+msgstr "Edytuj listę"
 
 #: Curlew/curlew.py:2224
 msgid ""
@@ -491,33 +494,33 @@ msgid ""
 "<b>Size:</b> {}\n"
 "<b>Extension:</b> {}\n"
 msgstr ""
-"<b>持續時間︰</b> {}\n"
-"<b>大小：</b> {}\n"
-"<b>擴展：</b> {}\n"
+"<b>Długość:</b> {}\n"
+"<b>Rozmiar:</b> {}\n"
+"<b>Rozszerzenie:</b> {}\n"
 
 #: Curlew/customwidgets.py:33
 msgid "Top"
-msgstr "頂端"
+msgstr "Góra"
 
 #: Curlew/customwidgets.py:41
 msgid "Bottom"
-msgstr "底部"
+msgstr "Dół"
 
 #: Curlew/customwidgets.py:49
 msgid "Left"
-msgstr "左"
+msgstr "Lewo"
 
 #: Curlew/customwidgets.py:57
 msgid "Right"
-msgstr "右"
+msgstr "Prawo"
 
 #: Curlew/customwidgets.py:165
 msgid "hr"
-msgstr "小時"
+msgstr "h"
 
 #: Curlew/customwidgets.py:170
 msgid "min"
-msgstr "分鐘"
+msgstr "min"
 
 #: Curlew/functions.py:25
 msgid " KB"
@@ -529,12 +532,12 @@ msgstr " GB"
 
 #: Curlew/logdialog.py:11
 msgid "Errors detail"
-msgstr "錯誤細節"
+msgstr "Szczegóły błędów"
 
 #: Curlew/tray.py:18 Curlew/tray.py:48
 msgid "Hide"
-msgstr "隱藏"
+msgstr "Ukryj"
 
 #: Curlew/tray.py:50
 msgid "Show"
-msgstr "顯示"
+msgstr "Pokaż"
