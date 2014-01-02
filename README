@@ -31,6 +31,7 @@ Dependencies:
 - mencoder
 - libavcodec-extra-53 (Ubuntu/Debian)
 - xdg-utils
+- mediainfo
 
 Note:
 -----

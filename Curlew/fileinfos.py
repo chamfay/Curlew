@@ -17,45 +17,41 @@
 # The latest version of the license can be found on:
 # http://www.ojuba.org/wiki/doku.php/waqf/license
 
-
 from gi.repository import Gtk, Pango
+from subprocess import check_output
 
-class LogDialog(Gtk.Dialog):
-    def __init__(self, prnt, log_file):
-        self._log_file = log_file
+class FileInfos(Gtk.Dialog):
+    def __init__(self, prnt, file_name):
         Gtk.Dialog.__init__(self, parent=prnt)
-        self.set_size_request(550, 450)
+        self.set_title(_("File informations"))
+        self.set_size_request(580, 450)
         self.set_border_width(6)
-        self.set_title(_('Errors detail'))
+        
+        txt_info = Gtk.TextView()
+        txt_info.set_editable(False)
+        txt_info.set_cursor_visible(False)
+        txt_info.set_border_width(8)
+        
         scroll = Gtk.ScrolledWindow()
         scroll.set_shadow_type(Gtk.ShadowType.IN)
-        text_log = Gtk.TextView()
-        text_log.set_wrap_mode(Gtk.WrapMode.WORD_CHAR)
-        text_log.set_border_width(6)
-        text_log.set_editable(False)
-        text_log.set_cursor_visible(False)
-        
-        font_desc = Pango.FontDescription('Monospace')
-        text_log.override_font(font_desc)
-        
-        text_buffer = Gtk.TextBuffer()
-        text_log.set_buffer(text_buffer)
-        
-        scroll.add(text_log)
+        scroll.add(txt_info)
         self.vbox.pack_start(scroll, True, True, 0)
         
-        button = self.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE)
-        self.set_default(button)
+        self.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE)
         
-        with open(log_file, 'r') as log:
-            text_buffer.set_text(log.read())
+        font_desc = Pango.FontDescription('Monospace')
+        txt_info.override_font(font_desc)
+        
+        txt_buffer = Gtk.TextBuffer()
+        txt_info.set_buffer(txt_buffer)
+        
+        # Show info        
+        buf = check_output('mediainfo "{}"'.format(file_name), shell=True)
+        txt_buffer.set_text(buf.strip())
+        
+    
     
     def show_dialog(self):
         self.show_all()
         self.run()
         self.destroy()
-        
-        
-        
-        
-        

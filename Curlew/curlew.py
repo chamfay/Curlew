@@ -1,11 +1,22 @@
-#-*- coding:utf-8 -*-
+# -*- coding: utf-8 -*-
 
-#===============================================================================
-# Application: Curlew multimedia converter
-# Author: Fayssal Chamekh <chamfay@gmail.com>
-# License: Waqf public license,
-# Please see: http://www.ojuba.org/wiki/doku.php/waqf/license for more infos.
-#===============================================================================
+# Curlew - Easy to use multimedia converter
+#
+# Copyright (C) 2012-2014 Fayssal Chamekh <chamfay@gmail.com>
+#
+# Released under terms on waqf public license.
+#
+# Curlew is free software; you can redistribute it and/or modify it 
+# under the terms of the latest version waqf public license as published by 
+# ojuba.org.
+#
+# Curlew is distributed in the hope that it will be useful, but WITHOUT 
+# ANY WARRANTY; without even the implied warranty 
+# of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#        
+# The latest version of the license can be found on:
+# http://www.ojuba.org/wiki/doku.php/waqf/license
+
 
 try:
     import sys
@@ -22,6 +33,7 @@ try:
     from gi.repository import Gtk, GLib, Gdk, GObject
     import dbus.glib, dbus.service
     import cPickle
+    from glob import glob
     
     from customwidgets import LabeledHBox, TimeLayout, CustomHScale, \
     CustomToolButton, SpinsFrame, LabeledGrid, CustomComboEntry
@@ -32,6 +44,8 @@ try:
     from tray import StatusIcon
     from languages import LANGUAGES
     from favdialog import Favorite
+    from waitdialog import WaitDialog
+    from fileinfos import FileInfos
     
 except Exception as detail:
     print(detail)
@@ -59,33 +73,34 @@ gettext.install(DOMAIN, LOCALDIR)
 
 
 #--- Constants
-APP_DIR      = dirname(realpath(__file__))
-HOME         = os.getenv("HOME")
-TEN_SECONDS  = '10'
-CONF_PATH    = join(HOME, '.curlew')
-OPTS_FILE    = join(CONF_PATH, 'curlew.cfg')
-ERROR_LOG    = join(CONF_PATH, 'errors.log')
-PASS_LOG     = '/tmp/pass1log'
-PASS_1_FILE  = '/tmp/pass1file'
+APP_DIR = dirname(realpath(__file__))
+HOME = os.getenv("HOME")
+TEN_SECONDS = '10'
+CONF_PATH = join(HOME, '.curlew')
+OPTS_FILE = join(CONF_PATH, 'curlew.cfg')
+ERROR_LOG = join(CONF_PATH, 'errors.log')
+PASS_LOG = '/tmp/pass1log'
+PASS_1_FILE = '/tmp/pass1file'
 PREVIEW_FILE = '/tmp/preview'
-IMG_PREV     = '/tmp/img_prev.jpeg'
-FAV_FILE     = join(CONF_PATH, 'fav.list')
+IMG_PREV = '/tmp/img_prev.jpeg'
+FAV_FILE = join(CONF_PATH, 'fav.list')
 
 
 # Make .curlew folder if not exist
 if not exists(CONF_PATH): os.mkdir(CONF_PATH)
 
 # Treeview cols nbrs
-C_SKIP = 0             # Skip (checkbox)
-C_NAME = 1             # File name
-C_FSIZE = 2            # File size
-C_ESIZE = 3            # Estimated output size
-C_ELAPT = 4            # Elapsed time
-C_REMN = 5             # Remaining time
-C_PRGR = 6             # Progress value
-C_STAT = 7             # Stat string
-C_PULS = 8             # Pulse
-C_FILE = 9             # complete file name /path/file.ext
+C_SKIP = 0  # Skip (checkbox)
+C_NAME = 1  # File name
+C_FSIZE = 2  # File size
+C_FDURA = 3  # File duration
+C_ESIZE = 4  # Estimated output size
+C_ELAPT = 5  # Elapsed time
+C_REMN = 6  # Remaining time
+C_PRGR = 7  # Progress value
+C_STAT = 8  # Stat string
+C_PULS = 9  # Pulse
+C_FILE = 10  # complete file name /path/file.ext
 
 
 #--- Main class        
@@ -122,9 +137,9 @@ class Curlew(Gtk.Window):
         
         #--- Regex
         self.reg_avconv_u = \
-        re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''') # ubuntu
+        re.compile('''size=\s+(\d+\.*\d*).*time=(\d+\.\d*)''')  # ubuntu
         self.reg_avconv_f = \
-        re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''') # fedora
+        re.compile('''size=\s+(\d+\.*\d*).*time=(\d+:\d+:\d+.\d+)''')  # fedora
         self.reg_menc = \
         re.compile('''.(\d+\.*\d*)s.*\((.\d+)%.*\s+(\d+)mb''')
         self.reg_duration = \
@@ -151,18 +166,22 @@ class Curlew(Gtk.Window):
         
         
         #--- ToolButtons
-        # Add toolbutton
-        self.add_tb = CustomToolButton('add', _('Add'), 
+        # Add file toolbutton
+        self.add_file_tb = CustomToolButton('add-file', _('Add File'),
                                        _('Add files'),
-                                       self.tb_add_cb, toolbar)
+                                       self.tb_add_file_cb, toolbar)
+        # Add folder toolbutton
+        self.add_folder_tb = CustomToolButton('add-folder', _('Add Folder'),
+                                       _('Add folders'),
+                                       self.tb_add_folder_cb, toolbar)
         
         # Remove toolbutton
-        self.remove_tb = CustomToolButton('remove', _('Remove'), 
+        self.remove_tb = CustomToolButton('remove', _('Remove'),
                                           _('Remove files'),
                                           self.tb_remove_cb, toolbar)
         
         # Clear toolbutton
-        self.clear_tb = CustomToolButton('clear', _('Clear'), 
+        self.clear_tb = CustomToolButton('clear', _('Clear'),
                                          _('Clear files list'),
                                          self.tb_clear_cb, toolbar)
         
@@ -170,20 +189,25 @@ class Curlew(Gtk.Window):
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         # Convert toolbutton
-        self.convert_tb = CustomToolButton('convert', _('Convert'), 
+        self.convert_tb = CustomToolButton('convert', _('Convert'),
                                            _('Start Conversion'),
                                            self.convert_cb, toolbar)
         
         # Stop toolbutton
-        self.stop_tb = CustomToolButton('stop', _('Stop'), 
+        self.stop_tb = CustomToolButton('stop', _('Stop'),
                                         _('Stop Conversion'),
                                         self.tb_stop_cb, toolbar)
         
         # Separator
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
+        # Infos toolbutton
+        self.infos_tb = CustomToolButton('infos', _('File Infos'),
+                                         _('File Informations'),
+                                         self.on_file_info_cb, toolbar)
+        
         # About toolbutton
-        self.about_tb = CustomToolButton('about', _('About'), 
+        self.about_tb = CustomToolButton('about', _('About'),
                                          _('About Curlew'),
                                          self.tb_about_cb, toolbar)
         
@@ -191,25 +215,27 @@ class Curlew(Gtk.Window):
         toolbar.insert(Gtk.SeparatorToolItem(), -1)
         
         # Quit toolbutton
-        self.quit_tb = CustomToolButton('quit', _('Quit'), 
+        self.quit_tb = CustomToolButton('quit', _('Quit'),
                                         _('Quit application'),
                                         self.quit_cb, toolbar)
         
         #--- List of files
-        self.store = Gtk.ListStore(bool,  # active 
-                                   str,   # file_name
-                                   str,   # duration
-                                   str,   # estimated file_size
-                                   str,   # elapsed time
-                                   str,   # time remaining
-                                   float, # progress
-                                   str,   # status (progress txt)
-                                   int,   # pulse
-                                   str    # complete file_name
+        self.store = Gtk.ListStore(bool, # active 
+                                   str,  # file_name
+                                   str,  # file size
+                                   str,  # duration
+                                   str,  # estimated file_size
+                                   str,  # elapsed time
+                                   str,  # time remaining
+                                   float,  # progress
+                                   str,  # status (progress txt)
+                                   int,  # pulse
+                                   str  # complete file_name
                                    )         
         self.tree = Gtk.TreeView(self.store)
         self.tree.set_has_tooltip(True)
-        self.tree.set_rubber_banding(True)
+        self.tree_sel = self.tree.get_selection()
+        #self.tree.set_rubber_banding(True)
 
         tree_select = self.tree.get_selection()
         tree_select.set_mode(Gtk.SelectionMode.MULTIPLE)
@@ -238,7 +264,7 @@ class Curlew(Gtk.Window):
         event_box.add(frame)
         event_box.connect('button-press-event', self.on_event_cb)
         
-        self.image_prev  = Gtk.Image()
+        self.image_prev = Gtk.Image()
         self.image_prev.set_padding(4, 4)
         
         # popup
@@ -265,16 +291,21 @@ class Curlew(Gtk.Window):
         col = Gtk.TreeViewColumn(None, cell, active=C_SKIP)
         self.tree.append_column(col)
         
-        #--- File name cell
+        #--- Filename cell
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("File"), cell, text=C_NAME)
         col.set_resizable(True)
         col.set_min_width(150)
         self.tree.append_column(col)
         
-        #--- Duration cell
+        #--- filesize cell
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("Size"), cell, text=C_FSIZE)
+        self.tree.append_column(col)
+        
+        #--- file duration cell
+        cell = Gtk.CellRendererText()
+        col = Gtk.TreeViewColumn(_("Duration"), cell, text=C_FDURA)
         self.tree.append_column(col)
         
         
@@ -297,7 +328,7 @@ class Curlew(Gtk.Window):
         
         #--- Progress cell
         cell = Gtk.CellRendererProgress()
-        col = Gtk.TreeViewColumn(_("Progress"), cell, 
+        col = Gtk.TreeViewColumn(_("Progress"), cell,
                                  value=C_PRGR, text=C_STAT, pulse=C_PULS)
         col.set_min_width(100)
         self.tree.append_column(col)
@@ -312,6 +343,11 @@ class Curlew(Gtk.Window):
         play_item.set_always_show_image(True)
         play_item.connect('activate', self.on_play_cb)
         
+        browse_src = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_DIRECTORY, None)
+        browse_src.set_always_show_image(True)
+        browse_src.set_label(_('Browse source'))
+        browse_src.connect('activate', self.on_browse_src_cb)
+        
         browse_item = Gtk.ImageMenuItem.new_from_stock(Gtk.STOCK_DIRECTORY, None)
         browse_item.set_always_show_image(True)
         browse_item.set_label(_('Browse destination'))
@@ -320,10 +356,19 @@ class Curlew(Gtk.Window):
         preview_item = Gtk.MenuItem(_('Preview before converting'))
         preview_item.connect('activate', self.on_preview_cb)
         
+        # File informations
+        file_info = Gtk.ImageMenuItem().new_with_label(_('File Informations'))
+        file_info.set_image(Gtk.Image.new_from_icon_name("help-contents", 1))
+        file_info.connect('activate', self.on_file_info_cb)
+        
         self.popup.append(play_item)
         self.popup.append(preview_item)
         self.popup.append(remove_item)
+        self.popup.append(Gtk.SeparatorMenuItem())
+        self.popup.append(browse_src)
         self.popup.append(browse_item)
+        self.popup.append(Gtk.SeparatorMenuItem())
+        self.popup.append(file_info)
         
         #--- Output formats
         self.cmb_formats = Gtk.ComboBoxText()
@@ -340,7 +385,7 @@ class Curlew(Gtk.Window):
         # Favorite button
         self.btn_fav = Gtk.Button()
         self.btn_fav.set_image(Gtk.Image
-                               .new_from_icon_name("emblem-favorite", 
+                               .new_from_icon_name("emblem-favorite",
                                                    Gtk.IconSize.MENU))
         self.btn_fav.connect('clicked', self.show_menu)
         self.btn_fav.set_tooltip_markup(_("Favorite list"))
@@ -548,7 +593,7 @@ class Curlew(Gtk.Window):
         self.cb_split = Gtk.CheckButton(_('Split File'))
         self.cb_split.connect('toggled', self.cb_split_cb)
         
-        self.frame = Gtk.Frame(label_widget = self.cb_split)
+        self.frame = Gtk.Frame(label_widget=self.cb_split)
         self.vb_more.pack_start(self.frame, False, False, 0)
         
         self.vb_group = Gtk.Box(sensitive=False, spacing=4, orientation=Gtk.Orientation.VERTICAL)
@@ -580,7 +625,7 @@ class Curlew(Gtk.Window):
         self.s_threads = Gtk.SpinButton().new_with_range(0, 10, 1)
         grid_other.append_row(_('Threads:'), self.s_threads)
 
-        #-- Use same quality as source file
+        # -- Use same quality as source file
         self.cb_same_qual = Gtk.CheckButton(_('Source Quality'))
         self.cb_same_qual.set_tooltip_text(_('Use the same quality as source'
                                              ' file'))
@@ -690,7 +735,7 @@ class Curlew(Gtk.Window):
         #--- Show interface
         self.show_all()
         
-        #-- Show/Hide sidebar
+        # -- Show/Hide sidebar
         self._child.set_visible(self.cb_sideb.get_active())
         
         #--- Drag and Drop
@@ -757,10 +802,10 @@ abort conversion process?'),
         Gtk.main_quit()
     
     #--- Add files
-    def tb_add_cb(self, *args):
+    def tb_add_file_cb(self, *args):
         open_dlg = Gtk.FileChooserDialog(_("Add file"),
                                          self, Gtk.FileChooserAction.OPEN,
-                                        (Gtk.STOCK_OK, 
+                                        (Gtk.STOCK_OK,
                                          Gtk.ResponseType.OK,
                                          Gtk.STOCK_CANCEL,
                                          Gtk.ResponseType.CANCEL))
@@ -795,18 +840,36 @@ abort conversion process?'),
         
         res = open_dlg.run()
         if res == Gtk.ResponseType.OK:
-            self.tb_do_add(*open_dlg.get_filenames())
-            #--- Saved current folder
+            files = open_dlg.get_filenames()
             self.curr_open_folder = open_dlg.get_current_folder()
-        open_dlg.destroy()
+            open_dlg.destroy()
+            self.tb_do_add(*files)
+        else:
+            open_dlg.destroy()
         
     def tb_do_add(self, *args):
+        file_name = ''
+        wait_dlg = WaitDialog(self)
+        tot = len(args)
+        
         for file_name in args:
+            
+            wait_dlg.set_filename(basename(file_name))
+            wait_dlg.set_progress((args.index(file_name)+1.0)/tot)
+            if wait_dlg.skip: break
+            
+            while Gtk.events_pending():
+                Gtk.main_iteration()
+            
+            if file_name.startswith('file://'):
+                file_name = unquote(file_name[7:])
             if isfile(file_name):
+                dura = self.get_time(file_name)
                 self.store.append([
                                    True,
                                    splitext(basename(file_name))[0],
                                    get_format_size(getsize(file_name)/1024),
+                                   dura,
                                    None,
                                    None,
                                    None,
@@ -815,6 +878,36 @@ abort conversion process?'),
                                    -1,
                                    realpath(file_name)
                                    ])
+        
+        
+        wait_dlg.destroy()
+        return dirname(file_name) + os.sep
+    
+    #--- Add folder that contain media files
+    def tb_add_folder_cb(self, mi):
+        folder_dlg = Gtk.FileChooserDialog(_('Add folder'), self,
+                                           Gtk.FileChooserAction.SELECT_FOLDER,
+                                           (Gtk.STOCK_OK,
+                                            Gtk.ResponseType.OK,
+                                            Gtk.STOCK_CANCEL,
+                                            Gtk.ResponseType.CANCEL)
+                                           )
+        folder_dlg.set_select_multiple(True)
+        
+        if self.curr_open_folder:
+            folder_dlg.set_current_folder(self.curr_open_folder)
+            folder_dlg.set_filename(self.curr_open_folder)
+        
+        resp = folder_dlg.run()
+        if resp == Gtk.ResponseType.OK:
+            files = []
+            cur_folders = folder_dlg.get_filenames()
+            for cur_folder in cur_folders:
+                files.extend(glob(cur_folder + '/*.*'))
+            self.curr_open_folder = folder_dlg.get_filename()
+            folder_dlg.destroy()
+            self.tb_do_add(*files)
+        folder_dlg.destroy()
     
     
     def on_dest_clicked(self, widget):
@@ -837,10 +930,10 @@ abort conversion process?'),
         self.fill_options()
     
     def on_cmb_formats_tooltip(self, widget, x, y, keyboard_mode, tooltip):
-        #TODO: Enhance tooltip infos
+        # TODO: Enhance tooltip infos
         sect = self.cmb_formats.get_active_text()
         encoder = {'f': self.encoder, 'm': 'mencoder'}
-        infos  = _('<b>Format:</b>\t{}\n'
+        infos = _('<b>Format:</b>\t{}\n'
                    '<b>Extension:</b>\t{}\n'
                    '<b>Encoder:</b>\t{}'
                    ).format(sect,
@@ -870,12 +963,12 @@ abort conversion process?'),
         elif media_type == 'copy':
             sens = [False, False, False, False, False, False, False]
 
-        self.vb_audio.set_sensitive(sens[0])      # Audio page
-        self.vb_video.set_sensitive(sens[1])      # Video page
-        self.frame_sub.set_sensitive(sens[2])     # Subtitle page
-        self.hb_aqual.set_sensitive(sens[3])      # Audio quality slider (ogg)
-        self.hb_vqual.set_sensitive(sens[4])      # video Quality slider (ogv)
-        self.vb_crop.set_sensitive(sens[5])       # Crop/Pad page
+        self.vb_audio.set_sensitive(sens[0])  # Audio page
+        self.vb_video.set_sensitive(sens[1])  # Video page
+        self.frame_sub.set_sensitive(sens[2]) # Subtitle page
+        self.hb_aqual.set_sensitive(sens[3])  # Audio quality slider (ogg)
+        self.hb_vqual.set_sensitive(sens[4])  # video Quality slider (ogv)
+        self.vb_crop.set_sensitive(sens[5])   # Crop/Pad page
         self.cb_same_qual.set_sensitive(sens[6])  # Same quality combo
         
         self.cb_same_qual.set_active(False)
@@ -938,7 +1031,7 @@ abort conversion process?'),
         section = self.cmb_formats.get_active_text()
         media_type = self.f_file.get(section, 'type')
         
-        cmd = [self.encoder, '-y'] #, '-xerror']
+        cmd = [self.encoder, '-y']  # , '-xerror']
         
         if start_pos != '-1' and part_dura != '-1':
             cmd.extend(['-ss', start_pos])
@@ -947,7 +1040,7 @@ abort conversion process?'),
         
         # Threads
         if self.s_threads.get_value() != 0:
-            cmd.extend(['-threads', 
+            cmd.extend(['-threads',
                         '{}'.format(self.s_threads.get_value_as_int())])
         
         # Force format
@@ -981,7 +1074,7 @@ abort conversion process?'),
                 
                 # Video aspect ratio    
                 if self.c_vratio.get_text() == 'default':
-                    #-- force aspect ratio
+                    # -- force aspect ratio
                     if self.c_vcodec.get_text() in ['libxvid', 'mpeg4', 'h263']:
                         cmd.extend(['-aspect', self.get_aspect_ratio(input_file)])
                 else:
@@ -1058,7 +1151,7 @@ abort conversion process?'),
         
         # 2-pass (avconv)
         if self.pass_nbr == 1:
-            cmd.append('-an') # disable audio
+            cmd.append('-an')  # disable audio
             cmd.extend(['-pass', '1'])
             cmd.extend(['-passlogfile', PASS_LOG])
         elif self.pass_nbr == 2:
@@ -1071,7 +1164,7 @@ abort conversion process?'),
     
     
     #--- MEncoder cmd
-    def build_mencoder_cmd(self, 
+    def build_mencoder_cmd(self,
                            input_file, out_file,
                            start_pos= -1, part_dura= -1):
 
@@ -1091,12 +1184,12 @@ abort conversion process?'),
         if self.cb_sub.get_active():
             # Subtitle file
             cmd.extend(['-sub', self.entry_sub.get_text()])
-            cmd.append('-fontconfig') # configure font
+            cmd.append('-fontconfig')  # configure font
             
             # Use SSA/ASS
             if self.cb_ass.get_active():
                 cmd.append('-ass')
-                #TODO: Add more options here.
+                # TODO: Add more options here.
             # Normal OSD
             else:
                 # Font name
@@ -1205,7 +1298,7 @@ abort conversion process?'),
             
         # Add option suitable for each pass (1 or 2)
         if self.pass_nbr == 1:
-            cmd.append('-nosound') # disable audio
+            cmd.append('-nosound')  # disable audio
             cmd.extend(['-passlogfile', PASS_LOG])
         elif self.pass_nbr == 2:
             cmd.extend(['-passlogfile', PASS_LOG])
@@ -1370,7 +1463,7 @@ abort conversion process?'),
             #--- Start the process
             try:
                 self.fp = Popen(full_cmd, stdout=PIPE, stderr=PIPE,
-                                universal_newlines=True, bufsize=-1)
+                                universal_newlines=True, bufsize= -1)
             except:
                 print('Encoder not found (ffmpeg/avconv or mencoder) :(')
                 self.is_converting = False
@@ -1497,6 +1590,13 @@ abort conversion process?'),
                     self.store.remove(Iter)
         else:
             for i in iters: self.store.remove(i)
+
+    def get_selected_iter(self):
+        '''Return first selected iter'''
+        model, tree_path = self.tree_sel.get_selected_rows()
+        if not self.tree_sel.count_selected_rows():
+            return None
+        return model.get_iter(tree_path)
     
     def get_selected_iters(self):
         ''' Get a list contain selected iters '''
@@ -1514,7 +1614,11 @@ abort conversion process?'),
             call('{} -autoexit "{}"'.format(self.player,
                                             self.store[Iter][C_FILE]),
                  shell=True)
-        
+
+    def on_browse_src_cb(self, widget):
+        sel_iter = self.get_selected_iter()
+        call(['xdg-open', dirname(self.store[sel_iter][C_FILE])])    
+    
     def on_browse_cb(self, widget):
         if self.cb_dest.get_active():
             Iter = self.get_selected_iters()[0]
@@ -1611,7 +1715,7 @@ abort conversion process?'),
         # There is no file
         if len(self.store) == 0:
             if event.button == 1 and event.get_click_count()[1] == 2:
-                self.tb_add_cb()
+                self.tb_add_file_cb()
                 return
         
             treepath = self.tree.get_selection().get_selected_rows()[1]
@@ -1782,11 +1886,11 @@ abort conversion process?'),
                         self.store[self.Iter][C_PRGR] = float(time_ratio * 100) 
                         if self.pass_nbr != 0:
                             self.store[self.Iter][C_STAT] = '{:.2%} (P{})'\
-                            .format(time_ratio, self.pass_nbr) # progress text
+                            .format(time_ratio, self.pass_nbr)  # progress text
                         else:
                             self.store[self.Iter][C_STAT] = '{:.2%}'\
-                            .format(time_ratio) # progress text
-                        self.store[self.Iter][C_PULS] = -1 # progress pusle
+                            .format(time_ratio)  # progress text
+                        self.store[self.Iter][C_PULS] = -1  # progress pusle
             
             # mencoder progress
             elif encoder_type == 'm':
@@ -1831,22 +1935,9 @@ abort conversion process?'),
     
     #--- Drag and drop callback
     def drop_data_cb(self, widget, dc, x, y, selection_data, info, t):
-        for i in selection_data.get_uris():
-            if i.startswith('file://'):
-                File = unquote(i[7:])
-                if isfile(File):
-                    self.store.append([True,
-                                       basename(File),
-                                       get_format_size(getsize(File)/1024),
-                                       None,
-                                       None,
-                                       None,
-                                       0.0,
-                                       _('Ready!'),
-                                       -1,
-                                       File])
-                # Save directory from dragged filename.
-                self.curr_open_folder = dirname(File)
+        drag_folder = self.tb_do_add(*selection_data.get_uris())
+        # Save directory from dragged filename.
+        self.curr_open_folder = dirname(drag_folder)
     
     def on_cb_dest_toggled(self, widget):
         Active = not widget.get_active()
@@ -1885,6 +1976,7 @@ abort conversion process?'),
     
     def enable_controls(self, sens=True):
         self.cmb_formats.set_sensitive(sens)
+        self.btn_fav.set_sensitive(sens)
         self.e_dest.set_sensitive(sens)
         self.b_dest.set_sensitive(sens)
         self.cb_dest.set_sensitive(sens)
@@ -1920,20 +2012,6 @@ abort conversion process?'),
         conf.set('configs', 'language', self.cmb_lang.get_active_id())
         conf.set('configs', 'text_icon', self.cb_icon_text.get_active())
         
-        conf.set('configs', 'audio_bitrate', self.c_abitrate.get_text())
-        conf.set('configs', 'audio_frequency', self.c_afreq.get_text())
-        conf.set('configs', 'audio_channels', self.c_ach.get_text())
-        conf.set('configs', 'audio_codec', self.c_acodec.get_text())
-        
-        conf.set('configs', 'video_bitrate', self.c_vbitrate.get_text())
-        conf.set('configs', 'video_fps', self.c_vfps.get_text())
-        conf.set('configs', 'video_size', self.c_vsize.get_text())
-        conf.set('configs', 'video_codec', self.c_vcodec.get_text())
-        conf.set('configs', 'video_ratio', self.c_vratio.get_text())
-        
-        conf.set('configs', 'video_2pass', self.cb_2pass.get_active())
-        conf.set('configs', 'video_video_only', self.cb_video_only.get_active())
-        
         with open(OPTS_FILE, 'w') as configfile:
             conf.write(configfile)
         
@@ -1962,20 +2040,6 @@ abort conversion process?'),
             self.cmb_lang.set_active_id(conf.get('configs', 'language'))
             self.cb_icon_text.set_active(conf.getboolean('configs', 'text_icon'))
             
-            self.c_abitrate.set_text(conf.get('configs', 'audio_bitrate'))
-            self.c_afreq.set_text(conf.get('configs', 'audio_frequency'))
-            self.c_ach.set_text(conf.get('configs', 'audio_channels'))
-            self.c_acodec.set_text(conf.get('configs', 'audio_codec'))
-            
-            self.c_vbitrate.set_text(conf.get('configs', 'video_bitrate'))
-            self.c_vfps.set_text(conf.get('configs', 'video_fps'))
-            self.c_vsize.set_text(conf.get('configs', 'video_size'))
-            self.c_vcodec.set_text(conf.get('configs', 'video_codec'))
-            self.c_vratio.set_text(conf.get('configs', 'video_ratio'))
-            
-            self.cb_2pass.set_active(conf.getboolean('configs', 'video_2pass'))
-            self.cb_video_only.set_active(conf.getboolean('configs', 'video_video_only'))
-            
         except NoOptionError as err:
             print(err)
     
@@ -1983,7 +2047,7 @@ abort conversion process?'),
         with open(ERROR_LOG, 'a') as f_log:
             # Command line
             f_log.write('Command line #{}:\n****************\n'\
-                        .format(self.errs_nbr+1))
+                        .format(self.errs_nbr + 1))
             f_log.write('{}\n'.format(' '.join(cmd)))
             # Error details
             f_log.write('\nError detail:\n*************\n')
@@ -1997,11 +2061,13 @@ abort conversion process?'),
         '''Change toolbar icons'''
         icons_path = self.dict_icons[cmb_icons.get_active_text()]
         
-        self.add_tb.set_icon(icons_path)
+        self.add_file_tb.set_icon(icons_path)
+        self.add_folder_tb.set_icon(icons_path)
         self.remove_tb.set_icon(icons_path)
         self.clear_tb.set_icon(icons_path)
         self.convert_tb.set_icon(icons_path)
         self.stop_tb.set_icon(icons_path)
+        self.infos_tb.set_icon(icons_path)
         self.about_tb.set_icon(icons_path)
         self.quit_tb.set_icon(icons_path)
         self.show_all()
@@ -2135,7 +2201,7 @@ abort conversion process?'),
     # show favorite menu
     def show_menu(self, widget):
         self.fav_menu.show_all()
-        self.fav_menu.popup(None, None, None, None, 3, 
+        self.fav_menu.popup(None, None, None, None, 3,
                             Gtk.get_current_event_time())
     
     # Select format from fav
@@ -2158,7 +2224,7 @@ abort conversion process?'),
         
         # "Add" item
         add_item = Gtk.ImageMenuItem(_("Add to favorite"))
-        add_item.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_ADD, 
+        add_item.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_ADD,
                                                     Gtk.IconSize.MENU))
         add_item.set_always_show_image(True)
         add_item.connect('activate', self.to_fav_cb)
@@ -2166,7 +2232,7 @@ abort conversion process?'),
         
         # Edit item
         edt_item = Gtk.ImageMenuItem(_("Edit list"))
-        edt_item.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_EDIT, 
+        edt_item.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_EDIT,
                                                     Gtk.IconSize.MENU))
         edt_item.set_always_show_image(True)
         edt_item.connect('activate', self.edit_favorite)
@@ -2255,13 +2321,28 @@ abort conversion process?'),
     
     def on_hide_item_activate(self, w):
         self.cb_sideb.set_active(self.hide_item.get_active())
+    
+    
+    # file infos cb
+    def on_file_info_cb(self, widget):
+        Iter = self.get_selected_iter()
+        if not Iter: return
+        
+        if call("which mediainfo > /dev/null", shell=True) != 0:
+            show_message(self, _('Please install "mediainfo" package.'),
+                         Gtk.MessageType.WARNING, Gtk.ButtonsType.OK)
+            return
+        
+        input_file = self.store[Iter][C_FILE]
+        f_dlg = FileInfos(self, input_file);
+        f_dlg.show_dialog()
         
 
 
 class DBusService(dbus.service.Object):
     def __init__(self, app, *args):
         self.app = app
-        bus_name = dbus.service.BusName('org.Curlew', bus = dbus.SessionBus())
+        bus_name = dbus.service.BusName('org.Curlew', bus=dbus.SessionBus())
         dbus.service.Object.__init__(self, bus_name, '/org/Curlew')
 
     @dbus.service.method(dbus_interface='org.Curlew')

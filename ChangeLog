@@ -1,3 +1,17 @@
+Version 0.1.21
+--------------
+
+* New icons.
+* Show file duration in files list.
+* Added button in menu-bar allow to add files from folder directly.
+* Added "Browse source" item in menu.
+* Added "File informations" button (using mediainfo program).
+* Added "File informations" entry in the menu.
+* Removed "libfaac" codec.
+* Disabled "favorite" button during conversion.
+* Functions improvement.
+
+
 Version 0.1.20.6
 ----------------
 
