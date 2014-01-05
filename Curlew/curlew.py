@@ -710,6 +710,10 @@ class Curlew(Gtk.Window):
         self.cb_remove = Gtk.CheckButton(_('Delete input file after conversion'))
         self.vb_config.pack_start(self.cb_remove, False, False, 0)
 
+        # Rename source file
+        self.cb_rename = Gtk.CheckButton(_('Rename input file after conversion'))
+        self.vb_config.pack_start(self.cb_rename, False, False, 0)
+
         vbox.pack_start(Gtk.Separator(), False, False, 0)
         
         #--- Status
@@ -1755,6 +1759,8 @@ abort conversion process?'),
                 # Remove source file
                 if self.cb_remove.get_active():
                     self.force_delete_file(self.store[self.Iter][C_FILE])
+                elif self.cb_rename.get_active():
+                    self.rename_file(self.store[self.Iter][C_FILE])
                 
                 # Update start time
                 self._start_time = time.time()
@@ -1955,6 +1961,16 @@ abort conversion process?'),
         while exists(file_name):
             try:
                 os.unlink(file_name)
+            except OSError:
+                continue
+    
+    def rename_file(self, file_name):
+        ''' Rename file_name '''
+        while exists(file_name):
+            try:
+                path = os.path.dirname(os.path.realpath(file_name))
+                base = os.path.basename(os.path.realpath(file_name))
+                os.rename(join(path, file_name), join(path, "DONE " + base))
             except OSError:
                 continue
     
