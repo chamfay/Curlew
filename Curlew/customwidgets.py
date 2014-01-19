@@ -116,6 +116,7 @@ class CustomToolButton(Gtk.ToolButton):
         self.set_tooltip_markup(tooltip)
         self.set_label(label)
         self.connect('clicked', callback)
+        self.set_is_important(True)
         toolbar.insert(self, -1)
     
     def set_icon(self, path):

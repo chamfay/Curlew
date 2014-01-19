@@ -34,7 +34,7 @@ try:
     import dbus.glib, dbus.service
     import cPickle
     from glob import glob
-    
+
     from customwidgets import LabeledHBox, TimeLayout, CustomHScale, \
     CustomToolButton, SpinsFrame, LabeledGrid, CustomComboEntry
     from about import About
@@ -151,18 +151,19 @@ class Curlew(Gtk.Window):
         Gtk.Window.__init__(self)        
         self.set_position(Gtk.WindowPosition.CENTER)
         self.set_title(_('Curlew'))
-        self.set_border_width(6)
         self.set_size_request(730, -1)
         self.set_icon_name('curlew')
         
         #--- Global vbox
-        vbox = Gtk.Box(spacing=6, orientation=Gtk.Orientation.VERTICAL)
-        self.add(vbox)
+        vbox_global = Gtk.Box(spacing=6, orientation=Gtk.Orientation.VERTICAL)
+        self.add(vbox_global)
         
         #--- Toolbar
         toolbar = Gtk.Toolbar()
+        toolbar.set_style(Gtk.ToolbarStyle.ICONS)
         toolbar.set_icon_size(Gtk.IconSize.DIALOG)
-        vbox.pack_start(toolbar, False, True, 0)
+        toolbar.get_style_context().add_class(Gtk.STYLE_CLASS_PRIMARY_TOOLBAR);
+        vbox_global.pack_start(toolbar, False, True, 0)
         
         
         #--- ToolButtons
@@ -219,6 +220,7 @@ class Curlew(Gtk.Window):
                                         _('Quit application'),
                                         self.quit_cb, toolbar)
         
+        
         #--- List of files
         self.store = Gtk.ListStore(bool, # active 
                                    str,  # file_name
@@ -250,7 +252,7 @@ class Curlew(Gtk.Window):
         scroll.add(self.tree)
         
         self.paned = Gtk.Paned()
-        vbox.pack_start(self.paned, True, True, 0)
+        vbox_global.pack_start(self.paned, True, True, 0)
         
         #--- Image preview
         vbox_image = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -358,16 +360,17 @@ class Curlew(Gtk.Window):
         
         # File informations
         file_info = Gtk.ImageMenuItem().new_with_label(_('File Informations'))
-        file_info.set_image(Gtk.Image.new_from_icon_name("help-contents", 1))
+        file_info.set_image(Gtk.Image.new_from_icon_name("help-info", 1))
+        file_info.set_always_show_image(True)
         file_info.connect('activate', self.on_file_info_cb)
         
         self.popup.append(play_item)
         self.popup.append(preview_item)
         self.popup.append(remove_item)
-        self.popup.append(Gtk.SeparatorMenuItem())
+        self.popup.append(Gtk.SeparatorMenuItem.new())
         self.popup.append(browse_src)
         self.popup.append(browse_item)
-        self.popup.append(Gtk.SeparatorMenuItem())
+        self.popup.append(Gtk.SeparatorMenuItem.new())
         self.popup.append(file_info)
         
         #--- Output formats
@@ -377,6 +380,10 @@ class Curlew(Gtk.Window):
         self.cmb_formats.set_has_tooltip(True)
         self.cmb_formats.connect('changed', self.on_cmb_formats_changed)
         self.cmb_formats.connect('query-tooltip', self.on_cmb_formats_tooltip)
+        
+        vbox = Gtk.Box(spacing=6, orientation=Gtk.Orientation.VERTICAL)
+        vbox.set_border_width(4)
+        vbox_global.add(vbox)
         
         hbox = Gtk.Box(spacing=6)
         hl = LabeledGrid(vbox)
@@ -633,15 +640,15 @@ class Curlew(Gtk.Window):
         self.vb_more.pack_start(self.cb_same_qual, False, False, 0)
         
         # Encoder type (ffmpeg / avconv)
-        self.cmb_encoder = CustomComboEntry(False)
+        self.cmb_encoder = CustomComboEntry(True)
         self.cmb_encoder.set_id_column(0)
         self.cmb_encoder.connect('changed', self.cmb_encoder_cb)
         grid_other.append_row(_('Converter:'), self.cmb_encoder)
         
-        # Load available encoder
-        if call(['which', 'avconv'], stdout=PIPE) == 0:
+        # Load available encoder        
+        if call('which avconv > /dev/null', shell=True) == 0:
             self.cmb_encoder.append_text('avconv')
-        if call(['which', 'ffmpeg'], stdout=PIPE) == 0:
+        if call('which ffmpeg > /dev/null', shell=True) == 0:
             self.cmb_encoder.append_text('ffmpeg')
         self.cmb_encoder.set_active(0)
         
@@ -1598,6 +1605,7 @@ abort conversion process?'),
     def get_selected_iter(self):
         '''Return first selected iter'''
         model, tree_path = self.tree_sel.get_selected_rows()
+        # count_selected_rows() only for gtk3 >> 3.4
         if not self.tree_sel.count_selected_rows():
             return None
         return model.get_iter(tree_path)
@@ -1620,7 +1628,7 @@ abort conversion process?'),
                  shell=True)
 
     def on_browse_src_cb(self, widget):
-        sel_iter = self.get_selected_iter()
+        sel_iter = self.get_selected_iters()[0]
         call(['xdg-open', dirname(self.store[sel_iter][C_FILE])])    
     
     def on_browse_cb(self, widget):
@@ -2018,7 +2026,8 @@ abort conversion process?'),
         conf.set('configs', 'cb_same_dest_on', self.cb_dest.get_active())
         conf.set('configs', 'cb_same_qual_on', self.cb_same_qual.get_active())
         conf.set('configs', 'overwrite_mode', self.cmb_exist.get_active())
-        conf.set('configs', 'encoder', self.cmb_encoder.get_active_id())
+        #conf.set('configs', 'encoder', self.cmb_encoder.get_active_id())
+        conf.set('configs', 'encoder', self.cmb_encoder.get_active_text())
         conf.set('configs', 'font', self.b_font.get_font_name())
         conf.set('configs', 'encoding', self.cmb_enc.get_active_id())
         conf.set('configs', 'use_ass', self.cb_ass.get_active())
@@ -2027,6 +2036,20 @@ abort conversion process?'),
         conf.set('configs', 'icons', self.cmb_icons.get_active_id())
         conf.set('configs', 'language', self.cmb_lang.get_active_id())
         conf.set('configs', 'text_icon', self.cb_icon_text.get_active())
+        
+        conf.set('configs', 'audio_bitrate', self.c_abitrate.get_text())
+        conf.set('configs', 'audio_frequency', self.c_afreq.get_text())
+        conf.set('configs', 'audio_channels', self.c_ach.get_text())
+        conf.set('configs', 'audio_codec', self.c_acodec.get_text())
+        
+        conf.set('configs', 'video_bitrate', self.c_vbitrate.get_text())
+        conf.set('configs', 'video_fps', self.c_vfps.get_text())
+        conf.set('configs', 'video_size', self.c_vsize.get_text())
+        conf.set('configs', 'video_codec', self.c_vcodec.get_text())
+        conf.set('configs', 'video_ratio', self.c_vratio.get_text())
+        
+        conf.set('configs', 'video_2pass', self.cb_2pass.get_active())
+        conf.set('configs', 'video_video_only', self.cb_video_only.get_active())
         
         with open(OPTS_FILE, 'w') as configfile:
             conf.write(configfile)
@@ -2046,7 +2069,8 @@ abort conversion process?'),
             self.cb_dest.set_active(conf.getboolean('configs', 'cb_same_dest_on'))
             self.cb_same_qual.set_active(conf.getboolean('configs', 'cb_same_qual_on'))
             self.cmb_exist.set_active(conf.getint('configs', 'overwrite_mode'))
-            self.cmb_encoder.set_active_id(conf.get('configs', 'encoder'))
+            #self.cmb_encoder.set_active_id(conf.get('configs', 'encoder'))
+            self.cmb_encoder.set_text(conf.get('configs', 'encoder'))
             self.b_font.set_font(conf.get('configs', 'font'))
             self.cmb_enc.set_active_id(conf.get('configs', 'encoding'))
             self.cb_ass.set_active(conf.getboolean('configs', 'use_ass'))
@@ -2055,6 +2079,20 @@ abort conversion process?'),
             self.cmb_icons.set_active_id(conf.get('configs', 'icons'))
             self.cmb_lang.set_active_id(conf.get('configs', 'language'))
             self.cb_icon_text.set_active(conf.getboolean('configs', 'text_icon'))
+            
+            self.c_abitrate.set_text(conf.get('configs', 'audio_bitrate'))
+            self.c_afreq.set_text(conf.get('configs', 'audio_frequency'))
+            self.c_ach.set_text(conf.get('configs', 'audio_channels'))
+            self.c_acodec.set_text(conf.get('configs', 'audio_codec'))
+            
+            self.c_vbitrate.set_text(conf.get('configs', 'video_bitrate'))
+            self.c_vfps.set_text(conf.get('configs', 'video_fps'))
+            self.c_vsize.set_text(conf.get('configs', 'video_size'))
+            self.c_vcodec.set_text(conf.get('configs', 'video_codec'))
+            self.c_vratio.set_text(conf.get('configs', 'video_ratio'))
+            
+            self.cb_2pass.set_active(conf.getboolean('configs', 'video_2pass'))
+            self.cb_video_only.set_active(conf.getboolean('configs', 'video_video_only'))
             
         except NoOptionError as err:
             print(err)
@@ -2236,7 +2274,7 @@ abort conversion process?'),
         for fformat in self.get_fav_list():
             self._append(menu, fformat)
         
-        menu.append(Gtk.SeparatorMenuItem())
+        menu.append(Gtk.SeparatorMenuItem.new())
         
         # "Add" item
         add_item = Gtk.ImageMenuItem(_("Add to favorite"))
@@ -2341,8 +2379,8 @@ abort conversion process?'),
     
     # file infos cb
     def on_file_info_cb(self, widget):
-        Iter = self.get_selected_iter()
-        if not Iter: return
+        try: Iter = self.get_selected_iters()[0]
+        except: return
         
         if call("which mediainfo > /dev/null", shell=True) != 0:
             show_message(self, _('Please install "mediainfo" package.'),

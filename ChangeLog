@@ -1,3 +1,12 @@
+Version 0.1.22
+--------------
+
+* Updated arabic, czech and basque translations.
+* Option to rename input file after successfull conversion.
+* Save/load last audio and video properties (restaured).
+* Bugs fixes and some UI enhancements.
+
+
 Version 0.1.21
 --------------
 
