@@ -2142,6 +2142,8 @@ abort conversion process?'),
         self.counter -= 1
         if self.counter < 0:
             self.label_details.set_text('')
+            cmd = 'sync'
+            call(cmd, shell=True)
             cmd = 'dbus-send --system --print-reply --system --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend'
             call(cmd, shell=True)
             return False
