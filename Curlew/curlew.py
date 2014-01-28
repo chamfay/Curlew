@@ -2182,7 +2182,7 @@ abort conversion process?'),
         self.label_details.set_markup(_('<span foreground="red" weight="bold">System will shutdown after {} sec.</span>').format(self.counter))
         self.counter -= 1
         if self.counter < 0:
-            cmd = 'dbus-send --system --print-reply --system --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop'
+            cmd = 'dbus-send --system --print-reply --dest=org.freedesktop.ConsoleKit /org/freedesktop/ConsoleKit/Manager org.freedesktop.ConsoleKit.Manager.Stop'
             call(cmd, shell=True)
             return False
         return True
@@ -2196,7 +2196,9 @@ abort conversion process?'),
         self.counter -= 1
         if self.counter < 0:
             self.label_details.set_text('')
-            cmd = 'dbus-send --system --print-reply --system --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend'
+            cmd = 'sync'
+            call(cmd, shell=True)
+            cmd = 'dbus-send --system --print-reply --dest=org.freedesktop.UPower /org/freedesktop/UPower org.freedesktop.UPower.Suspend'
             call(cmd, shell=True)
             return False
         return True
