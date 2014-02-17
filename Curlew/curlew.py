@@ -118,6 +118,7 @@ class Curlew(Gtk.Window):
         self.counter = 20
         self.errs_nbr = 0
         self.pass_nbr = 0
+        
         '''
         self.pass_nbr = 0: Single pass encoding option
         self.pass_nbr = 1: Two-pass encoding option (1st pass)
@@ -290,7 +291,7 @@ class Curlew(Gtk.Window):
         #--- CheckButton cell
         cell = Gtk.CellRendererToggle()
         cell.connect('toggled', self.on_toggled_cb)
-        col = Gtk.TreeViewColumn(None, cell, active=C_SKIP)
+        col = Gtk.TreeViewColumn("#", cell, active=C_SKIP)
         self.tree.append_column(col)
         
         #--- Filename cell

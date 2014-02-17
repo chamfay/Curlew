@@ -1,3 +1,10 @@
+Version 0.1.22.1
+----------------
+
+* Updated polish and russian translation.
+* sync filesystem before suspend.
+
+
 Version 0.1.22
 --------------
 
