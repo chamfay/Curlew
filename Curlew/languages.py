@@ -29,5 +29,6 @@ LANGUAGES = {
              'Nederlands': 'nl',
              'Polski': 'pl',
              'Русский': 'ru',
+             'Srpski': 'sr',
              'Traditional Chinese: 正體中文': 'zh_TW'
              }
