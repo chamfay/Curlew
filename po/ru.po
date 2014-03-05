@@ -56,7 +56,7 @@ msgstr "Очистить список файлов"
 
 #: Curlew/curlew.py:194
 msgid "Convert"
-msgstr "Конвертировать"
+msgstr "Запуск"
 
 #: Curlew/curlew.py:195
 msgid "Start Conversion"
@@ -72,7 +72,7 @@ msgstr "Остановить конвертацию"
 
 #: Curlew/curlew.py:207
 msgid "File Infos"
-msgstr "Информация о файле"
+msgstr "Свойства"
 
 #: Curlew/curlew.py:208 Curlew/curlew.py:363
 msgid "File Informations"
