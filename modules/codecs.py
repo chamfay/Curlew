@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2014 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2016 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -17,15 +17,19 @@
 # The latest version of the license can be found on:
 # http://www.ojuba.org/wiki/doku.php/waqf/license
 
-from gi.repository import Gtk, Pango
-from subprocess import check_output
+import gi
+gi.require_version('Gtk', '3.0')
 
-class FileInfos(Gtk.Dialog):
-    def __init__(self, prnt, file_name):
-        Gtk.Dialog.__init__(self, parent=prnt)
-        self.set_title(_("File informations"))
-        self.set_size_request(580, 450)
+from gi.repository import Gtk, Pango
+from modules.functions import get_available_codecs
+
+class CodecsDialog(Gtk.Dialog):
+    def __init__(self, prnt, encoder, title):
+        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
+        self.set_title(title)
+        self.set_size_request(700, 600)
         self.set_border_width(6)
+        self.vbox.set_spacing(6)
         
         txt_info = Gtk.TextView()
         txt_info.set_editable(False)
@@ -37,17 +41,15 @@ class FileInfos(Gtk.Dialog):
         scroll.add(txt_info)
         self.vbox.pack_start(scroll, True, True, 0)
         
-        self.add_button(Gtk.STOCK_CLOSE, Gtk.ResponseType.CLOSE)
-        
         font_desc = Pango.FontDescription('Monospace')
         txt_info.override_font(font_desc)
         
         txt_buffer = Gtk.TextBuffer()
         txt_info.set_buffer(txt_buffer)
         
-        # Show info        
-        buf = check_output('mediainfo "{}"'.format(file_name), shell=True)
-        txt_buffer.set_text(buf.strip())
+        # Show Codecs        
+        buff = get_available_codecs(encoder)
+        txt_buffer.set_text(buff)
         
     
     

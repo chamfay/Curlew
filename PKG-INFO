@@ -1,0 +1,34 @@
+Metadata-Version: 1.1
+Name: curlew
+Version: 0.2.1
+Summary: Easy to use multimedia converter in Linux
+Home-page: http://sourceforge.net/projects/curlew
+Author: Fayssal Chamekh
+Author-email: chamfay@gmail.com
+License: Waqf License
+Description: Curlew written in python and GTK3 and it depends on (ffmpeg/avconv).
+        
+        Main Features:
+        - Easy to use with simple user interface.
+        - Hide the advanced options with the ability to show them.
+        - Convert to more than 100 different formats.
+        - Show file informations (duration, remaining time, estimated size, progress value).
+        - Allow to skip or remove file during conversion process.
+        - Preview file before conversion.
+        - Convert a specified portion of file.
+        - Combine subtitle with video file.
+        - Show error details if exist.
+        - And more ...
+Keywords: convert,audio,video,ffmpeg,avconv
+Platform: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: X11 Applications :: GTK
+Classifier: Natural Language :: English
+Classifier: Natural Language :: Arabic
+Classifier: Natural Language :: French
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Topic :: Desktop Environment :: Gnome
+Classifier: Topic :: Multimedia :: Sound/Audio :: Conversion
+Classifier: Topic :: Utilities

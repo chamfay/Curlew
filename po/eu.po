@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-25 22:43+0100\n"
+"POT-Creation-Date: 2016-02-21 22:48+0100\n"
 "PO-Revision-Date: 2014-01-08 19:07+0100\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@irakasle.net>\n"
 "Language-Team: BASQUE\n"
@@ -17,434 +17,575 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
 
-#: Curlew/curlew.py:154 Curlew/about.py:29 Curlew/tray.py:30
-msgid "Curlew"
-msgstr "Curlew"
+#: modules/customwidgets.py:50
+msgid "Top"
+msgstr "Goitik"
 
-#: Curlew/curlew.py:172
-msgid "Add File"
-msgstr "Gehitu fitxategia"
+#: modules/customwidgets.py:58
+msgid "Bottom"
+msgstr "Behetik"
 
-#: Curlew/curlew.py:173
-msgid "Add files"
-msgstr "Gehitu fitxategiak"
+#: modules/customwidgets.py:66
+msgid "Left"
+msgstr "Ezkerretik"
 
-#: Curlew/curlew.py:176
-msgid "Add Folder"
-msgstr "Gehitu karpeta"
+#: modules/customwidgets.py:74
+msgid "Right"
+msgstr "Eskuinetik"
 
-#: Curlew/curlew.py:177
-msgid "Add folders"
-msgstr "Gehitu karpetak"
+#: modules/customwidgets.py:172
+msgid "hr"
+msgstr "ordu"
 
-#: Curlew/curlew.py:181
-msgid "Remove"
-msgstr "Kendu"
+#: modules/customwidgets.py:177
+msgid "min"
+msgstr "min"
 
-#: Curlew/curlew.py:182
-msgid "Remove files"
-msgstr "Kendu fitxategiak"
-
-#: Curlew/curlew.py:186
-msgid "Clear"
-msgstr "Garbitu"
-
-#: Curlew/curlew.py:187
-msgid "Clear files list"
-msgstr "Garbitu fitxategi-zerrenda"
-
-#: Curlew/curlew.py:194
-msgid "Convert"
-msgstr "Bihurtu"
-
-#: Curlew/curlew.py:195
-msgid "Start Conversion"
-msgstr "Hasi bihurketa"
-
-#: Curlew/curlew.py:199
-msgid "Stop"
-msgstr "Gelditu"
-
-#: Curlew/curlew.py:200 Curlew/tray.py:40
-msgid "Stop Conversion"
-msgstr "Gelditu bihurketa"
-
-#: Curlew/curlew.py:207
-msgid "File Infos"
-msgstr "Fitxategi-info"
-
-#: Curlew/curlew.py:208 Curlew/curlew.py:363
-msgid "File Informations"
-msgstr "Fitxategiaren informazioa"
-
-#: Curlew/curlew.py:212
-msgid "About"
-msgstr "Honi buruz"
-
-#: Curlew/curlew.py:213 Curlew/about.py:33
-msgid "About Curlew"
-msgstr "Curlew-ri buruz"
-
-#: Curlew/curlew.py:220
-msgid "Quit"
-msgstr "Irten"
-
-#: Curlew/curlew.py:221 Curlew/tray.py:44
-msgid "Quit application"
-msgstr "Irten aplikaziotik"
-
-#: Curlew/curlew.py:275 Curlew/curlew.py:698
-msgid "Show sidebar"
-msgstr "Erakutsi alboko barra"
-
-#: Curlew/curlew.py:299
-msgid "File"
-msgstr "Fitxategia"
-
-#: Curlew/curlew.py:306
-msgid "Size"
-msgstr "Tamaina"
-
-#: Curlew/curlew.py:311
-msgid "Duration"
-msgstr "Iraupena"
-
-#: Curlew/curlew.py:317
-msgid "Estimated size"
-msgstr "Tamaina estimatua"
-
-#: Curlew/curlew.py:323
-msgid "Elapsed time"
-msgstr "Igarotako denbora"
-
-#: Curlew/curlew.py:329
-msgid "Remaining time"
-msgstr "Falta den denbora"
-
-#: Curlew/curlew.py:334
-msgid "Progress"
-msgstr "Aurrerapena"
-
-#: Curlew/curlew.py:351
-msgid "Browse source"
-msgstr "Arakatu jatorrizkoa"
-
-#: Curlew/curlew.py:356
-msgid "Browse destination"
-msgstr "Arakatu helburua"
-
-#: Curlew/curlew.py:359
-msgid "Preview before converting"
-msgstr "Ikusi bihurtu aurretik"
-
-#: Curlew/curlew.py:391
-msgid "<b>Format:</b>"
-msgstr "<b>Formatua:</b>"
-
-#: Curlew/curlew.py:399 Curlew/favdialog.py:27
-msgid "Favorite list"
-msgstr "Gogokoen zerrenda"
-
-#: Curlew/curlew.py:411
-msgid "Source Path"
-msgstr "Jatorrizko kokalekua"
-
-#: Curlew/curlew.py:416
-msgid "<b>Destination:</b>"
-msgstr "<b>Helburu-kokalekua:</b>"
-
-#: Curlew/curlew.py:424
-msgid "<b>Advanced</b>"
-msgstr "<b>Aurreratua</b>"
-
-#: Curlew/curlew.py:434
-msgid "Audio"
-msgstr "Audio"
-
-#: Curlew/curlew.py:442
-msgid "Audio Bitrate"
-msgstr "Audio bit-tasa"
-
-#: Curlew/curlew.py:443
-msgid "Audio Frequency"
-msgstr "Audio-maiztasuna"
-
-#: Curlew/curlew.py:444
-msgid "Audio Channels"
-msgstr "Audio-kanalak"
-
-#: Curlew/curlew.py:445
-msgid "Audio Codec"
-msgstr "Audio-kodeka"
-
-#: Curlew/curlew.py:448
-msgid "Volume (%)"
-msgstr "Bolumena (%)"
-
-#: Curlew/curlew.py:454
-msgid "Audio Quality"
-msgstr "Audio-kalitatea"
-
-#: Curlew/curlew.py:460
-msgid "Video"
-msgstr "Bideoa"
-
-#: Curlew/curlew.py:470
-msgid "Video Bitrate"
-msgstr "Bideo bit-tasa"
-
-#: Curlew/curlew.py:471
-msgid "Video FPS"
-msgstr "Bideo FPS"
-
-#: Curlew/curlew.py:472
-msgid "Video Size"
-msgstr "Bideo-tamaina"
-
-#: Curlew/curlew.py:473
-msgid "Video Codec"
-msgstr "Bideo-kodeka"
-
-#: Curlew/curlew.py:474
-msgid "Aspect Ratio"
-msgstr "Aspektu-erlazioa"
-
-#: Curlew/curlew.py:480
-msgid "2-Pass"
-msgstr "2-pasaldi"
-
-#: Curlew/curlew.py:484
-msgid "Video only"
-msgstr "Bideoa bakarrik"
-
-#: Curlew/curlew.py:491
-msgid "Video Quality"
-msgstr "Bideo-kalitatea"
-
-#: Curlew/curlew.py:496
-msgid "Subtitle"
-msgstr "Azpititulua"
-
-#: Curlew/curlew.py:502
-msgid "Use Subtitle"
-msgstr "Erabili azpititulua"
-
-#: Curlew/curlew.py:518
-msgid "Subtitle: "
-msgstr "Azpititulua: "
-
-#: Curlew/curlew.py:525
-msgid "Font: "
-msgstr "Letra-mota: "
-
-#: Curlew/curlew.py:536
-msgid "Size: "
-msgstr "Tamaina: "
-
-#: Curlew/curlew.py:543
-msgid "Position: "
-msgstr "Kokalekua: "
-
-#: Curlew/curlew.py:563
-msgid "Encoding: "
-msgstr "Kodeketa:"
-
-#: Curlew/curlew.py:570 Curlew/customwidgets.py:194
+#: modules/customwidgets.py:182 modules/curlew.py:698
 msgid "sec"
 msgstr "seg"
 
-#: Curlew/curlew.py:571
-msgid "Delay: "
-msgstr "Atzerapena: "
+#: modules/favdialog.py:28 modules/curlew.py:480
+msgid "Favorite list"
+msgstr "Gogokoen zerrenda"
 
-#: Curlew/curlew.py:574
-msgid "Harddup"
-msgstr "Harddup"
+#: modules/favdialog.py:38
+msgid "Format"
+msgstr "Formatua"
 
-#: Curlew/curlew.py:578
-msgid "Use SSA/ASS subtitle"
-msgstr "Erabili SSA/ASS azpititulua"
+#: modules/favdialog.py:55
+msgid "Up"
+msgstr ""
 
-#: Curlew/curlew.py:585
+#: modules/favdialog.py:61
+msgid "Down"
+msgstr ""
+
+#: modules/favdialog.py:67 modules/edition.py:310 modules/curlew.py:2244
+msgid "Remove"
+msgstr "Kendu"
+
+#: modules/about.py:31 modules/tray.py:30 modules/curlew.py:181
+#: modules/curlew.py:251
+msgid "Curlew"
+msgstr "Curlew"
+
+#: modules/about.py:35 modules/curlew.py:328
+msgid "About Curlew"
+msgstr "Curlew-ri buruz"
+
+#: modules/about.py:38
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "Multimedia bihurtzaile erraza Linuxerako"
+
+#: modules/about.py:51
+msgid "translator-credits"
+msgstr "Itzultzailearen kredituak"
+
+#: modules/functions.py:44
+msgid " KB"
+msgstr " KB"
+
+#: modules/functions.py:47
+msgid " MB"
+msgstr " MB"
+
+#: modules/functions.py:50
+msgid " GB"
+msgstr " GB"
+
+#: modules/tray.py:36 modules/tray.py:66
+msgid "Hide"
+msgstr "Ezkutatu"
+
+#: modules/tray.py:40 modules/curlew.py:314
+msgid "Stop Conversion"
+msgstr "Gelditu bihurketa"
+
+#: modules/tray.py:44
+msgid "Quit application"
+msgstr "Irten aplikaziotik"
+
+#: modules/tray.py:68
+msgid "Show"
+msgstr "Erakutsi"
+
+#: modules/logdialog.py:29
+msgid "Errors detail"
+msgstr "Errorearen xehetasunak"
+
+#: modules/logdialog.py:48
+msgid "_Close"
+msgstr ""
+
+#: modules/edition.py:35
+msgid "Are you sure you want to save settings?"
+msgstr ""
+
+#: modules/edition.py:107
+msgid "You can't restore a custom format to defaults."
+msgstr ""
+
+#: modules/edition.py:202
+msgid "Are you sure you want to remove this format?"
+msgstr ""
+
+#: modules/edition.py:249
+#, fuzzy
+msgid "Audio:"
+msgstr "Audio"
+
+#: modules/edition.py:257 modules/edition.py:276
+msgid "Default"
+msgstr ""
+
+#: modules/edition.py:260
+#, fuzzy
+msgid "Audio Bitrates"
+msgstr "Audio bit-tasa"
+
+#: modules/edition.py:262
+#, fuzzy
+msgid "Audio Frequencies"
+msgstr "Audio-maiztasuna"
+
+#: modules/edition.py:264 modules/curlew.py:551
+msgid "Audio Channels"
+msgstr "Audio-kanalak"
+
+#: modules/edition.py:266
+#, fuzzy
+msgid "Audio Codecs"
+msgstr "Audio-kodeka"
+
+#: modules/edition.py:269
+#, fuzzy
+msgid "Video:"
+msgstr "Bideoa"
+
+#: modules/edition.py:279
+#, fuzzy
+msgid "Video Bitrates"
+msgstr "Bideo bit-tasa"
+
+#: modules/edition.py:281 modules/curlew.py:591
+msgid "Video FPS"
+msgstr "Bideo FPS"
+
+#: modules/edition.py:283
+#, fuzzy
+msgid "Video Sizes"
+msgstr "Bideo-tamaina"
+
+#: modules/edition.py:285
+#, fuzzy
+msgid "Video Codecs"
+msgstr "Bideo-kodeka"
+
+#: modules/edition.py:287
+#, fuzzy
+msgid "Aspect Ratios"
+msgstr "Aspektu-erlazioa"
+
+#: modules/edition.py:289
+#, fuzzy
+msgid "Other Options:"
+msgstr "Beste aukerak:"
+
+#: modules/edition.py:291
+msgid "Extra Options"
+msgstr ""
+
+#: modules/edition.py:304
+msgid "Save"
+msgstr ""
+
+#: modules/edition.py:318
+msgid "Restore default"
+msgstr ""
+
+#: modules/fileinfos.py:26
+msgid "File informations"
+msgstr "Fitxategiaren informazioa"
+
+#: modules/waitdialog.py:31
+msgid "Adding files..."
+msgstr "Fitxategiak gehitzen..."
+
+#: modules/waitdialog.py:42 modules/curlew.py:963 modules/curlew.py:1046
+#: modules/curlew.py:1072 modules/curlew.py:1532 modules/curlew.py:2288
+msgid "_Cancel"
+msgstr ""
+
+#: modules/waitdialog.py:50
+msgid "<b>File:</b> "
+msgstr "<b>Fitxategia:</b>"
+
+#: modules/formats.py:56
+msgid "<i><span color=\"red\">No format selected!</span></i>"
+msgstr ""
+
+#: modules/formats.py:110
+#, fuzzy
+msgid "Edit"
+msgstr "Editatu zerrenda"
+
+#: modules/formats.py:120
+#, fuzzy
+msgid "Choose"
+msgstr "Aukeratu beste izena"
+
+#: modules/curlew.py:96
+msgid "<span color=\"red\"><i><b>{}</b> Codec not found!</i></span>"
+msgstr ""
+
+#: modules/curlew.py:189
+msgid "About"
+msgstr "Honi buruz"
+
+#: modules/curlew.py:194
+msgid "Quit"
+msgstr "Irten"
+
+#: modules/curlew.py:243
+msgid "Available Codecs"
+msgstr ""
+
+#: modules/curlew.py:274
+#, fuzzy
+msgid "Add Files"
+msgstr "Gehitu fitxategia"
+
+#: modules/curlew.py:280
+#, fuzzy
+msgid "Add Folders"
+msgstr "Gehitu karpeta"
+
+#: modules/curlew.py:291
+#, fuzzy
+msgid "Remove Files"
+msgstr "Kendu fitxategiak"
+
+#: modules/curlew.py:297
+#, fuzzy
+msgid "Clear Files List"
+msgstr "Garbitu fitxategi-zerrenda"
+
+#: modules/curlew.py:308
+msgid "Start Conversion"
+msgstr "Hasi bihurketa"
+
+#: modules/curlew.py:321 modules/curlew.py:2254
+msgid "File Informations"
+msgstr "Fitxategiaren informazioa"
+
+#: modules/curlew.py:334
+msgid "Advanced Options"
+msgstr ""
+
+#: modules/curlew.py:395 modules/curlew.py:804
+#, fuzzy
+msgid "Show Sidebar"
+msgstr "Erakutsi alboko barra"
+
+#: modules/curlew.py:418
+msgid "File"
+msgstr "Fitxategia"
+
+#: modules/curlew.py:425
+msgid "Size"
+msgstr "Tamaina"
+
+#: modules/curlew.py:431
+msgid "Duration"
+msgstr "Iraupena"
+
+#: modules/curlew.py:437
+msgid "Estimated size"
+msgstr "Tamaina estimatua"
+
+#: modules/curlew.py:444
+msgid "Elapsed time"
+msgstr "Igarotako denbora"
+
+#: modules/curlew.py:451
+msgid "Remaining time"
+msgstr "Falta den denbora"
+
+#: modules/curlew.py:457
+msgid "Progress"
+msgstr "Aurrerapena"
+
+#: modules/curlew.py:469
+#, fuzzy
+msgid "Choose a format"
+msgstr "Aukeratu beste izena"
+
+#: modules/curlew.py:496
+#, fuzzy
+msgid "Add to Favorite"
+msgstr "Gehitu gogokoetara"
+
+#: modules/curlew.py:504
+#, fuzzy
+msgid "Edit List"
+msgstr "Editatu zerrenda"
+
+#: modules/curlew.py:534
+msgid "Audio"
+msgstr "Audio"
+
+#: modules/curlew.py:549
+msgid "Audio Bitrate"
+msgstr "Audio bit-tasa"
+
+#: modules/curlew.py:550
+msgid "Audio Frequency"
+msgstr "Audio-maiztasuna"
+
+#: modules/curlew.py:552
+msgid "Audio Codec"
+msgstr "Audio-kodeka"
+
+#: modules/curlew.py:555
+msgid "Volume (%)"
+msgstr "Bolumena (%)"
+
+#: modules/curlew.py:561
+msgid "Audio Quality"
+msgstr "Audio-kalitatea"
+
+#: modules/curlew.py:573
+msgid "Video"
+msgstr "Bideoa"
+
+#: modules/curlew.py:590
+msgid "Video Bitrate"
+msgstr "Bideo bit-tasa"
+
+#: modules/curlew.py:592
+msgid "Video Size"
+msgstr "Bideo-tamaina"
+
+#: modules/curlew.py:593
+msgid "Video Codec"
+msgstr "Bideo-kodeka"
+
+#: modules/curlew.py:594
+msgid "Aspect Ratio"
+msgstr "Aspektu-erlazioa"
+
+#: modules/curlew.py:600
+msgid "2-Pass"
+msgstr "2-pasaldi"
+
+#: modules/curlew.py:604
+msgid "Video only"
+msgstr "Bideoa bakarrik"
+
+#: modules/curlew.py:611
+msgid "Video Quality"
+msgstr "Bideo-kalitatea"
+
+#: modules/curlew.py:622
+msgid "Subtitle"
+msgstr "Azpititulua"
+
+#: modules/curlew.py:628
+#, fuzzy
+msgid "Use Subtitle (ffmpeg only)"
+msgstr "Erabili azpititulua"
+
+#: modules/curlew.py:644
+msgid "Subtitle: "
+msgstr "Azpititulua: "
+
+#: modules/curlew.py:662
+msgid "Size: "
+msgstr "Tamaina: "
+
+#: modules/curlew.py:691
+msgid "Encoding: "
+msgstr "Kodeketa:"
+
+#: modules/curlew.py:704
 msgid "Crop / Pad"
 msgstr "Moztu / Korritu"
 
-#: Curlew/curlew.py:588
+#: modules/curlew.py:707
 msgid "Crop"
 msgstr "Moztu"
 
-#: Curlew/curlew.py:592
+#: modules/curlew.py:711
 msgid "Pad"
 msgstr "Korritu"
 
-#: Curlew/curlew.py:598
+#: modules/curlew.py:717
 msgid "More"
 msgstr "Gehiago"
 
-#: Curlew/curlew.py:601
+#: modules/curlew.py:720
 msgid "Split File"
 msgstr "Zatitu fitxategia"
 
-#: Curlew/curlew.py:611
+#: modules/curlew.py:730
 msgid "Begin time: "
 msgstr "Hasteko unea: "
 
-#: Curlew/curlew.py:614
+#: modules/curlew.py:733
 msgid "Duration: "
 msgstr "Iraupena: "
 
-#: Curlew/curlew.py:615
+#: modules/curlew.py:734
 msgid "To the end"
 msgstr "bukaera arte"
 
-#: Curlew/curlew.py:621
+#: modules/curlew.py:740
 msgid "Use Copy Mode"
 msgstr "Erabili kopia moduan"
 
-#: Curlew/curlew.py:622
+#: modules/curlew.py:741
 msgid "Keep the same codecs as the input file"
 msgstr "Mantendu jatorrikoaren kodekak"
 
-#: Curlew/curlew.py:630
+#: modules/curlew.py:749
 msgid "Other opts:"
 msgstr "Beste aukerak:"
 
-#: Curlew/curlew.py:634
+#: modules/curlew.py:753
 msgid "Threads:"
 msgstr "Hariak:"
 
-#: Curlew/curlew.py:637
-msgid "Source Quality"
-msgstr "Jatorrizkoaren kalitatea"
-
-#: Curlew/curlew.py:638
-msgid "Use the same quality as source file"
-msgstr "Erabili jatorrizkoaren kalitate bera"
-
-#: Curlew/curlew.py:647
+#: modules/curlew.py:766
 msgid "Converter:"
 msgstr "Bihurtzailea:"
 
-#: Curlew/curlew.py:659
+#: modules/curlew.py:772
+msgid "Player:"
+msgstr ""
+
+#: modules/curlew.py:787
 msgid "Configs"
 msgstr "Konfigurazioak"
 
-#: Curlew/curlew.py:665
-msgid "Overwrite it"
-msgstr "Gainidatzi"
-
-#: Curlew/curlew.py:666
-msgid "Choose another name"
-msgstr "Aukeratu beste izena"
-
-#: Curlew/curlew.py:667
-msgid "Skip conversion"
-msgstr "Saltatu bihurketa"
-
-#: Curlew/curlew.py:668
-msgid "File exist:"
-msgstr "Fitxategia badago:"
-
-#: Curlew/curlew.py:673
+#: modules/curlew.py:794
+#, fuzzy
 msgid "Your language will appear after restart Curlew"
 msgstr "Zure hizkuntza agertuko da Curlew berriz abiatzean"
 
-#: Curlew/curlew.py:680
+#: modules/curlew.py:801
 msgid "Language:"
 msgstr "Hizkuntza:"
 
-#: Curlew/curlew.py:691
-msgid "Show toolbar's buttons text"
-msgstr "Erakutsi tresna-barrako botoien testua "
-
-#: Curlew/curlew.py:695
-msgid "Icons:"
-msgstr "Ikonoak:"
-
-#: Curlew/curlew.py:703
+#: modules/curlew.py:809
 msgid "Show tray icon"
 msgstr "Erakutsi ikonoa panelean"
 
-#: Curlew/curlew.py:708
+#: modules/curlew.py:817
 msgid "Shutdown computer after finish"
 msgstr "Itzali ordenagailua bukatzean"
 
-#: Curlew/curlew.py:713
+#: modules/curlew.py:822
 msgid "Suspend computer after finish"
 msgstr "Eseki ordenagailua bukatzean"
 
-#: Curlew/curlew.py:718
+#: modules/curlew.py:829
+msgid "Output"
+msgstr ""
+
+#: modules/curlew.py:835
+msgid "Source Path"
+msgstr "Jatorrizko kokalekua"
+
+#: modules/curlew.py:840
+#, fuzzy
+msgid "Destination:"
+msgstr "<b>Helburu-kokalekua:</b>"
+
+#: modules/curlew.py:844
+msgid "Overwrite it"
+msgstr "Gainidatzi"
+
+#: modules/curlew.py:845
+msgid "Choose another name"
+msgstr "Aukeratu beste izena"
+
+#: modules/curlew.py:846
+msgid "Skip conversion"
+msgstr "Saltatu bihurketa"
+
+#: modules/curlew.py:847
+msgid "File exist:"
+msgstr "Fitxategia badago:"
+
+#: modules/curlew.py:861
 msgid "Delete input file after conversion"
 msgstr "Ezabatu jatorrizko fitxategia bukatzean"
 
-#: Curlew/curlew.py:722
+#: modules/curlew.py:866
 #, fuzzy
 msgid "Rename input file after conversion"
 msgstr "Ezabatu jatorrizko fitxategia bukatzean"
 
-#: Curlew/curlew.py:801
+#: modules/curlew.py:942
+#, fuzzy
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr "Nahi duzu Curlew-tik irten eta gelditu bihurketa?"
 
-#: Curlew/curlew.py:818
+#: modules/curlew.py:959
 msgid "Add file"
 msgstr "Gehitu fitxategia"
 
-#: Curlew/curlew.py:830
+#: modules/curlew.py:961 modules/curlew.py:1044 modules/curlew.py:1071
+#: modules/curlew.py:2286
+msgid "_OK"
+msgstr ""
+
+#: modules/curlew.py:972
 msgid "All supported files"
 msgstr "Onartutako fitxategi guztiak"
 
-#: Curlew/curlew.py:837
+#: modules/curlew.py:979
 msgid "Video files"
 msgstr "Bideo-fitxategiak"
 
-#: Curlew/curlew.py:843
+#: modules/curlew.py:985
 msgid "Audio files"
 msgstr "Audio-fitxategiak"
 
-#: Curlew/curlew.py:849 Curlew/curlew.py:1585
+#: modules/curlew.py:991 modules/curlew.py:1545
 msgid "All files"
 msgstr "Fitxategi guztiak"
 
-#: Curlew/curlew.py:889 Curlew/curlew.py:1683
+#: modules/curlew.py:1031 modules/curlew.py:1638
 msgid "Ready!"
 msgstr "Prest!"
 
-#: Curlew/curlew.py:900
+#: modules/curlew.py:1042
 msgid "Add folder"
 msgstr "Gehitu karpeta"
 
-#: Curlew/curlew.py:926
+#: modules/curlew.py:1069
 msgid "Choose destination"
 msgstr "Aukeratu nora"
 
-#: Curlew/curlew.py:948
-msgid ""
-"<b>Format:</b>\t{}\n"
-"<b>Extension:</b>\t{}\n"
-"<b>Encoder:</b>\t{}"
-msgstr ""
-"<b>Formatua:</b>\t{}\n"
-"<b>Luzapena:</b>\t{}\n"
-"<b>Kodeketa:</b>\t{}"
-
-#: Curlew/curlew.py:1352
+#: modules/curlew.py:1318
 msgid "Destination path is not valid."
 msgstr "Norako bidea ez da baliozkoa."
 
-#: Curlew/curlew.py:1358
+#: modules/curlew.py:1325
 msgid "Destination path is not accessible."
 msgstr "Norako bidera ezin da iritsi."
 
-#: Curlew/curlew.py:1388 Curlew/curlew.py:1429 Curlew/curlew.py:1828
+#: modules/curlew.py:1357 modules/curlew.py:1398 modules/curlew.py:1777
 msgid "Skipped!"
 msgstr "Saltatua!"
 
-#: Curlew/curlew.py:1398
+#: modules/curlew.py:1367
 msgid "Not found!"
 msgstr "Ez da aurkitu!"
 
-#: Curlew/curlew.py:1501
+#: modules/curlew.py:1460
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
@@ -452,39 +593,35 @@ msgstr ""
 "Zenbait errore gertatu dira.\n"
 "Xehetasun gehiago ikusi nahi duzu?"
 
-#: Curlew/curlew.py:1514
+#: modules/curlew.py:1473
 msgid "Do you want to stop conversion process?"
 msgstr "Gelditu nahi duzu bihurketa?"
 
-#: Curlew/curlew.py:1569
+#: modules/curlew.py:1528
 msgid "Select subtitle"
 msgstr "Hautatu azpititulua"
 
-#: Curlew/curlew.py:1577
+#: modules/curlew.py:1531
+msgid "_Add"
+msgstr ""
+
+#: modules/curlew.py:1536
 msgid "Subtitle files"
 msgstr "Azpititulu-fitxategiak"
 
-#: Curlew/curlew.py:1678 Curlew/curlew.py:1884 Curlew/curlew.py:1942
+#: modules/curlew.py:1633 modules/curlew.py:1837
 msgid "Wait..."
 msgstr "Itxaron..."
 
-#: Curlew/curlew.py:1688
-msgid "Preview"
-msgstr "Aurrikusi"
-
-#: Curlew/curlew.py:1765
+#: modules/curlew.py:1714
 msgid "Done!"
 msgstr "Egina!"
 
-#: Curlew/curlew.py:1783
+#: modules/curlew.py:1732
 msgid "Failed!"
 msgstr "Huts egin du!"
 
-#: Curlew/curlew.py:1928 Curlew/functions.py:46
-msgid " MB"
-msgstr " MB"
-
-#: Curlew/curlew.py:2183
+#: modules/curlew.py:2047
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
@@ -492,7 +629,7 @@ msgstr ""
 "<span foreground=\"red\" weight=\"bold\">Sistema itzaliko da {} segundu eta "
 "gero</span>"
 
-#: Curlew/curlew.py:2196
+#: modules/curlew.py:2060
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
@@ -500,15 +637,7 @@ msgstr ""
 "<span foreground=\"red\" weight=\"bold\">Sistena esekiko da {} segundu eta "
 "gero.</span>"
 
-#: Curlew/curlew.py:2283
-msgid "Add to favorite"
-msgstr "Gehitu gogokoetara"
-
-#: Curlew/curlew.py:2291
-msgid "Edit list"
-msgstr "Editatu zerrenda"
-
-#: Curlew/curlew.py:2347
+#: modules/curlew.py:2137
 msgid ""
 "<b>Duration:</b> {}\n"
 "<b>Size:</b> {}\n"
@@ -518,80 +647,112 @@ msgstr ""
 "<b>Tamaina:</b> {}\n"
 "<b>Luzapena:</b> {}\n"
 
-#: Curlew/curlew.py:2389
+#: modules/curlew.py:2178
 msgid "Please install \"mediainfo\" package."
 msgstr "Instalatu \"mediainfo\" paketea"
 
-#: Curlew/logdialog.py:29
-msgid "Errors detail"
-msgstr "Errorearen xehetasunak"
+#: modules/curlew.py:2238
+msgid "Play"
+msgstr ""
 
-#: Curlew/waitdialog.py:31
-msgid "Adding files..."
-msgstr "Fitxategiak gehitzen..."
+#: modules/curlew.py:2241
+#, fuzzy
+msgid "_Preview"
+msgstr "Aurrikusi"
 
-#: Curlew/waitdialog.py:50
-msgid "<b>File:</b> "
-msgstr "<b>Fitxategia:</b>"
+#: modules/curlew.py:2247
+msgid "Browse source"
+msgstr "Arakatu jatorrizkoa"
 
-#: Curlew/about.py:35
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr "Multimedia bihurtzaile erraza Linuxerako"
+#: modules/curlew.py:2250
+msgid "Browse destination"
+msgstr "Arakatu helburua"
 
-#: Curlew/about.py:48
-msgid "translator-credits"
-msgstr "Itzultzailearen kredituak"
+#: modules/curlew.py:2284
+#, fuzzy
+msgid "Choose Encoder"
+msgstr "Aukeratu beste izena"
 
-#: Curlew/functions.py:43
-msgid " KB"
-msgstr " KB"
+#~ msgid "Preview"
+#~ msgstr "Aurrikusi"
 
-#: Curlew/functions.py:49
-msgid " GB"
-msgstr " GB"
+#, fuzzy
+#~ msgid "<b>Convert to:</b>"
+#~ msgstr "<b>Formatua:</b>"
 
-#: Curlew/favdialog.py:35
-msgid "Format"
-msgstr "Formatua"
+#~ msgid "Font: "
+#~ msgstr "Letra-mota: "
 
-#: Curlew/tray.py:36 Curlew/tray.py:66
-msgid "Hide"
-msgstr "Ezkutatu"
+#~ msgid "Position: "
+#~ msgstr "Kokalekua: "
 
-#: Curlew/tray.py:68
-msgid "Show"
-msgstr "Erakutsi"
+#~ msgid "Delay: "
+#~ msgstr "Atzerapena: "
 
-#: Curlew/customwidgets.py:51
-msgid "Top"
-msgstr "Goitik"
+#~ msgid "Harddup"
+#~ msgstr "Harddup"
 
-#: Curlew/customwidgets.py:59
-msgid "Bottom"
-msgstr "Behetik"
+#~ msgid "Use SSA/ASS subtitle"
+#~ msgstr "Erabili SSA/ASS azpititulua"
 
-#: Curlew/customwidgets.py:67
-msgid "Left"
-msgstr "Ezkerretik"
+#~ msgid "Source Quality"
+#~ msgstr "Jatorrizkoaren kalitatea"
 
-#: Curlew/customwidgets.py:75
-msgid "Right"
-msgstr "Eskuinetik"
+#~ msgid "Use the same quality as source file"
+#~ msgstr "Erabili jatorrizkoaren kalitate bera"
 
-#: Curlew/customwidgets.py:184
-msgid "hr"
-msgstr "ordu"
+#~ msgid "Show sidebar"
+#~ msgstr "Erakutsi alboko barra"
 
-#: Curlew/customwidgets.py:189
-msgid "min"
-msgstr "min"
+#, fuzzy
+#~ msgid "Multimedia Converter"
+#~ msgstr "Multimedia bihurtzaile erraza Linuxerako"
 
-#: Curlew/fileinfos.py:26
-msgid "File informations"
-msgstr "Fitxategiaren informazioa"
+#~ msgid "Preview before converting"
+#~ msgstr "Ikusi bihurtu aurretik"
+
+#~ msgid "<b>Advanced</b>"
+#~ msgstr "<b>Aurreratua</b>"
 
 #~ msgid "Add"
 #~ msgstr "Gehitu"
+
+#~ msgid "Add files"
+#~ msgstr "Gehitu fitxategiak"
+
+#~ msgid "Add folders"
+#~ msgstr "Gehitu karpetak"
+
+#~ msgid "Clear"
+#~ msgstr "Garbitu"
+
+#~ msgid "Convert"
+#~ msgstr "Bihurtu"
+
+#~ msgid "Stop"
+#~ msgstr "Gelditu"
+
+#~ msgid "File Infos"
+#~ msgstr "Fitxategi-info"
+
+#~ msgid "Show toolbar's buttons text"
+#~ msgstr "Erakutsi tresna-barrako botoien testua "
+
+#~ msgid "Icons:"
+#~ msgstr "Ikonoak:"
+
+#~ msgid ""
+#~ "<b>Format:</b>\t{}\n"
+#~ "<b>Extension:</b>\t{}\n"
+#~ "<b>Encoder:</b>\t{}"
+#~ msgstr ""
+#~ "<b>Formatua:</b>\t{}\n"
+#~ "<b>Luzapena:</b>\t{}\n"
+#~ "<b>Kodeketa:</b>\t{}"
+
+#, fuzzy
+#~ msgid "About data"
+#~ msgstr "Honi buruz"
 
 #~ msgid ""
 #~ "<b>File:</b>\t{}\n"

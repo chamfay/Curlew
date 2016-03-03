@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2014 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2016 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -17,9 +17,10 @@
 # The latest version of the license can be found on:
 # http://www.ojuba.org/wiki/doku.php/waqf/license
 
+import gi
+gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk
-from os.path import join
 
 
 class SpinsFrame(Gtk.Frame):
@@ -108,36 +109,19 @@ class SpinsFrame(Gtk.Frame):
                                                self._left, self._top)
     
     
-class CustomToolButton(Gtk.ToolButton):
-    def __init__(self, name, label, tooltip, callback, toolbar):
-        
-        Gtk.ToolButton.__init__(self)
-        self._name = name + '.png'
-        self.set_tooltip_markup(tooltip)
-        self.set_label(label)
-        self.connect('clicked', callback)
-        self.set_is_important(True)
-        toolbar.insert(self, -1)
-    
-    def set_icon(self, path):
-        image_path = join(path, self._name)
-        image = Gtk.Image.new_from_file(image_path)
-        self.set_icon_widget(image)
-        
-        
-class CustomHScale(Gtk.HScale):
+class HScale(Gtk.HScale):
     def __init__(self, container, def_value, min_value, max_value, step=1):
         Gtk.HScale.__init__(self)
         container.pack_start(self, True, True, 0)
-        adj = Gtk.Adjustment(def_value, min_value, max_value, step)
+        adj = Gtk.Adjustment.new(def_value, min_value, max_value, step, step, 0)
         self.set_adjustment(adj)
         self.set_value_pos(Gtk.PositionType.RIGHT)
         self.set_digits(0)
         
 
 class LabeledHBox(Gtk.Box):
+    ''' hbox with label'''
     def __init__(self, label, container=None):
-        ''' hbox with label'''
         Gtk.Box.__init__(self, spacing=4)
         _label = Gtk.Label(label, use_markup=True)
         _label.set_alignment(0, 0.5)
@@ -148,8 +132,8 @@ class LabeledHBox(Gtk.Box):
 
 class LabeledGrid(Gtk.Grid):
     def __init__(self, container):
-        super(LabeledGrid, self).__init__()
-        self.set_column_spacing(4)
+        Gtk.Grid.__init__(self)
+        self.set_column_spacing(2)
         self.set_row_spacing(4)
         self.set_row_homogeneous(False)
         self._n_childs = 0
@@ -157,12 +141,18 @@ class LabeledGrid(Gtk.Grid):
         
     def append_row(self, label, widget, expanded=False):
         _label = Gtk.Label(label, use_markup=True)
-        _label.set_alignment(0, 0.5)
+        _label.set_alignment(0.0, 0.5)
         _hbox = Gtk.Box()
         _hbox.set_hexpand(True)
         _hbox.pack_start(widget, expanded, expanded, 0)
         self.attach(_label, 0, self._n_childs, 1, 1)
         self.attach(_hbox, 1, self._n_childs, 1, 1)
+        self._n_childs += 1
+
+    def append_title(self, label):
+        _label = Gtk.Label('<b>{}</b>'.format(label), use_markup=True)
+        _label.set_alignment(0, 0.5)
+        self.attach(_label, 0, self._n_childs, 1, 1)
         self._n_childs += 1
 
 
@@ -208,14 +198,18 @@ class TimeLayout(Gtk.Box):
                        + self._spin_s.get_value()
     
     def get_time_str(self):
-        ''' Return time str like 00:00:00'''
+        '''
+        Return time str like 00:00:00
+        '''
         return '{:02.0f}:{:02.0f}:{:02.0f}'.format(self._spin_h.get_value(), 
                                                    self._spin_m.get_value(), 
                                                    self._spin_s.get_value())
 
 
-class CustomComboEntry(Gtk.ComboBoxText):
-    ''' Create custom ComboBoxText with entry'''
+class ComboWithEntry(Gtk.ComboBoxText):
+    '''
+     Custom ComboBoxText with entry
+    '''
     def __init__(self, with_entry=True):
         Gtk.ComboBoxText.__init__(self, has_entry=with_entry)
         self.connect('changed', self._on_combo_changed)
@@ -239,7 +233,19 @@ class CustomComboEntry(Gtk.ComboBoxText):
         enabled = self.get_text() == 'default' and len(self.get_model()) < 2
         self.set_sensitive(not enabled)
     
-    def not_default(self):
+    def is_not_default(self):
         return self.get_active_text() != 'default'
+    
+    def find_text(self, text_to_find):
+        model = self.get_model()
+        for row in model:
+            if row[0] == text_to_find:
+                return True
+        return False
 
+class ButtonWithIcon(Gtk.Button):
+    def __init__(self, icon_name):
+        Gtk.Button.__init__(self)
+        img = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+        self.set_image(img)
 

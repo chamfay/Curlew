@@ -1,4 +1,9 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
+
+from site import addsitedir
+addsitedir('/usr/share/curlew')
+addsitedir('/usr/local/share/curlew')
+
 import sys
-from Curlew.curlew import main
+from modules.curlew import main
 main(*sys.argv[1:])

@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2014 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2016 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -17,53 +17,61 @@
 # The latest version of the license can be found on:
 # http://www.ojuba.org/wiki/doku.php/waqf/license
 
+import gi
+gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk, Gdk
-import cPickle
+import pickle
 
 class Favorite(Gtk.Dialog):
     def __init__(self, prnt, fav_list):
-        Gtk.Dialog.__init__(self, parent=prnt)
+        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
+        #self.set_property("use-header-bar", True)
         self.set_title(_('Favorite list'))
+        self.set_icon_name('curlew')
         self.set_border_width(4)
-        self.set_size_request(350, 280)
+        self.set_size_request(450, 400)
         self.store = Gtk.ListStore(str)
         self.list_view = Gtk.TreeView(self.store)
         self.list_view.connect("key-press-event", self.on_key_press)
+        header = self.get_header_bar()
         
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("Format"), cell, text=0)
         self.list_view.append_column(col)
         
-        hbox = Gtk.Box(spacing=6, orientation=Gtk.Orientation.HORIZONTAL)
+        g_vbox = Gtk.Box(spacing=6, orientation=Gtk.Orientation.VERTICAL)
         
         scroll = Gtk.ScrolledWindow()
         scroll.set_shadow_type(Gtk.ShadowType.IN)
         scroll.add(self.list_view)
         
-        hbox.pack_start(scroll, True, True, 0)
+        g_vbox.pack_start(scroll, True, True, 0)
         
-        vbox_tool = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        hbox.pack_start(vbox_tool, False, False, 0)
         
-        btn_delete = Gtk.Button()
-        btn_delete.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_REMOVE, Gtk.IconSize.MENU))
-        btn_delete.connect('clicked', self.delete_item)
-        vbox_tool.pack_end(btn_delete, False, False, 0)
+        box_up_down = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        Gtk.StyleContext.add_class(box_up_down.get_style_context(), "linked")        
+        header.pack_end(box_up_down)
         
         btn_up = Gtk.Button()
-        btn_up.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_GO_UP, Gtk.IconSize.MENU))
+        btn_up.set_tooltip_text(_('Up'))
+        btn_up.set_image(Gtk.Image.new_from_icon_name('go-up-symbolic', Gtk.IconSize.MENU))
         btn_up.connect('clicked', self.go_up)
-        vbox_tool.pack_start(btn_up, False, False, 0)
+        box_up_down.pack_start(btn_up, False, False, 0)
         
         btn_down = Gtk.Button()
-        btn_down.set_image(Gtk.Image.new_from_stock(Gtk.STOCK_GO_DOWN, Gtk.IconSize.MENU))
+        btn_down.set_tooltip_text(_('Down'))
+        btn_down.set_image(Gtk.Image.new_from_icon_name('go-down-symbolic', Gtk.IconSize.MENU))
         btn_down.connect('clicked', self.go_down)
-        vbox_tool.pack_start(btn_down, False, False, 0)
+        box_up_down.pack_start(btn_down, False, False, 0)
         
-        self.vbox.pack_start(hbox, True, True, 0)
+        btn_delete = Gtk.Button()
+        btn_delete.set_tooltip_text(_('Remove'))
+        btn_delete.set_image(Gtk.Image.new_from_icon_name('list-remove-symbolic', Gtk.IconSize.MENU))
+        btn_delete.connect('clicked', self.delete_item)
+        header.pack_end(btn_delete)
         
-        self.add_button(Gtk.STOCK_OK, Gtk.ResponseType.OK)
+        self.vbox.pack_start(g_vbox, True, True, 0)
         
         # load
         for fformat in fav_list:
@@ -95,7 +103,7 @@ class Favorite(Gtk.Dialog):
         for row in self.store:
             fav_list.append(row[0])
         favfile = open(file_name, "wb")
-        cPickle.dump(fav_list, favfile)
+        pickle.dump(fav_list, favfile)
         favfile.close()
     
     def on_key_press(self, widget, event):

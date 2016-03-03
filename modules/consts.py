@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2014 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2016 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -17,18 +17,17 @@
 # The latest version of the license can be found on:
 # http://www.ojuba.org/wiki/doku.php/waqf/license
 
+import os
+from os.path import join, dirname, realpath
 
-LANGUAGES = {
-             'العربية': 'ar',
-             'Český': 'cs',
-             'English': 'en',
-             'Español': 'es',
-             'Euskara': 'eu',
-             'Français': 'fr',
-             'Italiano': 'it',
-             'Nederlands': 'nl',
-             'Polski': 'pl',
-             'Русский': 'ru',
-             'Srpski': 'sr',
-             'Traditional Chinese: 正體中文': 'zh_TW'
-             }
+HOME = os.getenv("HOME")
+CONF_PATH = join(HOME, '.curlew')
+
+CONF_FILE = join(CONF_PATH, 'curlew.cfg')
+
+PKG_DIR = dirname(realpath(__file__))
+DTA_DIR = join(PKG_DIR, '../')
+
+ORG_FFILE = join(DTA_DIR, 'formats.cfg')
+USR_FFILE = join(CONF_PATH, 'formats.cfg')
+

@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2014 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2016 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -17,6 +17,9 @@
 # The latest version of the license can be found on:
 # http://www.ojuba.org/wiki/doku.php/waqf/license
 
+
+import gi
+gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk
 
@@ -79,7 +82,7 @@ class StatusIcon(Gtk.StatusIcon):
             self._window.present()
         
     def stop(self, stop_item):
-        if self._window.tb_stop_cb():
+        if self._window.on_btn_stop_clicked():
             self._window.present()
         
     def quit(self, *args):

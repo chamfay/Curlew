@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-25 22:43+0100\n"
+"POT-Creation-Date: 2016-02-21 22:48+0100\n"
 "PO-Revision-Date: 2014-02-24 17:27+0100\n"
 "Last-Translator: Ch_Brozović <chajbo@ro.ru>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,433 +16,574 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: Curlew/curlew.py:154 Curlew/about.py:29 Curlew/tray.py:30
-msgid "Curlew"
-msgstr "Curlew"
+#: modules/customwidgets.py:50
+msgid "Top"
+msgstr "На врху"
 
-#: Curlew/curlew.py:172
-msgid "Add File"
-msgstr "Додај фајл"
+#: modules/customwidgets.py:58
+msgid "Bottom"
+msgstr "Доле"
 
-#: Curlew/curlew.py:173
-msgid "Add files"
-msgstr "Додај фајлове"
+#: modules/customwidgets.py:66
+msgid "Left"
+msgstr "Лево"
 
-#: Curlew/curlew.py:176
-msgid "Add Folder"
-msgstr "Додај фасциклу"
+#: modules/customwidgets.py:74
+msgid "Right"
+msgstr "Десно"
 
-#: Curlew/curlew.py:177
-msgid "Add folders"
-msgstr "Додај фасцикле"
+#: modules/customwidgets.py:172
+msgid "hr"
+msgstr "час"
 
-#: Curlew/curlew.py:181
-msgid "Remove"
-msgstr "Уклони"
+#: modules/customwidgets.py:177
+msgid "min"
+msgstr "мин"
 
-#: Curlew/curlew.py:182
-msgid "Remove files"
-msgstr "Уклоњени фајлови"
-
-#: Curlew/curlew.py:186
-msgid "Clear"
-msgstr "Очисти"
-
-#: Curlew/curlew.py:187
-msgid "Clear files list"
-msgstr "Листа очишћених фајлова"
-
-#: Curlew/curlew.py:194
-msgid "Convert"
-msgstr "Конвертуј"
-
-#: Curlew/curlew.py:195
-msgid "Start Conversion"
-msgstr "Почни конверзију"
-
-#: Curlew/curlew.py:199
-msgid "Stop"
-msgstr "Заустави"
-
-#: Curlew/curlew.py:200 Curlew/tray.py:40
-msgid "Stop Conversion"
-msgstr "Заустави конверзију"
-
-#: Curlew/curlew.py:207
-msgid "File Infos"
-msgstr "Информације о фајлу"
-
-#: Curlew/curlew.py:208 Curlew/curlew.py:363
-msgid "File Informations"
-msgstr "Информације о фајлу"
-
-#: Curlew/curlew.py:212
-msgid "About"
-msgstr "О"
-
-#: Curlew/curlew.py:213 Curlew/about.py:33
-msgid "About Curlew"
-msgstr "О Curlew"
-
-#: Curlew/curlew.py:220
-msgid "Quit"
-msgstr "Напусти"
-
-#: Curlew/curlew.py:221 Curlew/tray.py:44
-msgid "Quit application"
-msgstr "Напусти програм"
-
-#: Curlew/curlew.py:275 Curlew/curlew.py:698
-msgid "Show sidebar"
-msgstr "Покажи бочну траку"
-
-#: Curlew/curlew.py:299
-msgid "File"
-msgstr "Фајл"
-
-#: Curlew/curlew.py:306
-msgid "Size"
-msgstr "Величина"
-
-#: Curlew/curlew.py:311
-msgid "Duration"
-msgstr "Трајање"
-
-#: Curlew/curlew.py:317
-msgid "Estimated size"
-msgstr "Процењена величина"
-
-#: Curlew/curlew.py:323
-msgid "Elapsed time"
-msgstr "Протекло време"
-
-#: Curlew/curlew.py:329
-msgid "Remaining time"
-msgstr "Преостало време"
-
-#: Curlew/curlew.py:334
-msgid "Progress"
-msgstr "Напредак"
-
-#: Curlew/curlew.py:351
-msgid "Browse source"
-msgstr "Претражи извор"
-
-#: Curlew/curlew.py:356
-msgid "Browse destination"
-msgstr "Претражи одредиште"
-
-#: Curlew/curlew.py:359
-msgid "Preview before converting"
-msgstr "Преглед пре конверзије"
-
-#: Curlew/curlew.py:391
-msgid "<b>Format:</b>"
-msgstr "<b>Формат:</b>"
-
-#: Curlew/curlew.py:399 Curlew/favdialog.py:27
-msgid "Favorite list"
-msgstr "Листа омиљеног"
-
-#: Curlew/curlew.py:411
-msgid "Source Path"
-msgstr "Путања извора"
-
-#: Curlew/curlew.py:416
-msgid "<b>Destination:</b>"
-msgstr "<b>Одредиште:</b>"
-
-#: Curlew/curlew.py:424
-msgid "<b>Advanced</b>"
-msgstr "<b>напредак</b>"
-
-#: Curlew/curlew.py:434
-msgid "Audio"
-msgstr "Звук"
-
-#: Curlew/curlew.py:442
-msgid "Audio Bitrate"
-msgstr "Брзина преноса звука"
-
-#: Curlew/curlew.py:443
-msgid "Audio Frequency"
-msgstr "Звучна фреквенција"
-
-#: Curlew/curlew.py:444
-msgid "Audio Channels"
-msgstr "Звучни канали"
-
-#: Curlew/curlew.py:445
-msgid "Audio Codec"
-msgstr "Звучни кодеци"
-
-#: Curlew/curlew.py:448
-msgid "Volume (%)"
-msgstr "Јачина звука (%)"
-
-#: Curlew/curlew.py:454
-msgid "Audio Quality"
-msgstr "Квалитет звука"
-
-#: Curlew/curlew.py:460
-msgid "Video"
-msgstr "Видео"
-
-#: Curlew/curlew.py:470
-msgid "Video Bitrate"
-msgstr "Брзина преноса видеа"
-
-#: Curlew/curlew.py:471
-msgid "Video FPS"
-msgstr "Видео ФПС"
-
-#: Curlew/curlew.py:472
-msgid "Video Size"
-msgstr "Величина видеа"
-
-#: Curlew/curlew.py:473
-msgid "Video Codec"
-msgstr "Видео кодек"
-
-#: Curlew/curlew.py:474
-msgid "Aspect Ratio"
-msgstr "Однос слике"
-
-#: Curlew/curlew.py:480
-msgid "2-Pass"
-msgstr "2-prolaza"
-
-#: Curlew/curlew.py:484
-msgid "Video only"
-msgstr "Само видео"
-
-#: Curlew/curlew.py:491
-msgid "Video Quality"
-msgstr "Квалитет видеа"
-
-#: Curlew/curlew.py:496
-msgid "Subtitle"
-msgstr "Превод"
-
-#: Curlew/curlew.py:502
-msgid "Use Subtitle"
-msgstr "Користи превод"
-
-#: Curlew/curlew.py:518
-msgid "Subtitle: "
-msgstr "Превод:"
-
-#: Curlew/curlew.py:525
-msgid "Font: "
-msgstr "Фонт:"
-
-#: Curlew/curlew.py:536
-msgid "Size: "
-msgstr "Величина:"
-
-#: Curlew/curlew.py:543
-msgid "Position: "
-msgstr "Позиција:"
-
-#: Curlew/curlew.py:563
-msgid "Encoding: "
-msgstr "Декодирање:"
-
-#: Curlew/curlew.py:570 Curlew/customwidgets.py:194
+#: modules/customwidgets.py:182 modules/curlew.py:698
 msgid "sec"
 msgstr "сек"
 
-#: Curlew/curlew.py:571
-msgid "Delay: "
-msgstr "Кашњење"
+#: modules/favdialog.py:28 modules/curlew.py:480
+msgid "Favorite list"
+msgstr "Листа омиљеног"
 
-#: Curlew/curlew.py:574
-msgid "Harddup"
-msgstr "Harddup"
+#: modules/favdialog.py:38
+msgid "Format"
+msgstr "Формат"
 
-#: Curlew/curlew.py:578
-msgid "Use SSA/ASS subtitle"
-msgstr "Користи ССА/АСС превод"
+#: modules/favdialog.py:55
+msgid "Up"
+msgstr ""
 
-#: Curlew/curlew.py:585
+#: modules/favdialog.py:61
+msgid "Down"
+msgstr ""
+
+#: modules/favdialog.py:67 modules/edition.py:310 modules/curlew.py:2244
+msgid "Remove"
+msgstr "Уклони"
+
+#: modules/about.py:31 modules/tray.py:30 modules/curlew.py:181
+#: modules/curlew.py:251
+msgid "Curlew"
+msgstr "Curlew"
+
+#: modules/about.py:35 modules/curlew.py:328
+msgid "About Curlew"
+msgstr "О Curlew"
+
+#: modules/about.py:38
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "Једноставан конвертер мултимедије за Линукс"
+
+#: modules/about.py:51
+msgid "translator-credits"
+msgstr "преводиоци"
+
+#: modules/functions.py:44
+msgid " KB"
+msgstr "кб"
+
+#: modules/functions.py:47
+msgid " MB"
+msgstr "МБ"
+
+#: modules/functions.py:50
+msgid " GB"
+msgstr "ГБ"
+
+#: modules/tray.py:36 modules/tray.py:66
+msgid "Hide"
+msgstr "Сакриј"
+
+#: modules/tray.py:40 modules/curlew.py:314
+msgid "Stop Conversion"
+msgstr "Заустави конверзију"
+
+#: modules/tray.py:44
+msgid "Quit application"
+msgstr "Напусти програм"
+
+#: modules/tray.py:68
+msgid "Show"
+msgstr "Покажи"
+
+#: modules/logdialog.py:29
+msgid "Errors detail"
+msgstr "Детаљи грешке"
+
+#: modules/logdialog.py:48
+msgid "_Close"
+msgstr ""
+
+#: modules/edition.py:35
+msgid "Are you sure you want to save settings?"
+msgstr ""
+
+#: modules/edition.py:107
+msgid "You can't restore a custom format to defaults."
+msgstr ""
+
+#: modules/edition.py:202
+msgid "Are you sure you want to remove this format?"
+msgstr ""
+
+#: modules/edition.py:249
+#, fuzzy
+msgid "Audio:"
+msgstr "Звук"
+
+#: modules/edition.py:257 modules/edition.py:276
+msgid "Default"
+msgstr ""
+
+#: modules/edition.py:260
+#, fuzzy
+msgid "Audio Bitrates"
+msgstr "Брзина преноса звука"
+
+#: modules/edition.py:262
+#, fuzzy
+msgid "Audio Frequencies"
+msgstr "Звучна фреквенција"
+
+#: modules/edition.py:264 modules/curlew.py:551
+msgid "Audio Channels"
+msgstr "Звучни канали"
+
+#: modules/edition.py:266
+#, fuzzy
+msgid "Audio Codecs"
+msgstr "Звучни кодеци"
+
+#: modules/edition.py:269
+#, fuzzy
+msgid "Video:"
+msgstr "Видео"
+
+#: modules/edition.py:279
+#, fuzzy
+msgid "Video Bitrates"
+msgstr "Брзина преноса видеа"
+
+#: modules/edition.py:281 modules/curlew.py:591
+msgid "Video FPS"
+msgstr "Видео ФПС"
+
+#: modules/edition.py:283
+#, fuzzy
+msgid "Video Sizes"
+msgstr "Величина видеа"
+
+#: modules/edition.py:285
+#, fuzzy
+msgid "Video Codecs"
+msgstr "Видео кодек"
+
+#: modules/edition.py:287
+#, fuzzy
+msgid "Aspect Ratios"
+msgstr "Однос слике"
+
+#: modules/edition.py:289
+#, fuzzy
+msgid "Other Options:"
+msgstr "Остале опције:"
+
+#: modules/edition.py:291
+msgid "Extra Options"
+msgstr ""
+
+#: modules/edition.py:304
+msgid "Save"
+msgstr ""
+
+#: modules/edition.py:318
+msgid "Restore default"
+msgstr ""
+
+#: modules/fileinfos.py:26
+msgid "File informations"
+msgstr "Информације о фајлу"
+
+#: modules/waitdialog.py:31
+msgid "Adding files..."
+msgstr "Додавање фајлова..."
+
+#: modules/waitdialog.py:42 modules/curlew.py:963 modules/curlew.py:1046
+#: modules/curlew.py:1072 modules/curlew.py:1532 modules/curlew.py:2288
+msgid "_Cancel"
+msgstr ""
+
+#: modules/waitdialog.py:50
+msgid "<b>File:</b> "
+msgstr "<b>Фајл:</b>"
+
+#: modules/formats.py:56
+msgid "<i><span color=\"red\">No format selected!</span></i>"
+msgstr ""
+
+#: modules/formats.py:110
+#, fuzzy
+msgid "Edit"
+msgstr "Листа измена"
+
+#: modules/formats.py:120
+#, fuzzy
+msgid "Choose"
+msgstr "Одреди друго име"
+
+#: modules/curlew.py:96
+msgid "<span color=\"red\"><i><b>{}</b> Codec not found!</i></span>"
+msgstr ""
+
+#: modules/curlew.py:189
+msgid "About"
+msgstr "О"
+
+#: modules/curlew.py:194
+msgid "Quit"
+msgstr "Напусти"
+
+#: modules/curlew.py:243
+msgid "Available Codecs"
+msgstr ""
+
+#: modules/curlew.py:274
+#, fuzzy
+msgid "Add Files"
+msgstr "Додај фајл"
+
+#: modules/curlew.py:280
+#, fuzzy
+msgid "Add Folders"
+msgstr "Додај фасциклу"
+
+#: modules/curlew.py:291
+#, fuzzy
+msgid "Remove Files"
+msgstr "Уклоњени фајлови"
+
+#: modules/curlew.py:297
+#, fuzzy
+msgid "Clear Files List"
+msgstr "Листа очишћених фајлова"
+
+#: modules/curlew.py:308
+msgid "Start Conversion"
+msgstr "Почни конверзију"
+
+#: modules/curlew.py:321 modules/curlew.py:2254
+msgid "File Informations"
+msgstr "Информације о фајлу"
+
+#: modules/curlew.py:334
+msgid "Advanced Options"
+msgstr ""
+
+#: modules/curlew.py:395 modules/curlew.py:804
+#, fuzzy
+msgid "Show Sidebar"
+msgstr "Покажи бочну траку"
+
+#: modules/curlew.py:418
+msgid "File"
+msgstr "Фајл"
+
+#: modules/curlew.py:425
+msgid "Size"
+msgstr "Величина"
+
+#: modules/curlew.py:431
+msgid "Duration"
+msgstr "Трајање"
+
+#: modules/curlew.py:437
+msgid "Estimated size"
+msgstr "Процењена величина"
+
+#: modules/curlew.py:444
+msgid "Elapsed time"
+msgstr "Протекло време"
+
+#: modules/curlew.py:451
+msgid "Remaining time"
+msgstr "Преостало време"
+
+#: modules/curlew.py:457
+msgid "Progress"
+msgstr "Напредак"
+
+#: modules/curlew.py:469
+#, fuzzy
+msgid "Choose a format"
+msgstr "Одреди друго име"
+
+#: modules/curlew.py:496
+#, fuzzy
+msgid "Add to Favorite"
+msgstr "Додај у омиљено"
+
+#: modules/curlew.py:504
+#, fuzzy
+msgid "Edit List"
+msgstr "Листа измена"
+
+#: modules/curlew.py:534
+msgid "Audio"
+msgstr "Звук"
+
+#: modules/curlew.py:549
+msgid "Audio Bitrate"
+msgstr "Брзина преноса звука"
+
+#: modules/curlew.py:550
+msgid "Audio Frequency"
+msgstr "Звучна фреквенција"
+
+#: modules/curlew.py:552
+msgid "Audio Codec"
+msgstr "Звучни кодеци"
+
+#: modules/curlew.py:555
+msgid "Volume (%)"
+msgstr "Јачина звука (%)"
+
+#: modules/curlew.py:561
+msgid "Audio Quality"
+msgstr "Квалитет звука"
+
+#: modules/curlew.py:573
+msgid "Video"
+msgstr "Видео"
+
+#: modules/curlew.py:590
+msgid "Video Bitrate"
+msgstr "Брзина преноса видеа"
+
+#: modules/curlew.py:592
+msgid "Video Size"
+msgstr "Величина видеа"
+
+#: modules/curlew.py:593
+msgid "Video Codec"
+msgstr "Видео кодек"
+
+#: modules/curlew.py:594
+msgid "Aspect Ratio"
+msgstr "Однос слике"
+
+#: modules/curlew.py:600
+msgid "2-Pass"
+msgstr "2-prolaza"
+
+#: modules/curlew.py:604
+msgid "Video only"
+msgstr "Само видео"
+
+#: modules/curlew.py:611
+msgid "Video Quality"
+msgstr "Квалитет видеа"
+
+#: modules/curlew.py:622
+msgid "Subtitle"
+msgstr "Превод"
+
+#: modules/curlew.py:628
+#, fuzzy
+msgid "Use Subtitle (ffmpeg only)"
+msgstr "Користи превод"
+
+#: modules/curlew.py:644
+msgid "Subtitle: "
+msgstr "Превод:"
+
+#: modules/curlew.py:662
+msgid "Size: "
+msgstr "Величина:"
+
+#: modules/curlew.py:691
+msgid "Encoding: "
+msgstr "Декодирање:"
+
+#: modules/curlew.py:704
 msgid "Crop / Pad"
 msgstr "Опсеци / Попуни"
 
-#: Curlew/curlew.py:588
+#: modules/curlew.py:707
 msgid "Crop"
 msgstr "Опсеци"
 
-#: Curlew/curlew.py:592
+#: modules/curlew.py:711
 msgid "Pad"
 msgstr "Попуни"
 
-#: Curlew/curlew.py:598
+#: modules/curlew.py:717
 msgid "More"
 msgstr "Више"
 
-#: Curlew/curlew.py:601
+#: modules/curlew.py:720
 msgid "Split File"
 msgstr "Подели фајл"
 
-#: Curlew/curlew.py:611
+#: modules/curlew.py:730
 msgid "Begin time: "
 msgstr "Време почетка:"
 
-#: Curlew/curlew.py:614
+#: modules/curlew.py:733
 msgid "Duration: "
 msgstr "Трајање:"
 
-#: Curlew/curlew.py:615
+#: modules/curlew.py:734
 msgid "To the end"
 msgstr "До краја"
 
-#: Curlew/curlew.py:621
+#: modules/curlew.py:740
 msgid "Use Copy Mode"
 msgstr "Користи режим копирања"
 
-#: Curlew/curlew.py:622
+#: modules/curlew.py:741
 msgid "Keep the same codecs as the input file"
 msgstr "Задржи исте кодеке као улазни фајл"
 
-#: Curlew/curlew.py:630
+#: modules/curlew.py:749
 msgid "Other opts:"
 msgstr "Остале опције:"
 
-#: Curlew/curlew.py:634
+#: modules/curlew.py:753
 msgid "Threads:"
 msgstr "Теме:"
 
-#: Curlew/curlew.py:637
-msgid "Source Quality"
-msgstr "Квалитет извора"
-
-#: Curlew/curlew.py:638
-msgid "Use the same quality as source file"
-msgstr "Користи исти квалитет као извор"
-
-#: Curlew/curlew.py:647
+#: modules/curlew.py:766
 msgid "Converter:"
 msgstr "Конвертер"
 
-#: Curlew/curlew.py:659
+#: modules/curlew.py:772
+msgid "Player:"
+msgstr ""
+
+#: modules/curlew.py:787
 msgid "Configs"
 msgstr "Конфигурације"
 
-#: Curlew/curlew.py:665
-msgid "Overwrite it"
-msgstr "Замени га"
-
-#: Curlew/curlew.py:666
-msgid "Choose another name"
-msgstr "Одреди друго име"
-
-#: Curlew/curlew.py:667
-msgid "Skip conversion"
-msgstr "Прескочи конверзију"
-
-#: Curlew/curlew.py:668
-msgid "File exist:"
-msgstr "Фајл постоји:"
-
-#: Curlew/curlew.py:673
+#: modules/curlew.py:794
+#, fuzzy
 msgid "Your language will appear after restart Curlew"
 msgstr "Ваш језик ће се показати након поновног покретања"
 
-#: Curlew/curlew.py:680
+#: modules/curlew.py:801
 msgid "Language:"
 msgstr "Језик:"
 
-#: Curlew/curlew.py:691
-msgid "Show toolbar's buttons text"
-msgstr "Pokaži tekst za dugmad u traci alata"
-
-#: Curlew/curlew.py:695
-msgid "Icons:"
-msgstr "Иконе:"
-
-#: Curlew/curlew.py:703
+#: modules/curlew.py:809
 msgid "Show tray icon"
 msgstr "Покажи икону у касети"
 
-#: Curlew/curlew.py:708
+#: modules/curlew.py:817
 msgid "Shutdown computer after finish"
 msgstr "Искључи рачунар по завршетку"
 
-#: Curlew/curlew.py:713
+#: modules/curlew.py:822
 msgid "Suspend computer after finish"
 msgstr "Суспендуј рачунар по завршетку"
 
-#: Curlew/curlew.py:718
+#: modules/curlew.py:829
+msgid "Output"
+msgstr ""
+
+#: modules/curlew.py:835
+msgid "Source Path"
+msgstr "Путања извора"
+
+#: modules/curlew.py:840
+#, fuzzy
+msgid "Destination:"
+msgstr "<b>Одредиште:</b>"
+
+#: modules/curlew.py:844
+msgid "Overwrite it"
+msgstr "Замени га"
+
+#: modules/curlew.py:845
+msgid "Choose another name"
+msgstr "Одреди друго име"
+
+#: modules/curlew.py:846
+msgid "Skip conversion"
+msgstr "Прескочи конверзију"
+
+#: modules/curlew.py:847
+msgid "File exist:"
+msgstr "Фајл постоји:"
+
+#: modules/curlew.py:861
 msgid "Delete input file after conversion"
 msgstr "Обриши улазни фајл по конверзији"
 
-#: Curlew/curlew.py:722
+#: modules/curlew.py:866
 msgid "Rename input file after conversion"
 msgstr "Преименуј улазни фајл по конверзији"
 
-#: Curlew/curlew.py:801
+#: modules/curlew.py:942
+#, fuzzy
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr "Да ли желите да напустите Curlew и прекинете процес конверзације?"
 
-#: Curlew/curlew.py:818
+#: modules/curlew.py:959
 msgid "Add file"
 msgstr "Додај фајл"
 
-#: Curlew/curlew.py:830
+#: modules/curlew.py:961 modules/curlew.py:1044 modules/curlew.py:1071
+#: modules/curlew.py:2286
+msgid "_OK"
+msgstr ""
+
+#: modules/curlew.py:972
 msgid "All supported files"
 msgstr "Сви подржани фајлови"
 
-#: Curlew/curlew.py:837
+#: modules/curlew.py:979
 msgid "Video files"
 msgstr "Видео фајлови"
 
-#: Curlew/curlew.py:843
+#: modules/curlew.py:985
 msgid "Audio files"
 msgstr "Звучни фајлови"
 
-#: Curlew/curlew.py:849 Curlew/curlew.py:1585
+#: modules/curlew.py:991 modules/curlew.py:1545
 msgid "All files"
 msgstr "Сви фајлови"
 
-#: Curlew/curlew.py:889 Curlew/curlew.py:1683
+#: modules/curlew.py:1031 modules/curlew.py:1638
 msgid "Ready!"
 msgstr "Спремно!"
 
-#: Curlew/curlew.py:900
+#: modules/curlew.py:1042
 msgid "Add folder"
 msgstr "Додај фасциклу"
 
-#: Curlew/curlew.py:926
+#: modules/curlew.py:1069
 msgid "Choose destination"
 msgstr "Изабери одредиште"
 
-#: Curlew/curlew.py:948
-msgid ""
-"<b>Format:</b>\t{}\n"
-"<b>Extension:</b>\t{}\n"
-"<b>Encoder:</b>\t{}"
-msgstr ""
-"<b>Формат:</b>\t{}\n"
-"<b>Проширење:</b>\t{}\n"
-"<b>Декодер:</b>\t{}"
-
-#: Curlew/curlew.py:1352
+#: modules/curlew.py:1318
 msgid "Destination path is not valid."
 msgstr "Одредишна путања није исправна."
 
-#: Curlew/curlew.py:1358
+#: modules/curlew.py:1325
 msgid "Destination path is not accessible."
 msgstr "Одредишна путања није приступачна."
 
-#: Curlew/curlew.py:1388 Curlew/curlew.py:1429 Curlew/curlew.py:1828
+#: modules/curlew.py:1357 modules/curlew.py:1398 modules/curlew.py:1777
 msgid "Skipped!"
 msgstr "Прескочено!"
 
-#: Curlew/curlew.py:1398
+#: modules/curlew.py:1367
 msgid "Not found!"
 msgstr "Није пронођено!"
 
-#: Curlew/curlew.py:1501
+#: modules/curlew.py:1460
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
@@ -450,39 +591,35 @@ msgstr ""
 "Догодиле су се грешке.\n"
 "Да ли желите да видите више детаља?"
 
-#: Curlew/curlew.py:1514
+#: modules/curlew.py:1473
 msgid "Do you want to stop conversion process?"
 msgstr "Да ли желите да зауставите процес конверзације?"
 
-#: Curlew/curlew.py:1569
+#: modules/curlew.py:1528
 msgid "Select subtitle"
 msgstr "Одабери превод"
 
-#: Curlew/curlew.py:1577
+#: modules/curlew.py:1531
+msgid "_Add"
+msgstr ""
+
+#: modules/curlew.py:1536
 msgid "Subtitle files"
 msgstr "Фајлови превода"
 
-#: Curlew/curlew.py:1678 Curlew/curlew.py:1884 Curlew/curlew.py:1942
+#: modules/curlew.py:1633 modules/curlew.py:1837
 msgid "Wait..."
 msgstr "Чекај..."
 
-#: Curlew/curlew.py:1688
-msgid "Preview"
-msgstr "Преглед"
-
-#: Curlew/curlew.py:1765
+#: modules/curlew.py:1714
 msgid "Done!"
 msgstr "Готово!"
 
-#: Curlew/curlew.py:1783
+#: modules/curlew.py:1732
 msgid "Failed!"
 msgstr "Неуспело!"
 
-#: Curlew/curlew.py:1928 Curlew/functions.py:46
-msgid " MB"
-msgstr "МБ"
-
-#: Curlew/curlew.py:2183
+#: modules/curlew.py:2047
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
@@ -490,7 +627,7 @@ msgstr ""
 "<span foreground=\"red\" weight=\"bold\">Систем ће бити искључен после {} "
 "sec.</span>"
 
-#: Curlew/curlew.py:2196
+#: modules/curlew.py:2060
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
@@ -498,15 +635,7 @@ msgstr ""
 "<span foreground=\"red\" weight=\"bold\">Систем ће бити суспендован после {} "
 "sec.</span>"
 
-#: Curlew/curlew.py:2283
-msgid "Add to favorite"
-msgstr "Додај у омиљено"
-
-#: Curlew/curlew.py:2291
-msgid "Edit list"
-msgstr "Листа измена"
-
-#: Curlew/curlew.py:2347
+#: modules/curlew.py:2137
 msgid ""
 "<b>Duration:</b> {}\n"
 "<b>Size:</b> {}\n"
@@ -516,74 +645,106 @@ msgstr ""
 "<b>Величина:</b> {}\n"
 "<b>Проширење:</b> {}\n"
 
-#: Curlew/curlew.py:2389
+#: modules/curlew.py:2178
 msgid "Please install \"mediainfo\" package."
 msgstr "Молим инсталирајте \"mediainfo\" пакет."
 
-#: Curlew/logdialog.py:29
-msgid "Errors detail"
-msgstr "Детаљи грешке"
+#: modules/curlew.py:2238
+msgid "Play"
+msgstr ""
 
-#: Curlew/waitdialog.py:31
-msgid "Adding files..."
-msgstr "Додавање фајлова..."
+#: modules/curlew.py:2241
+#, fuzzy
+msgid "_Preview"
+msgstr "Преглед"
 
-#: Curlew/waitdialog.py:50
-msgid "<b>File:</b> "
-msgstr "<b>Фајл:</b>"
+#: modules/curlew.py:2247
+msgid "Browse source"
+msgstr "Претражи извор"
 
-#: Curlew/about.py:35
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr "Једноставан конвертер мултимедије за Линукс"
+#: modules/curlew.py:2250
+msgid "Browse destination"
+msgstr "Претражи одредиште"
 
-#: Curlew/about.py:48
-msgid "translator-credits"
-msgstr "преводиоци"
+#: modules/curlew.py:2284
+#, fuzzy
+msgid "Choose Encoder"
+msgstr "Одреди друго име"
 
-#: Curlew/functions.py:43
-msgid " KB"
-msgstr "кб"
+#~ msgid "Preview"
+#~ msgstr "Преглед"
 
-#: Curlew/functions.py:49
-msgid " GB"
-msgstr "ГБ"
+#, fuzzy
+#~ msgid "<b>Convert to:</b>"
+#~ msgstr "<b>Формат:</b>"
 
-#: Curlew/favdialog.py:35
-msgid "Format"
-msgstr "Формат"
+#~ msgid "Font: "
+#~ msgstr "Фонт:"
 
-#: Curlew/tray.py:36 Curlew/tray.py:66
-msgid "Hide"
-msgstr "Сакриј"
+#~ msgid "Position: "
+#~ msgstr "Позиција:"
 
-#: Curlew/tray.py:68
-msgid "Show"
-msgstr "Покажи"
+#~ msgid "Delay: "
+#~ msgstr "Кашњење"
 
-#: Curlew/customwidgets.py:51
-msgid "Top"
-msgstr "На врху"
+#~ msgid "Harddup"
+#~ msgstr "Harddup"
 
-#: Curlew/customwidgets.py:59
-msgid "Bottom"
-msgstr "Доле"
+#~ msgid "Use SSA/ASS subtitle"
+#~ msgstr "Користи ССА/АСС превод"
 
-#: Curlew/customwidgets.py:67
-msgid "Left"
-msgstr "Лево"
+#~ msgid "Source Quality"
+#~ msgstr "Квалитет извора"
 
-#: Curlew/customwidgets.py:75
-msgid "Right"
-msgstr "Десно"
+#~ msgid "Use the same quality as source file"
+#~ msgstr "Користи исти квалитет као извор"
 
-#: Curlew/customwidgets.py:184
-msgid "hr"
-msgstr "час"
+#~ msgid "Show sidebar"
+#~ msgstr "Покажи бочну траку"
 
-#: Curlew/customwidgets.py:189
-msgid "min"
-msgstr "мин"
+#, fuzzy
+#~ msgid "Multimedia Converter"
+#~ msgstr "Једноставан конвертер мултимедије за Линукс"
 
-#: Curlew/fileinfos.py:26
-msgid "File informations"
-msgstr "Информације о фајлу"
+#~ msgid "Preview before converting"
+#~ msgstr "Преглед пре конверзије"
+
+#~ msgid "<b>Advanced</b>"
+#~ msgstr "<b>напредак</b>"
+
+#~ msgid "Add files"
+#~ msgstr "Додај фајлове"
+
+#~ msgid "Add folders"
+#~ msgstr "Додај фасцикле"
+
+#~ msgid "Clear"
+#~ msgstr "Очисти"
+
+#~ msgid "Convert"
+#~ msgstr "Конвертуј"
+
+#~ msgid "Stop"
+#~ msgstr "Заустави"
+
+#~ msgid "File Infos"
+#~ msgstr "Информације о фајлу"
+
+#~ msgid "Show toolbar's buttons text"
+#~ msgstr "Pokaži tekst za dugmad u traci alata"
+
+#~ msgid "Icons:"
+#~ msgstr "Иконе:"
+
+#~ msgid ""
+#~ "<b>Format:</b>\t{}\n"
+#~ "<b>Extension:</b>\t{}\n"
+#~ "<b>Encoder:</b>\t{}"
+#~ msgstr ""
+#~ "<b>Формат:</b>\t{}\n"
+#~ "<b>Проширење:</b>\t{}\n"
+#~ "<b>Декодер:</b>\t{}"
+
+#, fuzzy
+#~ msgid "About data"
+#~ msgstr "О"

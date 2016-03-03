@@ -1,5 +1,11 @@
 بسم الله الرحمن الرحيم
 
-- Prevent to duplicate file in the same session.
-- Move icons to /usr/share/curlew/icons
-- ?
+
+Fixes:
+* Prevent to duplicate file in the same session.
+
+Changes:
+* Use GLib.spawn_* functions instead of subprocess
+
+Features:
+* ...

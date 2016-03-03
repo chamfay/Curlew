@@ -5,7 +5,7 @@ Description:
 ------------
 
 Easy to use, Free and Open-Source Multimedia converter for Linux.
-Curlew written in python and GTK3 and it depends on (ffmpeg/avconv, mencoder).
+Curlew written in python and GTK3 and it depends on (ffmpeg/avconv).
 
 Main Features:
 
@@ -24,44 +24,53 @@ Main Features:
 Dependencies:
 -------------
 
-- python >= 2.7 << 3.0
-- python-gobject >= 3.0
-- gir1.2-gtk-3.0 >> 3.2
-- ffmpeg >= 0.8 (or libav-tools >= 0.8)
-- mencoder
-- libavcodec-extra-53 (Ubuntu/Debian)
-- xdg-utils
-- mediainfo
+For Curlew:
 
-Note:
------
+    - python >= 3.3
+    - python3-gi >= 3.12
+	- python3-dbus
+    - gir1.2-gtk-3.0 >> 3.12
+    - libav-tools >= 0.8 (or ffmpeg)
+    - libavcodec-extra (Ubuntu/Debian)
+    - xdg-utils
+    - mediainfo
+    - gnome-icon-theme-symbolic
 
-To install Curlew, you MUST have 'imagemagick' and 'intltool' installed in
-your machine.
+For installer (setup.py):
+
+    - librsvg2-bin (or something similar) to convert .svg to .png.
+    - intltool-debian (or intltool) to compile translations files.
+
+NB: This dependencies names may change if you are using another distribution than Ubuntu/Debian or its sons.
 
 
 License:
 --------
 
 Waqf public license.
-Please see LICENSE-ar.txt/LICENSE-en files for more informations.
+Please see: LICENSE-ar.txt/LICENSE-en.txt files for more informations.
 
 
 Installation:
 -------------
 
-In terminal run the following (as root).
-sudo python setup.py install
+In terminal, run the following (as root):
+> python3 setup.py install --prefix=/usr
+Or run script (as root):
+> ./install
 
 
 Remove (Uninstall):
 -------------------
 
-In terminal run the following (as root).
-sudo python setup.py uninstall
+In terminal run the following (as root):
+> python3 setup.py uninstall
+Or run script (as root):
+> ./uninstall
 
-Clean project:
+
+Clean Project:
 --------------
 
-sudo python setup.py clean
+> sudo python3 setup.py clean
 

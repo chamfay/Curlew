@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2014 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2016 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -17,21 +17,26 @@
 # The latest version of the license can be found on:
 # http://www.ojuba.org/wiki/doku.php/waqf/license
 
+import gi
+gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk
 
 PROGRAMMER = 'Fayssal Chamekh <chamfay@gmail.com>'
-WEB_SITE = 'https://github.com/chamfay/Curlew'
+WEBSITE = 'http://sourceforge.net/projects/curlew'
+VERSION='0.2.1'
+
 
 class About(Gtk.AboutDialog):
     def __init__(self, parent):
         Gtk.AboutDialog.__init__(self, parent=parent, wrap_license=True)
         self.set_program_name(_('Curlew'))
         self.set_authors([PROGRAMMER, 'Ehab El-Gedawy <ehabsas@gmail.com>', 'Andrej Kvasnica <andrej@gmail.com>'])
-        self.set_copyright("Copyright © 2012, 2014 Fayssal Chamekh <chamfay@gmail.com>")
-        self.set_version('0.1.22.2')
+        self.set_copyright("Copyright © 2012-2016 Fayssal Chamekh <chamfay@gmail.com>")
+        self.set_version(VERSION)
         self.set_title(_('About Curlew'))
         self.set_logo_icon_name('curlew')
+        self.set_icon_name('curlew')
         self.set_comments(_('Easy to use Multimedia Converter for Linux'))
         self.set_license("""
 Released under terms on waqf public license.
@@ -43,8 +48,8 @@ This program is distributed in the hope that it will be useful, but without any 
 The latest version of the license can be found on:
 http://www.ojuba.org/wiki/doku.php/waqf/license
 """)
-        self.set_website(WEB_SITE)
-        self.set_website_label(WEB_SITE)
+        self.set_website(WEBSITE)
+        self.set_website_label(WEBSITE)
         self.set_translator_credits(_("translator-credits"))
         self.set_artists([PROGRAMMER, 'Smail <kungfu07mail@gmail.com>'])
     

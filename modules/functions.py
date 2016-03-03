@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2014 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2016 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -18,11 +18,15 @@
 # http://www.ojuba.org/wiki/doku.php/waqf/license
 
 
-from gi.repository import Gtk
+import gi
+gi.require_version('Gtk', '3.0')
 
-def show_message(parent, 
-                 message, 
-                 message_type, 
+from gi.repository import Gtk
+from subprocess import Popen, PIPE
+
+def show_message(parent,
+                 message,
+                 message_type,
                  button_type=Gtk.ButtonsType.CLOSE):
     ''' Show custom message dialog'''
     mess_dlg = Gtk.MessageDialog(parent,
@@ -58,7 +62,23 @@ def duration_to_time(duration):
                                              (duration%3600)/60,
                                              (duration%3600)%60
                                              )
+
 def time_to_duration(time):
     ''' Convert time like 0:00:00.00 to duration (sec)'''
     times = time.split(':')
     return int(times[0])*3600 + int(times[1])*60 + float(times[2])
+
+def get_available_codecs(encoder):
+    proc = Popen('{} -encoders'.format(encoder), shell=True,
+               stdout=PIPE, stderr=PIPE, universal_newlines=True, bufsize=-1)
+    codecs = proc.stdout.read()
+    return codecs
+
+def check_codec(encoder, codec):
+    new_codec = ' {} '.format(codec)
+    codecs = get_available_codecs(encoder)
+    if new_codec in codecs:
+        return True
+    return False
+
+

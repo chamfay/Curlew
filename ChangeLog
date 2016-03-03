@@ -1,3 +1,44 @@
+Version 0.2.1
+-------------
+
+* Fix bugs.
+
+Version 0.2.0
+-------------
+
+* Check availability of codecs according to encoder
+* Show availabe codecs.
+* Enhanced video thumbnail (showed with correct aspect ratio).
+* New favorite list
+* Add global menu (Gnome Shell)
+* Allow to choose a player.
+* Allow to edit formats.
+* Enhanced interface.
+* ...
+
+Version 0.2.0 beta
+------------------
+
+* Redesigned UI.
+* Added OPUS audio format.
+* Ported code to Python 3.
+* New Dialog for formats with search entry.
+* Enhanced setup and reduced dependencies.
+* Removed mencoder and depends only on ffmpeg static build.
+* Fix bug in restore last size and position.
+* Removed double-click option to add file.
+* And more...
+
+
+Version 0.1.22.3
+----------------
+
+* Remember last size and position.
+* Added "Português - Brazil" translation (by vagner <vagner.unix@gmail.com>).
+* Added missing dialog icons (by Ken <lxgator@gmail.com>).
+* Updated russian translation.
+
+
 Version 0.1.22.2
 ----------------
 
