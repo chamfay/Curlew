@@ -22,6 +22,7 @@ gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk
 from modules.edition import FormatEditor
+from modules.customwidgets import ButtonWithIcon
 
 class Formats(Gtk.Popover):
     
@@ -108,8 +109,7 @@ class Formats(Gtk.Popover):
         vbox.pack_start(hbox_btns, True, True, 0)
         
         # edit btn
-        btn_edit = Gtk.Button()
-        btn_edit.set_image(Gtk.Image.new_from_icon_name('preferences-other-symbolic', Gtk.IconSize.BUTTON))
+        btn_edit = ButtonWithIcon('preferences-other-symbolic')
         btn_edit.set_tooltip_text(_('Edit'))
         btn_edit.connect('clicked', self.on_edit_format)
         hbox_btns.pack_start(btn_edit, False, True, 0)
@@ -118,8 +118,8 @@ class Formats(Gtk.Popover):
         hbox_btns.pack_start(self.lbl, True, False, 0)        
         
         # select btn
-        btn_select = Gtk.Button()
-        btn_select.set_image(Gtk.Image.new_from_icon_name('object-select-symbolic', Gtk.IconSize.BUTTON))
+        btn_select = Gtk.Button(_('Choose'))
+        btn_select.set_size_request(80, 1)
         btn_select.set_tooltip_text(_('Choose'))
         btn_select.connect('clicked', self.on_select_format)
         hbox_btns.pack_end(btn_select, False, True, 0)

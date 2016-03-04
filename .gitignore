@@ -1,5 +1,6 @@
 *.pyc
 .project
 .pydevproject
+.settings
 *.mo
 MANIFEST

@@ -9,12 +9,12 @@ from os.path import splitext, split
 #     "librsvg2-bin" to use rsvg-convert command.
 #     "intltool-debian" or "intltool" to use intltool-update command.
 
-VERSION = '0.2.1'
+VERSION = '0.2.2'
 SVG_CONVERT = 'rsvg-convert'
 UPDATE = 'intltool-update'
 UPDATE_DEBIAN = '/usr/share/intltool-debian/intltool-update'
 
-doc_files  = ['LICENSE-ar.txt', 'LICENSE-en.txt', 'AUTHORS', 'ChangeLog', 'README']
+doc_files  = ['LICENSE-ar.txt', 'LICENSE-en.txt', 'AUTHORS', 'THANKS', 'ChangeLog', 'README']
 data_files = [('share/applications/', ['curlew.desktop']),
               ('share/icons/hicolor/scalable/apps', ['curlew.svg']),
               ('share/pixmaps', ['curlew.svg']),

@@ -28,7 +28,7 @@ For Curlew:
 
     - python >= 3.3
     - python3-gi >= 3.12
-	- python3-dbus
+    - python3-dbus
     - gir1.2-gtk-3.0 >> 3.12
     - libav-tools >= 0.8 (or ffmpeg)
     - libavcodec-extra (Ubuntu/Debian)

@@ -40,7 +40,7 @@ try:
     import dbus.glib, dbus.service
     
     from modules.customwidgets import LabeledHBox, TimeLayout, HScale, \
-    SpinsFrame, LabeledGrid, ComboWithEntry
+    SpinsFrame, LabeledGrid, ComboWithEntry, ButtonWithIcon
     from modules.about import About
     from modules.functions import show_message, get_format_size, \
     duration_to_time, time_to_duration, check_codec
@@ -269,17 +269,13 @@ class Curlew(Gtk.ApplicationWindow):
 #         Gtk.IconSize.MENU
 #         Gtk.IconSize.LARGE_TOOLBAR
 #         Gtk.IconSize.SMALL_TOOLBAR
-        
-        icon_size = Gtk.IconSize.BUTTON
 
-        self.btn_add_file = Gtk.Button.new_from_icon_name\
-        ('document-new-symbolic', icon_size)
+        self.btn_add_file = ButtonWithIcon('document-new-symbolic')
         self.btn_add_file.set_tooltip_text(_('Add Files'))
         self.btn_add_file.connect('clicked', self.add_file_cb)
         box_add.pack_start(self.btn_add_file, False, False, 0)
         
-        self.btn_add_folder = Gtk.Button.new_from_icon_name\
-        ('folder-new-symbolic', icon_size)
+        self.btn_add_folder = ButtonWithIcon('folder-new-symbolic')
         self.btn_add_folder.set_tooltip_text(_('Add Folders'))
         self.btn_add_folder.connect('clicked', self.on_add_folder_clicked)
         box_add.pack_start(self.btn_add_folder, False, False, 0)
@@ -289,45 +285,42 @@ class Curlew(Gtk.ApplicationWindow):
         Gtk.StyleContext.add_class(box_rm_clr.get_style_context(), "linked")
         self.header.pack_start(box_rm_clr)
         
-        self.btn_remove = Gtk.Button.new_from_icon_name\
-        ('edit-delete-symbolic', icon_size)
+        self.btn_remove = ButtonWithIcon('edit-delete-symbolic')
         self.btn_remove.set_tooltip_text(_('Remove Files'))
         self.btn_remove.connect('clicked', self.on_remove_cb)
         box_rm_clr.pack_start(self.btn_remove, False, False, 0)
         
-        self.btn_clear = Gtk.Button.new_from_icon_name\
-        ('edit-clear-all-symbolic', icon_size)
+        self.btn_clear = ButtonWithIcon('edit-clear-all-symbolic')
         self.btn_clear.set_tooltip_text(_('Clear Files List'))
         self.btn_clear.connect('clicked', self.on_clear_cb)
         box_rm_clr.pack_start(self.btn_clear, False, False, 0)
+        
+        # File info
+        self.btn_info = ButtonWithIcon('document-properties-symbolic')
+        self.btn_info.set_tooltip_text(_('File Informations'))
+        self.btn_info.connect('clicked', self.on_file_info_cb)
+        self.header.pack_start(self.btn_info)
+        
         
         # Convert/Stop
         box_convert = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         Gtk.StyleContext.add_class(box_convert.get_style_context(), "linked")
         self.header.pack_start(box_convert)
         
-        self.btn_convert = Gtk.Button.new_from_icon_name\
-        ('system-run-symbolic', icon_size)
+        self.btn_convert = Gtk.Button(_('Convert'))
         self.btn_convert.set_tooltip_text(_('Start Conversion'))
+        self.btn_convert.set_size_request(60, 1)
         self.btn_convert.connect('clicked', self.on_convert_cb)
         box_convert.pack_start(self.btn_convert, False, False, 0)
         
-        self.btn_stop = Gtk.Button.new_from_icon_name\
-        ('process-stop-symbolic', icon_size)
+        self.btn_stop = ButtonWithIcon('process-stop-symbolic')
         self.btn_stop.set_tooltip_text(_('Stop Conversion'))
         self.btn_stop.connect('clicked', self.on_btn_stop_clicked)
         box_convert.pack_start(self.btn_stop, False, False, 0)
         
-        # File info
-        self.btn_info = Gtk.Button.new_from_icon_name\
-        ('document-properties-symbolic', icon_size)
-        self.btn_info.set_tooltip_text(_('File Informations'))
-        self.btn_info.connect('clicked', self.on_file_info_cb)
-        self.header.pack_start(self.btn_info)
         
         # About button
-        self.btn_about = Gtk.Button.new_from_icon_name\
-        ('help-about-symbolic', icon_size)
+        self.btn_about = ButtonWithIcon('help-about-symbolic')
         self.btn_about.set_tooltip_text(_('About Curlew'))
         self.btn_about.connect('clicked', self.on_btn_about_clicked)
         self.header.pack_end(self.btn_about)
@@ -336,9 +329,8 @@ class Curlew(Gtk.ApplicationWindow):
         self.toggle_opts = Gtk.ToggleButton()
         self.toggle_opts.set_tooltip_text(_('Advanced Options'))
         self.toggle_opts.set_image(Gtk.Image.new_from_icon_name\
-            ('view-more-symbolic', icon_size))
+            ('view-more-symbolic', Gtk.IconSize.BUTTON))
         self.toggle_opts.connect('toggled', self.on_opts_toggled)
-        #self.header.pack_start(self.toggle_opts)
         
         
         # Stack
@@ -1525,6 +1517,7 @@ abort conversion process?'),
             return self.reg_duration.findall(out_str)[0]
         except:
             return '0:00:00.00'
+    
     
     #---- Select subtitle
     def b_enc_cb(self, widget):

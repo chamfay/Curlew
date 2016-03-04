@@ -244,8 +244,9 @@ class ComboWithEntry(Gtk.ComboBoxText):
         return False
 
 class ButtonWithIcon(Gtk.Button):
-    def __init__(self, icon_name):
+    def __init__(self, icon_name=None):
         Gtk.Button.__init__(self)
-        img = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
-        self.set_image(img)
+        if icon_name:
+            img = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+            self.set_image(img)
 
