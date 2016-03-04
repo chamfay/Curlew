@@ -20,7 +20,6 @@
 
 from configparser import ConfigParser
 import gettext
-from glob import glob
 import os
 from os.path import basename, isdir, splitext, join, dirname, realpath, \
 isfile, exists, getsize, abspath
@@ -996,15 +995,15 @@ abort conversion process?'),
         else:
             open_dlg.destroy()
         
-    def add_files(self, *args):
+    def add_files(self, *files):
         file_name = ''
         wait_dlg = WaitDialog(self)
-        tot = len(args)
+        tot = len(files)
         
-        for file_name in args:
+        for file_name in files:
             
             wait_dlg.set_filename(basename(file_name))
-            wait_dlg.set_progress((args.index(file_name) + 1.0) / tot)
+            wait_dlg.set_progress((files.index(file_name) + 1.0) / tot)
             if wait_dlg.skip: break
             
             while Gtk.events_pending():
@@ -1050,13 +1049,18 @@ abort conversion process?'),
         
         resp = folder_dlg.run()
         if resp == Gtk.ResponseType.OK:
-            files = []
+            files_list = []
             cur_folders = folder_dlg.get_filenames()
             for cur_folder in cur_folders:
-                files.extend(glob(cur_folder + '/*.*'))
+                
+                for root, dirs, files in os.walk(cur_folder):
+                    it_files = (join(root, file_name) for file_name in files)
+                    for curr_file in it_files:
+                        files_list.append(curr_file)
+                
             self.curr_open_folder = folder_dlg.get_filename()
             folder_dlg.destroy()
-            self.add_files(*files)
+            self.add_files(*files_list)
         folder_dlg.destroy()
     
     
