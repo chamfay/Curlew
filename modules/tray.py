@@ -15,7 +15,7 @@
 # of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #        
 # The latest version of the license can be found on:
-# http://www.ojuba.org/wiki/doku.php/waqf/license
+# http://waqf.ojuba.org/license
 
 
 import gi

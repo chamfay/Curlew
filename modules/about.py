@@ -15,7 +15,7 @@
 # of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 #        
 # The latest version of the license can be found on:
-# http://www.ojuba.org/wiki/doku.php/waqf/license
+# http://waqf.ojuba.org/license
 
 import gi
 gi.require_version('Gtk', '3.0')
@@ -46,7 +46,7 @@ This program is free software; you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but without any warranty; without even the implied warranty of merchantability or fitness for a particular purpose.
         
 The latest version of the license can be found on:
-http://www.ojuba.org/wiki/doku.php/waqf/license
+http://waqf.ojuba.org/license
 """)
         self.set_website(WEBSITE)
         self.set_website_label(WEBSITE)
