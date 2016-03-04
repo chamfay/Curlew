@@ -4,3 +4,5 @@
 .settings
 *.mo
 MANIFEST
+prepare_to_git.sh
+

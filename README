@@ -9,14 +9,19 @@ Curlew written in python and GTK3 and it depends on (ffmpeg/avconv).
 
 Main Features:
 
-- Easy to use with simple user interface.
+- Easy to use and clean user interface.
 - Hide the advanced options with the ability to show them.
 - Convert to more than 100 different formats.
+- Allow to edit formats.
+- Shutdown or suspend PC afer a conversion process.
 - Show file informations (duration, remaining time, estimated size, progress value).
+- Show file details using mediainfo.
 - Allow to skip or remove file during conversion process.
 - Preview file before conversion.
+- Show video thumbnail.
 - Convert a specified portion of file.
-- Combine subtitle with video file.
+- Combine subtitle with video.
+- Allow to crop and pad video.
 - Show error details if exist.
 - And more ...
 
