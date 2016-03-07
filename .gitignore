@@ -1,8 +1,17 @@
+__pycache__/
 *.pyc
+
+.settings/
 .project
 .pydevproject
-.settings
+
 *.mo
 MANIFEST
 prepare_to_git.sh
+
+build/
+dist/
+
+locale/
+hicolor/
 
