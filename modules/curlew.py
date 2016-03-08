@@ -54,6 +54,7 @@ try:
     from modules.codecs import CodecsDialog
     from modules.consts import CONF_PATH, HOME, CONF_FILE, DTA_DIR, \
     ORG_FFILE, USR_FFILE
+    from modules.configs import set_b_config, get_b_config
 except Exception as e:
     print(e)
     sys.exit(1)
@@ -198,7 +199,7 @@ class Curlew(Gtk.ApplicationWindow):
         quit_action.connect("activate", self.quit_cb)
         self.add_action(quit_action)
     
-        self.set_size_request(800, 500)
+        #self.set_size_request(800, 500)
         self.set_icon_name('curlew')
         
         # Restore saved position and size
@@ -250,9 +251,14 @@ class Curlew(Gtk.ApplicationWindow):
         
         # Header bar
         self.header = Gtk.HeaderBar()
-        self.header.set_title(_('Curlew'))
-        self.header.set_show_close_button(True)
-        self.set_titlebar(self.header)
+         
+        self.csd = get_b_config('use-csd')
+        if self.csd:
+            self.header.set_title(_('Curlew'))
+            self.header.set_show_close_button(True)
+            self.set_titlebar(self.header)
+        else:
+            vbox_global.add(self.header)
         
         # Infobar
         self.info_bar = InfoBar()
@@ -804,6 +810,10 @@ class Curlew(Gtk.ApplicationWindow):
         self.cb_tray.connect('toggled', self.on_cb_tray_toggled)
         self.vb_config.pack_start(self.cb_tray, False, False, 0)
         
+        # Use CSD
+        self.cb_csd = Gtk.CheckButton(_('Use CSD'), active=True)
+        self.vb_config.pack_start(self.cb_csd, False, False, 0)
+        
         sep = Gtk.Separator()
         self.vb_config.pack_start(sep, False, False, 0)
         
@@ -880,7 +890,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         #--- Load saved options.
         self.btn_formats.set_label(self.formats_list[0])
-        self.load_options()
+        self.load_states()
         self.fill_options()
         
         my_store = Gtk.ListStore(str)
@@ -930,7 +940,7 @@ class Curlew(Gtk.ApplicationWindow):
         return True
     
     def quit_cb(self, *args):
-        self.save_options()
+        self.save_states()
         if self.is_converting:
             ''' Press quit btn during conversion process '''
             resp = show_message(self, _('Do you want to quit Curlew and \
@@ -1929,9 +1939,9 @@ abort conversion process?'),
         self.vb_video.set_sensitive(sens)
         self.vb_sub.set_sensitive(sens)
         self.vb_more.set_sensitive(sens)
-        self.vb_crop.set_sensitive(sens)
+        self.vb_crop.set_sensitive(sens) 
     
-    def save_options(self):
+    def save_states(self):
         conf = GLib.KeyFile()
         conf.load_from_file(CONF_FILE, GLib.KeyFileFlags.NONE)
                 
@@ -1953,6 +1963,9 @@ abort conversion process?'),
         conf.set_boolean(group, 'video_2pass', self.cb_2pass.get_active())
         conf.set_boolean(group, 'video_video_only', self.cb_video_only.get_active())
         
+        # csd
+        conf.set_boolean(group, 'use-csd', self.cb_csd.get_active())
+        
         # Size, position and state
         conf.set_integer_list(group, 'position', self.get_position())
         conf.set_boolean(group, 'maximized', self.is_maxi)
@@ -1965,7 +1978,7 @@ abort conversion process?'),
         conf.unref()
         
         
-    def load_options(self):
+    def load_states(self):
         conf = GLib.KeyFile()
         try:
             conf.load_from_file(CONF_FILE, GLib.KeyFileFlags.NONE)
@@ -1994,6 +2007,9 @@ abort conversion process?'),
             self.cb_2pass.set_active(conf.get_boolean(group, 'video_2pass'))
             self.cb_video_only.set_active(conf.get_boolean(group, 'video_video_only'))
             
+            # csd
+            self.cb_csd.set_active(conf.get_boolean(group, 'use-csd'))
+            
             conf.unref()
             
         except Exception as e:
@@ -2012,7 +2028,7 @@ abort conversion process?'),
             f_log.write('\n')
     
     def on_cb_tray_toggled(self, cb_tray):
-        self.trayico.set_visible(cb_tray.get_active())    
+        self.trayico.set_visible(cb_tray.get_active())
     
     def install_locale(self):
         conf = GLib.KeyFile()
