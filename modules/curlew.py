@@ -301,7 +301,7 @@ class Curlew(Gtk.ApplicationWindow):
         box_rm_clr.pack_start(self.btn_clear, False, False, 0)
         
         # File info
-        self.btn_info = ButtonWithIcon('document-properties-symbolic')
+        self.btn_info = ButtonWithIcon('dialog-question-symbolic')
         self.btn_info.set_tooltip_text(_('File Informations'))
         self.btn_info.connect('clicked', self.on_file_info_cb)
         self.header.pack_start(self.btn_info)
