@@ -24,9 +24,8 @@ from gi.repository import Gtk, Gdk
 import pickle
 
 class Favorite(Gtk.Dialog):
-    def __init__(self, prnt, fav_list):
-        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
-        #self.set_property("use-header-bar", True)
+    def __init__(self, prnt, fav_list, headerbar):
+        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=headerbar)
         self.set_title(_('Favorite list'))
         self.set_icon_name('curlew')
         self.set_border_width(4)
@@ -34,7 +33,6 @@ class Favorite(Gtk.Dialog):
         self.store = Gtk.ListStore(str)
         self.list_view = Gtk.TreeView(self.store)
         self.list_view.connect("key-press-event", self.on_key_press)
-        header = self.get_header_bar()
         
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("Format"), cell, text=0)
@@ -48,10 +46,11 @@ class Favorite(Gtk.Dialog):
         
         g_vbox.pack_start(scroll, True, True, 0)
         
+        box_btns = Gtk.Box(Gtk.Orientation.HORIZONTAL, spacing=8)
         
         box_up_down = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         Gtk.StyleContext.add_class(box_up_down.get_style_context(), "linked")        
-        header.pack_end(box_up_down)
+        box_btns.pack_end(box_up_down, False, False, 0)
         
         btn_up = Gtk.Button()
         btn_up.set_tooltip_text(_('Up'))
@@ -69,9 +68,16 @@ class Favorite(Gtk.Dialog):
         btn_delete.set_tooltip_text(_('Remove'))
         btn_delete.set_image(Gtk.Image.new_from_icon_name('list-remove-symbolic', Gtk.IconSize.MENU))
         btn_delete.connect('clicked', self.delete_item)
-        header.pack_end(btn_delete)
+        
+        box_btns.pack_end(btn_delete, False, False, 0)
         
         self.vbox.pack_start(g_vbox, True, True, 0)
+        
+        if headerbar:
+            self.get_header_bar().pack_end(box_btns)
+        else:
+            self.vbox.set_spacing(2)
+            self.vbox.add(box_btns)
         
         # load
         for fformat in fav_list:

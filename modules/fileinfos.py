@@ -24,8 +24,8 @@ from gi.repository import Gtk, Pango
 from subprocess import check_output
 
 class FileInfos(Gtk.Dialog):
-    def __init__(self, prnt, file_name):
-        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
+    def __init__(self, prnt, file_name, headerbar):
+        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=headerbar)
         self.set_title(_("File informations"))
         self.set_size_request(700, 600)
         self.set_border_width(6)

@@ -24,8 +24,8 @@ from gi.repository import Gtk, Pango
 from modules.functions import get_available_codecs
 
 class CodecsDialog(Gtk.Dialog):
-    def __init__(self, prnt, encoder, title):
-        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
+    def __init__(self, prnt, encoder, title, headerbar):
+        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=headerbar)
         self.set_title(title)
         self.set_size_request(700, 600)
         self.set_border_width(6)

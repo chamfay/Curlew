@@ -54,7 +54,7 @@ try:
     from modules.codecs import CodecsDialog
     from modules.consts import CONF_PATH, HOME, CONF_FILE, DTA_DIR, \
     ORG_FFILE, USR_FFILE
-    from modules.configs import set_b_config, get_b_config
+    from modules.configs import get_b_config
 except Exception as e:
     print(e)
     sys.exit(1)
@@ -112,7 +112,7 @@ class Curlew(Gtk.ApplicationWindow):
                 self.l_vcodec.set_markup(msg.format(vcodec))
      
     def on_link_clicked(self, w):
-        dlg = CodecsDialog(self, self.encoder, self.link_label)
+        dlg = CodecsDialog(self, self.encoder, self.link_label, self.csd)
         dlg.show_dialog()
         return True
     
@@ -155,7 +155,7 @@ class Curlew(Gtk.ApplicationWindow):
     
     
     def on_edit_fav(self, action, param):
-        fav_dlg = Favorite(self, self.get_fav_list())
+        fav_dlg = Favorite(self, self.get_fav_list(), self.csd)
         fav_dlg.run()
         fav_dlg.save(FAV_FILE)
         self.load_submenu()
@@ -1471,7 +1471,7 @@ abort conversion process?'),
                                     Gtk.MessageType.WARNING,
                                     Gtk.ButtonsType.YES_NO)
                 if resp == Gtk.ResponseType.YES:
-                    dia = LogDialog(self, ERR_LOG_FILE)
+                    dia = LogDialog(self, ERR_LOG_FILE, self.csd)
                     dia.show_dialog()
     
     
@@ -2195,7 +2195,7 @@ abort conversion process?'),
             return
         
         input_file = self.store[Iter][C_FILE]
-        f_dlg = FileInfos(self, input_file);
+        f_dlg = FileInfos(self, input_file, self.csd);
         f_dlg.show_dialog()
     
     def restore_last_position(self):

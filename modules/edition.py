@@ -235,16 +235,20 @@ class FormatEditor(Gtk.Dialog):
         self.close()
     
     
-    def __init__(self, prnt, frmt, store):
+    def __init__(self, prnt, frmt, store, headerbar):
         Gtk.Dialog.__init__(self,
                             parent=prnt,
-                            use_header_bar=True)
+                            use_header_bar=headerbar)
         self.set_size_request(700, 450)
         self.set_border_width(4)
         
         self.format = frmt
         self.store = store
-        self.titlebar = self.get_titlebar()
+        if headerbar:
+            self.titlebar = self.get_titlebar()
+        else:
+            self.titlebar = Gtk.HeaderBar()
+            self.get_content_area().add(self.titlebar)
         self.main_win = prnt
         
         grid = LabeledGrid(self.vbox)
