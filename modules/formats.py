@@ -93,7 +93,7 @@ class Formats(Gtk.Popover):
         self.tree_formats.append_column(col)
         
         scroll = Gtk.ScrolledWindow()
-        scroll.set_size_request(450, 285)
+        scroll.set_size_request(450, 220)
         scroll.set_shadow_type(Gtk.ShadowType.ETCHED_IN)
         scroll.add(self.tree_formats)
         vbox.pack_start(scroll, True, True, 0)

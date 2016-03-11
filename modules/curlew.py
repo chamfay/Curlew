@@ -137,10 +137,16 @@ class Curlew(Gtk.ApplicationWindow):
     
     def on_add_fav(self, action, param):
         fav_list = self.get_fav_list()
-        fav_format = self.btn_formats.get_label()
+        fav_format = self.btn_formats.get_label()        
+        
+        # limit fav list to 10 elmnts
+        if len(fav_list) > 9:
+            print('Favorite list number is limited to 10.')
+            return
         
         # format already exist
         if fav_format in fav_list:
+            print('Format already exsit!')
             return
         
         fav_list.append(fav_format)
@@ -466,6 +472,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         # Formats dialog
         self.btn_formats = Gtk.MenuButton()
+        self.btn_formats.set_size_request(1, 32)
         self.btn_formats.set_tooltip_markup(_("Choose a format"))
         vbox = Gtk.Box(spacing=6, orientation=Gtk.Orientation.VERTICAL)
         vbox.set_border_width(4)
