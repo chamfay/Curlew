@@ -34,6 +34,12 @@ class Favorite(Gtk.Dialog):
         self.list_view = Gtk.TreeView(self.store)
         self.list_view.connect("key-press-event", self.on_key_press)
         
+        if headerbar:
+            header = self.get_header_bar()
+        else:
+            header = Gtk.HeaderBar()
+            self.vbox.add(header)
+        
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("Format"), cell, text=0)
         self.list_view.append_column(col)
@@ -46,11 +52,9 @@ class Favorite(Gtk.Dialog):
         
         g_vbox.pack_start(scroll, True, True, 0)
         
-        box_btns = Gtk.Box(Gtk.Orientation.HORIZONTAL, spacing=8)
-        
         box_up_down = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         Gtk.StyleContext.add_class(box_up_down.get_style_context(), "linked")        
-        box_btns.pack_end(box_up_down, False, False, 0)
+        header.pack_end(box_up_down)
         
         btn_up = Gtk.Button()
         btn_up.set_tooltip_text(_('Up'))
@@ -69,15 +73,9 @@ class Favorite(Gtk.Dialog):
         btn_delete.set_image(Gtk.Image.new_from_icon_name('list-remove-symbolic', Gtk.IconSize.MENU))
         btn_delete.connect('clicked', self.delete_item)
         
-        box_btns.pack_end(btn_delete, False, False, 0)
+        header.pack_end(btn_delete)
         
         self.vbox.pack_start(g_vbox, True, True, 0)
-        
-        if headerbar:
-            self.get_header_bar().pack_end(box_btns)
-        else:
-            self.vbox.set_spacing(2)
-            self.vbox.add(box_btns)
         
         # load
         for fformat in fav_list:
