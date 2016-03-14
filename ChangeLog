@@ -1,6 +1,14 @@
 Version 0.2.1
 -------------
 
+* Added -Use CSD- option, to enable/disable HeaderBar.  
+* Limited Favorite list to only 10 elements.
+* Fixed bug when add files/folders contains special caracters.
+* Updated translations and some other changes.
+
+Version 0.2.1
+-------------
+
 * Fix bugs.
 
 Version 0.2.0
