@@ -13,7 +13,7 @@ Main Features:
 - Hide the advanced options with the ability to show them.
 - Convert to more than 100 different formats.
 - Allow to edit formats.
-- Shutdown or suspend PC afer a conversion process.
+- Shutdown or suspend PC after a conversion process.
 - Show file informations (duration, remaining time, estimated size, progress value).
 - Show file details using mediainfo.
 - Allow to skip or remove file during conversion process.
