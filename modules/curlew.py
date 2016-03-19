@@ -141,12 +141,12 @@ class Curlew(Gtk.ApplicationWindow):
         
         # limit fav list to 10 elmnts
         if len(fav_list) > 9:
-            print('Favorite list number is limited to 10.')
+            print('Favorite list number is limited to only 10 elements.')
             return
         
         # format already exist
         if fav_format in fav_list:
-            print('Format already exsit!')
+            print('Format "{}" already exist in favorite list!'.format(fav_format))
             return
         
         fav_list.append(fav_format)
