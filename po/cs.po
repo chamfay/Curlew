@@ -1,13 +1,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Pavel Fric <pavelfric@seznam.cz>, 2013, 2014.
+# Pavel Fric <pavelfric@seznam.cz>, 2013, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-03-14 09:37+0000\n"
-"PO-Revision-Date: 2014-01-04 18:34+0100\n"
+"PO-Revision-Date: 2016-03-20 20:43+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -19,17 +19,15 @@ msgstr ""
 
 #: modules/formats.py:60
 msgid "<i><span color=\"red\">No format selected!</span></i>"
-msgstr ""
+msgstr "<i><span color=\"red\">Nevybrán žádný formát!</span></i>"
 
 #: modules/formats.py:113
-#, fuzzy
 msgid "Edit"
-msgstr "Upravit seznam"
+msgstr "Upravit"
 
 #: modules/formats.py:121 modules/formats.py:123
-#, fuzzy
 msgid "Choose"
-msgstr "Vybrat jiný název"
+msgstr "Vybrat"
 
 #: modules/functions.py:47
 msgid " KB"
@@ -45,85 +43,75 @@ msgstr " GB"
 
 #: modules/edition.py:38
 msgid "Are you sure you want to save settings?"
-msgstr ""
+msgstr "Opravdu chcete uložit nastavení?"
 
 #: modules/edition.py:110
 msgid "You can't restore a custom format to defaults."
-msgstr ""
+msgstr "Nemůžete obnovit vlastní formát na výchozí nastavení."
 
 #: modules/edition.py:205
 msgid "Are you sure you want to remove this format?"
-msgstr ""
+msgstr "Opravdu chcete odstranit tento formát?"
 
 #: modules/edition.py:256
-#, fuzzy
 msgid "Audio:"
-msgstr "Zvuk"
+msgstr "Zvuk:"
 
 #: modules/edition.py:264 modules/edition.py:283
 msgid "Default"
-msgstr ""
+msgstr "Výchozí"
 
 #: modules/edition.py:267
-#, fuzzy
 msgid "Audio Bitrates"
-msgstr "Datový tok zvuku"
+msgstr "Datové toky zvuku"
 
 #: modules/edition.py:269
-#, fuzzy
 msgid "Audio Frequencies"
-msgstr "Kmitočet zvuku"
+msgstr "Zvukové kmitočty"
 
 #: modules/edition.py:271 modules/curlew.py:558
 msgid "Audio Channels"
 msgstr "Zvukové kanály"
 
 #: modules/edition.py:273
-#, fuzzy
 msgid "Audio Codecs"
-msgstr "Zvukový kodek"
+msgstr "Zvukové kodeky"
 
 #: modules/edition.py:276
-#, fuzzy
 msgid "Video:"
-msgstr "Video"
+msgstr "Obraz:"
 
 #: modules/edition.py:286
-#, fuzzy
 msgid "Video Bitrates"
-msgstr "Datový tok obrazu"
+msgstr "Datové toky obrazu"
 
 #: modules/edition.py:288 modules/curlew.py:598
 msgid "Video FPS"
 msgstr "Snímků za sekundu"
 
 #: modules/edition.py:290
-#, fuzzy
 msgid "Video Sizes"
-msgstr "Velikost obrazu"
+msgstr "Velikosti obrazu"
 
 #: modules/edition.py:292
-#, fuzzy
 msgid "Video Codecs"
-msgstr "Kodek  obrazu"
+msgstr "Obrazové kodeky"
 
 #: modules/edition.py:294
-#, fuzzy
 msgid "Aspect Ratios"
-msgstr "Poměr stran"
+msgstr "Poměry stran"
 
 #: modules/edition.py:296
-#, fuzzy
 msgid "Other Options:"
-msgstr "Další volby:"
+msgstr "Jiné volby:"
 
 #: modules/edition.py:298
 msgid "Extra Options"
-msgstr ""
+msgstr "Další volby:"
 
 #: modules/edition.py:311
 msgid "Save"
-msgstr ""
+msgstr "Uložit"
 
 #: modules/edition.py:317 modules/favdialog.py:72 modules/curlew.py:2267
 msgid "Remove"
@@ -131,7 +119,7 @@ msgstr "Odstranit"
 
 #: modules/edition.py:325
 msgid "Restore default"
-msgstr ""
+msgstr "Obnovit výchozí"
 
 #: modules/about.py:33 modules/tray.py:33 modules/curlew.py:190
 #: modules/curlew.py:263
@@ -157,7 +145,7 @@ msgstr "Přidávají se soubory..."
 #: modules/waitdialog.py:45 modules/curlew.py:974 modules/curlew.py:1057
 #: modules/curlew.py:1088 modules/curlew.py:1549 modules/curlew.py:2311
 msgid "_Cancel"
-msgstr ""
+msgstr "_Zrušit"
 
 #: modules/waitdialog.py:53
 msgid "<b>File:</b> "
@@ -173,11 +161,11 @@ msgstr "Formát"
 
 #: modules/favdialog.py:60
 msgid "Up"
-msgstr ""
+msgstr "Nahoru"
 
 #: modules/favdialog.py:66
 msgid "Down"
-msgstr ""
+msgstr "Dolů"
 
 #: modules/tray.py:39 modules/tray.py:69
 msgid "Hide"
@@ -225,7 +213,7 @@ msgstr "s"
 
 #: modules/curlew.py:99
 msgid "<span color=\"red\"><i><b>{}</b> Codec not found!</i></span>"
-msgstr ""
+msgstr "<span color=\"red\"><i><b>{}</b> Kodek nenalezen!</i></span>"
 
 #: modules/curlew.py:198
 msgid "About"
@@ -237,27 +225,23 @@ msgstr "Ukončit"
 
 #: modules/curlew.py:252
 msgid "Available Codecs"
-msgstr ""
+msgstr "Dostupné kodeky"
 
 #: modules/curlew.py:285
-#, fuzzy
 msgid "Add Files"
-msgstr "Přidat soubor"
+msgstr "Přidat soubory"
 
 #: modules/curlew.py:290
-#, fuzzy
 msgid "Add Folders"
-msgstr "Přidat složku"
+msgstr "Přidat složky"
 
 #: modules/curlew.py:300
-#, fuzzy
 msgid "Remove Files"
 msgstr "Odstranit soubory"
 
 #: modules/curlew.py:305
-#, fuzzy
 msgid "Clear Files List"
-msgstr "Smazat seznam souborů"
+msgstr "Vyprázdnit seznam souborů"
 
 #: modules/curlew.py:311 modules/curlew.py:2277
 msgid "File Informations"
@@ -273,10 +257,9 @@ msgstr "Spustit převod"
 
 #: modules/curlew.py:341
 msgid "Advanced Options"
-msgstr ""
+msgstr "Pokročilé volby"
 
 #: modules/curlew.py:401 modules/curlew.py:811
-#, fuzzy
 msgid "Show Sidebar"
 msgstr "Ukázat postranní panel"
 
@@ -309,17 +292,14 @@ msgid "Progress"
 msgstr "Postup"
 
 #: modules/curlew.py:476
-#, fuzzy
 msgid "Choose a format"
-msgstr "Vybrat jiný název"
+msgstr "Vybrat formát"
 
 #: modules/curlew.py:503
-#, fuzzy
 msgid "Add to Favorite"
 msgstr "Přidat do oblíbených"
 
 #: modules/curlew.py:511
-#, fuzzy
 msgid "Edit List"
 msgstr "Upravit seznam"
 
@@ -384,9 +364,8 @@ msgid "Subtitle"
 msgstr "Titulky"
 
 #: modules/curlew.py:635
-#, fuzzy
 msgid "Use Subtitle (ffmpeg only)"
-msgstr "Použít titulky"
+msgstr "Použít titulky (pouze ffmpeg)"
 
 #: modules/curlew.py:651
 msgid "Subtitle: "
@@ -454,16 +433,15 @@ msgstr "Převodník:"
 
 #: modules/curlew.py:779
 msgid "Player:"
-msgstr ""
+msgstr "Přehrávač:"
 
 #: modules/curlew.py:794
 msgid "Configs"
 msgstr "Nastavení"
 
 #: modules/curlew.py:801
-#, fuzzy
 msgid "Your language will appear after restart Curlew"
-msgstr "Změna jazyka se projeví až po opětovném spuštění Curlew"
+msgstr "Změna jazyka se projeví až po opětovném spuštění Curlewu"
 
 #: modules/curlew.py:808
 msgid "Language:"
@@ -475,7 +453,7 @@ msgstr "Ukazovat ikonu v oznamovací oblasti"
 
 #: modules/curlew.py:821
 msgid "Use CSD"
-msgstr ""
+msgstr "Použít CSD"
 
 #: modules/curlew.py:828
 msgid "Shutdown computer after finish"
@@ -487,16 +465,15 @@ msgstr "Po dokončení uspat počítač"
 
 #: modules/curlew.py:840
 msgid "Output"
-msgstr ""
+msgstr "Výstup"
 
 #: modules/curlew.py:846
 msgid "Source Path"
 msgstr "Cesta ke zdroji"
 
 #: modules/curlew.py:851
-#, fuzzy
 msgid "Destination:"
-msgstr "<b>Cíl</b>"
+msgstr "Cíl:"
 
 #: modules/curlew.py:855
 msgid "Overwrite it"
@@ -519,12 +496,10 @@ msgid "Delete input file after conversion"
 msgstr "Po převodu smazat vstupní soubor"
 
 #: modules/curlew.py:877
-#, fuzzy
 msgid "Rename input file after conversion"
-msgstr "Po převodu smazat vstupní soubor"
+msgstr "Po převodu přejmenovat vstupní soubor"
 
 #: modules/curlew.py:953
-#, fuzzy
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr "Chcete Curlew ukončit a převod zrušit?"
 
@@ -535,7 +510,7 @@ msgstr "Přidat soubor"
 #: modules/curlew.py:972 modules/curlew.py:1055 modules/curlew.py:1087
 #: modules/curlew.py:2309
 msgid "_OK"
-msgstr ""
+msgstr "_OK"
 
 #: modules/curlew.py:983
 msgid "All supported files"
@@ -599,7 +574,7 @@ msgstr "Vybrat titulky"
 
 #: modules/curlew.py:1548
 msgid "_Add"
-msgstr ""
+msgstr "_Přidat"
 
 #: modules/curlew.py:1553
 msgid "Subtitle files"
@@ -648,12 +623,11 @@ msgstr "Nainstalujte, prosím, balíček mediainfo."
 
 #: modules/curlew.py:2261
 msgid "Play"
-msgstr ""
+msgstr "Přehrát"
 
 #: modules/curlew.py:2264
-#, fuzzy
 msgid "_Preview"
-msgstr "Náhled"
+msgstr "_Náhled"
 
 #: modules/curlew.py:2270
 msgid "Browse source"
@@ -664,9 +638,8 @@ msgid "Browse destination"
 msgstr "Procházet cíl"
 
 #: modules/curlew.py:2307
-#, fuzzy
 msgid "Choose Encoder"
-msgstr "Vybrat jiný název"
+msgstr "Vybrat kodér"
 
 #: modules/fileinfos.py:29
 msgid "File informations"
@@ -678,7 +651,7 @@ msgstr "Podrobnosti chyb"
 
 #: modules/logdialog.py:51
 msgid "_Close"
-msgstr ""
+msgstr "_Zavřít"
 
 #~ msgid "Preview"
 #~ msgstr "Náhled"
