@@ -19,7 +19,7 @@ data_files = [('share/applications/', ['curlew.desktop']),
               ('share/icons/hicolor/scalable/apps', ['curlew.svg']),
               ('share/pixmaps', ['curlew.svg']),
               ('share/doc/curlew', doc_files),
-              ('share/curlew', ['formats.cfg']),
+              ('share/curlew', ['formats.cfg', 'done.ogg']),
               #('share/curlew', ['formats.cfg', 'ffmpeg']), # Portable version
               ('share/curlew/modules', glob("modules/*.py"))
               ]

@@ -53,7 +53,7 @@ try:
     from modules.infobars import InfoBar
     from modules.codecs import CodecsDialog
     from modules.consts import CONF_PATH, HOME, CONF_FILE, DTA_DIR, \
-    ORG_FFILE, USR_FFILE
+    ORG_FFILE, USR_FFILE, SOUND_FILE
     from modules.configs import get_b_config
 except Exception as e:
     print(e)
@@ -115,6 +115,14 @@ class Curlew(Gtk.ApplicationWindow):
         dlg = CodecsDialog(self, self.encoder, self.link_label, self.csd)
         dlg.show_dialog()
         return True
+    
+    def play_sound(self, sfile):
+        from gi.repository import Gst
+        gi.require_version('Gst', '1.0')
+        Gst.init()
+        pl = Gst.ElementFactory.make("playbin", "player")
+        pl.set_property('uri', 'file://' + sfile)
+        pl.set_state(Gst.State.PLAYING)
     
     
     def on_select_fav(self, action, param, item):
@@ -833,6 +841,10 @@ class Curlew(Gtk.ApplicationWindow):
         self.cb_suspend = Gtk.CheckButton(_('Suspend computer after finish'))
         self.cb_suspend.connect('toggled', self.on_cb_suspend_toggled)
         self.vb_config.pack_start(self.cb_suspend, False, False, 0)
+        
+        # Play sound after conversion
+        self.cb_play = Gtk.CheckButton(_('Play sound after finish'))
+        self.vb_config.pack_start(self.cb_play, False, False, 0)
         
         # Output page
         self.vb_output = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
@@ -1769,6 +1781,9 @@ abort conversion process?'),
         if self.tree_iter == None:
             self.enable_controls(True)
             self.label_details.set_text('')
+            # Play sound
+            if self.cb_play.get_active():
+                self.play_sound(SOUND_FILE)
             # Shutdown system
             if self.cb_halt.get_active():
                 self.shutdown()
@@ -1970,6 +1985,9 @@ abort conversion process?'),
         conf.set_boolean(group, 'video_2pass', self.cb_2pass.get_active())
         conf.set_boolean(group, 'video_video_only', self.cb_video_only.get_active())
         
+        # play sound
+        conf.set_boolean(group, 'play-sound', self.cb_play.get_active())
+        
         # csd
         conf.set_boolean(group, 'use-csd', self.cb_csd.get_active())
         
@@ -2013,6 +2031,9 @@ abort conversion process?'),
             
             self.cb_2pass.set_active(conf.get_boolean(group, 'video_2pass'))
             self.cb_video_only.set_active(conf.get_boolean(group, 'video_video_only'))
+            
+            # play sound
+            self.cb_play.set_active(conf.get_boolean(group, 'play-sound'))
             
             # csd
             self.cb_csd.set_active(conf.get_boolean(group, 'use-csd'))

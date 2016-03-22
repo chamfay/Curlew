@@ -28,6 +28,8 @@ CONF_FILE = join(CONF_PATH, 'curlew.cfg')
 PKG_DIR = dirname(realpath(__file__))
 DTA_DIR = join(PKG_DIR, '../')
 
+SOUND_FILE = join(DTA_DIR, 'done.ogg')
+
 ORG_FFILE = join(DTA_DIR, 'formats.cfg')
 USR_FFILE = join(CONF_PATH, 'formats.cfg')
 
