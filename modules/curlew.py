@@ -117,12 +117,15 @@ class Curlew(Gtk.ApplicationWindow):
         return True
     
     def play_sound(self, sfile):
-        from gi.repository import Gst
-        gi.require_version('Gst', '1.0')
-        Gst.init()
-        pl = Gst.ElementFactory.make("playbin", "player")
-        pl.set_property('uri', 'file://' + sfile)
-        pl.set_state(Gst.State.PLAYING)
+        try:
+            gi.require_version('Gst', '1.0')
+            from gi.repository import Gst
+            Gst.init()
+            pl = Gst.ElementFactory.make("playbin", "player")
+            pl.set_property('uri', 'file://' + sfile)
+            pl.set_state(Gst.State.PLAYING)
+        except Exception as e:
+            print(e)
     
     
     def on_select_fav(self, action, param, item):

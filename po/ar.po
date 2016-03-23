@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-14 09:37+0000\n"
-"PO-Revision-Date: 2016-03-14 09:37+0000\n"
+"POT-Creation-Date: 2016-03-23 14:03+0100\n"
+"PO-Revision-Date: 2016-03-23 08:02+0100\n"
 "Last-Translator: Faissal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Arabic <chamfay@gmail.com>\n"
 "Language: ar\n"
@@ -18,17 +18,70 @@ msgstr ""
 "X-Generator: Poedit 1.8.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: modules/formats.py:60
-msgid "<i><span color=\"red\">No format selected!</span></i>"
-msgstr "<i><span color=\"red\">لا صيغة مختارة!</span></i>"
+#: modules/customwidgets.py:52
+msgid "Top"
+msgstr "أعلى"
 
-#: modules/formats.py:113
-msgid "Edit"
-msgstr "حرّر"
+#: modules/customwidgets.py:60
+msgid "Bottom"
+msgstr "أسفل"
 
-#: modules/formats.py:121 modules/formats.py:123
-msgid "Choose"
-msgstr "اِختر"
+#: modules/customwidgets.py:68
+msgid "Left"
+msgstr "يسار"
+
+#: modules/customwidgets.py:76
+msgid "Right"
+msgstr "يمين"
+
+#: modules/customwidgets.py:174
+msgid "hr"
+msgstr "سا"
+
+#: modules/customwidgets.py:179
+msgid "min"
+msgstr "د"
+
+#: modules/customwidgets.py:184 modules/curlew.py:716
+msgid "sec"
+msgstr "ثا"
+
+#: modules/favdialog.py:29 modules/curlew.py:498
+msgid "Favorite list"
+msgstr "القائمة المفضّلة"
+
+#: modules/favdialog.py:44
+msgid "Format"
+msgstr "الصيــغة"
+
+#: modules/favdialog.py:60
+msgid "Up"
+msgstr "أعلى"
+
+#: modules/favdialog.py:66
+msgid "Down"
+msgstr "أسفل"
+
+#: modules/favdialog.py:72 modules/edition.py:317 modules/curlew.py:2291
+msgid "Remove"
+msgstr "اِحذف"
+
+#: modules/about.py:33 modules/tray.py:33 modules/curlew.py:201
+#: modules/curlew.py:274
+msgid "Curlew"
+msgstr "كـروان"
+
+#: modules/about.py:37 modules/curlew.py:346
+msgid "About Curlew"
+msgstr "عنْ كروان"
+
+#: modules/about.py:40
+msgid "Easy to use Multimedia Converter for Linux"
+msgstr "محوّل وسائط على لينُكس سهل الاستخدام"
+
+#: modules/about.py:53
+msgid "translator-credits"
+msgstr "فيصل شامخ <chamfay@gmail.com>"
 
 #: modules/functions.py:47
 msgid " KB"
@@ -41,6 +94,30 @@ msgstr " م.ب"
 #: modules/functions.py:53
 msgid " GB"
 msgstr " ج.ب"
+
+#: modules/tray.py:39 modules/tray.py:69
+msgid "Hide"
+msgstr "أخفِ"
+
+#: modules/tray.py:43 modules/curlew.py:339
+msgid "Stop Conversion"
+msgstr "أوقف التحويل"
+
+#: modules/tray.py:47
+msgid "Quit application"
+msgstr "غادِر البرنامج"
+
+#: modules/tray.py:71
+msgid "Show"
+msgstr "أظهِر"
+
+#: modules/logdialog.py:32
+msgid "Errors detail"
+msgstr "تفاصيلُ اﻷخطاء"
+
+#: modules/logdialog.py:51
+msgid "_Close"
+msgstr "_أغلِق"
 
 #: modules/edition.py:38
 msgid "Are you sure you want to save settings?"
@@ -70,7 +147,7 @@ msgstr "معدّلات بتات الصوت"
 msgid "Audio Frequencies"
 msgstr "ترددات الصوت"
 
-#: modules/edition.py:271 modules/curlew.py:558
+#: modules/edition.py:271 modules/curlew.py:569
 msgid "Audio Channels"
 msgstr "قناة الصوت"
 
@@ -86,7 +163,7 @@ msgstr "الفيديو:"
 msgid "Video Bitrates"
 msgstr "معدّلات بتات الفيديو"
 
-#: modules/edition.py:288 modules/curlew.py:598
+#: modules/edition.py:288 modules/curlew.py:609
 msgid "Video FPS"
 msgstr "قيمة FPS"
 
@@ -114,37 +191,20 @@ msgstr "خيارات أخرى"
 msgid "Save"
 msgstr "اِحفظ"
 
-#: modules/edition.py:317 modules/favdialog.py:72 modules/curlew.py:2267
-msgid "Remove"
-msgstr "اِحذف"
-
 #: modules/edition.py:325
 msgid "Restore default"
 msgstr "اِستعد الافتراضيات"
 
-#: modules/about.py:33 modules/tray.py:33 modules/curlew.py:190
-#: modules/curlew.py:263
-msgid "Curlew"
-msgstr "كـروان"
-
-#: modules/about.py:37 modules/curlew.py:335
-msgid "About Curlew"
-msgstr "عنْ كروان"
-
-#: modules/about.py:40
-msgid "Easy to use Multimedia Converter for Linux"
-msgstr "محوّل وسائط على لينُكس سهل الاستخدام"
-
-#: modules/about.py:53
-msgid "translator-credits"
-msgstr "فيصل شامخ <chamfay@gmail.com>"
+#: modules/fileinfos.py:29
+msgid "File informations"
+msgstr "معلومات عن الملف"
 
 #: modules/waitdialog.py:34
 msgid "Adding files..."
 msgstr "جاري إضافة الملفات..."
 
-#: modules/waitdialog.py:45 modules/curlew.py:974 modules/curlew.py:1057
-#: modules/curlew.py:1088 modules/curlew.py:1549 modules/curlew.py:2311
+#: modules/waitdialog.py:45 modules/curlew.py:989 modules/curlew.py:1072
+#: modules/curlew.py:1103 modules/curlew.py:1564 modules/curlew.py:2335
 msgid "_Cancel"
 msgstr "_ألغِ"
 
@@ -152,412 +212,368 @@ msgstr "_ألغِ"
 msgid "<b>File:</b> "
 msgstr "<b>الملف:</b>"
 
-#: modules/favdialog.py:29 modules/curlew.py:487
-msgid "Favorite list"
-msgstr "القائمة المفضّلة"
+#: modules/formats.py:60
+msgid "<i><span color=\"red\">No format selected!</span></i>"
+msgstr "<i><span color=\"red\">لا صيغة مختارة!</span></i>"
 
-#: modules/favdialog.py:44
-msgid "Format"
-msgstr "الصيــغة"
+#: modules/formats.py:113
+msgid "Edit"
+msgstr "حرّر"
 
-#: modules/favdialog.py:60
-msgid "Up"
-msgstr "أعلى"
-
-#: modules/favdialog.py:66
-msgid "Down"
-msgstr "أسفل"
-
-#: modules/tray.py:39 modules/tray.py:69
-msgid "Hide"
-msgstr "أخفِ"
-
-#: modules/tray.py:43 modules/curlew.py:328
-msgid "Stop Conversion"
-msgstr "أوقف التحويل"
-
-#: modules/tray.py:47
-msgid "Quit application"
-msgstr "غادِر البرنامج"
-
-#: modules/tray.py:71
-msgid "Show"
-msgstr "أظهِر"
-
-#: modules/customwidgets.py:52
-msgid "Top"
-msgstr "أعلى"
-
-#: modules/customwidgets.py:60
-msgid "Bottom"
-msgstr "أسفل"
-
-#: modules/customwidgets.py:68
-msgid "Left"
-msgstr "يسار"
-
-#: modules/customwidgets.py:76
-msgid "Right"
-msgstr "يمين"
-
-#: modules/customwidgets.py:174
-msgid "hr"
-msgstr "سا"
-
-#: modules/customwidgets.py:179
-msgid "min"
-msgstr "د"
-
-#: modules/customwidgets.py:184 modules/curlew.py:705
-msgid "sec"
-msgstr "ثا"
+#: modules/formats.py:121 modules/formats.py:123
+msgid "Choose"
+msgstr "اِختر"
 
 #: modules/curlew.py:99
 msgid "<span color=\"red\"><i><b>{}</b> Codec not found!</i></span>"
 msgstr "<span color=\"red\"><i>الكوديك <b>{}</b> غير موجود</i></span>"
 
-#: modules/curlew.py:198
+#: modules/curlew.py:209
 msgid "About"
 msgstr "عنْ"
 
-#: modules/curlew.py:203
+#: modules/curlew.py:214
 msgid "Quit"
 msgstr "غادِر"
 
-#: modules/curlew.py:252
+#: modules/curlew.py:263
 msgid "Available Codecs"
 msgstr "الترميزات المتاحة"
 
-#: modules/curlew.py:285
+#: modules/curlew.py:296
 msgid "Add Files"
 msgstr "أضِف ملفات"
 
-#: modules/curlew.py:290
+#: modules/curlew.py:301
 msgid "Add Folders"
 msgstr "أضِف مجلدات"
 
-#: modules/curlew.py:300
+#: modules/curlew.py:311
 msgid "Remove Files"
 msgstr "اِحذِف ملفات"
 
-#: modules/curlew.py:305
+#: modules/curlew.py:316
 msgid "Clear Files List"
 msgstr "اِمسح قائمة الملفات"
 
-#: modules/curlew.py:311 modules/curlew.py:2277
+#: modules/curlew.py:322 modules/curlew.py:2301
 msgid "File Informations"
 msgstr "معلومات عن الملف"
 
-#: modules/curlew.py:321
+#: modules/curlew.py:332
 msgid "Convert"
 msgstr "حوّل"
 
-#: modules/curlew.py:322
+#: modules/curlew.py:333
 msgid "Start Conversion"
 msgstr "اِبدأ التحويل"
 
-#: modules/curlew.py:341
+#: modules/curlew.py:352
 msgid "Advanced Options"
 msgstr "خيارات متقدمة"
 
-#: modules/curlew.py:401 modules/curlew.py:811
+#: modules/curlew.py:412 modules/curlew.py:822
 msgid "Show Sidebar"
 msgstr "أظهر الشريط الجانبي"
 
-#: modules/curlew.py:424
+#: modules/curlew.py:435
 msgid "File"
 msgstr "الملف"
 
-#: modules/curlew.py:431
+#: modules/curlew.py:442
 msgid "Size"
 msgstr "الحجم"
 
-#: modules/curlew.py:437
+#: modules/curlew.py:448
 msgid "Duration"
 msgstr "المدة"
 
-#: modules/curlew.py:443
+#: modules/curlew.py:454
 msgid "Estimated size"
 msgstr "الحجم المقدّر"
 
-#: modules/curlew.py:450
+#: modules/curlew.py:461
 msgid "Elapsed time"
 msgstr "الوقت المُستغرَق"
 
-#: modules/curlew.py:457
+#: modules/curlew.py:468
 msgid "Remaining time"
 msgstr "الوقت المتبقّي"
 
-#: modules/curlew.py:463
+#: modules/curlew.py:474
 msgid "Progress"
 msgstr "التقدم"
 
-#: modules/curlew.py:476
+#: modules/curlew.py:487
 msgid "Choose a format"
 msgstr "اِختر تنسيقًا"
 
-#: modules/curlew.py:503
+#: modules/curlew.py:514
 msgid "Add to Favorite"
 msgstr "أضِف إلى المفضّلة"
 
-#: modules/curlew.py:511
+#: modules/curlew.py:522
 msgid "Edit List"
 msgstr "حرّر القائمة"
 
-#: modules/curlew.py:541
+#: modules/curlew.py:552
 msgid "Audio"
 msgstr "الصوت"
 
-#: modules/curlew.py:556
+#: modules/curlew.py:567
 msgid "Audio Bitrate"
 msgstr "معدّل بتات الصوت"
 
-#: modules/curlew.py:557
+#: modules/curlew.py:568
 msgid "Audio Frequency"
 msgstr "تردد الصوت"
 
-#: modules/curlew.py:559
+#: modules/curlew.py:570
 msgid "Audio Codec"
 msgstr "ترميز الصوت"
 
-#: modules/curlew.py:562
+#: modules/curlew.py:573
 msgid "Volume (%)"
 msgstr "حجم الصوت (%)"
 
-#: modules/curlew.py:568
+#: modules/curlew.py:579
 msgid "Audio Quality"
 msgstr "جودة الصوت"
 
-#: modules/curlew.py:580
+#: modules/curlew.py:591
 msgid "Video"
 msgstr "الفيديو"
 
-#: modules/curlew.py:597
+#: modules/curlew.py:608
 msgid "Video Bitrate"
 msgstr "معدّل بتات الفيديو"
 
-#: modules/curlew.py:599
+#: modules/curlew.py:610
 msgid "Video Size"
 msgstr "مقاس الفيديو"
 
-#: modules/curlew.py:600
+#: modules/curlew.py:611
 msgid "Video Codec"
 msgstr "ترميز الفيديو"
 
-#: modules/curlew.py:601
+#: modules/curlew.py:612
 msgid "Aspect Ratio"
 msgstr "التناسب"
 
-#: modules/curlew.py:607
+#: modules/curlew.py:618
 msgid "2-Pass"
 msgstr "تحويلٌ مضاعف"
 
-#: modules/curlew.py:611
+#: modules/curlew.py:622
 msgid "Video only"
 msgstr "فيديو فقط"
 
-#: modules/curlew.py:618
+#: modules/curlew.py:629
 msgid "Video Quality"
 msgstr "جودة الفيديو"
 
-#: modules/curlew.py:629
+#: modules/curlew.py:640
 msgid "Subtitle"
 msgstr "الترجمة"
 
-#: modules/curlew.py:635
+#: modules/curlew.py:646
 msgid "Use Subtitle (ffmpeg only)"
 msgstr "اِستعمل ملف الترجمة (ffmpeg فقط)"
 
-#: modules/curlew.py:651
+#: modules/curlew.py:662
 msgid "Subtitle: "
 msgstr "ملف الترجمة:"
 
-#: modules/curlew.py:669
+#: modules/curlew.py:680
 msgid "Size: "
 msgstr "الحجم:"
 
-#: modules/curlew.py:698
+#: modules/curlew.py:709
 msgid "Encoding: "
 msgstr "ترميز الخط:"
 
-#: modules/curlew.py:711
+#: modules/curlew.py:722
 msgid "Crop / Pad"
 msgstr "قص / حشو"
 
-#: modules/curlew.py:714
+#: modules/curlew.py:725
 msgid "Crop"
 msgstr "قص"
 
-#: modules/curlew.py:718
+#: modules/curlew.py:729
 msgid "Pad"
 msgstr "أضِف حاشية"
 
-#: modules/curlew.py:724
+#: modules/curlew.py:735
 msgid "More"
 msgstr "المزيد"
 
-#: modules/curlew.py:727
+#: modules/curlew.py:738
 msgid "Split File"
 msgstr "أنشِئ مقطعًا"
 
-#: modules/curlew.py:737
+#: modules/curlew.py:748
 msgid "Begin time: "
 msgstr "البداية:"
 
-#: modules/curlew.py:740
+#: modules/curlew.py:751
 msgid "Duration: "
 msgstr "المدة:"
 
-#: modules/curlew.py:741
+#: modules/curlew.py:752
 msgid "To the end"
 msgstr "حتى النهاية"
 
-#: modules/curlew.py:747
+#: modules/curlew.py:758
 msgid "Use Copy Mode"
 msgstr "استعمل النمط Copy"
 
-#: modules/curlew.py:748
+#: modules/curlew.py:759
 msgid "Keep the same codecs as the input file"
 msgstr "المحافظة على خصائص الملف المصدر"
 
-#: modules/curlew.py:756
+#: modules/curlew.py:767
 msgid "Other opts:"
 msgstr "وسائط أخرى:"
 
-#: modules/curlew.py:760
+#: modules/curlew.py:771
 msgid "Threads:"
 msgstr "الخيوط:"
 
-#: modules/curlew.py:773
+#: modules/curlew.py:784
 msgid "Converter:"
 msgstr "المحوّل:"
 
-#: modules/curlew.py:779
+#: modules/curlew.py:790
 msgid "Player:"
 msgstr "المشغّل"
 
-#: modules/curlew.py:794
+#: modules/curlew.py:805
 msgid "Configs"
 msgstr "الإعدادات"
 
-#: modules/curlew.py:801
+#: modules/curlew.py:812
 msgid "Your language will appear after restart Curlew"
 msgstr "لغتك ستظهر عند إعادة تشغيل كروان"
 
-#: modules/curlew.py:808
+#: modules/curlew.py:819
 msgid "Language:"
 msgstr "اللغة:"
 
-#: modules/curlew.py:816
+#: modules/curlew.py:827
 msgid "Show tray icon"
 msgstr "أظهِر الأيقونة في مساحة التبليغ"
 
-#: modules/curlew.py:821
+#: modules/curlew.py:832
 msgid "Use CSD"
 msgstr "استعمِل CSD"
 
-#: modules/curlew.py:828
+#: modules/curlew.py:839
 msgid "Shutdown computer after finish"
 msgstr "أغلِق الجهاز بعد انتهاء التحويل"
 
-#: modules/curlew.py:833
+#: modules/curlew.py:844
 msgid "Suspend computer after finish"
 msgstr "أسبِت الجهاز بعد انتهاء التحويل"
 
-#: modules/curlew.py:840
+#: modules/curlew.py:849
+msgid "Play sound after finish"
+msgstr "شغّل صوتًا بعد انتهاء التحويل"
+
+#: modules/curlew.py:855
 msgid "Output"
 msgstr "المخرج"
 
-#: modules/curlew.py:846
+#: modules/curlew.py:861
 msgid "Source Path"
 msgstr "مسار المصدر"
 
-#: modules/curlew.py:851
+#: modules/curlew.py:866
 msgid "Destination:"
 msgstr "الوِجهــــة:"
 
-#: modules/curlew.py:855
+#: modules/curlew.py:870
 msgid "Overwrite it"
 msgstr "اِستبدله"
 
-#: modules/curlew.py:856
+#: modules/curlew.py:871
 msgid "Choose another name"
 msgstr "اِختر اسما آخر"
 
-#: modules/curlew.py:857
+#: modules/curlew.py:872
 msgid "Skip conversion"
 msgstr "تخطّ التحويل"
 
-#: modules/curlew.py:858
+#: modules/curlew.py:873
 msgid "File exist:"
 msgstr "الملف موجود:"
 
-#: modules/curlew.py:872
+#: modules/curlew.py:887
 msgid "Delete input file after conversion"
 msgstr "اِحذف الملف المصدر بعد تحويله"
 
-#: modules/curlew.py:877
+#: modules/curlew.py:892
 msgid "Rename input file after conversion"
 msgstr "غيّر اسم الملف المصدر بعد تحويله"
 
-#: modules/curlew.py:953
+#: modules/curlew.py:968
 msgid "Do you want to quit Curlew and abort conversion process?"
 msgstr "هل تريد إيقاف برنامج كروان وإلغاء عملية التحويل؟"
 
-#: modules/curlew.py:970
+#: modules/curlew.py:985
 msgid "Add file"
 msgstr "أضِف ملفًا"
 
-#: modules/curlew.py:972 modules/curlew.py:1055 modules/curlew.py:1087
-#: modules/curlew.py:2309
+#: modules/curlew.py:987 modules/curlew.py:1070 modules/curlew.py:1102
+#: modules/curlew.py:2333
 msgid "_OK"
 msgstr "_موافق"
 
-#: modules/curlew.py:983
+#: modules/curlew.py:998
 msgid "All supported files"
 msgstr "جميع الملفات المدعومة"
 
-#: modules/curlew.py:990
+#: modules/curlew.py:1005
 msgid "Video files"
 msgstr "ملفاتُ فيديو"
 
-#: modules/curlew.py:996
+#: modules/curlew.py:1011
 msgid "Audio files"
 msgstr "ملفاتٌ صوتية"
 
-#: modules/curlew.py:1002 modules/curlew.py:1562
+#: modules/curlew.py:1017 modules/curlew.py:1577
 msgid "All files"
 msgstr "جميع الملفات"
 
-#: modules/curlew.py:1042 modules/curlew.py:1655
+#: modules/curlew.py:1057 modules/curlew.py:1670
 msgid "Ready!"
 msgstr "جاهز!"
 
-#: modules/curlew.py:1053
+#: modules/curlew.py:1068
 msgid "Add folder"
 msgstr "أضِف مجلدًا"
 
-#: modules/curlew.py:1085
+#: modules/curlew.py:1100
 msgid "Choose destination"
 msgstr "اِختر الوِجهة"
 
-#: modules/curlew.py:1334
+#: modules/curlew.py:1349
 msgid "Destination path is not valid."
 msgstr "مسارُ الوِجهة غير صالح"
 
-#: modules/curlew.py:1341
+#: modules/curlew.py:1356
 msgid "Destination path is not accessible."
 msgstr "مسارُ الوِجهة لا يمكن الوصول إليه"
 
-#: modules/curlew.py:1373 modules/curlew.py:1414 modules/curlew.py:1794
+#: modules/curlew.py:1388 modules/curlew.py:1429 modules/curlew.py:1812
 msgid "Skipped!"
 msgstr "تمّ تخطيه!"
 
-#: modules/curlew.py:1383
+#: modules/curlew.py:1398
 msgid "Not found!"
 msgstr "غيرُ موجود!"
 
-#: modules/curlew.py:1476
+#: modules/curlew.py:1491
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
@@ -565,49 +581,49 @@ msgstr ""
 "هناك أخطاءٌ حدثت أثناء التحويل.\n"
 "هل تريد مشاهدة تفاصيلها؟"
 
-#: modules/curlew.py:1489
+#: modules/curlew.py:1504
 msgid "Do you want to stop conversion process?"
 msgstr "هل تريد إيقاف عملية التحويل؟"
 
-#: modules/curlew.py:1545
+#: modules/curlew.py:1560
 msgid "Select subtitle"
 msgstr "اِختر ملف الترجمة"
 
-#: modules/curlew.py:1548
+#: modules/curlew.py:1563
 msgid "_Add"
 msgstr "_أضِف"
 
-#: modules/curlew.py:1553
+#: modules/curlew.py:1568
 msgid "Subtitle files"
 msgstr "ملفاتُ ترجمة"
 
-#: modules/curlew.py:1650 modules/curlew.py:1854
+#: modules/curlew.py:1665 modules/curlew.py:1872
 msgid "Wait..."
 msgstr "انتظار..."
 
-#: modules/curlew.py:1731
+#: modules/curlew.py:1746
 msgid "Done!"
 msgstr "تمّ التحويل!"
 
-#: modules/curlew.py:1749
+#: modules/curlew.py:1764
 msgid "Failed!"
 msgstr "فشل!"
 
-#: modules/curlew.py:2070
+#: modules/curlew.py:2094
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
 msgstr ""
 "<span foreground=\"red\" weight=\"bold\">سيتم إيقاف الجهاز بعد {} ثا.</span>"
 
-#: modules/curlew.py:2083
+#: modules/curlew.py:2107
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
 msgstr ""
 "<span foreground=\"red\" weight=\"bold\">سيتم إسبات الجهاز بعد {} ثا.</span>"
 
-#: modules/curlew.py:2160
+#: modules/curlew.py:2184
 msgid ""
 "<b>Duration:</b> {}\n"
 "<b>Size:</b> {}\n"
@@ -617,41 +633,29 @@ msgstr ""
 "<b>الحجم:</b> {}\n"
 "<b>اللاحقة:</b> {}\n"
 
-#: modules/curlew.py:2201
+#: modules/curlew.py:2225
 msgid "Please install \"mediainfo\" package."
 msgstr "الرجاء تنصيب الحزمة \"mediainfo\""
 
-#: modules/curlew.py:2261
+#: modules/curlew.py:2285
 msgid "Play"
 msgstr "شغّل"
 
-#: modules/curlew.py:2264
+#: modules/curlew.py:2288
 msgid "_Preview"
 msgstr "عاين"
 
-#: modules/curlew.py:2270
+#: modules/curlew.py:2294
 msgid "Browse source"
 msgstr "استعرِض المصدر"
 
-#: modules/curlew.py:2273
+#: modules/curlew.py:2297
 msgid "Browse destination"
 msgstr "اِستعرض الوِجهة"
 
-#: modules/curlew.py:2307
+#: modules/curlew.py:2331
 msgid "Choose Encoder"
 msgstr "اِختر محوّلا"
-
-#: modules/fileinfos.py:29
-msgid "File informations"
-msgstr "معلومات عن الملف"
-
-#: modules/logdialog.py:32
-msgid "Errors detail"
-msgstr "تفاصيلُ اﻷخطاء"
-
-#: modules/logdialog.py:51
-msgid "_Close"
-msgstr "_أغلِق"
 
 #~ msgid "Preview"
 #~ msgstr "المعاينة"

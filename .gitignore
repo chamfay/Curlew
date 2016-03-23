@@ -7,8 +7,8 @@ __pycache__/
 .metadata/
 
 *.mo
+*~
 MANIFEST
-prepare_to_git.sh
 
 build/
 dist/
