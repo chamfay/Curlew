@@ -331,7 +331,6 @@ class Curlew(Gtk.ApplicationWindow):
         
         self.btn_convert = Gtk.Button(_('Convert'))
         self.btn_convert.set_tooltip_text(_('Start Conversion'))
-        self.btn_convert.set_size_request(60, 1)
         self.btn_convert.connect('clicked', self.on_convert_cb)
         box_convert.pack_start(self.btn_convert, False, False, 0)
         
