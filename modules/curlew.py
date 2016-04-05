@@ -1784,7 +1784,7 @@ abort conversion process?'),
             self.enable_controls(True)
             self.label_details.set_text('')
             # Play sound
-            if self.cb_play.get_active():
+            if self.cb_play.get_active() and err_code==0:
                 self.play_sound(SOUND_FILE)
             # Shutdown system
             if self.cb_halt.get_active():
