@@ -1357,6 +1357,22 @@ abort conversion process?'),
             self.set_focus(self.e_dest)
             self.note.set_current_page(6)
             return
+        # Invalid audio codec
+        acodec = self.c_acodec.get_active_text()
+        if not check_codec(self.encoder, acodec):
+            self.info_bar.show_message(_('Audio codec not found.'))
+            self.toggle_opts.set_active(True)
+            self.set_focus(self.e_dest)
+            self.note.set_current_page(0)
+            return
+        # Invalid video codec
+        vcodec = self.c_vcodec.get_active_text()
+        if not check_codec(self.encoder, vcodec):
+            self.info_bar.show_message(_('Video codec not found.'))
+            self.toggle_opts.set_active(True)
+            self.set_focus(self.e_dest)
+            self.note.set_current_page(1)
+            return
         
         # Show files list
         self.toggle_opts.set_active(False)
