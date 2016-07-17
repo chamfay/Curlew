@@ -329,12 +329,12 @@ class Curlew(Gtk.ApplicationWindow):
         Gtk.StyleContext.add_class(box_convert.get_style_context(), "linked")
         self.header.pack_start(box_convert)
         
-        self.btn_convert = Gtk.Button(_('Convert'))
+        self.btn_convert = ButtonWithIcon('media-playback-start')
         self.btn_convert.set_tooltip_text(_('Start Conversion'))
         self.btn_convert.connect('clicked', self.on_convert_cb)
         box_convert.pack_start(self.btn_convert, False, False, 0)
         
-        self.btn_stop = ButtonWithIcon('process-stop-symbolic')
+        self.btn_stop = ButtonWithIcon('media-playback-stop')
         self.btn_stop.set_tooltip_text(_('Stop Conversion'))
         self.btn_stop.connect('clicked', self.on_btn_stop_clicked)
         box_convert.pack_start(self.btn_stop, False, False, 0)
