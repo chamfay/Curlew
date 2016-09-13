@@ -39,6 +39,23 @@ def get_b_config(key):
         pass
     return bool_value
 
+def set_s_config(key, value):
+    conf = GLib.KeyFile()
+    conf.load_from_file(CONF_FILE, GLib.KeyFileFlags.NONE)
+    conf.set_string(GROUP, key, value)
+    conf.save_to_file(CONF_FILE)
+
+def get_s_config(key):
+    str_value = ''
+    try:
+        conf = GLib.KeyFile()
+        conf.load_from_file(CONF_FILE, GLib.KeyFileFlags.NONE)
+        str_value = conf.get_string(GROUP, key)
+    except:
+        pass
+    return str_value
+
+
 
 
 

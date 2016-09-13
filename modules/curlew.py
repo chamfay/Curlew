@@ -54,7 +54,8 @@ try:
     from modules.codecs import CodecsDialog
     from modules.consts import CONF_PATH, HOME, CONF_FILE, DTA_DIR, \
     ORG_FFILE, USR_FFILE, SOUND_FILE
-    from modules.configs import get_b_config
+    from modules.configs import get_b_config, get_s_config
+    from modules.players import Players
 except Exception as e:
     print(e)
     sys.exit(1)
@@ -241,7 +242,7 @@ class Curlew(Gtk.ApplicationWindow):
         '''
         
         self.encoder = ''
-        self.player = 'avplay'
+        self.player  = ''
         self.is_preview = False
         
         self._start_time = None
@@ -280,6 +281,7 @@ class Curlew(Gtk.ApplicationWindow):
         # Infobar
         self.info_bar = InfoBar()
         vbox_global.pack_start(self.info_bar, False, False, 0)
+        
         
         # Add File/Folder buttons
         box_add = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
@@ -798,6 +800,12 @@ class Curlew(Gtk.ApplicationWindow):
             self.cmb_encoder.append_text('ffmpeg')
         
         self.cmb_encoder.set_active(0)
+        
+        
+        # Check player
+        if not get_s_config('player'):
+            player_dlg = Players(self)
+            self.entry_player.set_text(player_dlg.show_dialog())
         
         #--- Configuration page
         self.vb_config = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
@@ -1977,7 +1985,7 @@ abort conversion process?'),
         conf.set_boolean(group, 'is_same_dest', self.cb_dest.get_active())
         conf.set_integer(group, 'overwrite_mode', self.cmb_exist.get_active())
         conf.set_string(group, 'encoder', self.cmb_encoder.get_active_text())
-        conf.set_string(group, 'player', self.player)
+        conf.set_string(group, 'player', self.entry_player.get_text())
         conf.set_string(group, 'font', self.b_font.get_font_name())
         conf.set_string(group, 'encoding', self.cmb_encoding.get_active_id())  #
         conf.set_boolean(group, 'side_bar', self.cb_sideb.get_active())
@@ -2064,9 +2072,9 @@ abort conversion process?'),
         conf = GLib.KeyFile()
         try:
             conf.load_from_file(CONF_FILE, GLib.KeyFileFlags.NONE)
+            lang_name = conf.get_string('configs', 'language')
         except: return
         
-        lang_name = conf.get_string('configs', 'language')
         
         # System language
         if lang_name == '< System >':

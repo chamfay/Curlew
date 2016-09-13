@@ -241,6 +241,7 @@ class FormatEditor(Gtk.Dialog):
                             use_header_bar=headerbar)
         self.set_size_request(700, 450)
         self.set_border_width(4)
+        self.set_title(_('Edition'))
         
         self.format = frmt
         self.store = store
@@ -251,7 +252,13 @@ class FormatEditor(Gtk.Dialog):
             self.get_content_area().add(self.titlebar)
         self.main_win = prnt
         
+        self.vbox.set_spacing(6)
         grid = LabeledGrid(self.vbox)
+        
+        # Warning
+        lbl_warn = Gtk.Label('<span foreground="red"><i><b>WARNING:</b> Please change these values with care!</i></span>', use_markup=True)
+        self.vbox.pack_end(lbl_warn, False, False, 0)
+        self.vbox.pack_end(Gtk.Separator(), False, False, 0)
         
         grid.append_title(_('Audio:'))
         
