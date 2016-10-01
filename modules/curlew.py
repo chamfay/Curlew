@@ -76,9 +76,6 @@ DOMAIN = 'curlew'
 LOCALDIR = join(DTA_DIR, 'locale')
 gettext.install(DOMAIN, LOCALDIR)
 
-# Create ".curlew" folder if not exist
-if not exists(CONF_PATH): os.mkdir(CONF_PATH)
-
 # Treeview cols nbrs
 C_SKIP = 0  # Skip (checkbox)
 C_NAME = 1  # File name

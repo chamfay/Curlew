@@ -3,9 +3,11 @@
 
 Fixes:
 * Prevent to duplicate file in the same session.
+* kill running player on exit.
 
 Changes:
 * Use GLib.spawn_* functions instead of subprocess
 
 Features:
 * ...
+

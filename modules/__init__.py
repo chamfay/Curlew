@@ -19,8 +19,12 @@
 
 from gi.repository import GLib
 
-from modules.consts import CONF_FILE, USR_FFILE
+from modules.consts import CONF_FILE, USR_FFILE, CONF_PATH
 from os.path import exists
+import os
+
+# Create ".curlew" folder if not exist
+if not exists(CONF_PATH): os.mkdir(CONF_PATH)
 
 # Create empty config file (curlew.cfg).
 if not exists(CONF_FILE):

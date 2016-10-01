@@ -134,7 +134,7 @@ class FormatEditor(Gtk.Dialog):
                  'video':   [True, True, True, True, True, True, True, True, True],
                  'presets': [False, False, False, False, False, False, False, False, False],
                  'copy': [False, False, False, False, False, False, False, False, False]
-                 }
+                }
          
         self.entry_ab.set_sensitive(sens[media_type][0])
         self.spin_def_ab.set_sensitive(sens[media_type][0])
@@ -256,7 +256,7 @@ class FormatEditor(Gtk.Dialog):
         grid = LabeledGrid(self.vbox)
         
         # Warning
-        lbl_warn = Gtk.Label('<span foreground="red"><i><b>WARNING:</b> Please change these values with care!</i></span>', use_markup=True)
+        lbl_warn = Gtk.Label(_('<span foreground="red"><i><b>WARNING:</b> Please change these values with care!</i></span>'), use_markup=True)
         self.vbox.pack_end(lbl_warn, False, False, 0)
         self.vbox.pack_end(Gtk.Separator(), False, False, 0)
         

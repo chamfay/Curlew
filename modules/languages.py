@@ -22,6 +22,7 @@ LANGUAGES = {
              'العربية': 'ar',
              'Português - Brazil': 'br',
              'Český': 'cs',
+             'Deutsch': 'de',
              'English': 'en',
              'Español': 'es',
              'Euskara': 'eu',

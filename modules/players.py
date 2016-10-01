@@ -47,7 +47,7 @@ class Players(Gtk.Dialog):
         self.set_title(('Players list'))
         self.vbox.set_spacing(6)
         
-        label = Gtk.Label("<b>Select your favorite player: </b>", use_markup=True)
+        label = Gtk.Label(_("<b>Select your favorite player: </b>"), use_markup=True)
         label.set_alignment(0.0, 0.5)
         self.vbox.pack_start(label, False, False, 0)
         
