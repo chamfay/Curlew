@@ -269,7 +269,6 @@ class Curlew(Gtk.ApplicationWindow):
          
         self.csd = get_b_config('use-csd')
         if self.csd:
-            self.header.set_title(_('Curlew'))
             self.header.set_show_close_button(True)
             self.set_titlebar(self.header)
         else:
