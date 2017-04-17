@@ -35,7 +35,8 @@ PLAYERS_LIST = [
     'smplayer',
     'totem',
     'kplayer',
-    'kmplayer'
+    'kmplayer',
+    'parole'
     ]
 
 class Players(Gtk.Dialog):

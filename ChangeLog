@@ -1,8 +1,11 @@
-Version 0.2.3 beta
+Version 0.2.3
 -------------
 
 * Show dialog in the first install to choose the favorite player.
 * Added "German" translation (by Rainer Peichl).
+* Fix infobar hiding (workaround https://bugzilla.gnome.org/show_bug.cgi?id=710888).
+* Stop player on exit.
+* Updated Spanish translation.
 
 Version 0.2.2
 -------------

@@ -24,8 +24,7 @@ from gi.repository import Gtk
 
 class InfoBar(Gtk.InfoBar):
     def __init__(self):
-        Gtk.InfoBar.__init__(self)
-        self.set_show_close_button(True)
+        Gtk.InfoBar.__init__(self, show_close_button=True)
         self.set_no_show_all(True)
         self.connect('response', self.on_response)
         
@@ -33,6 +32,17 @@ class InfoBar(Gtk.InfoBar):
         self.lbl_bar.set_use_markup(True)
         self.lbl_bar.show()
         self.get_content_area().add(self.lbl_bar)
+        
+        self.fix_infobar()
+    
+    # Workaround for infobar hiding bug.
+    def fix_infobar(self):
+        # Work around https://bugzilla.gnome.org/show_bug.cgi?id=710888
+        def make_sure_revealer_does_nothing(widget):
+            if not isinstance(widget, Gtk.Revealer):
+                return
+            widget.set_transition_type(Gtk.RevealerTransitionType.CROSSFADE)
+        self.forall(make_sure_revealer_does_nothing)
     
     def show_message(self, msg, message_type=Gtk.MessageType.INFO):
         self.lbl_bar.set_label('<b>{}</b>'.format(msg))
@@ -40,7 +50,6 @@ class InfoBar(Gtk.InfoBar):
         self.show()
     
     def on_response(self, info_bar, response_id):
-        info_bar.hide()
-
+        self.hide()
 
 

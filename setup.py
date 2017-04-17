@@ -9,7 +9,7 @@ from os.path import splitext, split
 #     "librsvg2-bin" to use rsvg-convert command.
 #     "intltool-debian" or "intltool" to use intltool-update command.
 
-VERSION = '0.2.3 beta'
+VERSION = '0.2.3'
 SVG_CONVERT = 'rsvg-convert'
 UPDATE = 'intltool-update'
 UPDATE_DEBIAN = '/usr/share/intltool-debian/intltool-update'

@@ -231,6 +231,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.counter = 20
         self.errs_nbr = 0
         self.pass_nbr = 0
+        self.play_process = None
         
         '''
         self.pass_nbr = 0: Single pass encoding option
@@ -966,6 +967,12 @@ class Curlew(Gtk.ApplicationWindow):
     
     def quit_cb(self, *args):
         self.save_states()
+        
+        # Stop playing.
+        if self.play_process != None:
+            if self.play_process.poll() == None:
+                self.play_process.kill()
+        
         if self.is_converting:
             ''' Press quit btn during conversion process '''
             resp = show_message(self, _('Do you want to quit Curlew and \
@@ -1501,7 +1508,7 @@ abort conversion process?'),
     
     
     #--- Stop conversion cb
-    def on_btn_stop_clicked(self, *args):        
+    def on_btn_stop_clicked(self, *args):
         if self.is_converting == True:
             resp = show_message(self,
                                 _('Do you want to stop conversion process?'),
@@ -1619,9 +1626,14 @@ abort conversion process?'),
     def on_play_cb(self, *args):
         if self.get_selected_iters():
             Iter = self.get_selected_iters()[0]
-            GLib.spawn_command_line_async('{} "{}"'.
-                                          format(self.player,
-                                                 self.store[Iter][C_FILE]))
+            
+            # Kill previous process.
+            if self.play_process != None:
+                if self.play_process.poll() == None:
+                    self.play_process.kill()
+            
+            cmd = [self.player, '{}'.format(self.store[Iter][C_FILE])]
+            self.play_process = Popen(cmd, universal_newlines=True, bufsize=-1)
 
     def on_browse_src_cb(self, widget):
         sel_iter = self.get_selected_iters()[0]

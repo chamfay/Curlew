@@ -24,7 +24,7 @@ from gi.repository import Gtk
 
 PROGRAMMER = 'Fayssal Chamekh <chamfay@gmail.com>'
 WEBSITE = 'http://sourceforge.net/projects/curlew'
-VERSION = '0.2.3 (beta)'
+VERSION = '0.2.3'
 
 
 class About(Gtk.AboutDialog):
