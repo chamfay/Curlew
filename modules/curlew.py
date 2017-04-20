@@ -1242,6 +1242,10 @@ abort conversion process?'),
         
         cmd = [self.encoder, '-y']  # , '-xerror']
         
+        # Bad index
+        if self.cb_bad_indx.get_active():
+            cmd.extend(['-fflags','+igndts+genpts'])
+        
         if start_pos != '-1' and part_dura != '-1':
             cmd.extend(['-ss', start_pos])
         
@@ -1266,10 +1270,6 @@ abort conversion process?'),
             # Extract video only
             if self.cb_video_only.get_active():
                 cmd.append('-an')
-            
-            # Bad index
-            if self.cb_bad_indx.get_active():
-                cmd.extend(['-fflags','+igndts+genpts'])
             
             # Video bitrate
             if self.c_vbitrate.is_not_default():

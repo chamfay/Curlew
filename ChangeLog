@@ -5,7 +5,9 @@ Version 0.2.3
 * Added "German" translation (by Rainer Peichl).
 * Fix infobar hiding (workaround https://bugzilla.gnome.org/show_bug.cgi?id=710888).
 * Stop player on exit.
-* Add an option for bad-index files (AVI,M2V,TS,dump-stream MPEG) 
+* Add an option for bad-index files (AVI,M2V,TS,dump-stream MPEG).
+* Don't start the conversion if codecs are missing.
+* Accept folder as argument and only add audio/video mimetypes.
 * Updated Spanish translation.
 
 Version 0.2.2
