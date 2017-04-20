@@ -8,5 +8,6 @@ Changes:
 * Use GLib.spawn_* functions instead of subprocess
 
 Features:
+* Input options for bad-index AVI,M2V,TS,dump-stream MPEG...!!!
 * ...
 

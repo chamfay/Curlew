@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2016 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2017 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -620,6 +620,11 @@ class Curlew(Gtk.ApplicationWindow):
         self.cb_video_only = Gtk.CheckButton(_('Video only'))
         self.cb_video_only.connect('toggled', self.on_cb_video_only_toggled)
         hbox.pack_start(self.cb_video_only, False, False, 0)
+        
+        # Fix for bad index file
+        self.cb_bad_indx = Gtk.CheckButton(_('Fix bad index'))
+        self.cb_bad_indx.set_tooltip_text("")
+        hbox.pack_start(self.cb_bad_indx, False, False, 0)
         
         self.vb_video.pack_start(Gtk.Separator(), False, False, 0)
         
@@ -1241,6 +1246,10 @@ abort conversion process?'),
             if self.cb_video_only.get_active():
                 cmd.append('-an')
             
+            # Bad index
+            if self.cb_bad_indx.get_active():
+                cmd.extend(['-fflags','+igndts+genpts'])
+            
             # Video bitrate
             if self.c_vbitrate.is_not_default():
                 cmd.extend(['-b:v', self.c_vbitrate.get_text()])
@@ -1347,6 +1356,7 @@ abort conversion process?'),
         
         #--- Last
         cmd.append(out_file)
+        print(' '.join(cmd))
         return cmd
 
     #--- Convert funtcion
