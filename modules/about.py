@@ -32,7 +32,7 @@ class About(Gtk.AboutDialog):
         Gtk.AboutDialog.__init__(self, parent=parent, wrap_license=True)
         self.set_program_name(_('Curlew'))
         self.set_authors([PROGRAMMER, 'Ehab El-Gedawy <ehabsas@gmail.com>', 'Andrej Kvasnica <andrej@gmail.com>'])
-        self.set_copyright("Copyright © 2012-2016 Fayssal Chamekh <chamfay@gmail.com>")
+        self.set_copyright("Copyright © 2012-2017 Fayssal Chamekh <chamfay@gmail.com>")
         self.set_version(VERSION)
         self.set_title(_('About Curlew'))
         self.set_logo_icon_name('curlew')

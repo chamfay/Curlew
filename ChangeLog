@@ -5,6 +5,7 @@ Version 0.2.3
 * Added "German" translation (by Rainer Peichl).
 * Fix infobar hiding (workaround https://bugzilla.gnome.org/show_bug.cgi?id=710888).
 * Stop player on exit.
+* Add an option for bad-index files (AVI,M2V,TS,dump-stream MPEG) 
 * Updated Spanish translation.
 
 Version 0.2.2
