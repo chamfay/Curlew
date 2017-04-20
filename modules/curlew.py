@@ -20,6 +20,7 @@
 
 from configparser import ConfigParser
 import gettext
+import mimetypes
 import os
 from os.path import basename, isdir, splitext, join, dirname, realpath, \
 isfile, exists, getsize, abspath
@@ -948,7 +949,27 @@ class Curlew(Gtk.ApplicationWindow):
         self.trayico.set_visible(self.cb_tray.get_active())
         
         if files_list:
-            self.add_files(*files_list)
+            media_files = []
+
+            for entry in files_list:
+                if os.path.isdir(entry):
+                    # Get all files with mimetype and avoid args like `dir/*`
+                    dir_files = [[os.path.realpath(entry) + "/" + name, mimetypes.guess_type(name)[0]] \
+                                 for name in os.listdir(entry)]
+
+                    # Add to main list
+                    media_files += dir_files
+                elif os.path.isfile(entry):
+                    media_files.append([os.path.realpath(entry), mimetypes.guess_type(entry)[0]])
+
+            # Drop NoneType from list
+            media_files = [[name, mime] for name, mime in media_files \
+                           if mime is not None]
+
+            # Filter video/audio mimetypes
+            media_files = [name for name, mime in media_files \
+                           if "video" in mime or "audio" in mime]
+            self.add_files(*media_files)
             
     def on_toggled_cb(self, widget, Path):
         self.store[Path][C_SKIP] = not self.store[Path][C_SKIP]        
