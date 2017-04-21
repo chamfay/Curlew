@@ -1124,7 +1124,11 @@ abort conversion process?'),
                 for root, dirs, files in os.walk(cur_folder):
                     it_files = (join(root, file_name) for file_name in files)
                     for curr_file in it_files:
-                        files_list.append(curr_file)
+                        # Add audio and videos files only
+                        mime = mimetypes.guess_type(curr_file)[0]
+                        if mime != None:
+                            if 'video/' in mime or 'audio/' in mime:
+                                files_list.append(curr_file)
                 
             self.curr_open_folder = folder_dlg.get_filename()
             folder_dlg.destroy()
