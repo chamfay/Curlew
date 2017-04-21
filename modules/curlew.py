@@ -949,27 +949,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.trayico.set_visible(self.cb_tray.get_active())
         
         if files_list:
-            media_files = []
-
-            for entry in files_list:
-                if os.path.isdir(entry):
-                    # Get all files with mimetype and avoid args like `dir/*`
-                    dir_files = [[os.path.realpath(entry) + "/" + name, mimetypes.guess_type(name)[0]] \
-                                 for name in os.listdir(entry)]
-
-                    # Add to main list
-                    media_files += dir_files
-                elif os.path.isfile(entry):
-                    media_files.append([os.path.realpath(entry), mimetypes.guess_type(entry)[0]])
-
-            # Drop NoneType from list
-            media_files = [[name, mime] for name, mime in media_files \
-                           if mime is not None]
-
-            # Filter video/audio mimetypes
-            media_files = [name for name, mime in media_files \
-                           if "video" in mime or "audio" in mime]
-            self.add_files(*media_files)
+            self.add_files(*files_list)
             
     def on_toggled_cb(self, widget, Path):
         self.store[Path][C_SKIP] = not self.store[Path][C_SKIP]        
@@ -1070,31 +1050,34 @@ abort conversion process?'),
         
         for file_name in files:
             
-            wait_dlg.set_filename(basename(file_name))
-            wait_dlg.set_progress((files.index(file_name) + 1.0) / tot)
-            if wait_dlg.skip: break
-            
-            while Gtk.events_pending():
-                Gtk.main_iteration()
-            
-            if file_name.startswith('file://'):
-                file_name = unquote(file_name[7:])
-            if isfile(file_name):
-                dura = self.get_time(file_name)
-                self.store.append([
-                                   True,
-                                   splitext(basename(file_name))[0],
-                                   get_format_size(getsize(file_name) / 1024),
-                                   dura,
-                                   None,
-                                   None,
-                                   None,
-                                   0.0,
-                                   _('Ready!'),
-                                   - 1,
-                                   realpath(file_name)
-                                   ])
-        
+            mime = mimetypes.guess_type(file_name)[0]            
+            if mime != None:
+                if 'video/' in mime or 'audio/' in mime:
+
+                    wait_dlg.set_filename(basename(file_name))
+                    wait_dlg.set_progress((files.index(file_name) + 1.0) / tot)
+                    if wait_dlg.skip: break
+                    
+                    while Gtk.events_pending():
+                        Gtk.main_iteration()
+
+                    if file_name.startswith('file://'):
+                        file_name = unquote(file_name[7:])
+                    if isfile(file_name):
+                        dura = self.get_time(file_name)
+                        self.store.append([
+                                           True,
+                                           splitext(basename(file_name))[0],
+                                           get_format_size(getsize(file_name) / 1024),
+                                           dura,
+                                           None,
+                                           None,
+                                           None,
+                                           0.0,
+                                           _('Ready!'),
+                                           - 1,
+                                           realpath(file_name)
+                                           ])
         
         wait_dlg.destroy()
         return dirname(file_name) + os.sep
@@ -1124,11 +1107,7 @@ abort conversion process?'),
                 for root, dirs, files in os.walk(cur_folder):
                     it_files = (join(root, file_name) for file_name in files)
                     for curr_file in it_files:
-                        # Add audio and videos files only
-                        mime = mimetypes.guess_type(curr_file)[0]
-                        if mime != None:
-                            if 'video/' in mime or 'audio/' in mime:
-                                files_list.append(curr_file)
+                        files_list.append(curr_file)
                 
             self.curr_open_folder = folder_dlg.get_filename()
             folder_dlg.destroy()
