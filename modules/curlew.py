@@ -866,7 +866,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         #--- Destination
         self.e_dest = Gtk.Entry()
-        self.e_dest.set_text(HOME)
+        self.e_dest.set_text(GLib.get_user_special_dir(GLib.USER_DIRECTORY_VIDEOS))
         self.b_dest = Gtk.Button('...')
         self.cb_dest = Gtk.CheckButton(_('Source Path'))
         self.cb_dest.connect('toggled', self.on_cb_dest_toggled)
