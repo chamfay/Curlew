@@ -1519,7 +1519,7 @@ abort conversion process?'),
                 self.fp = Popen(full_cmd, stdout=PIPE, stderr=PIPE,
                                 universal_newlines=True, bufsize=-1)
             except:
-                self.info_bar.show_message('Encoder not found (ffmpeg/avconv).')
+                self.info_bar.show_message(_('Encoder not found (ffmpeg/avconv).'))
                 self.is_converting = False
                 self.enable_controls(True)
                 return -1
