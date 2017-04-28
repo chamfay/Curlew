@@ -159,7 +159,7 @@ class Curlew(Gtk.ApplicationWindow):
         # format already exist
         if fav_format in fav_list:
             self.info_bar.show_message(
-                _('"{}" is already exist in favorite list!'.format(fav_format)),
+                _('"{}" is already exist in favorite list!').format(fav_format),
                 Gtk.MessageType.INFO)
             return
         
