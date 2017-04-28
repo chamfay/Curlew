@@ -40,7 +40,7 @@ try:
     import dbus.glib, dbus.service
     
     from modules.customwidgets import LabeledHBox, TimeLayout, HScale, \
-    SpinsFrame, LabeledGrid, ComboWithEntry, ButtonWithIcon
+    SpinsFrame, LabeledGrid, ComboWithEntry, ButtonWithIcon, ToggleBtnWithIcon
     from modules.about import About
     from modules.functions import show_message, get_format_size, \
     duration_to_time, time_to_duration, check_codec
@@ -321,11 +321,8 @@ class Curlew(Gtk.ApplicationWindow):
         box_rm_clr.pack_start(self.btn_clear, False, False, 0)
         
         # File info
-        #self.btn_info = ButtonWithIcon('dialog-question-symbolic')
-        self.btn_info = Gtk.ToggleButton()
+        self.btn_info = ToggleBtnWithIcon('dialog-question-symbolic') 
         self.btn_info.set_tooltip_text(_('File Informations'))
-        self.btn_info.set_image(Gtk.Image.new_from_icon_name\
-            ('dialog-question-symbolic', Gtk.IconSize.BUTTON))
         self.btn_info.connect('toggled', self.on_file_info_cb)
         self.header.pack_start(self.btn_info)
         
@@ -353,11 +350,10 @@ class Curlew(Gtk.ApplicationWindow):
         self.header.pack_end(self.btn_about)
         
         # Toggle options
-        self.toggle_opts = Gtk.ToggleButton()
+        self.toggle_opts = ToggleBtnWithIcon('emblem-system-symbolic')
         self.toggle_opts.set_tooltip_text(_('Advanced Options'))
-        self.toggle_opts.set_image(Gtk.Image.new_from_icon_name\
-            ('view-more-symbolic', Gtk.IconSize.BUTTON))
         self.toggle_opts.connect('toggled', self.on_opts_toggled)
+        self.header.pack_end(self.toggle_opts)
         
         
         # Stack
@@ -488,7 +484,6 @@ class Curlew(Gtk.ApplicationWindow):
         
         # Formats dialog
         self.btn_formats = Gtk.MenuButton()
-        self.btn_formats.set_size_request(1, 32)
         self.btn_formats.set_tooltip_markup(_("Choose a format"))
         vbox = Gtk.Box(spacing=6, orientation=Gtk.Orientation.VERTICAL)
         vbox.set_border_width(4)
@@ -507,10 +502,9 @@ class Curlew(Gtk.ApplicationWindow):
         self.mb_fav = Gtk.MenuButton()
         self.mb_fav.set_tooltip_markup(_("Favorite list"))
         self.mb_fav.set_image(Gtk.Image
-                              .new_from_icon_name("open-menu-symbolic",
+                              .new_from_icon_name("view-list-symbolic",
                                                   Gtk.IconSize.MENU))
         
-        hbox.pack_start(self.toggle_opts , False, False, 0)
         hbox.pack_start(self.btn_formats, True, True, 0)
         hbox.pack_start(self.btn_fav , False, False, 0)
         hbox.pack_start(self.mb_fav, False, False, 0)
@@ -797,6 +791,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.entry_player.connect('changed', self.on_entry_player_changed)
         grid_other.append_row(_('Player:'), self.entry_player)
         
+        
         # File info Page
         self.txt_info = Gtk.TextView()
         self.txt_info.set_editable(False)
@@ -815,6 +810,10 @@ class Curlew(Gtk.ApplicationWindow):
         self.txt_info.set_buffer(self.txt_buffer_info)
         
         self.stack.add(self.scroll_info)
+        
+        
+        #TODO: add error log page (replaced error dialog).
+        
         
         # Load internal encoder (ffmpeg)
         if exists(INTERNAL_ENCODER):
@@ -872,6 +871,11 @@ class Curlew(Gtk.ApplicationWindow):
         # Use CSD
         self.cb_csd = Gtk.CheckButton(_('Use CSD'), active=True)
         self.vb_config.pack_start(self.cb_csd, False, False, 0)
+        
+        # Show/Hide Statusbar
+        self.cb_status = Gtk.CheckButton(_('Show Statusbar'))
+        self.cb_status.connect('toggled', self.on_cb_status_toggled)
+        self.vb_config.pack_start(self.cb_status, False, False, 0)
         
         sep = Gtk.Separator()
         self.vb_config.pack_start(sep, False, False, 0)
@@ -936,6 +940,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         #--- Status
         self.label_details = Gtk.Label()
+        self.label_details.set_no_show_all(True)
         vbox.pack_start(self.label_details, False, False, 0)
         
         # Status icon
@@ -2069,6 +2074,9 @@ abort conversion process?'),
         # csd
         conf.set_boolean(group, 'use-csd', self.cb_csd.get_active())
         
+        # statusbar
+        conf.set_boolean(group, 'status-bar', self.cb_status.get_active())
+        
         # Size, position and state
         conf.set_integer_list(group, 'position', self.get_position())
         conf.set_boolean(group, 'maximized', self.is_maxi)
@@ -2115,6 +2123,9 @@ abort conversion process?'),
             
             # csd
             self.cb_csd.set_active(conf.get_boolean(group, 'use-csd'))
+            
+            # status
+            self.cb_status.set_active(conf.get_boolean(group, 'status-bar'))
             
             conf.unref()
             
@@ -2321,6 +2332,11 @@ abort conversion process?'),
         self.btn_remove.set_sensitive(is_active)
         self.btn_clear.set_sensitive(is_active)
         self.btn_convert.set_sensitive(is_active)
+        self.toggle_opts.set_sensitive(is_active)
+    
+    def on_cb_status_toggled(self, widget):
+        is_active = widget.get_active()
+        self.label_details.set_visible(is_active)        
         
     
     def restore_last_position(self):

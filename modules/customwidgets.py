@@ -246,7 +246,18 @@ class ComboWithEntry(Gtk.ComboBoxText):
 class ButtonWithIcon(Gtk.Button):
     def __init__(self, icon_name=None):
         Gtk.Button.__init__(self)
+        self.set_size_request(36, 36)
         if icon_name:
             img = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
             self.set_image(img)
+
+class ToggleBtnWithIcon(Gtk.ToggleButton):
+    def __init__(self, icon_name=None):
+        Gtk.Button.__init__(self)
+        self.set_size_request(36, 36)
+        if icon_name:
+            img = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+            self.set_image(img)
+
+
 

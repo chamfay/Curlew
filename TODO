@@ -3,10 +3,12 @@
 
 Fixes:
 * Prevent to duplicate file in the same session.
+* Error log empty fix.
 
 Changes:
 
 
 Features:
+* Show error log in the main window.
 * Added GIF support.
 
