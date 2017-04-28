@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-28 11:45+0100\n"
-"PO-Revision-Date: 2017-04-28 11:45+0100\n"
+"POT-Creation-Date: 2017-04-28 11:51+0100\n"
+"PO-Revision-Date: 2017-04-28 11:51+0100\n"
 "Last-Translator: Faissal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language: fr_FR\n"
@@ -595,11 +595,11 @@ msgstr "Le chemin de destination n'est pas accessible."
 
 #: modules/curlew.py:1403
 msgid "\"{}\" audio codec not found."
-msgstr "\"{}\" Codec audio non trouvé."
+msgstr "Codec audio \"{}\" non trouvé."
 
 #: modules/curlew.py:1407
 msgid "\"{}\" video codec not found."
-msgstr "\"{}\" Codec vidéo non trouvé."
+msgstr "Codec vidéo \"{}\" non trouvé."
 
 #: modules/curlew.py:1439 modules/curlew.py:1480 modules/curlew.py:1868
 msgid "Skipped!"

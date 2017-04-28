@@ -1400,7 +1400,7 @@ abort conversion process?'),
         
         acodec = self.c_acodec.get_active_text()
         if not check_codec(self.encoder, acodec):
-            codec_txts = [_('"{}" audio codec not found.'.format(acodec))]
+            codec_txts = [_('"{}" audio codec not found.').format(acodec)]
         
         vcodec = self.c_vcodec.get_active_text()
         if not check_codec(self.encoder, vcodec):
