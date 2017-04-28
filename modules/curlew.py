@@ -26,7 +26,7 @@ from os.path import basename, isdir, splitext, join, dirname, realpath, \
 isfile, exists, getsize, abspath
 import pickle
 import re
-from subprocess import Popen, PIPE, call
+from subprocess import Popen, PIPE, call, check_output
 import sys
 import time
 from shutil import copyfile, which
@@ -36,7 +36,7 @@ try:
     import gi
     gi.require_version('Gtk', '3.0')
     
-    from gi.repository import Gtk, GLib, Gdk, GObject, GdkPixbuf, Gio
+    from gi.repository import Gtk, GLib, Gdk, GObject, GdkPixbuf, Gio, Pango
     import dbus.glib, dbus.service
     
     from modules.customwidgets import LabeledHBox, TimeLayout, HScale, \
@@ -49,7 +49,6 @@ try:
     from modules.languages import LANGUAGES
     from modules.favdialog import Favorite
     from modules.waitdialog import WaitDialog
-    from modules.fileinfos import FileInfos
     from modules.formats import Formats
     from modules.infobars import InfoBar
     from modules.codecs import CodecsDialog
@@ -145,7 +144,7 @@ class Curlew(Gtk.ApplicationWindow):
             i += 1
     
     
-    def on_add_fav(self, action, param):
+    def on_add_fav(self, widget):
         fav_list = self.get_fav_list()
         fav_format = self.btn_formats.get_label()        
         
@@ -322,9 +321,12 @@ class Curlew(Gtk.ApplicationWindow):
         box_rm_clr.pack_start(self.btn_clear, False, False, 0)
         
         # File info
-        self.btn_info = ButtonWithIcon('dialog-question-symbolic')
+        #self.btn_info = ButtonWithIcon('dialog-question-symbolic')
+        self.btn_info = Gtk.ToggleButton()
         self.btn_info.set_tooltip_text(_('File Informations'))
-        self.btn_info.connect('clicked', self.on_file_info_cb)
+        self.btn_info.set_image(Gtk.Image.new_from_icon_name\
+            ('dialog-question-symbolic', Gtk.IconSize.BUTTON))
+        self.btn_info.connect('toggled', self.on_file_info_cb)
         self.header.pack_start(self.btn_info)
         
         
@@ -496,15 +498,21 @@ class Curlew(Gtk.ApplicationWindow):
         Gtk.StyleContext.add_class(hbox.get_style_context(), "linked")
         vbox.add(hbox)
         
+        # Fav button
+        self.btn_fav = ButtonWithIcon('user-bookmarks-symbolic')
+        self.btn_fav.set_tooltip_text(_("Add to Favorite"))
+        self.btn_fav.connect('clicked', self.on_add_fav)
+        
         # Fav Button
         self.mb_fav = Gtk.MenuButton()
         self.mb_fav.set_tooltip_markup(_("Favorite list"))
         self.mb_fav.set_image(Gtk.Image
-                              .new_from_icon_name("user-bookmarks-symbolic",
+                              .new_from_icon_name("open-menu-symbolic",
                                                   Gtk.IconSize.MENU))
         
         hbox.pack_start(self.toggle_opts , False, False, 0)
         hbox.pack_start(self.btn_formats, True, True, 0)
+        hbox.pack_start(self.btn_fav , False, False, 0)
         hbox.pack_start(self.mb_fav, False, False, 0)
         
         self.action_group = Gio.SimpleActionGroup()
@@ -513,25 +521,17 @@ class Curlew(Gtk.ApplicationWindow):
         self.menu_fav = Gio.Menu()
         self.mb_fav.set_menu_model(self.menu_fav)
         
-        # add_to_fav btn
-        menu_item_add = Gio.MenuItem.new(_("Add to Favorite"), 'Fav.AddToFav')
-        action_add = Gio.SimpleAction.new('AddToFav')
-        action_add.connect('activate', self.on_add_fav)
-        self.action_group.insert(action_add)
-        icon = GLib.Variant.new_string('star-new-symbolic')
-        menu_item_add.set_attribute_value('verb-icon', icon)
-        
         # edit_list btn
-        menu_item_edit = Gio.MenuItem.new(_("Edit List"), 'Fav.EditList')
+        menu_item_edit = Gio.MenuItem.new(_("Edit Favorite List"), 'Fav.EditList')
         action_edit = Gio.SimpleAction.new('EditList')
         action_edit.connect('activate', self.on_edit_fav)
         self.action_group.insert(action_edit)
-        icon = GLib.Variant.new_string('open-menu-symbolic')
-        menu_item_edit.set_attribute_value('verb-icon', icon)
+#         icon = GLib.Variant.new_string('open-menu-symbolic')
+#         menu_item_edit.set_attribute_value('verb-icon', icon)
         
         # menu btns
         menu_btns = Gio.Menu()
-        menu_btns.append_item(menu_item_add)
+        #menu_btns.append_item(menu_item_add)
         menu_btns.append_item(menu_item_edit)
         
         item_btns = Gio.MenuItem.new_section(None, menu_btns)
@@ -796,6 +796,25 @@ class Curlew(Gtk.ApplicationWindow):
         self.entry_player.set_text(self.player)
         self.entry_player.connect('changed', self.on_entry_player_changed)
         grid_other.append_row(_('Player:'), self.entry_player)
+        
+        # File info Page
+        self.txt_info = Gtk.TextView()
+        self.txt_info.set_editable(False)
+        self.txt_info.set_cursor_visible(False)
+        self.txt_info.set_border_width(8)
+        
+        self.scroll_info = Gtk.ScrolledWindow()
+        self.scroll_info.set_shadow_type(Gtk.ShadowType.IN)
+        self.scroll_info.add(self.txt_info)
+        self.scroll_info.set_border_width(4)
+        
+        font_desc = Pango.FontDescription('Monospace')
+        self.txt_info.override_font(font_desc)
+        
+        self.txt_buffer_info = Gtk.TextBuffer()
+        self.txt_info.set_buffer(self.txt_buffer_info)
+        
+        self.stack.add(self.scroll_info)
         
         # Load internal encoder (ffmpeg)
         if exists(INTERNAL_ENCODER):
@@ -2275,15 +2294,34 @@ abort conversion process?'),
     
     # file infos cb
     def on_file_info_cb(self, widget):
+        
         try: Iter = self.get_selected_iters()[0]
-        except: return
+        except:
+            widget.set_active(False)
+            return
         if not which('mediainfo'):
             self.info_bar.show_message(_('Please install "mediainfo" package.'))
+            widget.set_active(False)
             return
         
-        input_file = self.store[Iter][C_FILE]
-        f_dlg = FileInfos(self, input_file, self.csd);
-        f_dlg.show_dialog()
+        # Show info
+        is_active = not widget.get_active()
+        
+        if widget.get_active():
+            self.stack.set_visible_child(self.scroll_info)
+            input_file = self.store[Iter][C_FILE]
+            buf = check_output('mediainfo "{}"'.format(input_file), shell=True, universal_newlines=True)
+            self.txt_buffer_info.set_text(buf)
+        else:
+            self.stack.set_visible_child(self.paned)
+        
+        self.txt_info.set_visible(not is_active)
+        self.btn_add_file.set_sensitive(is_active)
+        self.btn_add_folder.set_sensitive(is_active)
+        self.btn_remove.set_sensitive(is_active)
+        self.btn_clear.set_sensitive(is_active)
+        self.btn_convert.set_sensitive(is_active)
+        
     
     def restore_last_position(self):
         conf = GLib.KeyFile()
@@ -2353,18 +2391,12 @@ abort conversion process?'),
         browse_item = Gtk.MenuItem.new_with_label(_('Browse destination'))
         browse_item.connect('activate', self.on_browse_dest_cb)
         
-        # File informations
-        file_info = Gtk.MenuItem.new_with_label(_('File Informations'))
-        file_info.connect('activate', self.on_file_info_cb)
-        
         popup.append(play_item)
         popup.append(preview_item)
         popup.append(remove_item)
         popup.append(Gtk.SeparatorMenuItem.new())
         popup.append(browse_src)
         popup.append(browse_item)
-        popup.append(Gtk.SeparatorMenuItem.new())
-        popup.append(file_info)
         
         return popup
     
