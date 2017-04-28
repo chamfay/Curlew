@@ -56,7 +56,7 @@ try:
     from modules.consts import CONF_PATH, HOME, CONF_FILE, DTA_DIR, \
     ORG_FFILE, USR_FFILE, SOUND_FILE
     from modules.configs import get_b_config, get_s_config
-    from modules.players import Players
+    from modules.players import choose_player
 except Exception as e:
     print(e)
     sys.exit(1)
@@ -151,12 +151,16 @@ class Curlew(Gtk.ApplicationWindow):
         
         # limit fav list to 10 elmnts
         if len(fav_list) > 9:
-            print('Favorite list number is limited to only 10 elements.')
+            self.info_bar.show_message(
+                _('You can\'t add more than 10 elements.'),
+                Gtk.MessageType.INFO)
             return
         
         # format already exist
         if fav_format in fav_list:
-            print('Format "{}" already exist in favorite list!'.format(fav_format))
+            self.info_bar.show_message(
+                _('"{}" is already exist in favorite list!'.format(fav_format)),
+                Gtk.MessageType.INFO)
             return
         
         fav_list.append(fav_format)
@@ -796,19 +800,27 @@ class Curlew(Gtk.ApplicationWindow):
         # Load internal encoder (ffmpeg)
         if exists(INTERNAL_ENCODER):
             self.cmb_encoder.append_text(INTERNAL_ENCODER)
-        # Load available encoder 
+        # Load available encoder
         if which('avconv'):
-            self.cmb_encoder.append_text('avconv')
+            self.cmb_encoder.append_text(which('avconv'))
         if which('ffmpeg'):
-            self.cmb_encoder.append_text('ffmpeg')
+            self.cmb_encoder.append_text(which('ffmpeg'))
         
         self.cmb_encoder.set_active(0)
         
         
         # Check player
         if not get_s_config('player'):
-            player_dlg = Players(self)
-            self.entry_player.set_text(player_dlg.show_dialog())
+            plyr = choose_player()
+            if plyr:
+                self.entry_player.set_text(plyr)
+            else:
+                self.info_bar.show_message(_('Please select a player'), Gtk.MessageType.ERROR)
+                self.show_all()
+                self.toggle_opts.set_active(True)
+                self.note.set_current_page(4)
+                self.set_focus(self.entry_player)
+                    
         
         #--- Configuration page
         self.vb_config = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
