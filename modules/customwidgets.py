@@ -244,19 +244,19 @@ class ComboWithEntry(Gtk.ComboBoxText):
         return False
 
 class ButtonWithIcon(Gtk.Button):
-    def __init__(self, icon_name=None):
+    def __init__(self, icon_name=None, icon_size=Gtk.IconSize.BUTTON):
         Gtk.Button.__init__(self)
         self.set_size_request(36, 36)
         if icon_name:
-            img = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+            img = Gtk.Image.new_from_icon_name(icon_name, icon_size)
             self.set_image(img)
 
 class ToggleBtnWithIcon(Gtk.ToggleButton):
-    def __init__(self, icon_name=None):
+    def __init__(self, icon_name=None, icon_size=Gtk.IconSize.BUTTON):
         Gtk.Button.__init__(self)
         self.set_size_request(36, 36)
         if icon_name:
-            img = Gtk.Image.new_from_icon_name(icon_name, Gtk.IconSize.BUTTON)
+            img = Gtk.Image.new_from_icon_name(icon_name, icon_size)
             self.set_image(img)
 
 

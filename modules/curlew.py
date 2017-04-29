@@ -353,13 +353,51 @@ class Curlew(Gtk.ApplicationWindow):
         self.toggle_opts = ToggleBtnWithIcon('emblem-system-symbolic')
         self.toggle_opts.set_tooltip_text(_('Advanced Options'))
         self.toggle_opts.connect('toggled', self.on_opts_toggled)
-        self.header.pack_end(self.toggle_opts)
+        self.header.pack_start(self.toggle_opts)
         
         
         # Stack
         self.stack = Gtk.Stack()
         self.stack.set_transition_duration(500)
         self.stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
+        
+        
+        #--- Welcome page
+        sw_welcome = Gtk.ScrolledWindow(border_width=4,
+                                        shadow_type=Gtk.ShadowType.ETCHED_IN)
+        self.stack.add(sw_welcome)
+        
+
+        lbl_welcome = Gtk.Label(_('<b><span size="xx-large">Welcome to Curlew Multimedia Converter!</span></b>'),
+                                use_markup=True)
+        btn_files = ButtonWithIcon('document-new-symbolic', Gtk.IconSize.DND)
+        btn_files.set_relief(Gtk.ReliefStyle.NONE)
+        btn_folders = ButtonWithIcon('folder-new-symbolic', Gtk.IconSize.DND)
+        btn_folders.set_relief(Gtk.ReliefStyle.NONE)
+        
+        hbox_btns = Gtk.Box(spacing=2)
+        hbox_btns.pack_start(Gtk.Label(_('<i>Click</i>'), use_markup=True), False, False, 0)
+        hbox_btns.pack_start(btn_files, False, False, 0)
+        hbox_btns.pack_start(Gtk.Label(_('<i>to add files, or</i>'), use_markup=True), False, False, 0)
+        hbox_btns.pack_start(btn_folders, False, False, 0)
+        hbox_btns.pack_start(Gtk.Label(_('<i>to add files from folders,</i>'), use_markup=True), False, False, 0)
+        
+        align = Gtk.Alignment.new(0.5, 0.5, 0, 0)
+        align.add(hbox_btns)
+        
+        vbox_elemts = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        
+        vbox_elemts.pack_start(lbl_welcome, False, False, 0)
+        vbox_elemts.pack_start(align, False, False, 0)
+        vbox_elemts.pack_start(Gtk.Label(_('<i>or you can drag files and drop them to here.</i>'), use_markup=True), False, False, 0)
+        
+        align = Gtk.Alignment.new(0.5, 0.5, 0, 0)
+        align.add(vbox_elemts)
+        
+        sw_welcome.add(align)
+        
+        btn_files.connect('clicked', self.add_file_cb)
+        btn_folders.connect('clicked', self.on_add_folder_clicked)
         
         
         #--- List of files
@@ -1116,6 +1154,11 @@ abort conversion process?'),
                                            ])
         
         wait_dlg.destroy()
+        
+        self.stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
+        self.stack.set_visible_child(self.paned)
+        self.stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
+        
         return dirname(file_name) + os.sep
     
     #--- Add folder that contain media files
