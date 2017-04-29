@@ -369,9 +369,9 @@ class Curlew(Gtk.ApplicationWindow):
 
         lbl_welcome = Gtk.Label(_('<b><span size="xx-large">Welcome to Curlew Multimedia Converter!</span></b>'),
                                 use_markup=True)
-        btn_files = ButtonWithIcon('document-new-symbolic', Gtk.IconSize.DND)
+        btn_files = ButtonWithIcon('document-new-symbolic', Gtk.IconSize.BUTTON)
         btn_files.set_relief(Gtk.ReliefStyle.NONE)
-        btn_folders = ButtonWithIcon('folder-new-symbolic', Gtk.IconSize.DND)
+        btn_folders = ButtonWithIcon('folder-new-symbolic', Gtk.IconSize.BUTTON)
         btn_folders.set_relief(Gtk.ReliefStyle.NONE)
         
         hbox_btns = Gtk.Box(spacing=2)
