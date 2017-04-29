@@ -218,7 +218,6 @@ class Curlew(Gtk.ApplicationWindow):
         quit_action.connect("activate", self.quit_cb)
         self.add_action(quit_action)
     
-        #self.set_size_request(800, 500)
         self.set_icon_name('curlew')
         
         # Restore saved position and size
@@ -385,7 +384,7 @@ class Curlew(Gtk.ApplicationWindow):
         align = Gtk.Alignment.new(0.5, 0.5, 0, 0)
         align.add(hbox_btns)
         
-        vbox_elemts = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=0)
+        vbox_elemts = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         
         vbox_elemts.pack_start(lbl_welcome, False, False, 0)
         vbox_elemts.pack_start(align, False, False, 0)
@@ -1005,7 +1004,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         
         #--- Show interface
-        # self.show_all()
+        self.show_all()
         
         #--- Drag and Drop
         targets = Gtk.TargetList.new([])
@@ -1154,7 +1153,6 @@ abort conversion process?'),
                                            ])
         
         wait_dlg.destroy()
-        
         self.stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
         self.stack.set_visible_child(self.paned)
         self.stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
@@ -2502,7 +2500,7 @@ class CurlewApp(Gtk.Application):
     
     def do_activate(self):
         win = Curlew(self, *self.args)
-        win.show_all()
+        #win.show_all()
         win._child.set_visible(win.cb_sideb.get_active())
     
     def do_startup(self):
