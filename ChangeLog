@@ -1,3 +1,15 @@
+Version 0.2.4
+-------------
+
+* Excluded non media files to be loaded in the list.
+* Removed 'Players Dialog' and let Curlew choose the player.
+* Enhanced Favorite.
+* Added a welcome page.
+* Show Files informations inside the main window.
+* Added an option to show/hide status bar, and make it invisible by default.
+* Some interface improvements...
+
+
 Version 0.2.3
 -------------
 
