@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-29 14:06+0100\n"
+"POT-Creation-Date: 2017-04-30 08:44+0100\n"
 "PO-Revision-Date: 2013-09-26 12:58+0800\n"
 "Last-Translator: taijuin <taijuin@gmail.com>\n"
 "Language-Team: taijuin <taijuin@gmail.com>\n"
@@ -62,7 +62,7 @@ msgstr ""
 msgid "Down"
 msgstr ""
 
-#: modules/favdialog.py:72 modules/edition.py:324 modules/curlew.py:2443
+#: modules/favdialog.py:72 modules/edition.py:324 modules/curlew.py:2442
 msgid "Remove"
 msgstr "移除"
 
@@ -70,7 +70,7 @@ msgstr "移除"
 msgid "Curlew"
 msgstr "Curlew"
 
-#: modules/about.py:37 modules/curlew.py:348
+#: modules/about.py:37 modules/curlew.py:347
 msgid "About Curlew"
 msgstr "關於 Curlew"
 
@@ -98,7 +98,7 @@ msgstr " GB"
 msgid "Hide"
 msgstr "隱藏"
 
-#: modules/tray.py:43 modules/curlew.py:341
+#: modules/tray.py:43 modules/curlew.py:340
 msgid "Stop Conversion"
 msgstr "停止轉換"
 
@@ -220,8 +220,8 @@ msgstr ""
 msgid "Adding files..."
 msgstr "加入檔案"
 
-#: modules/waitdialog.py:45 modules/curlew.py:1078 modules/curlew.py:1169
-#: modules/curlew.py:1200 modules/curlew.py:1681 modules/curlew.py:2481
+#: modules/waitdialog.py:45 modules/curlew.py:1078 modules/curlew.py:1168
+#: modules/curlew.py:1199 modules/curlew.py:1680 modules/curlew.py:2480
 msgid "_Cancel"
 msgstr ""
 
@@ -264,47 +264,47 @@ msgstr "關於"
 msgid "Quit"
 msgstr "結束"
 
-#: modules/curlew.py:266
+#: modules/curlew.py:265
 msgid "Available Codecs"
 msgstr ""
 
-#: modules/curlew.py:299
+#: modules/curlew.py:298
 #, fuzzy
 msgid "Add Files"
 msgstr "加入檔案"
 
-#: modules/curlew.py:304
+#: modules/curlew.py:303
 #, fuzzy
 msgid "Add Folders"
 msgstr "加入檔案"
 
-#: modules/curlew.py:314
+#: modules/curlew.py:313
 #, fuzzy
 msgid "Remove Files"
 msgstr "移除檔案"
 
-#: modules/curlew.py:319
+#: modules/curlew.py:318
 #, fuzzy
 msgid "Clear Files List"
 msgstr "清空檔案清單"
 
-#: modules/curlew.py:325
+#: modules/curlew.py:324
 msgid "File Informations"
 msgstr ""
 
-#: modules/curlew.py:335
+#: modules/curlew.py:334
 msgid "Convert"
 msgstr "轉換"
 
-#: modules/curlew.py:336
+#: modules/curlew.py:335
 msgid "Start Conversion"
 msgstr "開始轉換"
 
-#: modules/curlew.py:354
+#: modules/curlew.py:353
 msgid "Advanced Options"
 msgstr ""
 
-#: modules/curlew.py:371
+#: modules/curlew.py:370
 msgid ""
 "<b><span size=\"xx-large\">Welcome to Curlew Multimedia Converter!</span></b>"
 msgstr ""
@@ -601,8 +601,8 @@ msgstr "您想要結束 Curlew 和中止轉換過程嗎？"
 msgid "Add file"
 msgstr "加入檔案"
 
-#: modules/curlew.py:1076 modules/curlew.py:1167 modules/curlew.py:1199
-#: modules/curlew.py:2479
+#: modules/curlew.py:1076 modules/curlew.py:1166 modules/curlew.py:1198
+#: modules/curlew.py:2478
 msgid "_OK"
 msgstr ""
 
@@ -618,52 +618,52 @@ msgstr "影片檔"
 msgid "Audio files"
 msgstr "音訊檔"
 
-#: modules/curlew.py:1106 modules/curlew.py:1694
+#: modules/curlew.py:1106 modules/curlew.py:1693
 msgid "All files"
 msgstr "所有檔案"
 
-#: modules/curlew.py:1150 modules/curlew.py:1792
+#: modules/curlew.py:1150 modules/curlew.py:1791
 msgid "Ready!"
 msgstr "準備好了！"
 
-#: modules/curlew.py:1165
+#: modules/curlew.py:1164
 #, fuzzy
 msgid "Add folder"
 msgstr "加入檔案"
 
-#: modules/curlew.py:1197
+#: modules/curlew.py:1196
 msgid "Choose destination"
 msgstr "選擇目的地"
 
-#: modules/curlew.py:1451
+#: modules/curlew.py:1450
 msgid "Destination path is not valid."
 msgstr "目標路徑是無效的。"
 
-#: modules/curlew.py:1458
+#: modules/curlew.py:1457
 msgid "Destination path is not accessible."
 msgstr "目標路徑不可存取的。"
 
-#: modules/curlew.py:1469
+#: modules/curlew.py:1468
 msgid "\"{}\" audio codec not found."
 msgstr ""
 
-#: modules/curlew.py:1473
+#: modules/curlew.py:1472
 msgid "\"{}\" video codec not found."
 msgstr ""
 
-#: modules/curlew.py:1505 modules/curlew.py:1546 modules/curlew.py:1934
+#: modules/curlew.py:1504 modules/curlew.py:1545 modules/curlew.py:1933
 msgid "Skipped!"
 msgstr "跳過！"
 
-#: modules/curlew.py:1515
+#: modules/curlew.py:1514
 msgid "Not found!"
 msgstr "沒有找到！"
 
-#: modules/curlew.py:1588
+#: modules/curlew.py:1587
 msgid "Encoder not found (ffmpeg/avconv)."
 msgstr ""
 
-#: modules/curlew.py:1608
+#: modules/curlew.py:1607
 msgid ""
 "There are some errors occured.\n"
 "Do you want to show more details?"
@@ -671,48 +671,48 @@ msgstr ""
 "有一些錯誤發生。\n"
 "您想要顯示更多的細節嗎？"
 
-#: modules/curlew.py:1621
+#: modules/curlew.py:1620
 msgid "Do you want to stop conversion process?"
 msgstr "您想要停止轉換過程？"
 
-#: modules/curlew.py:1677
+#: modules/curlew.py:1676
 msgid "Select subtitle"
 msgstr "選擇字幕"
 
-#: modules/curlew.py:1680
+#: modules/curlew.py:1679
 msgid "_Add"
 msgstr ""
 
-#: modules/curlew.py:1685
+#: modules/curlew.py:1684
 msgid "Subtitle files"
 msgstr "字幕檔"
 
-#: modules/curlew.py:1787 modules/curlew.py:1994
+#: modules/curlew.py:1786 modules/curlew.py:1993
 msgid "Wait..."
 msgstr "等待..."
 
-#: modules/curlew.py:1868
+#: modules/curlew.py:1867
 msgid "Done!"
 msgstr "完成！"
 
-#: modules/curlew.py:1886
+#: modules/curlew.py:1885
 msgid "Failed!"
 msgstr "失敗！"
 
-#: modules/curlew.py:2222
+#: modules/curlew.py:2221
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will shutdown after {} sec.</"
 "span>"
 msgstr "<span foreground=\"red\" weight=\"bold\">在 {} 秒後，系統關閉。</span>"
 
-#: modules/curlew.py:2235
+#: modules/curlew.py:2234
 msgid ""
 "<span foreground=\"red\" weight=\"bold\">System will suspend after {} sec.</"
 "span>"
 msgstr ""
 "<span foreground=\"red\" weight=\"bold\"> 在 {} 秒後，系統將暫停。</span>"
 
-#: modules/curlew.py:2312
+#: modules/curlew.py:2311
 msgid ""
 "<b>Duration:</b> {}\n"
 "<b>Size:</b> {}\n"
@@ -722,28 +722,28 @@ msgstr ""
 "<b>大小：</b> {}\n"
 "<b>擴展：</b> {}\n"
 
-#: modules/curlew.py:2356
+#: modules/curlew.py:2355
 msgid "Please install \"mediainfo\" package."
 msgstr ""
 
-#: modules/curlew.py:2437
+#: modules/curlew.py:2436
 msgid "Play"
 msgstr ""
 
-#: modules/curlew.py:2440
+#: modules/curlew.py:2439
 #, fuzzy
 msgid "_Preview"
 msgstr "預覽"
 
-#: modules/curlew.py:2446
+#: modules/curlew.py:2445
 msgid "Browse source"
 msgstr ""
 
-#: modules/curlew.py:2449
+#: modules/curlew.py:2448
 msgid "Browse destination"
 msgstr "瀏覽目的地"
 
-#: modules/curlew.py:2477
+#: modules/curlew.py:2476
 #, fuzzy
 msgid "Choose Encoder"
 msgstr "選擇其他名稱"
