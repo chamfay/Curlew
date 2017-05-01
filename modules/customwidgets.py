@@ -131,13 +131,14 @@ class LabeledHBox(Gtk.Box):
 
 
 class LabeledGrid(Gtk.Grid):
-    def __init__(self, container):
+    def __init__(self, container=None):
         Gtk.Grid.__init__(self)
         self.set_column_spacing(2)
         self.set_row_spacing(4)
         self.set_row_homogeneous(False)
         self._n_childs = 0
-        container.pack_start(self, False, False, 0)
+        if container:
+            container.pack_start(self, False, False, 0)
         
     def append_row(self, label, widget, expanded=False):
         _label = Gtk.Label(label, use_markup=True)

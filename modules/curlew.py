@@ -769,6 +769,22 @@ class Curlew(Gtk.ApplicationWindow):
         self.pad = SpinsFrame(_('Pad'))
         self.vb_crop.pack_start(self.pad, False, False, 0)
         
+        # Filters page
+        grid_filters = LabeledGrid()
+        grid_filters.set_border_width(5)
+        self.note.append_page(grid_filters, Gtk.Label(_('Filters')))
+        grid_filters.append_title('Fade In / Fade Out:')
+        self.spin_fade = Gtk.SpinButton().new_with_range(0, 20, 1)
+        grid_filters.append_row(_('Duration (sec)'), self.spin_fade, False)
+        
+        self.cmb_fade_pos = ComboWithEntry(False)
+        self.cmb_fade_pos.set_list([_('At the beginning'), _('At the end'), _('Both')])
+        grid_filters.append_row(_('Position'), self.cmb_fade_pos, False)
+        
+        self.cmb_fade_type = ComboWithEntry(False)
+        self.cmb_fade_type.set_list([_('Audio'), _('Video'), _('Both')])
+        grid_filters.append_row(_('Type'), self.cmb_fade_type, False)
+        
         
         #--- "More" page
         self.vb_more = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
@@ -1324,7 +1340,62 @@ abort conversion process?'),
         # Extract Audio
         if media_type in ['audio', 'ogg']:
             cmd.append('-vn')
-        
+
+       
+        # Fade filter
+        if self.spin_fade.get_value() != 0:
+            d = self.spin_fade.get_value()
+            st = self.get_duration(input_file) - d
+            
+            cmd_fa_b = 'afade=t=in:ss=0:d={}'.format(d)
+            cmd_fa_e = 'afade=t=out:st={0}:d={1}'.format(st, d)
+            cmd_fa_a = 'afade=t=in:ss=0:d={0},afade=t=out:st={1}:d={0}'.format(d, st)
+            
+            cmd_fv_b = 'fade=in:st=0:d={}'.format(d)
+            cmd_fv_e = 'fade=out:st={0}:d={1}'.format(st, d)
+            cmd_fv_a = 'fade=in:st=0:d={0},fade=out:st={1}:d={0}'.format(d, st)
+            
+            #--- is fade active
+            if self.spin_fade.get_value() != 0:
+                
+                #if audio
+                if self.cmb_fade_type.get_active()  ==  0:
+                    fade_a_strs = ['-af']
+                    if self.cmb_fade_pos.get_active()  ==  0:
+                        fade_a_strs.append(cmd_fa_b)
+                    elif self.cmb_fade_pos.get_active() == 1:
+                        fade_a_strs.append(cmd_fa_e)
+                    elif self.cmb_fade_pos.get_active() == 2:
+                        fade_a_strs.append(cmd_fa_a)
+                    cmd.extend(fade_a_strs)
+                
+                # if video
+                elif self.cmb_fade_type.get_active() == 1:
+                    fade_v_strs = ['-vf']
+                    if self.cmb_fade_pos.get_active()  ==  0:
+                        fade_v_strs.append(cmd_fv_b)
+                    elif self.cmb_fade_pos.get_active() == 1:
+                        fade_v_strs.append(cmd_fv_e)
+                    elif self.cmb_fade_pos.get_active() == 2:
+                        fade_v_strs.append(cmd_fv_a)
+                    cmd.extend(fade_v_strs)
+                
+                # video and audio
+                elif self.cmb_fade_type.get_active() == 2:
+                    fade_a_strs = ['-af']
+                    fade_v_strs = ['-vf']
+                    if self.cmb_fade_pos.get_active()  ==  0:
+                        fade_a_strs.append(cmd_fa_b)
+                        fade_v_strs.append(cmd_fv_b)
+                    elif self.cmb_fade_pos.get_active() == 1:
+                        fade_a_strs.append(cmd_fa_e)
+                        fade_v_strs.append(cmd_fv_e)
+                    elif self.cmb_fade_pos.get_active() == 2:
+                        fade_a_strs.append(cmd_fa_a)
+                        fade_v_strs.append(cmd_fv_a)
+                    cmd.extend(fade_a_strs)
+                    cmd.extend(fade_v_strs)
+
 
         # Video opts
         if media_type == 'video':
@@ -1376,6 +1447,7 @@ abort conversion process?'),
             if filters:
                 cmd.append('-vf')
                 cmd.append(','.join(filters))
+            
         
         # Audio
         if media_type in ['audio', 'video', 'ogg', 'ogv']:
@@ -1438,7 +1510,7 @@ abort conversion process?'),
         
         #--- Last
         cmd.append(out_file)
-        print(' '.join(cmd))
+        print(' '.join(cmd))       
         return cmd
 
     #--- Convert funtcion
