@@ -1049,6 +1049,12 @@ class Curlew(Gtk.ApplicationWindow):
         if event.keyval == Gdk.KEY_Escape:
             self.is_preview = False
             self.on_btn_stop_clicked()
+        # Paste (Control + V)
+        elif event.keyval == 118:
+            clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
+            uris = clip.wait_for_uris()
+            if uris:
+                self.add_files(*uris)
     
     def on_window_state (self, w, e):
         mask = Gdk.WindowState.MAXIMIZED
