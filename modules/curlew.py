@@ -89,6 +89,11 @@ C_STAT = 8  # Stat string
 C_PULS = 9  # Pulse
 C_FILE = 10  # complete file name 'complete_path/file.ext'
 
+# Stack children
+CHILD_WELCOME = 'welcome'
+CHILD_FILES = 'files'
+CHILD_ADVANCED = 'advanced'
+CHILD_INFOS = 'infos'
 
 #--- Main class        
 class Curlew(Gtk.ApplicationWindow):
@@ -96,18 +101,16 @@ class Curlew(Gtk.ApplicationWindow):
     def on_codec_changed(self, *w):
         msg = _('<span color="red"><i><b>{}</b> Codec not found!</i></span>')
         acodec = self.c_acodec.get_active_text()
-        if acodec != 'default':
-            if check_codec(self.encoder, acodec):
-                self.l_acodec.set_text('')
-            else:
-                self.l_acodec.set_markup(msg.format(acodec))
+        if check_codec(self.encoder, acodec):
+            self.l_acodec.set_text('')
+        else:
+            self.l_acodec.set_markup(msg.format(acodec))
 
         vcodec = self.c_vcodec.get_active_text()
-        if vcodec != 'default':
-            if check_codec(self.encoder, vcodec):
-                self.l_vcodec.set_text('')
-            else:
-                self.l_vcodec.set_markup(msg.format(vcodec))
+        if check_codec(self.encoder, vcodec):
+            self.l_vcodec.set_text('')
+        else:
+            self.l_vcodec.set_markup(msg.format(vcodec))
      
     def on_link_clicked(self, w):
         dlg = CodecsDialog(self, self.encoder, self.link_label, self.csd)
@@ -329,7 +332,12 @@ class Curlew(Gtk.ApplicationWindow):
         # Convert/Stop
         box_convert = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         Gtk.StyleContext.add_class(box_convert.get_style_context(), "linked")
-        self.header.pack_start(box_convert)
+        
+        # Toggle options
+        self.toggle_opts = ToggleBtnWithIcon('emblem-system-symbolic')
+        self.toggle_opts.set_tooltip_text(_('Advanced Options'))
+        self.toggle_opts.connect('toggled', self.on_opts_toggled)
+        self.header.pack_start(self.toggle_opts)
         
         self.btn_convert = Gtk.Button(_('Convert'))
         self.btn_convert.set_tooltip_text(_('Start Conversion'))
@@ -340,6 +348,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.btn_stop.set_tooltip_text(_('Stop Conversion'))
         self.btn_stop.connect('clicked', self.on_btn_stop_clicked)
         box_convert.pack_start(self.btn_stop, False, False, 0)
+        self.header.pack_start(box_convert)
         
         
         # About button
@@ -348,23 +357,15 @@ class Curlew(Gtk.ApplicationWindow):
         self.btn_about.connect('clicked', self.on_btn_about_clicked)
         self.header.pack_end(self.btn_about)
         
-        # Toggle options
-        self.toggle_opts = ToggleBtnWithIcon('emblem-system-symbolic')
-        self.toggle_opts.set_tooltip_text(_('Advanced Options'))
-        self.toggle_opts.connect('toggled', self.on_opts_toggled)
-        self.header.pack_start(self.toggle_opts)
-        
-        
         # Stack
         self.stack = Gtk.Stack()
         self.stack.set_transition_duration(500)
         self.stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
         
-        
         #--- Welcome page
         sw_welcome = Gtk.ScrolledWindow(border_width=4,
                                         shadow_type=Gtk.ShadowType.ETCHED_IN)
-        self.stack.add(sw_welcome)
+        self.stack.add_named(sw_welcome, CHILD_WELCOME)
         
 
         lbl_welcome = Gtk.Label(_('<b><span size="xx-large">Welcome to Curlew Multimedia Converter!</span></b>'),
@@ -426,7 +427,7 @@ class Curlew(Gtk.ApplicationWindow):
         scroll.add(self.tree)
         
         self.paned = Gtk.Paned()
-        self.stack.add(self.paned)
+        self.stack.add_named(self.paned, CHILD_FILES)
         
         vbox_global.pack_start(self.stack, True, True, 0)
         
@@ -579,7 +580,7 @@ class Curlew(Gtk.ApplicationWindow):
         #--- advanced options
         self.note = Gtk.Notebook()
         self.note.set_border_width(4)
-        self.stack.add(self.note)
+        self.stack.add_named(self.note, CHILD_ADVANCED)
         
         #--- audio page
         self.vb_audio = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
@@ -846,7 +847,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.txt_buffer_info = Gtk.TextBuffer()
         self.txt_info.set_buffer(self.txt_buffer_info)
         
-        self.stack.add(self.scroll_info)
+        self.stack.add_named(self.scroll_info, CHILD_INFOS)
         
         
         #TODO: add error log page (replaced error dialog).
@@ -1153,9 +1154,9 @@ abort conversion process?'),
                                            ])
         
         wait_dlg.destroy()
-        self.stack.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
-        self.stack.set_visible_child(self.paned)
-        self.stack.set_transition_type(Gtk.StackTransitionType.SLIDE_UP_DOWN)
+        
+        self.stack.set_visible_child_full(CHILD_FILES,
+                                          Gtk.StackTransitionType.CROSSFADE)
         
         return dirname(file_name) + os.sep
     
@@ -1466,11 +1467,11 @@ abort conversion process?'),
         acodec = self.c_acodec.get_active_text()
         if not check_codec(self.encoder, acodec):
             codec_txts = [_('"{}" audio codec not found.').format(acodec)]
-        
+         
         vcodec = self.c_vcodec.get_active_text()
         if not check_codec(self.encoder, vcodec):
             codec_txts.append(_('"{}" video codec not found.').format(vcodec))
-        
+         
         if codec_txts:
             self.info_bar.show_message('\n'.join(codec_txts))
             return
@@ -2358,14 +2359,13 @@ abort conversion process?'),
         
         # Show info
         is_active = not widget.get_active()
-        
         if widget.get_active():
-            self.stack.set_visible_child(self.scroll_info)
+            self.stack.set_visible_child_name(CHILD_INFOS)
             input_file = self.store[Iter][C_FILE]
             buf = check_output('mediainfo "{}"'.format(input_file), shell=True, universal_newlines=True)
             self.txt_buffer_info.set_text(buf)
         else:
-            self.stack.set_visible_child(self.paned)
+            self.stack.set_visible_child_name(CHILD_FILES)
         
         self.txt_info.set_visible(not is_active)
         self.btn_add_file.set_sensitive(is_active)
@@ -2461,10 +2461,10 @@ abort conversion process?'),
         is_active = not toggle.get_active()
         # Show options
         if toggle.get_active():
-            self.stack.set_visible_child(self.note)
+            self.stack.set_visible_child_name(CHILD_ADVANCED)
         # Show files list
         else:
-            self.stack.set_visible_child(self.paned)
+            self.stack.set_visible_child_name(CHILD_FILES)
         
         self.btn_add_file.set_sensitive(is_active)
         self.btn_add_folder.set_sensitive(is_active)

@@ -75,6 +75,7 @@ def get_available_codecs(encoder):
     return codecs
 
 def check_codec(encoder, codec):
+    if codec in ['default', 'copy']: return True
     new_codec = ' {} '.format(codec)
     codecs = get_available_codecs(encoder)
     if new_codec in codecs:
