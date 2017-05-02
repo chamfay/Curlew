@@ -94,6 +94,7 @@ CHILD_WELCOME = 'welcome'
 CHILD_FILES = 'files'
 CHILD_ADVANCED = 'advanced'
 CHILD_INFOS = 'infos'
+CHILD_ERRORS = 'errors'
 
 #--- Main class        
 class Curlew(Gtk.ApplicationWindow):
@@ -342,11 +343,13 @@ class Curlew(Gtk.ApplicationWindow):
         self.btn_convert = Gtk.Button(_('Convert'))
         self.btn_convert.set_tooltip_text(_('Start Conversion'))
         self.btn_convert.connect('clicked', self.on_convert_cb)
+        self.btn_convert.get_style_context().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION)
         box_convert.pack_start(self.btn_convert, False, False, 0)
         
         self.btn_stop = ButtonWithIcon('process-stop-symbolic')
         self.btn_stop.set_tooltip_text(_('Stop Conversion'))
         self.btn_stop.connect('clicked', self.on_btn_stop_clicked)
+        self.btn_stop.get_style_context().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         box_convert.pack_start(self.btn_stop, False, False, 0)
         self.header.pack_start(box_convert)
         
