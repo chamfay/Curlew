@@ -145,7 +145,7 @@ class LabeledGrid(Gtk.Grid):
         _label.set_alignment(0.0, 0.5)
         _hbox = Gtk.Box()
         _hbox.set_hexpand(True)
-        _hbox.pack_start(widget, expanded, expanded, 0)
+        _hbox.pack_start(widget, expanded, expanded, 8)
         self.attach(_label, 0, self._n_childs, 1, 1)
         self.attach(_hbox, 1, self._n_childs, 1, 1)
         self._n_childs += 1
@@ -154,6 +154,10 @@ class LabeledGrid(Gtk.Grid):
         _label = Gtk.Label('<b>{}</b>'.format(label), use_markup=True)
         _label.set_alignment(0, 0.5)
         self.attach(_label, 0, self._n_childs, 1, 1)
+        self._n_childs += 1
+    
+    def append_widget(self, widget):
+        self.attach(widget, 0, self._n_childs, 2, 1)
         self._n_childs += 1
 
 

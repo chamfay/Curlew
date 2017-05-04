@@ -96,6 +96,11 @@ CHILD_ADVANCED = 'advanced'
 CHILD_INFOS = 'infos'
 CHILD_ERRORS = 'errors'
 
+# Task type
+TASK_CONVERT = 0
+TASK_MERGE   = 1
+TASK_GIF     = 2
+
 #--- Main class        
 class Curlew(Gtk.ApplicationWindow):
     
@@ -239,6 +244,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.errs_nbr = 0
         self.pass_nbr = 0
         self.play_process = None
+        self.task_type = TASK_CONVERT
         
         '''
         self.pass_nbr = 0: Single pass encoding option
@@ -341,15 +347,45 @@ class Curlew(Gtk.ApplicationWindow):
         self.header.pack_start(self.toggle_opts)
         
         self.btn_convert = Gtk.Button(_('Convert'))
+        self.btn_convert.set_size_request(90, -1)
         self.btn_convert.set_tooltip_text(_('Start Conversion'))
         self.btn_convert.connect('clicked', self.on_convert_cb)
-        self.btn_convert.get_style_context().add_class (Gtk.STYLE_CLASS_SUGGESTED_ACTION)
+        self.btn_convert.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
         box_convert.pack_start(self.btn_convert, False, False, 0)
+        
+        # Switch button (Convert/Merge)
+        self.btn_sw = Gtk.MenuButton()
+        self.btn_sw.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
+        box_convert.pack_start(self.btn_sw, False, False, 0)
+        
+        #-----------------------------------
+        
+        menu = Gio.Menu()
+        self.btn_sw.set_menu_model(menu)
+        
+        action_con = Gio.SimpleAction.new('convert', None)
+        action_con.connect('activate', self.convert_files_cb)
+        
+        action_mer = Gio.SimpleAction.new('merge', None)
+        action_mer.connect('activate', self.merge_files_cb)
+        
+        #action_gif = Gio.SimpleAction.new('make-gif', None)
+        #action_gif.connect('activate', self.make_gif_cb)
+        
+        self.add_action(action_con)
+        self.add_action(action_mer)
+        #self.add_action(action_gif)
+        
+        menu.append('Convert', 'win.convert')
+        menu.append('Merge', 'win.merge')
+        #menu.append('Make GIF', 'win.make-gif')
+        
+        #-----------------------------------
         
         self.btn_stop = ButtonWithIcon('process-stop-symbolic')
         self.btn_stop.set_tooltip_text(_('Stop Conversion'))
         self.btn_stop.connect('clicked', self.on_btn_stop_clicked)
-        self.btn_stop.get_style_context().add_class (Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
+        self.btn_stop.get_style_context().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         box_convert.pack_start(self.btn_stop, False, False, 0)
         self.header.pack_start(box_convert)
         
@@ -760,34 +796,40 @@ class Curlew(Gtk.ApplicationWindow):
         # grid_sub.append_row(_('Delay: '), self.hb_delay)
         
         
-        #--- Crop/Pad page
-        self.vb_crop = Gtk.Box(spacing=5, border_width=5, orientation=Gtk.Orientation.VERTICAL)
-        self.note.append_page(self.vb_crop, Gtk.Label(_('Crop / Pad')))
-        
-        # Cropping video
-        self.crop = SpinsFrame(_('Crop'))
-        self.vb_crop.pack_start(self.crop, False, False, 0)
-        
-        # Padding video
-        self.pad = SpinsFrame(_('Pad'))
-        self.vb_crop.pack_start(self.pad, False, False, 0)
-        
         # Filters page
+        # -- Fade Filter
         grid_filters = LabeledGrid()
         grid_filters.set_border_width(5)
         self.note.append_page(grid_filters, Gtk.Label(_('Filters')))
-        grid_filters.append_title('Fade In / Fade Out:')
+        
+        grid_filters.append_title('Fade In / Fade Out')
         self.spin_fade = Gtk.SpinButton().new_with_range(0, 20, 1)
-        grid_filters.append_row(_('Duration (sec)'), self.spin_fade, False)
+        hbox_fade = Gtk.Box(spacing=8)
+        grid_filters.append_widget(hbox_fade)
+        
+        hbox_fade.add(Gtk.Label(_('Duration (sec)')))
+        hbox_fade.add(self.spin_fade)
         
         self.cmb_fade_pos = ComboWithEntry(False)
         self.cmb_fade_pos.set_list([_('At the beginning'), _('At the end'), _('Both')])
-        grid_filters.append_row(_('Position'), self.cmb_fade_pos, False)
+        hbox_fade.add(Gtk.Label(_('Position')))
+        hbox_fade.add(self.cmb_fade_pos)
         
         self.cmb_fade_type = ComboWithEntry(False)
         self.cmb_fade_type.set_list([_('Audio'), _('Video'), _('Both')])
-        grid_filters.append_row(_('Type'), self.cmb_fade_type, False)
+        hbox_fade.add(Gtk.Label(_('Type')))
+        hbox_fade.add(self.cmb_fade_type)
         
+        # -- Crop/Pad Filters        
+        grid_filters.append_title('Crop / Pad')
+        
+        # Cropping
+        self.crop = SpinsFrame(_('Crop'))
+        grid_filters.append_widget(self.crop)
+        
+        # Padding
+        self.pad = SpinsFrame(_('Pad'))
+        grid_filters.append_widget(self.pad)
         
         #--- "More" page
         self.vb_more = Gtk.Box(spacing=4, border_width=5, orientation=Gtk.Orientation.VERTICAL)
@@ -1253,7 +1295,8 @@ abort conversion process?'),
         self.frame_sub.set_sensitive(sens[media_type][2])  # Subtitle page
         self.hb_aqual.set_sensitive(sens[media_type][3])  # Audio quality slider (ogg)
         self.hb_vqual.set_sensitive(sens[media_type][4])  # video Quality slider (ogv)
-        self.vb_crop.set_sensitive(sens[media_type][5])  # Crop/Pad page
+        self.crop.set_sensitive(sens[media_type][5])
+        self.pad.set_sensitive(sens[media_type][5])
     
     
     #--- fill options widgets
@@ -1519,7 +1562,7 @@ abort conversion process?'),
         
         #--- Last
         cmd.append(out_file)
-        print(' '.join(cmd))       
+        #print(' '.join(cmd))       
         return cmd
 
     #--- Convert funtcion
@@ -1540,6 +1583,11 @@ abort conversion process?'),
             self.toggle_opts.set_active(True)
             self.set_focus(self.e_dest)
             self.note.set_current_page(6)
+            return
+        
+        # Merging
+        if self.task_type == TASK_MERGE:
+            self.merge_files()
             return
         
         # Invalid audio and video codecs
@@ -1575,9 +1623,6 @@ abort conversion process?'),
         
 
     def convert_file(self):
-        output_format = self.btn_formats.get_label()
-        f_type = self.f_file.get(output_format, 'type')
-        ext = self.f_file.get(output_format, 'ext')
         
         #--- Check
         if self.tree_iter != None:
@@ -1599,6 +1644,10 @@ abort conversion process?'),
                 return    
             
             #----------------------------
+            output_format = self.btn_formats.get_label()
+            f_type = self.f_file.get(output_format, 'type')
+            ext = self.f_file.get(output_format, 'ext')
+
             if f_type == 'copy':
                 ext = splitext(basename(input_file))[1][1:]
 
@@ -2167,7 +2216,8 @@ abort conversion process?'),
         self.vb_video.set_sensitive(sens)
         self.vb_sub.set_sensitive(sens)
         self.vb_more.set_sensitive(sens)
-        self.vb_crop.set_sensitive(sens) 
+        self.crop.set_sensitive(sens)
+        self.pad.set_sensitive(sens)
     
     def save_states(self):
         conf = GLib.KeyFile()
@@ -2571,6 +2621,50 @@ abort conversion process?'),
                 self.cmb_encoder.set_text(file_name)
         #
         open_dlg.destroy()
+    
+    
+    def merge_files_cb(self, widget, a):
+        self.btn_convert.set_label(_('Merge'))
+        self.task_type = TASK_MERGE
+    
+    def convert_files_cb(self, widget, a):
+        self.btn_convert.set_label(_('Convert'))
+        self.task_type = TASK_CONVERT
+        
+    def make_gif_cb(self, widget, a):
+        self.btn_convert.set_label(_('Make GIF'))
+        self.task_type = TASK_GIF
+    
+    
+    #--- Merge function
+    #TODO: merge...
+    def merge_files(self):
+        files_to_merge = ''
+        input_file = ''
+        for line in self.store:
+            input_file = line[10]
+            files_to_merge += "file '{}'\n".format(input_file)
+        
+        tmp_file = '/tmp/to_be_merged.txt'
+        with open(tmp_file, 'w') as log:
+            log.write(files_to_merge)
+        
+        # Output file
+        ext = splitext(input_file)[1]
+        part = 'all_in_one' + ext
+        
+        # Same destination as source file
+        if self.cb_dest.get_active():
+            out_file = join(dirname(input_file), part)
+        # Use entry destination path
+        else:
+            out_file = join(self.e_dest.get_text(), part)
+
+        cmd = [self.encoder, '-y', '-f', 'concat', '-safe', '0', '-i', tmp_file,
+               '-c', 'copy', out_file]
+        print((cmd))
+        call(cmd, shell=False)
+        print('Merging Done.')
             
 
 
