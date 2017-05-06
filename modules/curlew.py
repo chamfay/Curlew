@@ -383,7 +383,7 @@ class Curlew(Gtk.ApplicationWindow):
         #-----------------------------------
         
         self.btn_stop = ButtonWithIcon('process-stop-symbolic')
-        self.btn_stop.set_tooltip_text(_('Stop Conversion'))
+        self.btn_stop.set_tooltip_text(_('Stop Process'))
         self.btn_stop.connect('clicked', self.on_btn_stop_clicked)
         self.btn_stop.get_style_context().add_class(Gtk.STYLE_CLASS_DESTRUCTIVE_ACTION)
         box_convert.pack_start(self.btn_stop, False, False, 0)
@@ -1008,6 +1008,10 @@ class Curlew(Gtk.ApplicationWindow):
         
         hbox = Gtk.Box(spacing=4)
         grid_output.append_row(_('Destination:'), hbox, True)
+        
+        self.entry_merged_file = Gtk.Entry()
+        grid_output.append_row(_('Output Filename:'), self.entry_merged_file, True)
+        self.entry_merged_file.set_text('Merged_Files')
         
         # Replace/Skip/Rename
         self.cmb_exist = ComboWithEntry(False)
@@ -2625,14 +2629,17 @@ abort conversion process?'),
     
     def merge_files_cb(self, widget, a):
         self.btn_convert.set_label(_('Merge'))
+        self.btn_convert.set_tooltip_text(_('Start Merging'))
         self.task_type = TASK_MERGE
     
     def convert_files_cb(self, widget, a):
         self.btn_convert.set_label(_('Convert'))
+        self.btn_convert.set_tooltip_text(_('Start Conversion'))
         self.task_type = TASK_CONVERT
         
     def make_gif_cb(self, widget, a):
         self.btn_convert.set_label(_('Make GIF'))
+        self.btn_convert.set_tooltip_text(_('Make GIF file'))
         self.task_type = TASK_GIF
     
     
@@ -2651,7 +2658,7 @@ abort conversion process?'),
         
         # Output file
         ext = splitext(input_file)[1]
-        part = 'all_in_one' + ext
+        part = self.entry_merged_file.get_text() + ext
         
         # Same destination as source file
         if self.cb_dest.get_active():
