@@ -56,6 +56,7 @@ try:
     ORG_FFILE, USR_FFILE, SOUND_FILE
     from modules.configs import get_b_config, get_s_config
     from modules.players import choose_player
+    from modules.runaction import RunAction, CODE_STOPPED, CODE_SUCCESS
 except Exception as e:
     print(e)
     sys.exit(1)
@@ -95,6 +96,7 @@ CHILD_FILES = 'files'
 CHILD_ADVANCED = 'advanced'
 CHILD_INFOS = 'infos'
 CHILD_ERRORS = 'errors'
+CHILD_MERGE = 'merge'
 
 # Task type
 TASK_CONVERT = 0
@@ -236,6 +238,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.curr_open_folder = HOME
         self.curr_save_folder = HOME
         self.is_converting = False
+        self.is_merging = False
         self.fp = None
         self.tree_iter = None
         self.total_duration = 0.0
@@ -389,13 +392,6 @@ class Curlew(Gtk.ApplicationWindow):
         box_convert.pack_start(self.btn_stop, False, False, 0)
         self.header.pack_start(box_convert)
         
-        
-        # About button
-        self.btn_about = ButtonWithIcon('help-about-symbolic')
-        self.btn_about.set_tooltip_text(_('About Curlew'))
-        self.btn_about.connect('clicked', self.on_btn_about_clicked)
-        self.header.pack_end(self.btn_about)
-        
         # Stack
         self.stack = Gtk.Stack()
         self.stack.set_transition_duration(500)
@@ -437,6 +433,21 @@ class Curlew(Gtk.ApplicationWindow):
         
         btn_files.connect('clicked', self.add_file_cb)
         btn_folders.connect('clicked', self.on_add_folder_clicked)
+        
+        #--- Merge page        
+        vb_merge = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, border_width=8)
+        self.stack.add_named(vb_merge, CHILD_MERGE)
+        
+        vb_widgets = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+        vb_merge.pack_start(vb_widgets, True, False, 0)
+        
+        self.lbl_merge_status = Gtk.Label(use_markup=True)
+        self.pb_merge = Gtk.ProgressBar()
+        self.lbl_merge_details = Gtk.Label()
+        
+        vb_widgets.pack_start(self.lbl_merge_status, True, False, 0)
+        vb_widgets.pack_start(self.pb_merge, True, False, 0)
+        vb_widgets.pack_start(self.lbl_merge_details, True, False, 0)
         
         
         #--- List of files
@@ -1011,7 +1022,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         self.entry_merged_file = Gtk.Entry()
         grid_output.append_row(_('Output Filename:'), self.entry_merged_file, True)
-        self.entry_merged_file.set_text('Merged_Files')
+        self.entry_merged_file.set_text('output_file')
         
         # Replace/Skip/Rename
         self.cmb_exist = ComboWithEntry(False)
@@ -1373,7 +1384,7 @@ abort conversion process?'),
         section = self.btn_formats.get_label()
         media_type = self.f_file.get(section, 'type')
         
-        cmd = [self.encoder, '-y']  # , '-xerror']
+        cmd = [self.encoder, '-y', '-hide_banner']  # , '-xerror']
         
         # Bad index
         if self.cb_bad_indx.get_active():
@@ -1623,6 +1634,9 @@ abort conversion process?'),
         self._start_time = time.time()
         GObject.timeout_add(100, self._on_elapsed_timer)
         
+        self.btn_sw.set_sensitive(False)
+        self.btn_convert.set_sensitive(False)
+        
         self.convert_file()
         
 
@@ -1750,23 +1764,29 @@ abort conversion process?'),
     
     #--- Stop conversion cb
     def on_btn_stop_clicked(self, *args):
-        if self.is_converting == True:
-            resp = show_message(self,
-                                _('Do you want to stop conversion process?'),
-                                Gtk.MessageType.QUESTION,
-                                Gtk.ButtonsType.YES_NO)
-            if resp == Gtk.ResponseType.YES and self.is_converting == True:
-                try:
-                    if self.fp:
-                        self.fp.kill()
-                except OSError as err:
-                    print(err)
-                finally:
-                    self.is_converting = False
-                    self.enable_controls(True)
-                    self.label_details.set_text('')
-                    self.toggle_opts.set_active(False)
-                return True
+        # stop conversion task
+        if self.task_type == TASK_CONVERT:
+            if self.is_converting == True:
+                resp = show_message(self,
+                                    _('Do you want to stop conversion process?'),
+                                    Gtk.MessageType.QUESTION,
+                                    Gtk.ButtonsType.YES_NO)
+                if resp == Gtk.ResponseType.YES and self.is_converting == True:
+                    try:
+                        if self.fp:
+                            self.fp.kill()
+                    except OSError as err:
+                        print(err)
+                    finally:
+                        self.is_converting = False
+                        self.enable_controls(True)
+                        self.label_details.set_text('')
+                        self.toggle_opts.set_active(False)
+                    return True
+        # stop mergin task
+        elif self.task_type == TASK_MERGE:
+            self.merge_task.stop()
+        
                     
     
     def new_name(self, filename):
@@ -2030,6 +2050,9 @@ abort conversion process?'),
             
             # Conversion stopped
             elif err_code == 9:
+                print('hh')
+                self.btn_convert.set_sensitive(True)
+                self.btn_sw.set_sensitive(True)
                 # Remove uncompleted file
                 self.force_delete_file(out_file)
                 return
@@ -2038,8 +2061,11 @@ abort conversion process?'),
             self.is_converting = False
             
         if self.tree_iter == None:
+            print('bb')
             self.enable_controls(True)
             self.label_details.set_text('')
+            self.btn_convert.set_sensitive(True)
+            self.btn_sw.set_sensitive(True)
             # Play sound
             if self.cb_play.get_active() and err_code==0:
                 self.play_sound(SOUND_FILE)
@@ -2209,12 +2235,13 @@ abort conversion process?'),
         except:
             return '4:3'
     
-    def enable_controls(self, sens=True):
+    def enable_controls(self, sens=True, merging=False):
         self.btn_formats.set_sensitive(sens)
         self.mb_fav.set_sensitive(sens)
         self.e_dest.set_sensitive(sens)
         self.b_dest.set_sensitive(sens)
         self.cb_dest.set_sensitive(sens)
+        self.btn_fav.set_sensitive(sens)
         
         self.vb_audio.set_sensitive(sens)
         self.vb_video.set_sensitive(sens)
@@ -2222,6 +2249,14 @@ abort conversion process?'),
         self.vb_more.set_sensitive(sens)
         self.crop.set_sensitive(sens)
         self.pad.set_sensitive(sens)
+        
+        if merging:
+            self.btn_add_file.set_sensitive(sens)
+            self.btn_add_folder.set_sensitive(sens)
+            self.btn_clear.set_sensitive(sens)
+            self.btn_remove.set_sensitive(sens)
+            self.toggle_opts.set_sensitive(sens)
+            self.btn_info.set_sensitive(sens)
     
     def save_states(self):
         conf = GLib.KeyFile()
@@ -2644,14 +2679,18 @@ abort conversion process?'),
     
     
     #--- Merge function
-    #TODO: merge...
     def merge_files(self):
+        if self.is_merging:
+            return
         files_to_merge = ''
         input_file = ''
+        # self.total_files_size: size of files to be merged
+        self.total_files_size = 0
         for line in self.store:
             input_file = line[10]
+            self.total_files_size += getsize(input_file)
             files_to_merge += "file '{}'\n".format(input_file)
-        
+
         tmp_file = '/tmp/to_be_merged.txt'
         with open(tmp_file, 'w') as log:
             log.write(files_to_merge)
@@ -2666,13 +2705,42 @@ abort conversion process?'),
         # Use entry destination path
         else:
             out_file = join(self.e_dest.get_text(), part)
-
+        
+        self.out_file_merged = out_file
         cmd = [self.encoder, '-y', '-f', 'concat', '-safe', '0', '-i', tmp_file,
                '-c', 'copy', out_file]
-        print((cmd))
-        call(cmd, shell=False)
-        print('Merging Done.')
-            
+
+        self.merge_task = RunAction(cmd)
+        self.merge_task.run(self.merge_status, self.merge_end)
+        
+        self.btn_sw.set_sensitive(False)
+        self.btn_convert.set_sensitive(False)
+        self.enable_controls(False, True)
+        
+        self.stack.set_visible_child_name(CHILD_MERGE)
+        self.lbl_merge_status.set_markup(_('<i>Merging files, please wait...</i>'))
+        self.lbl_merge_details.set_markup(_('<i>Percent: 0%</i>'))
+        self.pb_merge.set_fraction(0.0)
+        
+    
+    def merge_status(self, line):
+        #TODO: Show progress.
+        out_file_size = getsize(self.out_file_merged)
+        fraction = out_file_size / self.total_files_size
+        self.lbl_merge_details.set_markup(_('<i>Percent: {:.0f}%</i>').format(fraction*100.0))
+        self.pb_merge.set_fraction(fraction)
+        self.is_merging = True
+    
+    def merge_end(self, err_code):
+        if err_code in [CODE_SUCCESS, CODE_STOPPED]:
+            show_message(self, _('Merging operation completed!'), Gtk.MessageType.INFO,
+                         Gtk.ButtonsType.CLOSE)
+            self.stack.set_visible_child_name(CHILD_FILES)
+        
+        self.is_merging = False
+        self.btn_convert.set_sensitive(True)
+        self.btn_sw.set_sensitive(True)
+        self.enable_controls(True, True)
 
 
 class CurlewApp(Gtk.Application):
