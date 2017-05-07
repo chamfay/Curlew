@@ -1652,6 +1652,9 @@ abort conversion process?'),
                 self.store[self.tree_iter][C_STAT] = _("Skipped!")
                 # Jump to next file
                 self.tree_iter = self.store.iter_next(self.tree_iter)
+                if self.tree_iter == None:
+                    self.btn_convert.set_sensitive(True)
+                    self.btn_sw.set_sensitive(True)
                 self.convert_file()
                 return
                      
@@ -2053,9 +2056,9 @@ abort conversion process?'),
             
             # Conversion stopped
             elif err_code == 9:
-                print('hh')
-                self.btn_convert.set_sensitive(True)
-                self.btn_sw.set_sensitive(True)
+                if self.is_converting == False:
+                    self.btn_convert.set_sensitive(True)
+                    self.btn_sw.set_sensitive(True)
                 # Remove uncompleted file
                 self.force_delete_file(out_file)
                 return
@@ -2064,7 +2067,6 @@ abort conversion process?'),
             self.is_converting = False
             
         if self.tree_iter == None:
-            print('bb')
             self.enable_controls(True)
             self.label_details.set_text('')
             self.btn_convert.set_sensitive(True)
