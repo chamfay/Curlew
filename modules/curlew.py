@@ -344,10 +344,10 @@ class Curlew(Gtk.ApplicationWindow):
         Gtk.StyleContext.add_class(box_convert.get_style_context(), "linked")
         
         # Toggle options
-        self.toggle_opts = ToggleBtnWithIcon('emblem-system-symbolic')
-        self.toggle_opts.set_tooltip_text(_('Advanced Options'))
-        self.toggle_opts.connect('toggled', self.on_opts_toggled)
-        self.header.pack_start(self.toggle_opts)
+        self.btn_opts = ToggleBtnWithIcon('emblem-system-symbolic')
+        self.btn_opts.set_tooltip_text(_('Advanced Options'))
+        self.btn_opts.connect('toggled', self.on_opts_toggled)
+        self.header.pack_start(self.btn_opts)
         
         self.btn_convert = Gtk.Button(_('Convert'))
         self.btn_convert.set_size_request(90, -1)
@@ -434,9 +434,12 @@ class Curlew(Gtk.ApplicationWindow):
         btn_files.connect('clicked', self.add_file_cb)
         btn_folders.connect('clicked', self.on_add_folder_clicked)
         
-        #--- Merge page        
+        #--- Merge page
+        scroll_merge = Gtk.ScrolledWindow(border_width=4,
+                                          shadow_type=Gtk.ShadowType.ETCHED_IN)
         vb_merge = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, border_width=8)
-        self.stack.add_named(vb_merge, CHILD_MERGE)
+        scroll_merge.add(vb_merge)
+        self.stack.add_named(scroll_merge, CHILD_MERGE)
         
         vb_widgets = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
         vb_merge.pack_start(vb_widgets, True, False, 0)
@@ -945,7 +948,7 @@ class Curlew(Gtk.ApplicationWindow):
             else:
                 self.info_bar.show_message(_('Please select a player'), Gtk.MessageType.ERROR)
                 self.show_all()
-                self.toggle_opts.set_active(True)
+                self.btn_opts.set_active(True)
                 self.note.set_current_page(4)
                 self.set_focus(self.entry_player)
                     
@@ -1588,14 +1591,14 @@ abort conversion process?'),
         # Invalid path
         if not isdir(self.e_dest.get_text()):
             self.info_bar.show_message(_('Destination path is not valid.'))
-            self.toggle_opts.set_active(True)
+            self.btn_opts.set_active(True)
             self.set_focus(self.e_dest)
             self.note.set_current_page(6)
             return
         # Inaccessible path
         if not os.access(self.e_dest.get_text(), os.W_OK):
             self.info_bar.show_message(_('Destination path is not accessible.'))
-            self.toggle_opts.set_active(True)
+            self.btn_opts.set_active(True)
             self.set_focus(self.e_dest)
             self.note.set_current_page(6)
             return
@@ -1621,7 +1624,7 @@ abort conversion process?'),
             return
         
         # Show files list
-        self.toggle_opts.set_active(False)
+        self.btn_opts.set_active(False)
         
         self.tree_iter = self.store.get_iter_first()
         self.is_converting = True
@@ -1781,9 +1784,9 @@ abort conversion process?'),
                         self.is_converting = False
                         self.enable_controls(True)
                         self.label_details.set_text('')
-                        self.toggle_opts.set_active(False)
+                        self.btn_opts.set_active(False)
                     return True
-        # stop mergin task
+        # stop merging task
         elif self.task_type == TASK_MERGE:
             self.merge_task.stop()
         
@@ -2255,7 +2258,7 @@ abort conversion process?'),
             self.btn_add_folder.set_sensitive(sens)
             self.btn_clear.set_sensitive(sens)
             self.btn_remove.set_sensitive(sens)
-            self.toggle_opts.set_sensitive(sens)
+            self.btn_opts.set_sensitive(sens)
             self.btn_info.set_sensitive(sens)
     
     def save_states(self):
@@ -2543,7 +2546,7 @@ abort conversion process?'),
         self.btn_remove.set_sensitive(is_active)
         self.btn_clear.set_sensitive(is_active)
         self.btn_convert.set_sensitive(is_active)
-        self.toggle_opts.set_sensitive(is_active)
+        self.btn_opts.set_sensitive(is_active)
     
     def on_cb_status_toggled(self, widget):
         is_active = widget.get_active()
@@ -2724,7 +2727,6 @@ abort conversion process?'),
         
     
     def merge_status(self, line):
-        #TODO: Show progress.
         out_file_size = getsize(self.out_file_merged)
         fraction = out_file_size / self.total_files_size
         self.lbl_merge_details.set_markup(_('<i>Percent: {:.0f}%</i>').format(fraction*100.0))
