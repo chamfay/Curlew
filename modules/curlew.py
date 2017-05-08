@@ -45,6 +45,7 @@ try:
     from modules.functions import show_message, get_format_size, \
     duration_to_time, time_to_duration, check_codec
     from modules.logdialog import LogDialog
+    from modules.errdialog import ErrDialog
     from modules.tray import StatusIcon
     from modules.languages import LANGUAGES
     from modules.favdialog import Favorite
@@ -56,7 +57,6 @@ try:
     ORG_FFILE, USR_FFILE, SOUND_FILE
     from modules.configs import get_b_config, get_s_config
     from modules.players import choose_player
-    from modules.runaction import RunAction, CODE_STOPPED, CODE_SUCCESS
 except Exception as e:
     print(e)
     sys.exit(1)
@@ -102,6 +102,11 @@ CHILD_MERGE = 'merge'
 TASK_CONVERT = 0
 TASK_MERGE   = 1
 TASK_GIF     = 2
+
+# Error code
+CODE_SUCCESS = 0
+CODE_STOPPED = 9
+CODE_FAILED = 256
 
 #--- Main class        
 class Curlew(Gtk.ApplicationWindow):
@@ -923,10 +928,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.txt_info.set_buffer(self.txt_buffer_info)
         
         self.stack.add_named(self.scroll_info, CHILD_INFOS)
-        
-        
-        #TODO: add error log page (replaced error dialog).
-        
+                
         
         # Load internal encoder (ffmpeg)
         if exists(INTERNAL_ENCODER):
@@ -1207,9 +1209,9 @@ abort conversion process?'),
         wait_dlg = WaitDialog(self)
         tot = len(files)
         
+        mimetypes.add_type('video/realmedia', '.rmvb')
         for file_name in files:
-            
-            mime = mimetypes.guess_type(file_name)[0]            
+            mime = mimetypes.guess_type(file_name)[0]  
             if mime != None:
                 if 'video/' in mime or 'audio/' in mime:
 
@@ -1745,27 +1747,20 @@ abort conversion process?'),
                 return -1
             
             #--- Watch stdout and stderr
-            GLib.io_add_watch(self.fp.stdout,
-                              GLib.IO_IN | GLib.IO_HUP,
-                              self.on_output, out_file)
+#             GLib.io_add_watch(self.fp.stdout,
+#                               GLib.IO_IN | GLib.IO_HUP,
+#                               self.on_convert_output, out_file)
             GLib.io_add_watch(self.fp.stderr,
-                              GLib.IO_IN | GLib.IO_HUP,
-                              self.on_output, out_file)
+                              GLib.IO_IN | GLib.IO_HUP | GLib.IO_,
+                              self.on_convert_output, out_file)
             #--- On end process
-            GLib.child_watch_add(self.fp.pid, self.on_end, (out_file, full_cmd))
+            GLib.child_watch_add(self.fp.pid, self.on_convert_end, (out_file, full_cmd))
             
         else:
             self.is_converting = False
-
             if self.errs_nbr > 0:
-                resp = show_message(self,
-                                    _('There are some errors occured.\n'
-                                      'Do you want to show more details?'),
-                                    Gtk.MessageType.WARNING,
-                                    Gtk.ButtonsType.YES_NO)
-                if resp == Gtk.ResponseType.YES:
-                    dia = LogDialog(self, ERR_LOG_FILE, self.csd)
-                    dia.show_dialog()
+                dia = LogDialog(self, ERR_LOG_FILE, self.csd)
+                dia.show_dialog()
     
     
     #--- Stop conversion cb
@@ -1791,7 +1786,8 @@ abort conversion process?'),
                     return True
         # stop merging task
         elif self.task_type == TASK_MERGE:
-            self.merge_task.stop()
+            try: self.fp_mrg.kill()
+            except Exception as e: print(e)
         
                     
     
@@ -2008,7 +2004,7 @@ abort conversion process?'),
     
     
     #---- On end conversion
-    def on_end(self, pid, err_code, opts):
+    def on_convert_end(self, pid, err_code, opts):
         (out_file, cmd) = opts
         if self.tree_iter != None:
             # Converion succeed
@@ -2085,14 +2081,17 @@ abort conversion process?'),
         
     
     #--- Catch output 
-    def on_output(self, source, condition, out_file):
+    def on_convert_output(self, source, condition, out_file):
+        #TODO: Fix empty err log file in some cases
         #--- Allow interaction with application widgets.
         self.log = source
-        while Gtk.events_pending():
-            Gtk.main_iteration()
+        
+        #while Gtk.events_pending():
+        #    Gtk.main_iteration()
         
         if self.tree_iter == None:
             return False
+        
         
         #--- Skipped file during conversion (unckecked file during conversion)
         if self.store[self.tree_iter][C_SKIP] == False:
@@ -2121,7 +2120,6 @@ abort conversion process?'),
         except Exception as e:
             print(e)
         
-        self.log = source
         if len(line) > 0:
             # ffmpeg progress
             begin = line.find('time=')
@@ -2359,7 +2357,8 @@ abort conversion process?'),
             # Error details
             f_log.write('\nError detail:\n*************\n')
             f_log.write(self.log.read())
-            f_log.write('\n')
+            
+            f_log.write('\n\n\n')
     
     def on_cb_tray_toggled(self, cb_tray):
         self.trayico.set_visible(cb_tray.get_active())
@@ -2711,12 +2710,16 @@ abort conversion process?'),
         else:
             out_file = join(self.e_dest.get_text(), part)
         
-        self.out_file_merged = out_file
-        cmd = [self.encoder, '-y', '-f', 'concat', '-safe', '0', '-i', tmp_file,
-               '-c', 'copy', out_file]
-
-        self.merge_task = RunAction(cmd)
-        self.merge_task.run(self.merge_status, self.merge_end)
+        
+        cmd = [self.encoder, '-y', '-hide_banner', '-f', 'concat', '-safe', '0',
+               '-i', tmp_file, '-c', 'copy', out_file]
+        self.fp_mrg = Popen(cmd, shell=False, stdout=PIPE, stderr=PIPE, 
+                            universal_newlines=True)
+        
+        GLib.io_add_watch(self.fp_mrg.stderr, GLib.IO_IN | GLib.IO_HUP,
+                          self.on_mrg_output, out_file)
+        GLib.child_watch_add(self.fp_mrg.pid, self.on_mrg_end, out_file)
+        
         
         self.btn_sw.set_sensitive(False)
         self.btn_convert.set_sensitive(False)
@@ -2724,23 +2727,47 @@ abort conversion process?'),
         
         self.stack.set_visible_child_name(CHILD_MERGE)
         self.lbl_merge_status.set_markup(_('<i>Merging files, please wait...</i>'))
-        self.lbl_merge_details.set_markup(_('<i>Percent: 0%</i>'))
+        self.lbl_merge_details.set_markup(_('<i>Percent: 0 %</i>'))
         self.pb_merge.set_fraction(0.0)
         
-    
-    def merge_status(self, line):
-        out_file_size = getsize(self.out_file_merged)
-        fraction = out_file_size / self.total_files_size
-        self.lbl_merge_details.set_markup(_('<i>Percent: {:.0f}%</i>').format(fraction*100.0))
-        self.pb_merge.set_fraction(fraction)
-        self.is_merging = True
-    
-    def merge_end(self, err_code):
-        if err_code in [CODE_SUCCESS, CODE_STOPPED]:
-            show_message(self, _('Merging operation completed!'), Gtk.MessageType.INFO,
-                         Gtk.ButtonsType.CLOSE)
-            self.stack.set_visible_child_name(CHILD_FILES)
+    def on_mrg_output(self, src, cond, out_file):
+        #self.mrg_err_file = src
         
+        Gtk.main_iteration()
+        
+        # On Data read
+        if cond == GLib.IO_IN:
+            try:
+                out_file_size = getsize(out_file)
+            except:
+                out_file_size = 0
+            frac = out_file_size / self.total_files_size
+            self.pb_merge.set_fraction(frac)
+            
+            self.lbl_merge_details.set_markup(_('<i>Percent: {:.0f} %</i>').format(frac*100))
+            self.is_merging = True
+            return True
+        # On error
+        elif cond == GLib.IO_HUP:
+            return False
+        
+        return False
+    
+    def on_mrg_end(self, pid, err_code, out_file):
+        #
+        if err_code == CODE_SUCCESS:
+            show_message(self, _('Merging operation completed successfully!'),
+                         Gtk.MessageType.INFO, Gtk.ButtonsType.CLOSE)
+        #
+        elif err_code == CODE_STOPPED:
+            self.force_delete_file(out_file)
+        #
+        elif err_code == CODE_FAILED:
+            errd = ErrDialog(self, self.fp_mrg.stderr, _('Merge Error'))
+            errd.show_dialog()
+            self.force_delete_file(out_file)
+        
+        self.stack.set_visible_child_name(CHILD_FILES)
         self.is_merging = False
         self.btn_convert.set_sensitive(True)
         self.btn_sw.set_sensitive(True)

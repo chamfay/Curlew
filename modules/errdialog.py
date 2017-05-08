@@ -23,13 +23,12 @@ gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk, Pango
 
-class LogDialog(Gtk.Dialog):
-    def __init__(self, prnt, log_file, headerbar):
-        self._log_file = log_file
-        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=headerbar)
-        self.set_size_request(600, 450)
+class ErrDialog(Gtk.Dialog):
+    def __init__(self, prnt, err_file, title):
+        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
+        self.set_size_request(600, 300)
         self.set_border_width(6)
-        self.set_title(_('Conversion Error'))
+        self.set_title(title)
         scroll = Gtk.ScrolledWindow()
         scroll.set_shadow_type(Gtk.ShadowType.IN)
         text_log = Gtk.TextView()
@@ -51,8 +50,7 @@ class LogDialog(Gtk.Dialog):
         button = self.add_button(_('_Close'), Gtk.ResponseType.CLOSE)
         self.set_default(button)
         
-        with open(log_file, 'r') as log:
-            text_buffer.set_text(log.read())
+        text_buffer.set_text(err_file.read())
         
         
     def show_dialog(self):
