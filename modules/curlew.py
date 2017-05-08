@@ -1751,7 +1751,7 @@ abort conversion process?'),
 #                               GLib.IO_IN | GLib.IO_HUP,
 #                               self.on_convert_output, out_file)
             GLib.io_add_watch(self.fp.stderr,
-                              GLib.IO_IN | GLib.IO_HUP | GLib.IO_,
+                              GLib.IO_IN | GLib.IO_HUP,
                               self.on_convert_output, out_file)
             #--- On end process
             GLib.child_watch_add(self.fp.pid, self.on_convert_end, (out_file, full_cmd))
