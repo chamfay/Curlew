@@ -21,7 +21,7 @@ import gi
 gi.require_version('Gtk', '3.0')
 
 from gi.repository import Gtk
-from modules.edition import FormatEditor
+from modules.formateditor import FormatEditor
 from modules.customwidgets import ButtonWithIcon
 
 class Formats(Gtk.Popover):

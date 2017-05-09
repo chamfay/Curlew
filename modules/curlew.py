@@ -52,7 +52,7 @@ try:
     from modules.waitdialog import WaitDialog
     from modules.formats import Formats
     from modules.infobars import InfoBar
-    from modules.codecs import CodecsDialog
+    from modules.codecsdialog import CodecsDialog
     from modules.consts import CONF_PATH, HOME, CONF_FILE, DTA_DIR, \
     ORG_FFILE, USR_FFILE, SOUND_FILE
     from modules.configs import get_b_config, get_s_config
