@@ -24,9 +24,9 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Pango
 
 class LogDialog(Gtk.Dialog):
-    def __init__(self, prnt, log_file, headerbar):
+    def __init__(self, prnt, log_file):
         self._log_file = log_file
-        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=headerbar)
+        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
         self.set_size_request(600, 450)
         self.set_border_width(6)
         self.set_title(_('Conversion Error'))

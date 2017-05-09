@@ -44,7 +44,7 @@ class Formats(Gtk.Popover):
             return
         self.selected_format = self.tree_filter[selected_iter][0]
         self.hide()
-        dlg = FormatEditor(self.wind, self.selected_format, self.store, self.wind.csd)
+        dlg = FormatEditor(self.wind, self.selected_format, self.store)
         dlg.show_dialog()
     
     

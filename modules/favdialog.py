@@ -24,8 +24,8 @@ from gi.repository import Gtk, Gdk
 import pickle
 
 class Favorite(Gtk.Dialog):
-    def __init__(self, prnt, fav_list, headerbar):
-        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=headerbar)
+    def __init__(self, prnt, fav_list):
+        Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
         self.set_title(_('Favorite list'))
         self.set_icon_name('curlew')
         self.set_border_width(4)
@@ -34,11 +34,7 @@ class Favorite(Gtk.Dialog):
         self.list_view = Gtk.TreeView(self.store)
         self.list_view.connect("key-press-event", self.on_key_press)
         
-        if headerbar:
-            header = self.get_header_bar()
-        else:
-            header = Gtk.HeaderBar()
-            self.vbox.add(header)
+        header = self.get_header_bar()
         
         cell = Gtk.CellRendererText()
         col = Gtk.TreeViewColumn(_("Format"), cell, text=0)

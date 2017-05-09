@@ -126,7 +126,7 @@ class Curlew(Gtk.ApplicationWindow):
             self.l_vcodec.set_markup(msg.format(vcodec))
      
     def on_link_clicked(self, w):
-        dlg = CodecsDialog(self, self.encoder, self.link_label, self.csd)
+        dlg = CodecsDialog(self, self.encoder, self.link_label)
         dlg.show_dialog()
         return True
     
@@ -190,7 +190,7 @@ class Curlew(Gtk.ApplicationWindow):
     
     
     def on_edit_fav(self, action, param):
-        fav_dlg = Favorite(self, self.get_fav_list(), self.csd)
+        fav_dlg = Favorite(self, self.get_fav_list())
         fav_dlg.run()
         fav_dlg.save(FAV_FILE)
         self.load_submenu()
@@ -288,13 +288,8 @@ class Curlew(Gtk.ApplicationWindow):
         
         # Header bar
         self.header = Gtk.HeaderBar()
-         
-        self.csd = get_b_config('use-csd')
-        if self.csd:
-            self.header.set_show_close_button(True)
-            self.set_titlebar(self.header)
-        else:
-            vbox_global.add(self.header)
+        self.header.set_show_close_button(True)
+        self.set_titlebar(self.header)
         
         # Infobar
         self.info_bar = InfoBar()
@@ -982,10 +977,6 @@ class Curlew(Gtk.ApplicationWindow):
         self.cb_tray = Gtk.CheckButton(_('Show tray icon'))
         self.cb_tray.connect('toggled', self.on_cb_tray_toggled)
         self.vb_config.pack_start(self.cb_tray, False, False, 0)
-        
-        # Use CSD
-        self.cb_csd = Gtk.CheckButton(_('Use CSD'), active=True)
-        self.vb_config.pack_start(self.cb_csd, False, False, 0)
         
         # Show/Hide Statusbar
         self.cb_status = Gtk.CheckButton(_('Show Statusbar'))
@@ -1759,7 +1750,7 @@ abort conversion process?'),
         else:
             self.is_converting = False
             if self.errs_nbr > 0:
-                dia = LogDialog(self, ERR_LOG_FILE, self.csd)
+                dia = LogDialog(self, ERR_LOG_FILE)
                 dia.show_dialog()
     
     
@@ -2081,17 +2072,13 @@ abort conversion process?'),
         
     
     #--- Catch output 
-    def on_convert_output(self, source, condition, out_file):
+    def on_convert_output(self, source, cond, out_file):
         #TODO: Fix empty err log file in some cases
         #--- Allow interaction with application widgets.
         self.log = source
         
-        #while Gtk.events_pending():
-        #    Gtk.main_iteration()
-        
         if self.tree_iter == None:
             return False
-        
         
         #--- Skipped file during conversion (unckecked file during conversion)
         if self.store[self.tree_iter][C_SKIP] == False:
@@ -2114,16 +2101,17 @@ abort conversion process?'),
             self.convert_file()
             return False
         
-        line = '0'
-        try:
-            line = source.readline()
-        except Exception as e:
-            print(e)
-        
-        if len(line) > 0:
+        elif cond == GLib.IO_IN:
+            line = '0'
+            try:
+                #FIXME: problem of empty log is here.
+                line = self.log.readline()
+            except Exception as e:
+                print(e)
+            
             # ffmpeg progress
             begin = line.find('time=')
-            if begin != -1:                    
+            if begin != -1:
                 self.label_details.set_text(line.strip())
                 reg_avconv = self.reg_avconv_u
                 
@@ -2286,9 +2274,6 @@ abort conversion process?'),
         # play sound
         conf.set_boolean(group, 'play-sound', self.cb_play.get_active())
         
-        # csd
-        conf.set_boolean(group, 'use-csd', self.cb_csd.get_active())
-        
         # statusbar
         conf.set_boolean(group, 'status-bar', self.cb_status.get_active())
         
@@ -2336,9 +2321,6 @@ abort conversion process?'),
             # play sound
             self.cb_play.set_active(conf.get_boolean(group, 'play-sound'))
             
-            # csd
-            self.cb_csd.set_active(conf.get_boolean(group, 'use-csd'))
-            
             # status
             self.cb_status.set_active(conf.get_boolean(group, 'status-bar'))
             
@@ -2357,7 +2339,6 @@ abort conversion process?'),
             # Error details
             f_log.write('\nError detail:\n*************\n')
             f_log.write(self.log.read())
-            
             f_log.write('\n\n\n')
     
     def on_cb_tray_toggled(self, cb_tray):
