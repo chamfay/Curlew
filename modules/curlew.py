@@ -1130,26 +1130,27 @@ class Curlew(Gtk.ApplicationWindow):
     def quit_cb(self, *args):
         self.save_states()
         
-        # Stop playing.
+        # Stop playing before quit.
         if self.play_process != None:
             if self.play_process.poll() == None:
                 self.play_process.kill()
         
-        if self.is_converting:
+        # Stop converting or merging
+        if self.is_converting or self.is_merging:
             ''' Press quit btn during conversion process '''
-            resp = show_message(self, _('Do you want to quit Curlew and \
-abort conversion process?'),
+            resp = show_message(self, _('Do you want to quit Curlew and abort process?'),
                                 Gtk.MessageType.QUESTION,
                                 Gtk.ButtonsType.YES_NO)
             if resp == Gtk.ResponseType.YES:
-                try:
+                if self.is_converting:
                     self.fp_conv.kill()
-                    self.fp_conv.terminate()
-                    self.force_delete_file(self.out_file)
-                except: 
-                    pass
+                elif self.is_merging:
+                    self.fp_mrg.kill()
+                self.force_delete_file(self.out_file)
                 self.app.quit()
             return
+        
+        # Quit normaly
         self.app.quit()
     
     #--- Add files
@@ -2690,20 +2691,20 @@ abort conversion process?'),
         
         # Same destination as source file
         if self.cb_dest.get_active():
-            out_file = join(dirname(input_file), part)
+            self.out_file = join(dirname(input_file), part)
         # Use entry destination path
         else:
-            out_file = join(self.e_dest.get_text(), part)
+            self.out_file = join(self.e_dest.get_text(), part)
         
         
         cmd = [self.encoder, '-y', '-hide_banner', '-f', 'concat', '-safe', '0',
-               '-i', tmp_file, '-c', 'copy', out_file]
+               '-i', tmp_file, '-c', 'copy', self.out_file]
         self.fp_mrg = Popen(cmd, shell=False, stdout=PIPE, stderr=PIPE, 
                             universal_newlines=True)
         
         GLib.io_add_watch(self.fp_mrg.stderr, GLib.IO_IN | GLib.IO_HUP,
-                          self.on_mrg_output, out_file)
-        GLib.child_watch_add(self.fp_mrg.pid, self.on_mrg_end, out_file)
+                          self.on_mrg_output)
+        GLib.child_watch_add(self.fp_mrg.pid, self.on_mrg_end)
         
         
         self.btn_sw.set_sensitive(False)
@@ -2715,7 +2716,7 @@ abort conversion process?'),
         self.lbl_merge_details.set_markup(_('<i>Percent: 0 %</i>'))
         self.pb_merge.set_fraction(0.0)
         
-    def on_mrg_output(self, src, cond, out_file):
+    def on_mrg_output(self, src, cond):
         #self.mrg_err_file = src
         
         Gtk.main_iteration()
@@ -2723,7 +2724,7 @@ abort conversion process?'),
         # On Data read
         if cond == GLib.IO_IN:
             try:
-                out_file_size = getsize(out_file)
+                out_file_size = getsize(self.out_file)
             except:
                 out_file_size = 0
             frac = out_file_size / self.total_files_size
@@ -2738,25 +2739,27 @@ abort conversion process?'),
         
         return False
     
-    def on_mrg_end(self, pid, err_code, out_file):
+    def on_mrg_end(self, pid, err_code):
         #
         if err_code == CODE_SUCCESS:
             show_message(self, _('Merging operation completed successfully!'),
                          Gtk.MessageType.INFO, Gtk.ButtonsType.CLOSE)
         #
         elif err_code == CODE_STOPPED:
-            self.force_delete_file(out_file)
+            self.force_delete_file(self.out_file)
         #
         elif err_code == CODE_FAILED:
             errd = ErrDialog(self, self.fp_mrg.stderr, _('Merge Error'))
             errd.show_dialog()
-            self.force_delete_file(out_file)
+            self.force_delete_file(self.out_file)
         
         self.stack.set_visible_child_name(CHILD_FILES)
         self.is_merging = False
         self.btn_convert.set_sensitive(True)
         self.btn_sw.set_sensitive(True)
         self.enable_controls(True, True)
+            
+                
 
 
 class CurlewApp(Gtk.Application):
