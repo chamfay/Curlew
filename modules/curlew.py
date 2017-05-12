@@ -48,7 +48,7 @@ try:
     from modules.errdialog import ErrDialog
     from modules.tray import StatusIcon
     from modules.languages import LANGUAGES
-    from modules.favdialog import Favorite
+    from modules.favdialog import FavoriteDialog
     from modules.waitdialog import WaitDialog
     from modules.formats import Formats
     from modules.infobars import InfoBar
@@ -190,7 +190,11 @@ class Curlew(Gtk.ApplicationWindow):
     
     
     def on_edit_fav(self, action, param):
-        fav_dlg = Favorite(self, self.get_fav_list())
+        fav_list = self.get_fav_list()
+        if not fav_list:
+            self.info_bar.show_message(_('No Favorites List.'), Gtk.MessageType.WARNING)
+            return
+        fav_dlg = FavoriteDialog(self, self.get_fav_list())
         fav_dlg.run()
         fav_dlg.save(FAV_FILE)
         self.load_submenu()
@@ -244,7 +248,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.curr_save_folder = HOME
         self.is_converting = False
         self.is_merging = False
-        self.fp = None
+        self.fp_conv = None
         self.tree_iter = None
         self.total_duration = 0.0
         self.out_file = None
@@ -1139,8 +1143,8 @@ abort conversion process?'),
                                 Gtk.ButtonsType.YES_NO)
             if resp == Gtk.ResponseType.YES:
                 try:
-                    self.fp.kill()
-                    self.fp.terminate()
+                    self.fp_conv.kill()
+                    self.fp_conv.terminate()
                     self.force_delete_file(self.out_file)
                 except: 
                     pass
@@ -1729,7 +1733,7 @@ abort conversion process?'),
             
             #--- Start the process
             try:
-                self.fp = Popen(full_cmd, stdout=PIPE, stderr=PIPE,
+                self.fp_conv = Popen(full_cmd, stdout=PIPE, stderr=PIPE,
                                 universal_newlines=True, bufsize=-1)
             except:
                 self.info_bar.show_message(_('Encoder not found (ffmpeg/avconv).'))
@@ -1738,14 +1742,14 @@ abort conversion process?'),
                 return -1
             
             #--- Watch stdout and stderr
-#             GLib.io_add_watch(self.fp.stdout,
+#             GLib.io_add_watch(self.fp_conv.stdout,
 #                               GLib.IO_IN | GLib.IO_HUP,
 #                               self.on_convert_output, out_file)
-            GLib.io_add_watch(self.fp.stderr,
+            GLib.io_add_watch(self.fp_conv.stderr,
                               GLib.IO_IN | GLib.IO_HUP,
                               self.on_convert_output, out_file)
             #--- On end process
-            GLib.child_watch_add(self.fp.pid, self.on_convert_end, (out_file, full_cmd))
+            GLib.child_watch_add(self.fp_conv.pid, self.on_convert_end, (out_file, full_cmd))
             
         else:
             self.is_converting = False
@@ -1765,8 +1769,8 @@ abort conversion process?'),
                                     Gtk.ButtonsType.YES_NO)
                 if resp == Gtk.ResponseType.YES and self.is_converting == True:
                     try:
-                        if self.fp:
-                            self.fp.kill()
+                        if self.fp_conv:
+                            self.fp_conv.kill()
                     except OSError as err:
                         print(err)
                     finally:
@@ -1778,7 +1782,7 @@ abort conversion process?'),
         # stop merging task
         elif self.task_type == TASK_MERGE:
             try: self.fp_mrg.kill()
-            except Exception as e: print(e)
+            except: pass
         
                     
     
@@ -1915,14 +1919,14 @@ abort conversion process?'),
                                     preview_begin, TEN_SECONDS)
     
         try:
-            fp = Popen(cmd, stdout=PIPE, stderr=PIPE)
+            fp_prev = Popen(cmd, stdout=PIPE, stderr=PIPE)
         except: return -1
         
         # Disable main window
         self.get_child().set_sensitive(False)
         
         # Wait...
-        while fp.poll() == None:
+        while fp_prev.poll() == None:
             while Gtk.events_pending():
                 Gtk.main_iteration()
             # Cancel preview
@@ -1940,10 +1944,10 @@ abort conversion process?'),
         self.store[Iter][C_PULS] = -1
         
         # Play preview file.
-        fp = Popen('{} "{}"'.format(self.player, PREVIEW_FILE), shell=True)
+        fp_play = Popen('{} "{}"'.format(self.player, PREVIEW_FILE), shell=True)
         
         # Delete preview file after the end of playing
-        while fp.poll() == None:
+        while fp_play.poll() == None:
             pass
         self.force_delete_file(PREVIEW_FILE)
         
@@ -2086,7 +2090,7 @@ abort conversion process?'),
             self.store[self.tree_iter][C_PRGR] = 0.0
             
             # Stop conversion
-            try: self.fp.kill()
+            try: self.fp_conv.kill()
             except OSError as detail:
                 print(detail)
             

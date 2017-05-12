@@ -23,7 +23,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk
 import pickle
 
-class Favorite(Gtk.Dialog):
+class FavoriteDialog(Gtk.Dialog):
     def __init__(self, prnt, fav_list):
         Gtk.Dialog.__init__(self, parent=prnt, use_header_bar=True)
         self.set_title(_('Favorite list'))
