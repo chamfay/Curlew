@@ -313,7 +313,7 @@ class Curlew(Gtk.ApplicationWindow):
 
         self.btn_add_file = ButtonWithIcon('document-new-symbolic')
         self.btn_add_file.set_tooltip_text(_('Add Files'))
-        self.btn_add_file.connect('clicked', self.add_file_cb)
+        self.btn_add_file.connect('clicked', self.on_add_file_clicked)
         box_add.pack_start(self.btn_add_file, False, False, 0)
         
         self.btn_add_folder = ButtonWithIcon('folder-new-symbolic')
@@ -435,7 +435,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         sw_welcome.add(align)
         
-        btn_files.connect('clicked', self.add_file_cb)
+        btn_files.connect('clicked', self.on_add_file_clicked)
         btn_folders.connect('clicked', self.on_add_folder_clicked)
         
         #--- Merge page
@@ -1021,6 +1021,7 @@ class Curlew(Gtk.ApplicationWindow):
         grid_output.append_row(_('Destination:'), hbox, True)
         
         self.entry_merged_file = Gtk.Entry()
+        self.entry_merged_file.set_tooltip_text(_("This name is for merged file"))
         grid_output.append_row(_('Output Filename:'), self.entry_merged_file, True)
         self.entry_merged_file.set_text('output_file')
         
@@ -1154,7 +1155,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.app.quit()
     
     #--- Add files
-    def add_file_cb(self, *args):
+    def on_add_file_clicked(self, *args):
         open_dlg = Gtk.FileChooserDialog(_("Add file"),
                                          self, Gtk.FileChooserAction.OPEN,
                                         (_('_OK'),
@@ -1262,10 +1263,9 @@ class Curlew(Gtk.ApplicationWindow):
         resp = folder_dlg.run()
         if resp == Gtk.ResponseType.OK:
             files_list = []
-            cur_folders = folder_dlg.get_filenames()
-            for cur_folder in cur_folders:
-                
-                for root, dirs, files in os.walk(cur_folder):
+            curr_folders = folder_dlg.get_filenames()
+            for curr_folder in curr_folders:
+                for root, dirs, files in os.walk(curr_folder):
                     it_files = (join(root, file_name) for file_name in files)
                     for curr_file in it_files:
                         files_list.append(curr_file)
@@ -1761,6 +1761,7 @@ class Curlew(Gtk.ApplicationWindow):
     
     #--- Stop conversion cb
     def on_btn_stop_clicked(self, *args):
+        #TODO: enhance stop function
         # stop conversion task
         if self.task_type == TASK_CONVERT:
             if self.is_converting == True:
