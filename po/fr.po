@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-27 23:52+0100\n"
-"PO-Revision-Date: 2017-04-30 08:44+0100\n"
+"POT-Creation-Date: 2017-05-28 00:24+0100\n"
+"PO-Revision-Date: 2017-05-28 00:19+0100\n"
 "Last-Translator: Faissal Chamekh <chamfay@gmail.com>\n"
 "Language-Team: Fayssal Chamekh <chamfay@gmail.com>\n"
 "Language: fr_FR\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: utf-8\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.1\n"
 
 #: modules/customwidgets.py:52
 msgid "Top"
@@ -111,9 +111,8 @@ msgid "Show"
 msgstr "Afficher"
 
 #: modules/logdialog.py:32
-#, fuzzy
 msgid "Conversion Error"
-msgstr "Arrêter la conversion"
+msgstr "Erreur de conversion"
 
 #: modules/logdialog.py:51 modules/errdialog.py:50
 msgid "_Close"
@@ -130,7 +129,7 @@ msgstr "_Annuler"
 
 #: modules/waitdialog.py:53
 msgid "<b>File:</b> "
-msgstr "<b>Fichier:</b>"
+msgstr "<b>Fichier:</b> "
 
 #: modules/formateditor.py:38
 msgid "Are you sure you want to save settings?"
@@ -246,9 +245,8 @@ msgid "\"{}\" is already exist in favorite list!"
 msgstr "\"{}\" Existe déjà dans la liste des favoris!"
 
 #: modules/curlew.py:195
-#, fuzzy
 msgid "No Favorites List."
-msgstr "Liste des favoris"
+msgstr "Pas de liste de favoris."
 
 #: modules/curlew.py:231
 msgid "About"
@@ -295,23 +293,20 @@ msgid "Start Conversion"
 msgstr "Démarrer la conversion"
 
 #: modules/curlew.py:365
-#, fuzzy
 msgid "Select Action"
-msgstr "Sélectionner un sous-titre"
+msgstr "Sélectionnez une action"
 
 #: modules/curlew.py:387
-#, fuzzy
 msgid "Convert Files"
-msgstr "Supprimer Fichiers"
+msgstr "Convertir des fichiers"
 
 #: modules/curlew.py:388
-#, fuzzy
 msgid "Merge Files"
-msgstr "Supprimer Fichiers"
+msgstr "Fusionner des fichiers"
 
 #: modules/curlew.py:394
 msgid "Stop Process"
-msgstr ""
+msgstr "Arrêter le processus"
 
 #: modules/curlew.py:411
 msgid ""
@@ -377,9 +372,8 @@ msgid "Add to Favorite"
 msgstr "Ajouter aux favoris"
 
 #: modules/curlew.py:615
-#, fuzzy
 msgid "Edit Favorite List"
-msgstr "Liste des favoris"
+msgstr "Modifier la liste des favoris"
 
 #: modules/curlew.py:645 modules/curlew.py:838
 msgid "Audio"
@@ -451,50 +445,47 @@ msgstr "Utiliser sous-titre (ffmpeg seulement)"
 
 #: modules/curlew.py:760
 msgid "Subtitle: "
-msgstr "Sous-titre:"
+msgstr "Sous-titre: "
 
 #: modules/curlew.py:778
 msgid "Size: "
-msgstr "Taille:"
+msgstr "Taille: "
 
 #: modules/curlew.py:807
 msgid "Encoding: "
-msgstr "Encodage:"
+msgstr "Encodage: "
 
 #: modules/curlew.py:822
 msgid "Filters"
-msgstr ""
+msgstr "Filtres"
 
 #: modules/curlew.py:824
 msgid "Fade In / Fade Out"
 msgstr ""
 
 #: modules/curlew.py:829
-#, fuzzy
 msgid "Duration (sec)"
-msgstr "Durée"
+msgstr "Durée (sec)"
 
 #: modules/curlew.py:833
 msgid "At the beginning"
-msgstr ""
+msgstr "Au début"
 
 #: modules/curlew.py:833
-#, fuzzy
 msgid "At the end"
-msgstr "Jusqu'à la fin"
+msgstr "A la fin"
 
 #: modules/curlew.py:833 modules/curlew.py:838
 msgid "Both"
-msgstr ""
+msgstr "Tous les deux"
 
 #: modules/curlew.py:834
-#, fuzzy
 msgid "Position"
-msgstr "Position:"
+msgstr "Position"
 
 #: modules/curlew.py:839
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 #: modules/curlew.py:843
 msgid "Crop / Pad"
@@ -518,11 +509,11 @@ msgstr "Hacher fichier"
 
 #: modules/curlew.py:868
 msgid "Begin time: "
-msgstr "Debut"
+msgstr "Temps de début: "
 
 #: modules/curlew.py:871
 msgid "Duration: "
-msgstr "Durée"
+msgstr "Durée: "
 
 #: modules/curlew.py:872
 msgid "To the end"
@@ -546,7 +537,7 @@ msgstr "Threads:"
 
 #: modules/curlew.py:904
 msgid "Converter:"
-msgstr "Convertisseur"
+msgstr "Convertisseur:"
 
 #: modules/curlew.py:910
 msgid "Player:"
@@ -602,11 +593,11 @@ msgstr "Destination:"
 
 #: modules/curlew.py:1025
 msgid "This name is for merged file"
-msgstr ""
+msgstr "Ce nom est pour le fichier fusionné"
 
 #: modules/curlew.py:1026
 msgid "Output Filename:"
-msgstr ""
+msgstr "Fichier de sortie:"
 
 #: modules/curlew.py:1031
 msgid "Overwrite it"
@@ -633,13 +624,12 @@ msgid "Rename input file after conversion"
 msgstr "Renommer fichier d'entrée après la conversion"
 
 #: modules/curlew.py:1143
-#, fuzzy
 msgid "Do you want to quit Curlew and abort process?"
-msgstr "Voulez-vous quiter Curlew et abondonner la conversion?"
+msgstr "Voulez-vous quiter Curlew et abondonner le processus?"
 
 #: modules/curlew.py:1160
 msgid "Add file"
-msgstr "Ajouter fichier(s)"
+msgstr "Ajouter fichier"
 
 #: modules/curlew.py:1162 modules/curlew.py:1252 modules/curlew.py:1283
 #: modules/curlew.py:2640
@@ -664,7 +654,7 @@ msgstr "Tous"
 
 #: modules/curlew.py:1236 modules/curlew.py:1946
 msgid "Ready!"
-msgstr "Prêt"
+msgstr "Prêt!"
 
 #: modules/curlew.py:1250
 msgid "Add folder"
@@ -782,12 +772,11 @@ msgstr "Choisir Encodeur"
 
 #: modules/curlew.py:2658
 msgid "Merge"
-msgstr ""
+msgstr "Fusionner"
 
 #: modules/curlew.py:2659
-#, fuzzy
 msgid "Start Merging"
-msgstr "Démarrer la conversion"
+msgstr "Démarrez la fusion"
 
 #: modules/curlew.py:2668
 msgid "Make GIF"
@@ -799,23 +788,23 @@ msgstr ""
 
 #: modules/curlew.py:2717
 msgid "<i>Merging files, please wait...</i>"
-msgstr ""
+msgstr "<i>Fusionner les fichiers, veuillez patienter...</i>"
 
 #: modules/curlew.py:2718
 msgid "<i>Percent: 0 %</i>"
-msgstr ""
+msgstr "<i>Pourcentage: 0 %</i>"
 
 #: modules/curlew.py:2735
 msgid "<i>Percent: {:.0f} %</i>"
-msgstr ""
+msgstr "<i>Pourcentage: {:.0f} %</i>"
 
 #: modules/curlew.py:2747
 msgid "Merging operation completed successfully!"
-msgstr ""
+msgstr "L'opération de fusion a terminé avec succès!"
 
 #: modules/curlew.py:2754
 msgid "Merge Error"
-msgstr ""
+msgstr "Erreur de fusion"
 
 #~ msgid "Errors detail"
 #~ msgstr "Détail des erreurs"
