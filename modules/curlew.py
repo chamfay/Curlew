@@ -362,6 +362,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         # Switch button (Convert/Merge)
         self.btn_sw = Gtk.MenuButton()
+        self.btn_sw.set_tooltip_text(_('Select Action'))
         self.btn_sw.get_style_context().add_class(Gtk.STYLE_CLASS_SUGGESTED_ACTION)
         box_convert.pack_start(self.btn_sw, False, False, 0)
         
@@ -383,8 +384,8 @@ class Curlew(Gtk.ApplicationWindow):
         self.add_action(action_mer)
         #self.add_action(action_gif)
         
-        menu.append('Convert', 'win.convert')
-        menu.append('Merge', 'win.merge')
+        menu.append(_('Convert Files'), 'win.convert')
+        menu.append(_('Merge Files'), 'win.merge')
         #menu.append('Make GIF', 'win.make-gif')
         
         #-----------------------------------
@@ -820,7 +821,7 @@ class Curlew(Gtk.ApplicationWindow):
         grid_filters.set_border_width(5)
         self.note.append_page(grid_filters, Gtk.Label(_('Filters')))
         
-        grid_filters.append_title('Fade In / Fade Out')
+        grid_filters.append_title(_('Fade In / Fade Out'))
         self.spin_fade = Gtk.SpinButton().new_with_range(0, 20, 1)
         hbox_fade = Gtk.Box(spacing=8)
         grid_filters.append_widget(hbox_fade)
@@ -839,7 +840,7 @@ class Curlew(Gtk.ApplicationWindow):
         hbox_fade.add(self.cmb_fade_type)
         
         # -- Crop/Pad Filters        
-        grid_filters.append_title('Crop / Pad')
+        grid_filters.append_title(_('Crop / Pad'))
         
         # Cropping
         self.crop = SpinsFrame(_('Crop'))
