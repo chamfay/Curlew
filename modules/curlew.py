@@ -1075,6 +1075,8 @@ class Curlew(Gtk.ApplicationWindow):
         #--- Load saved options.
         self.btn_formats.set_label(self.formats_list[0])
         self.load_states()
+        
+        self.show_interface()        
         self.fill_options()
         
         my_store = Gtk.ListStore(str)
@@ -1082,8 +1084,7 @@ class Curlew(Gtk.ApplicationWindow):
         self.btn_formats.set_popover(f_dlg)
         
         
-        #--- Show interface
-        self.show_all()
+        
         
         #--- Drag and Drop
         targets = Gtk.TargetList.new([])
@@ -1293,7 +1294,7 @@ class Curlew(Gtk.ApplicationWindow):
     def cb_split_cb(self, cb_split):
         self.vb_group.set_sensitive(cb_split.get_active())    
     
-    def set_sensitives(self):
+    def set_visibilities(self):
         section = self.btn_formats.get_label()
         media_type = self.f_file.get(section, 'type')
 
@@ -1307,14 +1308,33 @@ class Curlew(Gtk.ApplicationWindow):
                 'copy': [False, False, True, False, False, False, False]
                 }
 
-        self.vb_audio.set_sensitive(sens[media_type][0])  # Audio page
-        self.vb_video.set_sensitive(sens[media_type][1])  # Video page
-        self.frame_sub.set_sensitive(sens[media_type][2])  # Subtitle page
-        self.hb_aqual.set_sensitive(sens[media_type][3])  # Audio quality slider (ogg)
-        self.hb_vqual.set_sensitive(sens[media_type][4])  # video Quality slider (ogv)
+        self.vb_audio.set_visible(sens[media_type][0])  # Audio page
+        self.vb_video.set_visible(sens[media_type][1])  # Video page
+        self.frame_sub.set_visible(sens[media_type][2])  # Subtitle page
+        self.hb_aqual.set_visible(sens[media_type][3])  # Audio quality slider (ogg)
+        self.hb_vqual.set_visible(sens[media_type][4])  # video Quality slider (ogv)
         self.crop.set_sensitive(sens[media_type][5])
         self.pad.set_sensitive(sens[media_type][5])
+        
+        # Select first visible page.
+        widgets = (self.vb_audio, self.vb_video, self.frame_sub)
+        for widget in widgets:
+            if not widget.get_visible():
+                continue
+            else:
+                self.note.set_current_page(widgets.index(widget))
+                break
+        
     
+    def show_interface(self):
+        # Show all widgets
+        self.show_all()
+        # Hide some widgets
+        self.vb_audio.hide()
+        self.vb_video.hide()
+        self.frame_sub.hide()
+        self.hb_aqual.hide()
+        self.hb_vqual.hide()
     
     #--- fill options widgets
     def fill_options(self):
@@ -1330,7 +1350,7 @@ class Curlew(Gtk.ApplicationWindow):
             return
         
         # Call
-        self.set_sensitives()
+        self.set_visibilities()
         
         if self.f_file.has_option(section, 'extra'):
             self.e_extra.set_text(self.f_file[section]['extra'])
