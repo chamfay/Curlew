@@ -941,7 +941,6 @@ class Curlew(Gtk.ApplicationWindow):
         
         self.cmb_encoder.set_active(0)
         
-        
         # Check player
         if not get_s_config('player'):
             plyr = choose_player()
@@ -2287,7 +2286,10 @@ class Curlew(Gtk.ApplicationWindow):
         conf.set_string(group, 'format', self.btn_formats.get_label())
         conf.set_boolean(group, 'is_same_dest', self.cb_dest.get_active())
         conf.set_integer(group, 'overwrite_mode', self.cmb_exist.get_active())
-        conf.set_string(group, 'encoder', self.cmb_encoder.get_active_text())
+        
+        if self.cmb_encoder.get_text():
+            conf.set_string(group, 'encoder', self.cmb_encoder.get_active_text())
+        
         conf.set_string(group, 'player', self.entry_player.get_text())
         conf.set_string(group, 'font', self.b_font.get_font_name())
         conf.set_string(group, 'encoding', self.cmb_encoding.get_active_id())  #
