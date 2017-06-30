@@ -30,7 +30,8 @@ PLAYERS_LIST = [
     'totem',
     'kplayer',
     'kmplayer',
-    'parole'
+    'parole',
+    'xplayer'
     ]
 
 def choose_player():
