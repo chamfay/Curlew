@@ -23,7 +23,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 PROGRAMMER = 'Fayssal Chamekh <chamfay@gmail.com>'
-WEBSITE = 'http://sourceforge.net/projects/curlew'
+WEBSITE = 'https://curlew.sourceforge.io'
 VERSION = '0.2.4'
 
 

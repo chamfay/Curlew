@@ -151,7 +151,7 @@ Main Features:
       version=VERSION,
       author='Fayssal Chamekh',
       author_email='chamfay@gmail.com',
-      url='http://sourceforge.net/projects/curlew',
+      url='https://curlew.sourceforge.io',
       license='Waqf License',
       platforms='Linux',
       scripts=['curlew'],
