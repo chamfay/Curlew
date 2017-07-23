@@ -282,7 +282,7 @@ msgid "Clear Files List"
 msgstr "Limpiar la lista de archivos"
 
 #: modules/curlew.py:341
-msgid "File Informations"
+msgid "File Information"
 msgstr "Información del archivo"
 
 #: modules/curlew.py:352
@@ -832,7 +832,7 @@ msgstr ""
 #~ "Se han producido algunos errores.\n"
 #~ "¿Quiere ver más detalles?"
 
-#~ msgid "File informations"
+#~ msgid "File Information"
 #~ msgstr "Información del archivo"
 
 #~ msgid "Edit List"

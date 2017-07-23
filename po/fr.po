@@ -277,7 +277,7 @@ msgid "Clear Files List"
 msgstr "Effacer Liste"
 
 #: modules/curlew.py:341
-msgid "File Informations"
+msgid "File Information"
 msgstr "Informations du fichier"
 
 #: modules/curlew.py:352
@@ -819,7 +819,7 @@ msgstr "Erreur de fusion"
 #~ "Il y a des erreurs.\n"
 #~ "Voulez-vous les afficher?"
 
-#~ msgid "File informations"
+#~ msgid "File Information"
 #~ msgstr "Informations du fichier"
 
 #~ msgid "Edit List"

@@ -292,7 +292,7 @@ msgid "Clear Files List"
 msgstr "Garbitu fitxategi-zerrenda"
 
 #: modules/curlew.py:341
-msgid "File Informations"
+msgid "File Information"
 msgstr "Fitxategiaren informazioa"
 
 #: modules/curlew.py:352
@@ -849,7 +849,7 @@ msgstr ""
 #~ "Zenbait errore gertatu dira.\n"
 #~ "Xehetasun gehiago ikusi nahi duzu?"
 
-#~ msgid "File informations"
+#~ msgid "File Information"
 #~ msgstr "Fitxategiaren informazioa"
 
 #, fuzzy

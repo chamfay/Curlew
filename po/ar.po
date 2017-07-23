@@ -276,7 +276,7 @@ msgid "Clear Files List"
 msgstr "اِمسح قائمة الملفات"
 
 #: modules/curlew.py:341
-msgid "File Informations"
+msgid "File Information"
 msgstr "معلومات عن الملف"
 
 #: modules/curlew.py:352
@@ -816,7 +816,7 @@ msgstr "خطأ في الدمج"
 #~ "هناك أخطاءٌ حدثت أثناء التحويل.\n"
 #~ "هل تريد مشاهدة تفاصيلها؟"
 
-#~ msgid "File informations"
+#~ msgid "File Information"
 #~ msgstr "معلومات عن الملف"
 
 #~ msgid "Edit List"

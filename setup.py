@@ -138,7 +138,7 @@ Main Features:
 - Convert to more than 100 different formats.
 - Allow to edit formats.
 - Shutdown or suspend PC after a conversion process.
-- Show file informations (duration, remaining time, estimated size, progress value).
+- Show file information (duration, remaining time, estimated size, progress value).
 - Show file details using mediainfo.
 - Allow to skip or remove file during conversion process.
 - Preview file before conversion.

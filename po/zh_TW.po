@@ -295,7 +295,7 @@ msgid "Clear Files List"
 msgstr "清空檔案清單"
 
 #: modules/curlew.py:341
-msgid "File Informations"
+msgid "File Information"
 msgstr ""
 
 #: modules/curlew.py:352

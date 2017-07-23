@@ -276,7 +276,7 @@ msgid "Clear Files List"
 msgstr "Vyprázdnit seznam souborů"
 
 #: modules/curlew.py:341
-msgid "File Informations"
+msgid "File Information"
 msgstr "Informace o souboru"
 
 #: modules/curlew.py:352
@@ -826,7 +826,7 @@ msgstr ""
 #~ "Vyskytly se chyby.\n"
 #~ "Chcete ukázat více podrobností?"
 
-#~ msgid "File informations"
+#~ msgid "File Information"
 #~ msgstr "Informace o souboru"
 
 #~ msgid "Edit List"
