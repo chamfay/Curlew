@@ -14,7 +14,7 @@ SVG_CONVERT = 'rsvg-convert'
 UPDATE = 'intltool-update'
 UPDATE_DEBIAN = '/usr/share/intltool-debian/intltool-update'
 
-doc_files  = ['LICENSE-ar.txt', 'LICENSE-en.txt', 'AUTHORS', 'THANKS', 'ChangeLog', 'README']
+doc_files  = ['LICENSE-ar.txt', 'LICENSE-en.txt', 'AUTHORS', 'THANKS', 'changelog', 'README']
 data_files = [('share/applications/', ['curlew.desktop']),
               ('share/icons/hicolor/scalable/apps', ['curlew.svg']),
               ('share/pixmaps', ['curlew.svg']),
