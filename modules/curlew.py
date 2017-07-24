@@ -338,7 +338,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         # File info
         self.btn_info = ToggleBtnWithIcon('dialog-question-symbolic') 
-        self.btn_info.set_tooltip_text(_('File Informations'))
+        self.btn_info.set_tooltip_text(_('File Information'))
         self.btn_info.connect('toggled', self.on_file_info_cb)
         self.header.pack_start(self.btn_info)
         
@@ -1960,7 +1960,7 @@ class Curlew(Gtk.ApplicationWindow):
             self.store[Iter][C_STAT] = _('Wait...')
             time.sleep(0.05)
             
-        # Update informations.
+        # Update information.
         self.store[Iter][C_PRGR] = 0.0
         self.store[Iter][C_STAT] = _('Ready!')
         self.store[Iter][C_PULS] = -1
@@ -2492,7 +2492,7 @@ class Curlew(Gtk.ApplicationWindow):
         input_file = self.store[Iter][C_FILE]
         dura = self.store[Iter][C_FDURA]
         
-        # Show file informations
+        # Show file information
         self.label_infos.set_markup(_('<b>Duration:</b> {}\n'
                                     '<b>Size:</b> {}\n'
                                     '<b>Extension:</b> {}\n')

@@ -5,7 +5,7 @@ Version 0.2.4
 * Removed 'Players Dialog' and let Curlew choose the player.
 * Enhanced Favorite.
 * Added a welcome page.
-* Show Files informations inside the main window.
+* Show Files information inside the main window.
 * Added an option to show/hide status bar, and make it invisible by default.
 * Some interface improvements...
 
@@ -100,8 +100,8 @@ Version 0.1.21
 * Show file duration in files list.
 * Added button in menu-bar allow to add files from folder directly.
 * Added "Browse source" item in menu.
-* Added "File informations" button (using mediainfo program).
-* Added "File informations" entry in the menu.
+* Added "File information" button (using mediainfo program).
+* Added "File information" entry in the menu.
 * Removed "libfaac" codec.
 * Disabled "favorite" button during conversion.
 * Functions improvement.
@@ -341,7 +341,7 @@ Version 0.1.13
 Version 0.1.12
 --------------
 
-* Added tooltip informations about the file when cursor moved over it.
+* Added tooltip information about the file when cursor moved over it.
 * Added subtitle delay option, can be negative value.
 
 

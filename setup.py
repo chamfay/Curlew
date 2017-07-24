@@ -14,7 +14,7 @@ SVG_CONVERT = 'rsvg-convert'
 UPDATE = 'intltool-update'
 UPDATE_DEBIAN = '/usr/share/intltool-debian/intltool-update'
 
-doc_files  = ['LICENSE-ar.txt', 'LICENSE-en.txt', 'AUTHORS', 'THANKS', 'ChangeLog', 'README']
+doc_files  = ['LICENSE-ar.txt', 'LICENSE-en.txt', 'AUTHORS', 'THANKS', 'changelog', 'README']
 data_files = [('share/applications/', ['curlew.desktop']),
               ('share/icons/hicolor/scalable/apps', ['curlew.svg']),
               ('share/pixmaps', ['curlew.svg']),
@@ -138,7 +138,7 @@ Main Features:
 - Convert to more than 100 different formats.
 - Allow to edit formats.
 - Shutdown or suspend PC after a conversion process.
-- Show file informations (duration, remaining time, estimated size, progress value).
+- Show file information (duration, remaining time, estimated size, progress value).
 - Show file details using mediainfo.
 - Allow to skip or remove file during conversion process.
 - Preview file before conversion.

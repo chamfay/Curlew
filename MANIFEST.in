@@ -1,4 +1,4 @@
-include LICENSE-ar.txt LICENSE-en.txt AUTHORS THANKS ChangeLog README TODO
+include LICENSE-ar.txt LICENSE-en.txt AUTHORS THANKS changelog README TODO
 include curlew.desktop curlew.svg curlew.spec po/curlew.pot
 include stdeb.cfg deb_prepare.sh install.sh uninstall.sh
 recursive-include po *.po
