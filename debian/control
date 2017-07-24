@@ -1,0 +1,36 @@
+Source: curlew
+Section: video
+Priority: optional
+Maintainer: Fayssal Chamekh <chamfay@gmail.com>
+Build-Depends: debhelper (>= 9), python3, librsvg2-bin, intltool | intltool-debian
+X-Python3-Version: >= 3.3
+Standards-Version: 3.9.8
+Homepage: https://curlew.sourceforge.io/
+Vcs-Git: git://github.com/chamfay/Curlew.git
+Vcs-Browser: https://github.com/chamfay/Curlew
+
+Package: curlew
+Architecture: all
+Depends: ${misc:Depends}, ${python3:Depends}, mediainfo, python3-dbus, python3-gi (>= 3.12), xdg-utils, gir1.2-gtk-3.0 (>= 3.12), gir1.2-gstreamer-1.0, ffmpeg | libav-tools (>= 0.8), gnome-icon-theme-symbolic
+Suggests: libavcodec-extra
+Description: Easy to use multimedia converter
+ Easy to use, Free and Open-Source Multimedia converter for Linux.
+ Curlew written in python and GTK3 and it depends on (ffmpeg/avconv).
+ .
+ Main Features:
+  - Easy to use and clean user interface.
+  - Hide the advanced options with the ability to show them.
+  - Convert to more than 100 different formats.
+  - Edit formats.
+  - Shutdown or suspend PC after a conversion process.
+  - Show file information (duration, remaining time, estimated size
+   , progress value).
+  - Show file details using mediainfo.
+  - Skip or remove file during conversion process.
+  - Preview file before conversion.
+  - Show video thumbnail.
+  - Convert a specified portion of file.
+  - Combine subtitle with video.
+  - Crop and pad video.
+  - Show error details if exist.
+  - And more ...

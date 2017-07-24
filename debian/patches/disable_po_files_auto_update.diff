@@ -1,0 +1,24 @@
+--- a/setup.py
++++ b/setup.py
+@@ -40,8 +40,8 @@ def generate_icons():
+ # Update locales
+ def update_locale():
+     # Make curlew.pot file from python source files.
+-    py_files = " ".join(glob("modules/*.py"))
+-    call("xgettext --keyword=_ -o po/curlew.pot {}".format(py_files), shell=True)
++    # py_files = " ".join(glob("modules/*.py"))
++    # call("xgettext --keyword=_ -o po/curlew.pot {}".format(py_files), shell=True)
+     
+     po_files = glob("po/*.po")
+     for po_file in po_files:
+@@ -49,8 +49,8 @@ def update_locale():
+         mo_path = "locale/{}/LC_MESSAGES/curlew.mo".format(lang)
+         
+         # Update po files
+-        if call("{} -x -g po/curlew -d po/{}".format(UPDATE, lang), shell=True) > 0:
+-            return 1
++        # if call("{} -x -g po/curlew -d po/{}".format(UPDATE, lang), shell=True) > 0:
++            # return 1
+         
+         # Make locale directories
+         call("mkdir -p locale/{}/LC_MESSAGES/".format(lang), shell=True)

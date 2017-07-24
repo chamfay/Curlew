@@ -1,0 +1,26 @@
+curlew (0.2.4-1) testing; urgency=medium
+
+  * New upstream release
+  * Excluded non media files to be loaded in the list.
+  * Removed 'Players Dialog' and let Curlew choose the player.
+  * Enhanced Favorite.
+  * Added a welcome page.
+  * Show Files information inside the main window.
+  * Added an option to show/hide status bar, and make it invisible by default.
+  * Some interface improvements...
+
+ -- Fayssal Chamekh <chamfay@gmail.com>  Sun, 23 Jul 2017 07:36:22 +0100
+
+curlew (0.2.3-1) testing; urgency=low
+
+  * Initial packaging.
+  * Show dialog in the first install to choose the favorite player.
+  * Added "German" translation (by Rainer Peichl).
+  * Fix infobar hiding (workaround https://bugzilla.gnome.org/show_bug.cgi?id=710888).
+  * Stop player on exit.
+  * Add an option for bad-index files (AVI,M2V,TS,dump-stream MPEG).
+  * Don't start the conversion if codecs are missing.
+  * Accept folder as argument and only add audio/video mimetypes.
+  * Updated Spanish translation.
+
+ -- Fayssal Chamekh <chamfay@gmail.com>  Mon, 16 Jan 2017 03:13:33 +0100
