@@ -2,20 +2,20 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-24 11:03+0100\n"
-"PO-Revision-Date: 2014-01-08 19:07+0100\n"
+"PO-Revision-Date: 2017-07-27 21:43+0200\n"
 "Last-Translator: Alexander Gabilondo <alexgabi@irakasle.net>\n"
 "Language-Team: BASQUE\n"
-"Language: eu_es\n"
+"Language: eu_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #: modules/customwidgets.py:52
 msgid "Top"
@@ -47,106 +47,95 @@ msgstr "seg"
 
 #: modules/formats.py:60
 msgid "<i><span color=\"red\">No format selected!</span></i>"
-msgstr ""
+msgstr "<i><span color=\"red\">Formatua hautatu gabe!</span></i>"
 
 #: modules/formats.py:113
-#, fuzzy
 msgid "Edit"
-msgstr "Editatu zerrenda"
+msgstr "Editatu"
 
 #: modules/formats.py:121 modules/formats.py:123
-#, fuzzy
 msgid "Choose"
-msgstr "Aukeratu beste izena"
+msgstr "Aukeratu"
 
 #: modules/logdialog.py:32
-#, fuzzy
 msgid "Conversion Error"
-msgstr "Gelditu bihurketa"
+msgstr "Bihurketa errorea"
 
 #: modules/logdialog.py:51 modules/errdialog.py:50
 msgid "_Close"
-msgstr ""
+msgstr "_Itxi"
 
 #: modules/formateditor.py:38
 msgid "Are you sure you want to save settings?"
-msgstr ""
+msgstr "Ziur ezarpenak gorde nahi dituzula?"
 
 #: modules/formateditor.py:110
 msgid "You can't restore a custom format to defaults."
-msgstr ""
+msgstr "Ezin duzu berrezarri formatu pertsonalizatua lehenetsi moduan"
 
 #: modules/formateditor.py:205
 msgid "Are you sure you want to remove this format?"
-msgstr ""
+msgstr "Ziur nahi duzula formatu hau ezabatu?"
 
 #: modules/formateditor.py:244
-#, fuzzy
 msgid "Edition"
-msgstr "Editatu zerrenda"
+msgstr "Edizioa"
 
 #: modules/formateditor.py:255
 msgid ""
 "<span foreground=\"red\"><i><b>WARNING:</b> Please change these values with "
 "care!</i></span>"
 msgstr ""
+"<span foreground=\"red\"><i><b>WARNING:</b> Aldatu balio hauek kontu handiz!"
+"</i></span>"
 
 #: modules/formateditor.py:259
-#, fuzzy
 msgid "Audio:"
-msgstr "Audio"
+msgstr "Audio:"
 
 #: modules/formateditor.py:267 modules/formateditor.py:286
 msgid "Default"
-msgstr ""
+msgstr "Lehenetsia"
 
 #: modules/formateditor.py:270
-#, fuzzy
 msgid "Audio Bitrates"
-msgstr "Audio bit-tasa"
+msgstr "Audio bit-emaria"
 
 #: modules/formateditor.py:272
-#, fuzzy
 msgid "Audio Frequencies"
-msgstr "Audio-maiztasuna"
+msgstr "Audio-maiztasunak"
 
 #: modules/formateditor.py:274 modules/curlew.py:662
 msgid "Audio Channels"
 msgstr "Audio-kanalak"
 
 #: modules/formateditor.py:276
-#, fuzzy
 msgid "Audio Codecs"
-msgstr "Audio-kodeka"
+msgstr "Audio-kodekak"
 
 #: modules/formateditor.py:279
-#, fuzzy
 msgid "Video:"
-msgstr "Bideoa"
+msgstr "Bideoa:"
 
 #: modules/formateditor.py:289
-#, fuzzy
 msgid "Video Bitrates"
-msgstr "Bideo bit-tasa"
+msgstr "Bideo bit-emariak"
 
 #: modules/formateditor.py:291 modules/curlew.py:702
 msgid "Video FPS"
 msgstr "Bideo FPS"
 
 #: modules/formateditor.py:293
-#, fuzzy
 msgid "Video Sizes"
-msgstr "Bideo-tamaina"
+msgstr "Bideo-tamainak"
 
 #: modules/formateditor.py:295
-#, fuzzy
 msgid "Video Codecs"
-msgstr "Bideo-kodeka"
+msgstr "Bideo-kodekak"
 
 #: modules/formateditor.py:297
-#, fuzzy
 msgid "Aspect Ratios"
-msgstr "Aspektu-erlazioa"
+msgstr "Aspektu-erlazioak"
 
 #: modules/formateditor.py:299
 #, fuzzy
@@ -155,11 +144,11 @@ msgstr "Beste aukerak:"
 
 #: modules/formateditor.py:301
 msgid "Extra Options"
-msgstr ""
+msgstr "Aukera aurreratuak"
 
 #: modules/formateditor.py:314
 msgid "Save"
-msgstr ""
+msgstr "Gorde"
 
 #: modules/formateditor.py:320 modules/favdialog.py:68 modules/curlew.py:2626
 msgid "Remove"
@@ -167,7 +156,7 @@ msgstr "Kendu"
 
 #: modules/formateditor.py:328
 msgid "Restore default"
-msgstr ""
+msgstr "Berrezarri balio lehenetsiak"
 
 #: modules/tray.py:33 modules/curlew.py:223 modules/about.py:33
 msgid "Curlew"
@@ -199,11 +188,11 @@ msgstr "Formatua"
 
 #: modules/favdialog.py:56
 msgid "Up"
-msgstr ""
+msgstr "Gora"
 
 #: modules/favdialog.py:62
 msgid "Down"
-msgstr ""
+msgstr "Behera"
 
 #: modules/functions.py:47
 msgid " KB"
@@ -219,20 +208,19 @@ msgstr " GB"
 
 #: modules/curlew.py:115
 msgid "<span color=\"red\"><i><b>{}</b> Codec not found!</i></span>"
-msgstr ""
+msgstr "<span color=\"red\"><i><b>{}</b> Kodeka ez dabil!</i></span>"
 
 #: modules/curlew.py:170
 msgid "You can't add more than 10 elements."
-msgstr ""
+msgstr "Ezin duzu gehitu 10 elementu baino gehiago"
 
 #: modules/curlew.py:177
 msgid "\"{}\" is already exist in favorite list!"
-msgstr ""
+msgstr "\"{}\" badago gogokoen zerrendan!"
 
 #: modules/curlew.py:195
-#, fuzzy
 msgid "No Favorites List."
-msgstr "Gogokoen zerrenda"
+msgstr "Ez dago gogokoen zerrendarik"
 
 #: modules/curlew.py:231
 msgid "About"
@@ -244,17 +232,15 @@ msgstr "Irten"
 
 #: modules/curlew.py:287
 msgid "Available Codecs"
-msgstr ""
+msgstr "Kodek eskuragarriak"
 
 #: modules/curlew.py:315
-#, fuzzy
 msgid "Add Files"
-msgstr "Gehitu fitxategia"
+msgstr "Gehitu fitxategiak"
 
 #: modules/curlew.py:320
-#, fuzzy
 msgid "Add Folders"
-msgstr "Gehitu karpeta"
+msgstr "Gehitu karpetak"
 
 #: modules/curlew.py:330
 #, fuzzy
@@ -272,7 +258,7 @@ msgstr "Fitxategiaren informazioa"
 
 #: modules/curlew.py:352
 msgid "Advanced Options"
-msgstr ""
+msgstr "Aukera aurreratuak"
 
 #: modules/curlew.py:356 modules/curlew.py:2685
 msgid "Convert"
@@ -283,44 +269,43 @@ msgid "Start Conversion"
 msgstr "Hasi bihurketa"
 
 #: modules/curlew.py:365
-#, fuzzy
 msgid "Select Action"
-msgstr "Hautatu azpititulua"
+msgstr "Hautatu ekintza"
 
 #: modules/curlew.py:387
-#, fuzzy
 msgid "Convert Files"
-msgstr "Kendu fitxategiak"
+msgstr "Bihurtu fitxategiak"
 
 #: modules/curlew.py:388
-#, fuzzy
 msgid "Merge Files"
-msgstr "Kendu fitxategiak"
+msgstr "Batu fitxategiak"
 
 #: modules/curlew.py:394
 msgid "Stop Process"
-msgstr ""
+msgstr "Gelditu prozesua"
 
 #: modules/curlew.py:411
 msgid ""
 "<b><span size=\"xx-large\">Welcome to Curlew Multimedia Converter!</span></b>"
 msgstr ""
+"<b><span size=\"xx-large\">Ongi etorri Curlew multimedia bihurgailura!</"
+"span></b>"
 
 #: modules/curlew.py:419
 msgid "<i>Click</i>"
-msgstr ""
+msgstr "<i>Klick</i>"
 
 #: modules/curlew.py:421
 msgid "<i>to add files, or</i>"
-msgstr ""
+msgstr "<i>fitxategiak gehitzeko, edo</i>"
 
 #: modules/curlew.py:423
 msgid "<i>to add files from folders,</i>"
-msgstr ""
+msgstr "<i>karpetetatik fitxategiak gehitzeko,</i>"
 
 #: modules/curlew.py:432
 msgid "<i>or you can drag files and drop them to here.</i>"
-msgstr ""
+msgstr "<i>edo posible duzu fitxategiak arrastatu eta jaregin hona.</i>"
 
 #: modules/curlew.py:509 modules/curlew.py:976
 #, fuzzy
@@ -356,9 +341,8 @@ msgid "Progress"
 msgstr "Aurrerapena"
 
 #: modules/curlew.py:583
-#, fuzzy
 msgid "Choose a format"
-msgstr "Aukeratu beste izena"
+msgstr "Aukeratu formatua"
 
 #: modules/curlew.py:594
 #, fuzzy
@@ -366,9 +350,8 @@ msgid "Add to Favorite"
 msgstr "Gehitu gogokoetara"
 
 #: modules/curlew.py:615
-#, fuzzy
 msgid "Edit Favorite List"
-msgstr "Gogokoen zerrenda"
+msgstr "Editatu gogokoen zerrenda"
 
 #: modules/curlew.py:645 modules/curlew.py:838
 msgid "Audio"
@@ -376,7 +359,7 @@ msgstr "Audio"
 
 #: modules/curlew.py:660
 msgid "Audio Bitrate"
-msgstr "Audio bit-tasa"
+msgstr "Audio bit-emaria"
 
 #: modules/curlew.py:661
 msgid "Audio Frequency"
@@ -400,7 +383,7 @@ msgstr "Bideoa"
 
 #: modules/curlew.py:701
 msgid "Video Bitrate"
-msgstr "Bideo bit-tasa"
+msgstr "Bideo bit-emaria"
 
 #: modules/curlew.py:703
 msgid "Video Size"
@@ -424,7 +407,7 @@ msgstr "Bideoa bakarrik"
 
 #: modules/curlew.py:720
 msgid "Fix bad index"
-msgstr ""
+msgstr "Konpondu indize hondatua"
 
 #: modules/curlew.py:727
 msgid "Video Quality"
@@ -435,9 +418,8 @@ msgid "Subtitle"
 msgstr "Azpititulua"
 
 #: modules/curlew.py:744
-#, fuzzy
 msgid "Use Subtitle (ffmpeg only)"
-msgstr "Erabili azpititulua"
+msgstr "Erabili azpititulua (bakarrik ffmpeg)"
 
 #: modules/curlew.py:760
 msgid "Subtitle: "
@@ -453,42 +435,39 @@ msgstr "Kodeketa:"
 
 #: modules/curlew.py:822
 msgid "Filters"
-msgstr ""
+msgstr "Iragazkiak"
 
 #: modules/curlew.py:824
 msgid "Fade In / Fade Out"
-msgstr ""
+msgstr "Pixkanaka agertu/desagertu"
 
 #: modules/curlew.py:829
-#, fuzzy
 msgid "Duration (sec)"
-msgstr "Iraupena: "
+msgstr "Iraupena (seg) "
 
 #: modules/curlew.py:833
 msgid "At the beginning"
-msgstr ""
+msgstr "Hasieran"
 
 #: modules/curlew.py:833
-#, fuzzy
 msgid "At the end"
-msgstr "bukaera arte"
+msgstr "bukaeran"
 
 #: modules/curlew.py:833 modules/curlew.py:838
 msgid "Both"
-msgstr ""
+msgstr "Biak"
 
 #: modules/curlew.py:834
-#, fuzzy
 msgid "Position"
-msgstr "Kokalekua: "
+msgstr "Kokalekua"
 
 #: modules/curlew.py:839
 msgid "Type"
-msgstr ""
+msgstr "Mota"
 
 #: modules/curlew.py:843
 msgid "Crop / Pad"
-msgstr "Moztu / Korritu"
+msgstr "Moztu / Bete"
 
 #: modules/curlew.py:846
 msgid "Crop"
@@ -496,7 +475,7 @@ msgstr "Moztu"
 
 #: modules/curlew.py:850
 msgid "Pad"
-msgstr "Korritu"
+msgstr "Bete"
 
 #: modules/curlew.py:855
 msgid "More"
@@ -516,7 +495,7 @@ msgstr "Iraupena: "
 
 #: modules/curlew.py:872
 msgid "To the end"
-msgstr "bukaera arte"
+msgstr "Bukaera arte"
 
 #: modules/curlew.py:878
 msgid "Use Copy Mode"
@@ -540,11 +519,11 @@ msgstr "Bihurtzailea:"
 
 #: modules/curlew.py:910
 msgid "Player:"
-msgstr ""
+msgstr "Erreproduzigailua:"
 
 #: modules/curlew.py:950
 msgid "Please select a player"
-msgstr ""
+msgstr "Hautatu erreproduzigailua"
 
 #: modules/curlew.py:959
 msgid "Configs"
@@ -564,9 +543,8 @@ msgid "Show tray icon"
 msgstr "Erakutsi ikonoa panelean"
 
 #: modules/curlew.py:986
-#, fuzzy
 msgid "Show Statusbar"
-msgstr "Erakutsi alboko barra"
+msgstr "Erakutsi egoera barra"
 
 #: modules/curlew.py:994
 msgid "Shutdown computer after finish"
@@ -577,30 +555,28 @@ msgid "Suspend computer after finish"
 msgstr "Eseki ordenagailua bukatzean"
 
 #: modules/curlew.py:1004
-#, fuzzy
 msgid "Play sound after finish"
-msgstr "Eseki ordenagailua bukatzean"
+msgstr "Jo soinua bukatzean"
 
 #: modules/curlew.py:1010
 msgid "Output"
-msgstr ""
+msgstr "Irteera"
 
 #: modules/curlew.py:1016
 msgid "Source Path"
 msgstr "Jatorrizko kokalekua"
 
 #: modules/curlew.py:1021
-#, fuzzy
 msgid "Destination:"
-msgstr "<b>Helburu-kokalekua:</b>"
+msgstr "Helburu-kokalekua:"
 
 #: modules/curlew.py:1024
 msgid "This name is for merged file"
-msgstr ""
+msgstr "Izen hau batutako fitxategiarentzat da"
 
 #: modules/curlew.py:1025
 msgid "Output Filename:"
-msgstr ""
+msgstr "Irteeraren fitxategi-izena:"
 
 #: modules/curlew.py:1030
 msgid "Overwrite it"
@@ -620,12 +596,11 @@ msgstr "Fitxategia badago:"
 
 #: modules/curlew.py:1047
 msgid "Delete input file after conversion"
-msgstr "Ezabatu jatorrizko fitxategia bukatzean"
+msgstr "Ezabatu jatorrizko fitxategia bihurtu ondoren"
 
 #: modules/curlew.py:1052
-#, fuzzy
 msgid "Rename input file after conversion"
-msgstr "Ezabatu jatorrizko fitxategia bukatzean"
+msgstr "Berrizendatu jatorrizko fitxategia bihurtu ondoren"
 
 #: modules/curlew.py:1143
 #, fuzzy
@@ -639,12 +614,12 @@ msgstr "Gehitu fitxategia"
 #: modules/curlew.py:1162 modules/curlew.py:1252 modules/curlew.py:1283
 #: modules/curlew.py:2662
 msgid "_OK"
-msgstr ""
+msgstr "_Ados"
 
 #: modules/curlew.py:1164 modules/curlew.py:1254 modules/curlew.py:1284
 #: modules/curlew.py:1854 modules/curlew.py:2664 modules/waitdialog.py:45
 msgid "_Cancel"
-msgstr ""
+msgstr "_Utzi"
 
 #: modules/curlew.py:1173
 msgid "All supported files"
@@ -684,11 +659,11 @@ msgstr "Norako bidera ezin da iritsi."
 
 #: modules/curlew.py:1634
 msgid "\"{}\" audio codec not found."
-msgstr ""
+msgstr "\"{}\" audio kodeka ez da aurkitu."
 
 #: modules/curlew.py:1638
 msgid "\"{}\" video codec not found."
-msgstr ""
+msgstr "\"{}\" bideo kodeka ez da aurkitu."
 
 #: modules/curlew.py:1670 modules/curlew.py:1718 modules/curlew.py:2111
 msgid "Skipped!"
@@ -700,7 +675,7 @@ msgstr "Ez da aurkitu!"
 
 #: modules/curlew.py:1760
 msgid "Encoder not found (ffmpeg/avconv)."
-msgstr ""
+msgstr "Kodetzailea ez da aurkitu (ffmpeg/avconv)"
 
 #: modules/curlew.py:1789
 msgid "Do you want to stop conversion process?"
@@ -712,7 +687,7 @@ msgstr "Hautatu azpititulua"
 
 #: modules/curlew.py:1853
 msgid "_Add"
-msgstr ""
+msgstr "_Gehitu"
 
 #: modules/curlew.py:1858
 msgid "Subtitle files"
@@ -762,12 +737,11 @@ msgstr "Instalatu \"mediainfo\" paketea"
 
 #: modules/curlew.py:2620
 msgid "Play"
-msgstr ""
+msgstr "Erreproduzitu"
 
 #: modules/curlew.py:2623
-#, fuzzy
 msgid "_Preview"
-msgstr "Aurrikusi"
+msgstr "_Aurrikusi"
 
 #: modules/curlew.py:2629
 msgid "Browse source"
@@ -778,46 +752,44 @@ msgid "Browse destination"
 msgstr "Arakatu helburua"
 
 #: modules/curlew.py:2660
-#, fuzzy
 msgid "Choose Encoder"
-msgstr "Aukeratu beste izena"
+msgstr "Aukeratu kodetzailea"
 
 #: modules/curlew.py:2680
 msgid "Merge"
-msgstr ""
+msgstr "Batu"
 
 #: modules/curlew.py:2681
-#, fuzzy
 msgid "Start Merging"
-msgstr "Hasi bihurketa"
+msgstr "Hasi batuketa"
 
 #: modules/curlew.py:2690
 msgid "Make GIF"
-msgstr ""
+msgstr "Sortu GIF"
 
 #: modules/curlew.py:2691
 msgid "Make GIF file"
-msgstr ""
+msgstr "Sortu GIF fitxategia"
 
 #: modules/curlew.py:2739
 msgid "<i>Merging files, please wait...</i>"
-msgstr ""
+msgstr "<i>Fitxategiak batzen, itxaron...</i>"
 
 #: modules/curlew.py:2740
 msgid "<i>Percent: 0 %</i>"
-msgstr ""
+msgstr "<i>Ehunekoa: 0 %</i>"
 
 #: modules/curlew.py:2757
 msgid "<i>Percent: {:.0f} %</i>"
-msgstr ""
+msgstr "<i>Ehunekoa: {:.0f} %</i>"
 
 #: modules/curlew.py:2769
 msgid "Merging operation completed successfully!"
-msgstr ""
+msgstr "Batuketa ongi osatu da!"
 
 #: modules/curlew.py:2776
 msgid "Merge Error"
-msgstr ""
+msgstr "Batuketa errorea"
 
 #: modules/about.py:37
 msgid "About Curlew"
@@ -829,7 +801,7 @@ msgstr "Multimedia bihurtzaile erraza Linuxerako"
 
 #: modules/about.py:53
 msgid "translator-credits"
-msgstr "Itzultzailearen kredituak"
+msgstr "Alexander Gabilondo-k euskarara lokalizatua"
 
 #: modules/waitdialog.py:34
 msgid "Adding files..."
