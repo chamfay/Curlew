@@ -1206,10 +1206,11 @@ class Curlew(Gtk.ApplicationWindow):
         file_name = ''
         wait_dlg = WaitDialog(self)
         tot = len(files)
-        
+
         mimetypes.add_type('video/realmedia', '.rmvb')
+        mimetypes.add_type('video/mpeg', '.VOB')
         for file_name in files:
-            mime = mimetypes.guess_type(file_name)[0]  
+            mime = mimetypes.guess_type(file_name)[0]
             if mime != None:
                 if 'video/' in mime or 'audio/' in mime:
 
