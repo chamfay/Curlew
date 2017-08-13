@@ -666,8 +666,6 @@ class Curlew(Gtk.ApplicationWindow):
         self.hb_volume = LabeledHBox(_('Volume (%)'), self.vb_audio)
         self.vol_scale = HScale(self.hb_volume, 100, 25, 400, 25)
         
-        self.vb_audio.pack_start(Gtk.Separator(), False, False, 0)
-        
         # Audio quality for ogg
         self.hb_aqual = LabeledHBox(_('Audio Quality'), self.vb_audio)
         self.a_scale = HScale(self.hb_aqual, 3, 0, 10)
@@ -676,7 +674,9 @@ class Curlew(Gtk.ApplicationWindow):
         link.set_label(self.link_label)
         link.set_alignment(1.0, 0.5)
         link.connect('activate-link', self.on_link_clicked)
-        self.vb_audio.pack_end(link, False, False, 0)
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.vb_audio.pack_end(hbox, False, False, 0)
+        hbox.pack_end(link, False, False, 0)
         
         
         #--- video page
@@ -721,8 +721,6 @@ class Curlew(Gtk.ApplicationWindow):
         self.cb_bad_indx.set_tooltip_text("")
         hbox.pack_start(self.cb_bad_indx, False, False, 0)
         
-        self.vb_video.pack_start(Gtk.Separator(), False, False, 0)
-        
         # Video quality for ogv
         self.hb_vqual = LabeledHBox(_('Video Quality'), self.vb_video)
         self.v_scale = HScale(self.hb_vqual, 5, 0, 20)
@@ -731,7 +729,9 @@ class Curlew(Gtk.ApplicationWindow):
         link.set_label(self.link_label)
         link.set_alignment(1.0, 0.5)
         link.connect('activate-link', self.on_link_clicked)
-        self.vb_video.pack_end(link, False, False, 0)
+        hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+        self.vb_video.pack_end(hbox, False, False, 0)
+        hbox.pack_end(link, False, False, 0)
         
         #--- Subtitle page
         self.frame_sub = Gtk.Frame(border_width=5)
