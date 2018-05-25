@@ -662,6 +662,11 @@ class Curlew(Gtk.ApplicationWindow):
         grid_audio.append_row(_("Audio Channels"), self.c_ach)
         grid_audio.append_row(_("Audio Codec"), hbox_acodec)
         
+        # Convert all tracks
+        self.cb_all_tracks = Gtk.CheckButton(_('Include all tracks'))
+        self.cb_all_tracks.set_tooltip_text(_('Convert all audio tracks of file'))
+        self.vb_audio.add(self.cb_all_tracks)
+        
         # Volume slider
         self.hb_volume = LabeledHBox(_('Volume (%)'), self.vb_audio)
         self.vol_scale = HScale(self.hb_volume, 100, 25, 400, 25)
@@ -1570,6 +1575,10 @@ class Curlew(Gtk.ApplicationWindow):
             cmd.extend(['-acodec', 'copy'])
             cmd.extend(['-vcodec', 'copy'])
         
+        # Convert all audio tracks
+        if self.cb_all_tracks.get_active():
+            cmd.extend(['-map', '0:v', '-map', '0:a'])
+        
         #--- Extra options (add other specific options if exist)
         if self.e_extra.get_text().strip() != '':
             cmd.extend(self.e_extra.get_text().split())
@@ -1599,7 +1608,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         #--- Last
         cmd.append(out_file)
-        #print(' '.join(cmd))       
+        print(' '.join(cmd))       
         return cmd
 
     #--- Convert funtcion
