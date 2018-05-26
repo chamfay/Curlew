@@ -1,3 +1,21 @@
+Version 0.2.5
+-------------
+
+* Added an option to include all audio tracks of file.
+* Added support for merging files.
+* Added Fade In/Out filter feature.
+* Added paste "from the Clipboard" feature.
+* Use Home directory as default converting destination.
+* Hide unused page/widget.
+* Add xplayer to players list.
+* Colored buttons (Convert/Close).
+* Removed CSD option.
+* Deleted stdeb config files and use native debian packaging system.
+* Fix disabled convert button issue.
+* Updated translations.
+* Bug fixes and code enhancements.
+
+
 Version 0.2.4
 -------------
 

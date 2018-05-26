@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2017 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2018 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -24,7 +24,7 @@ from gi.repository import Gtk
 
 PROGRAMMER = 'Fayssal Chamekh <chamfay@gmail.com>'
 WEBSITE = 'https://curlew.sourceforge.io'
-VERSION = '0.2.4'
+VERSION = '0.2.5'
 
 
 class About(Gtk.AboutDialog):

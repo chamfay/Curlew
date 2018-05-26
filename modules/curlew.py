@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2017 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2018 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
@@ -1608,7 +1608,7 @@ class Curlew(Gtk.ApplicationWindow):
         
         #--- Last
         cmd.append(out_file)
-        print(' '.join(cmd))       
+        #print(' '.join(cmd))       
         return cmd
 
     #--- Convert funtcion

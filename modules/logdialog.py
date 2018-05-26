@@ -2,7 +2,7 @@
 
 # Curlew - Easy to use multimedia converter
 #
-# Copyright (C) 2012-2017 Fayssal Chamekh <chamfay@gmail.com>
+# Copyright (C) 2012-2018 Fayssal Chamekh <chamfay@gmail.com>
 #
 # Released under terms on waqf public license.
 #
